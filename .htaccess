@@ -1,0 +1,31 @@
+
+SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
+
+RewriteEngine on
+RewriteBase /api/v1/toil/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_URI} !^/api/v1/toil/index\.php
+RewriteRule ^(.*)$ index.php/$1 
+#[QSA,L]
+
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.php -f
+  RewriteRule ^(.*)$ $1.php
+</IfModule>
+
+<FilesMatch "app.ini">
+  Require all denied
+  Satisfy all
+</FilesMatch>
+
+<FilesMatch "README.md">
+  Require all denied
+</FilesMatch>
+
+<FilesMatch ".gitignore">
+  Require all denied
+</FilesMatch>
