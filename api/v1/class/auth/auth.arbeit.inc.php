@@ -141,11 +141,11 @@ namespace Arbeitszeit{
                 $mail->isSMTP();
                 $mail->Host = $ini["smtp"]["host"];
                 $mail->SMTPAuth = true;
-                $mail->Username = "asze@kartoffeltheke.de";
-                $mail->Password = "uxcl75APMU!";
+                $mail->Username = $ini["smtp"]["username"];
+                $mail->Password = $ini["smtp"]["password"];
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
-                $mail->setFrom("asze@kartoffeltheke.de", "ASZE");
+                $mail->setFrom($ini["smtp"]["username"], "TimeTrack");
                 $mail->addAddress($userdata["email"], $userdata["name"]);
 
                 if($html == true){
