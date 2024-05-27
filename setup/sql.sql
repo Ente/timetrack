@@ -2,12 +2,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
---
--- Datenbank: `ab1`
---
-CREATE DATABASE IF NOT EXISTS `ab1` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `ab1`;
-
 -- --------------------------------------------------------
 
 --

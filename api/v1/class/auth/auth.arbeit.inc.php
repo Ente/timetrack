@@ -37,9 +37,10 @@ namespace Arbeitszeit{
                     $_SESSION["time"] = date("d.m.Y H:i:s", $ts);
                     $this->store_state($username);
 
-                    if(isset($option["remember"])){
+                    if(@isset($option["remember"])){
                         setcookie("erinnern", "true", $ts+(60*60*24*30), "/");
                         setcookie("username", $username, $ts + (60*60*24*30), "/");
+                        header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                     } else {
                         header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                     }

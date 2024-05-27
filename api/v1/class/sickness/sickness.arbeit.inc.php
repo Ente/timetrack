@@ -56,7 +56,7 @@ namespace Arbeitszeit {
             $sql = "SELECT * FROM `sick` LIMIT 100;";
             $res = mysqli_query($conn, $sql);
 
-            if(mysqli_num_rows($res) > 0){
+            if(@mysqli_num_rows($res) > 0){
                 # compute and return data
                 while($row = \mysqli_fetch_assoc($res)){
                     $rnw = $row["username"];

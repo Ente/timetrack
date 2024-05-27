@@ -5,7 +5,6 @@ base_url="your-website.com"
 support_email="support@your-website.com"
 debug="false"
 auto_update="false"
-license="GQQVR-FYTOM-XJDDV-IPGEJ"
 [mysql]
 db_host="localhost"
 db_user="root"

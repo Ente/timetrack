@@ -6,7 +6,7 @@ use Pecee\SimpleRouter\Route\IGroupRoute;
 use Pecee\SimpleRouter\Route\ILoadableRoute;
 use Pecee\SimpleRouter\Event\EventArgument;
 use Pecee\Http\Request;
-ini_set("display_errors", 0);
+#ini_set("display_errors", 0);
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Benutzer;
@@ -23,7 +23,7 @@ $pass = $_SERVER["PHP_AUTH_PW"] or non();
 function non($name = null){
         Exceptions::error_rep("[LIC] Failed authentication for Toil API for user '$name'");
         header("WWW-Authenticate: Basic realm='Toil API v1.0'");
-        header("HTTP/1.1 401 Unauthorized");
+        header("HTTP/1.0 401 Unauthorized");
         die("Not authenticated - Toil API v1.0");
 }
 
@@ -74,10 +74,6 @@ if($benutzer->get_user($user)){
         Router::get("/api/v1/toil/getSlots", function(){
             Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getSlots' endpoint");
             Controller::createview("getSlots");
-        });
-        Router::get("/api/v1/toil/getLicenseInformation", function(){
-            Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getLicenseInformation' endpoint");
-            Controller::createview("getLicenseInformation");
         });
         Router::get("/api/v1/toil/getLog", function(){
             Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getLog' endpoint");

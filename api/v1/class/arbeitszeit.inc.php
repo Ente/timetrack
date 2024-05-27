@@ -551,9 +551,6 @@ namespace Arbeitszeit{
                 if(strpos($url, "info=easymode_toggled")){
                     return "<p><span style='color:blue;'>Hinweis: Der Modus wurde erfolgreich gewechselt!</span></p>";
                 }
-                if(strpos($url, "info=license_error")){
-                    return "<p><span style='color:red;'>Hinweis: Entweder ist die Lizenz ungültig oder die maximale Anzahl an Benutzer wurde erreicht. Bitte upgraden.</span></p>";
-                }
                 if(strpos($url, "info=error")){
                     return "<p><span style='color:red;'>Hinweis: Ein Fehler ist aufgetreten. Bitte überprüfe den Log, falls möglich.</span></p>";
                 }
