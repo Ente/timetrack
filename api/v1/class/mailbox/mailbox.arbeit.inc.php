@@ -4,6 +4,11 @@ namespace Arbeitszeit {
 
     class Mailbox extends Arbeitszeit
     {
+
+        public function __construct(){
+            header("HTTP/1.0 403 Forbidden");
+            header("Location: /errors/403.html");
+        }
         public function create_mailbox_entry($name, $description, $user){
             $conn = Arbeitszeit::get_conn();
 

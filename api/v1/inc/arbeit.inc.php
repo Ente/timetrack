@@ -3,7 +3,7 @@
  * Script lädt Klassen
  */
 #ini_set("display_errors", 1);
-ini_set("default_charset", "UTF-8");
+#ini_set("default_charset", "UTF-8");
 
 if(file_exists(__DIR__ . "/MAINTENANCE") == true){
     header("Location: /errors/503.html");
@@ -21,7 +21,6 @@ require_once dirname(__DIR__, 1) . "/class/mode/mode.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/url_handling/url_handling.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/kalender/plugins/autodelete.kalender.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/exceptions/exceptions.arbeit.inc.php";
-require_once dirname(__DIR__, 1) . "/class/license/license.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/vacation/vacation.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/sickness/sickness.arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";

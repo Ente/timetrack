@@ -1,61 +1,60 @@
-# Arbeitszeiterfassungssystem
+# TimeTrack - small enterprise time recording
 
-In dieser Datei stehen wichtige Anmerkungen oder Knowledge-Artikel, die es sich Wert sind durchzulesen, sollte man auf Fehler treffen oder technische Fragen haben.
+TimeTrack aims to be a easy-to-use time recording software for small enterprises.
+It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more features)
+
+## Features
+
+- Time recording for your employees (as well as Vacation and Sickness reporting)
+- Email notifications
+- Platform-wide calendar
+- API-Integration (TimeTrack Oval)
+- Logging
+- English and German supported
+- Maintenance mode
+- Easy and fast installation
+
+That's not even all of it, you can also generate timesheets (PDF) to export, user creation menu, an "easymode" to make it even easier to track your time and a mobile-friendly UI.
+You can create up to 30 Users, before you would have to upgrade to TimeTrack Oval
 
 ## Installation
 
-Das Programm muss auf einem Linux-Server (bestenfalls Debian) mit PHP 7.4 und mysql ausgestattet sein. 
-Im Verzeichnis `setup` befindet sich die InstallationsBash `installation.sh`, diese gilt es auszuführen und zu folgen. Rest passiert automatisch
+Simply install the software by following these steps:
 
-### Migration
+- Install php and requirements: `apt update && apt install php8.0 php8.0-curl apache2 mariadb-server -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`
+- Create a new database, e.g. with the name `ab` and create a dedicated user, e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';`; don't forget to `FLUSH PRIVILEGES;`!
+- Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
+- To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
+- Run the statement printed by the `usercreate.php` inside your database.
 
-im Ordner `setup` befinden sich jeweils Migrations Dateien benannt in von -> zu Version, diese gilt es nach jedem Update auszuführen. Die Software überprüft das erfolgreiche Update nicht selber, daher ist das selbstständige ausführen des Skripts erforderlich.
+In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` folder:
 
-## Dokumentation-Backend [uninteressant für Endnutzer]
+- `language`: Either `de` or `en` which will specify the default language. This will get overwritten for the specific user if the browser sends something different than specified.
+- `app_name`: The name of your application, e.g. `ACME Inc. TimeRecording`
+- `base_url`: The Base URL (can also be an IP) of your application, without ending trailing slash and the protocol, e.g. `acme.inc` or `10.10.10.2`
+- `support_email`: An email displayed to users in case of help, e.g. `support@acme.inc`
+- `debug`: (deprecated)
+- `auto_update`: (not yet implemented)
+- `db_*`: Set the connection details for your mysql instance
 
-### `get_calendar_entry()`-Funktion
+If done correctly, you should now be able to access the application via http://BASE_URL/ - redirects to http://BASE_URL/suite/
 
-Die Funktion gibt ein Array zurück. Unten steht beschrieben, wie die Daten innerhalb des Arrays gelesen werden können.
+**Please delete the whole `/setup/` folder after installation**
 
-- `$data["ort"]` Beinhaltet die Straße, etc. des Kalendereintrags
-- `$data["uhrzeit"]` Beinhaltet die Uhrzeit, zum Beginn des Kalendereintrags
-- `$data["notiz"]` Die Notiz beinhaltet in der Regel die Aufgabe des Kalendereintrags
-- `$datum` - *deprecated*
-- `$data["datum"]` - Beinhaltet den UNIX-Timestamp
-- `$data["datum_new"]` - Beinhaltet das "deutsche" Format für das Datum (TT.MM.JJJJ)
+### Requirements
 
-## Wartungen
+- at least PHP 7.4
+- Apache2.4 with enabled htaccess mod
+- composer (to install dependencies)
 
-Es gibt seit v3.0 die Möglichkeit einen Wartungsmodus zu aktivieren. Aktiviert wird der Modus, indem eine Datei namens "MAINTENANCE" in das "api/inc"-Verzeichnis erstellt werden (oder den Punkt aus der vorhandenen Datei entfernen ;)).
+This software has been tested on Debian 11 and 12.
 
-Dies deaktiviert jeglichen Zugriff auf die Seite und triggert das Umleiten auf eine 503 HTTP-Fehlerseite.
-Zum Deaktivieren des Modus genügt es, die Datei wieder zu löschen. Zugriffe werden damit umgehend erlaubt.
+### Upgrade from TimeTrack OSS to TimeTrack Oval
 
+Currently, this is not available, but we are working on an solution.
+You would need to register a new account and a complete dump of your SQL database.
 
-## Logs
+## Maintenance Mode
 
-Seit v5.0 gibt es die Möglichkeit Logs einzusehen, diese liegen unter `/data/logs/log-{date}.log`.
-Die Logs rotieren einmal pro Tag. Alternativ können die Logs über einen administrativen Account unter "Einstellungen" > "Logs" eingesehen werden.
-
-## Email-Benachrichtigungen & Mailbox
-
-v4.0 füge eine Mailbox und damit verbundene Email-Benachrichtigungen für neue Entries oder Benutzer, etc.
-Die app.ini wurde entsprechend um eine [smtp]-Kategorie erweitert.
-
-Dieses Feature benötigt einen Mailserver, welcher über Port 587 STARTTLS-Verschlüsselung durchführt.
-In neueren Versionen, soll dieses Verhalten anpassbar sein.
-Folgende Werte werden für die Einrichtung benötigt:
-
-- `host` - Der Hostname des Mailservers (e.g. mail.domain.com).
-- `username` - Der Benutzername deines Email-Postfaches (e.g. service / service@domain.com).
-- `password` - Dein Passwort für das Postfach.
-- `port` - Der Port, auf welchem der Mailserver für STARTTLS lauscht.
-
-## Lizenzierung
-
-Seit v6.0 wird das ASZE in verschiedenen Versionen angeboten. Insgesamt gibt es 3, wovon 2 kostenpflichtig sind.
-
-- `S` - `S` bietet Platz für 10 Benutzer.
-- `M` - Das `M`-Package ermöglicht bis zu 25 Benutzer.
-- `L` - Das `L`-Package bietet dem Administrator Slots für insgesamt 50 Benutzer. Beim Überschreiten der 50 Benutzer, verlangt das ASZE ein Upgrade, welches dann nur noch mit einer `CM`-Lizenz möchglich ist.
-- `CM` - Dieses Package ist exklusiv für Administratoren, welche mehr als 50 Benutzer benötigen. Da das System nicht ausgelegt ist, normalerweise mehr als 50 Benutzer zu pflegen, wird hier eine Segmentierung der Instanzen (in z.B. Abteilungen oder Standorte) empfohlen. Diese Lizenz kann auf mehreren Maschinen verwendet werden.
+To enable the maintenance mode, simply rename the `api/inc/.MAINTENANCE` to `MAINTENANCE` (without the dot) to enable the functionality. No one will be able to access the application, aswell as administrators.
+Disabling is done by renaming the file again.

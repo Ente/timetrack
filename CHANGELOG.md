@@ -2,39 +2,38 @@
 
 ## v6.3 <!-- bugfix version -->
 
-### Allgemein
+### Generally
 
-* Es wurden einige Fehler in der Lizenzierung behoben
-* Die Benutzerfreundlichkeit auf mobilen Endgeräten wurde verbessert
+* Usability on mobile devices has been improved
 
 ## v6.2
 
-### Allgemein
+### Generally
 
-* **Urlaube können nun über die Arbeitszeiterfassung erfasst werden.**
+* **Vacations can now be recorded via working time recording.**
 
 ## v6.1
 
-### Allgemein
+### Generally
 
-* **Pausenzeiten können nun über die Arbeitszeiterfassung erfasst werden.** Dies wird auch im Easymode unterstützt <!-- rev 2 -->
-* Einige GUI-Elemente waren veraltet. Diese wurden nun erneuert.
+* **Break times can now be recorded via working time recording.** This is also supported in Easymode <!-- rev 2 -->
+* Some GUI elements were deprecated. These have now been renewed.
 
 ### PDF
 
-* Einige Fehler bei der Anzeige der Pausenzeit wurden behoben <!-- rev 1 -->
+* Fixed some errors in displaying break time <!-- rev 1 -->
 
 ## v6.0
 
-### Allgemein
+### Generally
 
-* **Es wurde die Möglichkeit hinzugefügt, Krankheiten und Urlaube zu erfassen.**
-* Es ist nun Möglich, die Arbeitszeiten aller Angestellten einzusehen (Admin). <!-- rev 1 -->
+* **Added the ability to record illnesses and vacations.**
+* It is now possible to view the working hours of all employees (Admin). <!-- rev 1 -->
 
 ### API
 
-* Es wird nun mehr geloggt.
-* Die API gibt die aktuellste Version nun ohne Steuerzeichen zurück.
+* There is now more logging.
+* The API now returns the latest version without control characters.
 
 <!--
 Minor Changes
@@ -47,180 +46,177 @@ Minor Changes
 
 ## API
 
-* Es wurde der Endpunkt `getLicenseInformation` hinzugefügt, um detaillierte Informationen über die Lizenz zu erhalten. <!-- #23 -->
-* Ein Fehler wurde behoben, sodass nun die Erstellung von Kalendereinträgen möglich ist. Hinweis: Kalendereinträge die "Abgelaufen" sind, werden automatisch gelöscht.
+* A bug has been fixed so that it is now possible to create calendar entries. Note: Calendar entries that have expired are automatically deleted.
 
 ## 5.2
 
-## Allgemein
+## Generally
 
-* Es ist nun möglich, den Lizenzschlüssel anzupassen.
-* Es wurde ein Fehler behoben, der es ermöglichte, Kalendereinträge ohne Notiz zu speichern.
-* **Es werden nun die Pausenzeiten der Angestellten aufgenommen. Dies ermöglicht im Nachhinein die Kontrolle über die Einhaltung der Pausenzeiten. Das Programm prüft derzeit nicht die Schichtzeit um daraus die entsprechende Pausenzeit zu berechnen. Dies wird in kommenden Version ergänzt.
-* Ein Fehler bei der Anzeige eines Bildes wurde behoben. <!-- rev 1 -->
-* Es wurde ein Anzeigefehler bei der Anzeige des Lizenzschlüssels behoben. <!-- rev 1 -->
+* Fixed a bug that allowed saving calendar entries without a note.
+* **Employees' break times are now recorded. This allows you to check whether break times are adhered to afterwards. The program does not currently check the shift time to calculate the corresponding break time. This will be added in the next version.
+* An error when displaying an image has been fixed. <!-- rev 1 -->
 
 ## 5.1
 
-### Allgemein
+### Generally
 
-* Benutzer erhalten nun eine E-Mail, wenn die Arbeitszeit gelöscht wird. <!-- erledigt, tested -->
-* Es wurden kleine Fehler ausgebessert. <!-- fixed calendar html title, removed unnecessary files-->
-* Die API kann nun die Anzahl der Benutzer zurückgeben. <!-- erledigt, getestet -->
+* Users now receive an email when work time is deleted. <!-- done, tested -->
+* Small errors have been corrected. <!-- fixed calendar html title, removed unnecessary files-->
+* The API can now return the number of users. <!-- done, tested -->
 
-### Benutzer
+### Users
 
-* Es wird nun angezeigt, wie viele verbleibende Benutzer im Kontigent vorhanden sind auf der "Benutzer bearbeiten" Seite.
+* How many remaining users are in the quota is now displayed on the "Edit Users" page.
 
 ## v5.0
 
-### Allgemein
+### Generally
 
-* Die Buttons erhalten ein neues Aussehen, was nun auch den Fehler behebt, das Buttons hinter Text verschwinden und nicht mehr klickbar waren auf mobilen Geräten. <!-- erledigt, tested -->
-* **Arbeitszeiten können nun als "zur Prüfung" markiert werden vom Arbeitgeber. Dieser wird dann rot in der Liste angezeigt.** <!-- erledigt -->
-* **Es wurden Vorbereitungen für ein Update-Manager, der im Einstellungsmenü hinzugefügt wird, welcher ausschließlich für Administratoren sichtbar ist.**
-* **Eine neue API, namens Toil, wurde hinzugefügt. Der Zugriff erfolgt über "https://[domain].[tld]/api/v1/toil/[endpoint]". Weitere Informationen zu der API gibt es im Verzeichnis `/api/v1/toil/README.md`** <!-- erledigt, tested -->
+* The buttons have a new look, which now also fixes the bug that caused buttons to disappear behind text and were no longer clickable on mobile devices. <!-- done, tested -->
+* **Working times can now be marked as "for review" by the employer. This will then be displayed in red in the list.** <!-- done -->
+* **Preparations have been made for an update manager to be added to the Settings menu, which will only be visible to administrators.**
+* **A new API called Toil has been added. Access is via "https://[domain].[tld]/api/v1/toil/[endpoint]". Further information about the API can be found in the directory `/api/v1/toil/README.md`** <!-- done, tested -->
 
-### Einstellungen
+### Settings
 
-* **Es wurde ein zweiter Modus eingeführt, welcher es Mitarbeitern erlaubt, ihre Arbeitszeiten einfacher zu erfassen. Dieser kann in den eigenen Einstellungen unter dem Punkt "vereinfachter Modus" aktiviert werden.** <!--erledigt, tested -->
-* **Es gibt nun für Administratoren die Möglichkeit, einen Log einzusehen.** <!-- in allen Klassen hinzugefügt, erledigt, tested -->
+* **A second mode has been introduced that allows employees to record their working hours more easily. This can be activated in your own settings under "simplified mode".** <!--done, tested -->
+* **Administrators now have the option of viewing a log.** <!-- added, completed, tested in all classes -->
 
-### Benutzer
+### Users
 
-* Es wurde ein Bug behoben, der es unmöglich machte, Benutzer zu löschen. <!-- erledigt, tested -->
-* Nach Löschung eines Benutzers, erhält dieser nun eine E-Mail. <!-- erledigt, tested -->
+* Fixed a bug that made it impossible to delete users. <!-- done, tested -->
+* After deleting a user, they will now receive an email. <!-- done, tested -->
 
 ## v4.0
 
-### Allgemein
+### Generally
 
-* Die Anwendung wurde um ein digitales Postfach erweitert. <!-- erledigt -->
-* Es werden nun E-Mails an neue Benutzer verschickt. Zudem kann man nun sein Passwort per E-Mail zurücksetzen. <!-- erledigt -->
-* Es wurde ein Bug behoben, welcher den Login unmöglich machte aufgrund fehlerhafter Logik. <!-- erledigt -->
-* Es wurde ein Bug behoben, der es ermöglichte Arbeitszeiten aus der Vergangenheit einzutragen. <!-- erledigt -->
-* Es wird einem nun eine Meldung bei fehlerhaftem Login angezeigt. <!-- erledigt -->
+* The application has been expanded to include a digital mailbox. <!-- done -->
+* Emails will now be sent to new users. You can now reset your password via email. <!-- done -->
+* A bug has been fixed that made login impossible due to incorrect logic. <!-- done -->
+* A bug was fixed that made it possible to enter working times from the past. <!-- done -->
+* A message will now be displayed if the login is incorrect. <!-- done -->
 
-### Einstellungen
+### Settings
 
-* Die Konfigurationsdatei wurde um eine SMTP-Kategorie erweitert. <!-- erledigt -->
+* An SMTP category has been added to the configuration file. <!-- done -->
 
-### Benutzer
+### Users
 
-* Benutzer können nun bearbeitet werden. <!-- erledigt -->
+* Users can now be edited. <!-- done -->
 
-### Kalender
+### Calendar
 
-* Das Modifizieren von Kalendereinträgen ist nun Administratoren vorbehalten. <!-- erledigt -->
+* Modifying calendar entries is now reserved for administrators. <!-- done -->
 
 ## v3.0
 
-### Allgemein
+### Generally
 
-* Die Sicherheit der Anwendung wurde angepasst.
+* The security of the application has been adjusted.
 
-* Es wurde die Einstellung "app_name" in der app.ini hinzugefügt.
+* Added the "app_name" setting in app.ini.
 
-* Es gibt nun einheitliche Fehlermeldungen.
+* There are now consistent error messages.
 
-* Es ist nun nicht mehr möglich, Arbeitszeiten für die Zukunft einzutragen.
+* It is now no longer possible to enter working times for the future.
 
-* Ein Fehler beim Erstellen von Benutzern wurde behoben.
+* Fixed a bug when creating users.
 
-* Die Initalisierungsdatei wird vorab nach gültigen Werten überprüft.
+* The initialization file is checked in advance for valid values.
 
-* Es wird nun überprüft, ob der Nutzer über die "base_url", eingetragen in der Konfigurationsdatei, auf die Seite zugreift.
+* It is now checked whether the user accesses the page via the "base_url" entered in the configuration file.
 
-* Es wurden einige Links korrigiert, die für eine falsche Weiterleitung sorgten.
+* Fixed some links that caused incorrect redirects.
 
-* Ein Wartungsmodus wurde implementiert.
+* A maintenance mode has been implemented.
 
-* "Clean URLs" eingeführt.
+* "Clean URLs" introduced.
 
-* Einige Einstellungen können nun über die GUI geändert werden.
+* Some settings can now be changed via the GUI.
 
-### Kalendar
+### Calendar
 
-* Es wurde ein Fehler behoben, bei dem die Notiz nicht in die Datenbank übernommen wurde.
+* Fixed a bug where the note was not reflected in the database.
 
-### Benutzer
+### Users
 
-* Es können nun administrative Accounts erstellt werden.
+* Administrative accounts can now be created.
 
-### Sicherheit
+### Security
 
-* Die Verschlüsselung von Passwörtern wurde geändert
+* Encryption of passwords has been changed
   
-* Zur erweiterten Sicherheit wird nun das Attribut "state" überprüft
+* The "state" attribute is now checked for enhanced security
 
 ## v2.1
 
-### Allgemein
+### Generally
 
-* Fehler behoben, wodurch zweimal "Alle Arbeitszeiten" in der Navigationsleiste angezeigt wurde
+* Fixed a bug that caused "All Working Hours" to appear twice in the navigation bar
 
-* Diverse Fehler bei Weiterleitungen behoben
+* Fixed various redirect errors
 
-* Unter dem Menüpunkt "Benutzer bearbeiten" wurde die "Aktion" nicht angezeigt, aufgrund fehlenden Quellcodes. Dies wurde nun behoben [Bug 13]
+* The "Action" was not displayed under the menu item "Edit User" due to missing source code. This has now been fixed [Bug 13]
 
-* Auch werden unter "Benutzer bearbeiten" nun alle Benutzer angezeigt, vorher stand da nur einer. Dies wurde nun behoben
+* All users are now displayed under "Edit Users", previously there was only one. This has now been fixed
 
-* Es werden nun die Änderungen angezeigt, unter `"Einstellungen" > "Änderungen"`
+* The changes are now displayed under `"Settings" > "Changes"`
 
-* Der Quellcode wurde besser dokumentiert
+* The source code has been better documented
 
-* **Die Arbeitszeit eines Monats wird nun berechnet** [Bug 9]
+* **One month's working hours are now calculated** [Bug 9]
 
-* Info-Nachrichten werden nun angezeigt, z.B. wenn man eine Schicht einträgt. [Bug 15]
+* Info messages are now displayed, e.g. when you enter a shift. [Bug 15]
 
 ### PDF
 
-* Fehler behoben, bei gelöschten Nutzern. Es wurde kein Anzeigename zurückgegeben und leergelassen. Jetzt wird dort der zuletzt bekannte aus der Arbeitszeit verwendet [Bug 14]
+* Fixed bug with deleted users. No display name was returned and left blank. Now the last known one from working hours is used there [Bug 14]
 
 ### GUI
 
-* Debug-Einstellung deaktiviert, welche Variablen freigelegt hat
+* Debug setting disabled which exposed variables
 
-### Kalender
+### Calendar
 
-* Es ist nun möglich Kalendereinträge zu löschen
+* It is now possible to delete calendar entries
 
-* Kalendereinträge können jetzt nur noch angesehen werden, wenn man angemeldet ist (bug)
+* Calendar entries can now only be viewed when logged in (bug)
 
-### Einstellungen
+### Settings
 
-* Anstatt des Namen des Mitarbeiters, wurde eine Variable exposed. Dies wurde behoben und nun wird der Name ordentlich angezeigt
+* Instead of the employee's name, a variable was exposed. This has been fixed and now the name is displayed properly
 
 ## v2.0
 
-### Allgemein
+### Generally
 
-* Code objekt-orientiert umgeschrieben um die Performance zu steigern und die Wartung zu erleichtern
+* Code rewritten to be object-oriented to increase performance and make maintenance easier
 
-* Es wurde nun eine neue Ordnerstruktur eingeführt: `/suite/*`
+* A new folder structure has now been introduced: `/suite/*`
 
-* Dateipfade für Navigations*Leiste angepasst. [Bug 12]
+* Adjusted file paths for navigation bar. [Bug 12]
 
-### Benutzer & Authentifizierung
+### Users & Authentication
 
-* Die Passwörter der Benutzer werden jetzt verschlüsselt gespeichert um die Sicherheit zu erhöhen
+* Users' passwords are now stored encrypted to increase security
 
-* Es können nun mehrere Benutzer den Admin-Status besitzen
+* Multiple users can now have admin status
 
-### Kalender
+### Calendar
 
-* Es wurde ein Fehler beim Bearbeiten eines Kalendereintrags behoben, bei der jeder Eintrag bearbeitet wurde
+* Fixed a bug when editing a calendar entry where each entry was edited
 
-* Mehrere Fehler behoben, wodurch der Kalender nicht/fehlerhaft angezeigt wurde
+* Fixed several bugs that caused the calendar to not display/incorrectly
 
-### URL Handling
+### URL handling
 
-* URLs werden nun durch eine Funktion gesteuert um die Performance zu steigern und die Wartung zu erleichtern (WIP)
+* URLs are now controlled by a function to increase performance and make maintenance easier (WIP)
 
 ### PDF
 
-* Es können nun PDFs erstellt werden (als Vordruck)
+* PDFs can now be created (as pre-printed form)
 
 ## v1.0
 
-* Funktionierendes Arbeitserfassungssystem (CHANGELOG.md wurde erst jetzt eingeführt)
+* Working work registration system (CHANGELOG.md has only now been introduced)

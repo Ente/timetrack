@@ -5,13 +5,11 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Auth;
-use Arbeitszeit\License;
 
 $auth = new Auth;
 $calendar = new Kalender;
 $user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$lic = new License;
 $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
 $ini = Arbeitszeit::get_app_ini();
 
@@ -23,9 +21,7 @@ if(!$user->is_admin($user->get_user($_SESSION["username"]))){
     header("Location: http://{$base_url}/suite/?info=noperms");
 }
 $add_style = "";
-if($lic->validate() != true){
-   $add_style = "disable";
-}
+
 
 ?>
 <!DOCTYPE html>

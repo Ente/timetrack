@@ -29,7 +29,6 @@ if(!$user->is_admin($user->get_user($_SESSION["username"]))){
         <br>
         <label>Base URL: </label><input type="text" name="base_url" placeholder="sub.domain.tld:<port>" value="<?php echo $ini["general"]["base_url"];  ?>">
         <br>
-        <label>License Key: </label><input type="text" name="license" placeholder="xxxx-xxxx-xxxx-xxxx" value="<?php echo $ini["general"]["license"]; ?>">
         <button type="submit" name="submit">Submit</button>
     </form>
 
