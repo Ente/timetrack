@@ -1,5 +1,5 @@
 <?php
-require dirname(__DIR__, 2) . "/api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 @session_start();
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;

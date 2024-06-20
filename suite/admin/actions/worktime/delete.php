@@ -22,7 +22,7 @@ if($user->is_admin($user->get_user($_SESSION["username"]))){
         header("Location: http://{$base_url}/suite/?info=worktime_deleted");
     }   
 } else {
-    header("Location http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?info=noperms");
 }
 
 

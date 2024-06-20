@@ -1,5 +1,5 @@
 <?php
-require dirname(__DIR__, 2) . "/api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;
@@ -30,15 +30,15 @@ $data = $user->get_user($_SESSION["username"]);
     </head>
     <body>
         <?php $calendar->get_calendar_html()  ?>
-        <?php include dirname(__DIR__, 2) . "/assets/gui/standard_nav.php" ?> 
+        <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php" ?> 
         <?php echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]); ?>
         <h1>Hauptmenü | <?php echo $ini["general"]["app_name"]; ?></h1>
         <div class="box" style="padding:20px;">
             <h2>Änderungen</h2>
             <?php
-            require dirname(__DIR__, 2) . "/vendor/autoload.php";
+            require $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
             $parsedown = new Parsedown();
-            echo $parsedown->text(file_get_contents(dirname(__DIR__, 2) . "/CHANGELOG.md"));
+            echo $parsedown->text(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/CHANGELOG.md"));
 
             ?>
         </div>

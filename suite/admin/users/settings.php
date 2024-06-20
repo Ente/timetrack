@@ -5,10 +5,14 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Auth;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Exceptions;
+use Arbeitszeit\i18n;
 @session_start();
 $ar = new Arbeitszeit();
 $auth = new Auth();
 $user = new Benutzer();
+$i18n = new i18n;
+
+$language = $i18n->loadLanguage(null, "users/settings", "admin");
 
 $ini = $ar->get_app_ini();
 
@@ -20,16 +24,16 @@ if(!$user->is_admin($user->get_user($_SESSION["username"]))){
 ?>
 <br>
 <div class="box">
-    <h2>administrative Settings</h2>
+    <h2><?php echo $language["qtitle"] ?></h2>
 
-    <p>This menu allows you to update the settings</p>
+    <p><?php echo $language["p1"] ?></p>
 
     <form  method="POST" action="/suite/admin/actions/users/edit_settings.php">
-        <label>Site name: </label><input type="text" name="app_name" placeholder="The name of this application" value="<?php echo $ini["general"]["app_name"];  ?>">
+        <label><?php echo $language["label_sitename"] ?>: </label><input type="text" name="app_name" placeholder="<?php echo $language["placeholder_sitename"] ?>" value="<?php echo $ini["general"]["app_name"];  ?>">
         <br>
-        <label>Base URL: </label><input type="text" name="base_url" placeholder="sub.domain.tld:<port>" value="<?php echo $ini["general"]["base_url"];  ?>">
+        <label><?php echo $language["label_base_url"] ?>: </label><input type="text" name="base_url" placeholder="<?php echo $language["placeholder_base_url"] ?>" value="<?php echo $ini["general"]["base_url"];  ?>">
         <br>
-        <button type="submit" name="submit">Submit</button>
+        <button type="submit" name="submit"><?php echo $language["button_text"] ?></button>
     </form>
 
 
@@ -39,8 +43,8 @@ $log_contents = @file_get_contents(Exceptions::logrotate()) ?? "Error retrieving
 
 echo <<< DAT
 <div class="box">
-    <h2> Log file </h2>
-    <p>See the contents of the log file below...</p>
+    <h2> {$language["log_title"]} </h2>
+    <p>{$language["log_p1"]}</p>
 
     <pre style="font-family:monospace;text-size:x-small;">{$log_contents}</pre>
 

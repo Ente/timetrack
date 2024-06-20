@@ -291,7 +291,7 @@ namespace Arbeitszeit{
          * @return array Gibt ein Array mit den Einstellungen zurück
          */
         public static function get_app_ini(){
-            $ini = parse_ini_file(dirname(__DIR__, 1) . "/inc/app.ini", true);
+            $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", true);
             return $ini;
         }
 

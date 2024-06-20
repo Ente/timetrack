@@ -7,7 +7,7 @@ if(isset($argv[1], $argv[2], $argv[3])){
     $pass = password_hash($argv[2], PASSWORD_DEFAULT);
     $email = $argv[3];
 
-    $statement = "INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`, `state`) VALUES (NULL, '{$username}', '{$email}', '{$pass}', 1, 1, NULL);";
+    $statement = "INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`, `state`, `easymode`) VALUES (NULL, '{$username}','{$username}', '{$email}', '{$pass}', 1, 1, NULL, 0);";
     echo $statement;
     return 0;
 } else {

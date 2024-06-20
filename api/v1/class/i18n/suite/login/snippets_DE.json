@@ -1,0 +1,11 @@
+{
+    "title": "Login",
+    "h1": "Bitte melde dich an!",
+    "label_username": "Benutzername",
+    "placeholder_username": "MMustermann",
+    "label_password": "Passwort",
+    "placeholder_password": "Dein Passwort",
+    "button_text": "Anmelden",
+    "checkbox_30days": "Für 30 Tage auf diesem Gerät erinnern.",
+    "forgot_pw": "Du hast dein Passwort vergessen? Drücke hier!"
+}

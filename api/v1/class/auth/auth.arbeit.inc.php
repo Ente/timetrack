@@ -38,9 +38,18 @@ namespace Arbeitszeit{
                     $this->store_state($username);
 
                     if(@isset($option["remember"])){
-                        setcookie("erinnern", "true", $ts+(60*60*24*30), "/");
-                        setcookie("username", $username, $ts + (60*60*24*30), "/");
-                        header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
+                        if($ini["general"]["app"] == "true"){
+                            ini_set("session.cookie_samesite", "None");
+                            Exceptions::error_rep("Enabling samesite for user '$username'!");
+                            session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+                            setcookie("erinnern", "true", ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
+                            setcookie("username", $username, ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
+                            header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
+                        } else {
+                            setcookie("erinnern", "true", $ts+(60*60*24*30), "/");
+                            setcookie("username", $username, $ts + (60*60*24*30), "/");
+                            header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
+                        }
                     } else {
                         header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                     }
@@ -54,6 +63,12 @@ namespace Arbeitszeit{
         public function login_validation(){
             $ini = Arbeitszeit::get_app_ini();
             $baseurl = $ini["general"]["base_url"];
+            if($ini["general"]["app"] == "true"){
+                ini_set("session.cookie_samesite", "None");
+                Exceptions::error_rep("Enabling samesite!");
+                header('P3P: CP="CAO PSA OUR"');
+                session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+            }
             @session_start();
             if(isset($_SESSION["logged_in"]) == false){
                 header("Location: http://{$baseurl}/suite/login.php?error=notloggedin");
@@ -99,10 +114,18 @@ namespace Arbeitszeit{
          * @return string Returns the state
          */
         public function store_state($user){
+            $ini = $this->get_app_ini();
             $state = bin2hex(random_bytes(12));
-            setcookie("state", $state, null, "/");
-            $_SESSION["state"] = $state;
-
+            if($ini["general"]["app"] == "true"){
+                ini_set("session.cookie_samesite", "None");
+                Exceptions::error_rep("Enabling samesite for user STATE '$user'!");
+                session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+                setcookie("state", $state, null, "/");
+                session_regenerate_id(true);
+            } else {
+                setcookie("state", $state, null, "/");
+                $_SESSION["state"] = $state;
+            }
             $sql = "UPDATE `users` SET `state` = '{$state}' WHERE `username` = '{$user}';";
             $res = mysqli_query(parent::get_conn(), $sql);
             if($res == false){
@@ -143,8 +166,12 @@ namespace Arbeitszeit{
                 $mail->SMTPAuth = true;
                 $mail->Username = $ini["smtp"]["username"];
                 $mail->Password = $ini["smtp"]["password"];
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port = 587;
+                if($ini["smtp"]["usessl"] == true || $ini["smtp"]["usessl"] == "true"){
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                } else {
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                }
+                $mail->Port = $ini["smtp"]["port"];
                 $mail->setFrom($ini["smtp"]["username"], "TimeTrack");
                 $mail->addAddress($userdata["email"], $userdata["name"]);
 

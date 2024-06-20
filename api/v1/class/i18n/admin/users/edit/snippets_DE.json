@@ -1,0 +1,14 @@
+{
+    "title": "Benutzer bearbeiten",
+    "add_user": "Benutzer hinzufügen",
+    "p1": "Hier kannst du alle Nutzer bearbeiten oder neue hinzufügen oder löschen",
+    "th1": "Aktion",
+    "th2": "Name",
+    "th3": "Benutzername",
+    "th4": "Email",
+    "label_firstname": "Vorname",
+    "label_email": "Email",
+    "label_password": "Passwort",
+    "label_grant_admin": "Adminrechte erteilen?",
+    "button_text": "Absenden"
+}

@@ -20,6 +20,8 @@ namespace Arbeitszeit{
                 } else {
                     return json_decode(file_get_contents(dirname(__FILE__) . "/assets/{$page}" . "/snippets_EN.json"), true);
                 }
+            } else {
+                Exceptions::error_rep("[i18n] Could not find locale inside supported languages. Provided locale: '{$locale1}'");
             }
         }
     }

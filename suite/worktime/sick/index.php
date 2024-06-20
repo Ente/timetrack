@@ -1,16 +1,14 @@
 <?php
-require dirname(__DIR__, 3) . "/api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Auth;
-use Arbeitszeit\Mailbox;
 $username = $_SESSION["username"];
 $auth = new Auth;
 $calendar = new Kalender;
 $user = new Benutzer;
-$mb = new Mailbox;
 $arbeit = new Arbeitszeit;
 $base_url = $ini = Arbeitszeit::get_app_ini();
 
@@ -20,11 +18,11 @@ $auth->login_validation();
 <html>
     <head>
         <title>Krankheit eintragen | <?php echo $ini["general"]["app_name"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="../../../assets/css/index.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <?php include "../../../assets/gui/standard_nav.php"; ?>
+        <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
         <h1>Krankheit eintragen | <?php echo $ini["general"]["app_name"]; ?></h1>
         <div class="box">
             <h2>Trage hier deine Krankheit ein</h2>

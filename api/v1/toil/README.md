@@ -1,13 +1,13 @@
 # Toil API
 
-Die Toil API ist eine Anwendungsprogrammierschnittstelle für das Arbeitszeiterfassungsprogramm.
-Zurzeit werden 3 Endpunkte unterstützt:
+The Toil API is a Application programming interface for TimeTrack.
+Currently, there are 5 supported endpoints:
 
-* getVersion - gibt die aktuelle Version zurück.
-* healtchcheck - Antwortet mit "alive" und plain.
-* getUserCount - Gibt die Anzahl der Benutzer zurück.
-* getApiVersion - Gibt git aktuelle Version der Toil API zurück.
-* getLog - Gibt den tagesaktuellen Log zurück.
+* getVersion - returns the current installed version.
+* healtchcheck - returns an array "status" => "alive" in json.
+* getUserCount - returns the current user count.
+* getApiVersion - returns the current version of the Toil API.
+* getLog - Returns the full log, requires additional authentication.
 
 Aufrufe erfolgen über die Base URL "https://{domain}.{tld}/api/v1/toil/". Die Authentifizierung läuft hierbei über HTTP Basic.
 Beispiel: "https://benutzer:meinpasswort@meine.domain/api/v1/toil/retrieveLatestVersion

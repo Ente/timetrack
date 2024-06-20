@@ -1,6 +1,6 @@
 <?php
 session_start();
-require dirname(__DIR__, 3)."/api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;
 use Arbeitszeit\Benutzer;
@@ -30,6 +30,6 @@ if(!$user->is_admin($user->get_user($_SESSION["username"]))){
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <?php  include "../../../assets/gui/standard_nav.php" ?>
+        <?php  include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php" ?>
 
         <h1>'<?php echo $_POST["username"]; ?>' bearbeiten</h1>

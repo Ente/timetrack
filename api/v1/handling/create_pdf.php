@@ -30,7 +30,6 @@
 
 
 <?php
-#ini_set("display_errors", 1);
 require "../inc/db.inc.php";
 
 $mitarbeiter = $_GET["mitarbeiter"];

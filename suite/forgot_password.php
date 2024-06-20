@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__DIR__, 1) . "/api/v1/inc/arbeit.inc.php";
-require_once dirname(__DIR__, 1) . "/api/v1/class/auth/plugins/mail_password_reset.auth.arbeit.inc.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_password_reset.auth.arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Auth;
 use Arbeitszeit\MailPasswordReset;
@@ -32,11 +32,10 @@ if(@$_POST["reset"] == true && @isset($_POST["email"])){
 <html>
     <head>
         <title>Passwort zurücksetzen | <?php echo $ini["general"]["app_name"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="../../../assets/css/index.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <?php include "../assets/gui/standard_nav.php"; ?>
 
         <form class="box" action="<?php $_SERVER["PHP_SELF"]; ?>" method="POST">
             <h2>Password forgot?</h2>

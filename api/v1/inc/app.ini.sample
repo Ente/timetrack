@@ -1,10 +1,10 @@
 [general]
-language=en
 app_name="Your App"
-base_url="your-website.com"
+base_url="timetrack.your-website.com"
 support_email="support@your-website.com"
 debug="false"
 auto_update="false"
+app="true"
 [mysql]
 db_host="localhost"
 db_user="root"
@@ -12,7 +12,8 @@ db_password=""
 db="ab"
 [smtp]
 ; attention: only supports mailservers using STARTTLS encryption on port 587
-host="db.host.com"
+host="smtp.host.com"
 username="user"
 password="pass"
-port=587
+port="587"
+usessl="true"

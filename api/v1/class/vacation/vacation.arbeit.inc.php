@@ -23,7 +23,7 @@ namespace Arbeitszeit {
               return false;   
             }
 
-            $sql = "INSERT INTO `vacation` (`id`, `username`, `start`, `stop`, `status`) VALUES ('0', '{$user}', '{$start}', '{$stop}', 'pending') ";
+            $sql = "INSERT INTO `vacation` (`id`, `username`, `date_start`, `date_end`, `status`) VALUES ('0', '{$user}', '{$start}', '{$stop}', 'pending') ";
             $query = mysqli_query($conn, $sql);
             if(mysqli_error($conn)){
                 Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. | Error: " . mysqli_error($conn));
@@ -43,12 +43,48 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[VACATION] An error occured while deleting a vacation with id '{$id}'. | Error: " . mysqli_error($conn));
                 return false;
             }
+            Exceptions::error_rep("[VACATION] Successfully removed vacation with id '{$id}'.");
             return true;
         }
 
-        public function change_status() # admin function only
+        public function change_status($id, $new_state = 3) # admin function only
         {
+            $conn = Arbeitszeit::get_conn();
+            $id = mysqli_real_escape_string($conn, $id);
+            if($new_state == 1 /* approve */){
+                $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = '{$id}';";
+            } elseif($new_state == 2 /* rejected */) {
+                $sql = "UPDATE `vacation` SET `status` = 'rejected' WHERE `id` = '{$id}';";
+            } else {
+                $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = '{$id}';";
+            }
+            $res = mysqli_query($conn, $sql);
+            if($res == false){
+                Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}' | SQL-Error: " . mysqli_error($conn));
+                return false;
+            } else {
+                Exceptions::error_rep("[VACATION] Successfully changed status for vacation id '{$id}', new state: '{$new_state}'.");
+                return true;
+            }
 
+        }
+
+        public function get_vacation($id, $mode = 1){
+            $conn = Arbeitszeit::get_conn();
+            $id = mysqli_real_escape_string($conn, $id);
+            $sql = "SELECT * FROM `vacation` WHERE id = '{$id}'";
+            $res = mysqli_query($conn, $sql);
+            if($res == false){
+                Exceptions::error_rep("[VACATION] An error occured while getting vacaction. id '{$id}' | SQL-Error: " . mysqli_error($conn));
+                return false;
+            } else {
+                Exceptions::error_rep("[VACATION] Successfully found vacation id '{$id}' inside database.");
+                if($mode == 2){
+                    return true;
+                } else {
+                    return mysqli_fetch_assoc($res);
+                }
+            }
         }
 
         public function display_vacation_all(){ # admin function only
@@ -63,6 +99,7 @@ namespace Arbeitszeit {
                     $start = strftime("%d.%m.%Y", strtotime($row["start"]));
                     $stop = @strftime("%d.%m.%Y", strtotime($row["end"]));
                     $status = $row["status"];
+                    $id = $row["id"];
 
                     switch($status){
                         case "pending":
@@ -71,8 +108,8 @@ namespace Arbeitszeit {
                         case "approved":
                             $status = "<span style='color:green;'>approved</span>";
                             break;
-                        case "action":
-                            $status = "<span style='color:red'>Action needed</span>";
+                        case "rejected":
+                            $status = "<span style='color:red'>rejected</span>";
                             break;
                     }
 
@@ -86,7 +123,7 @@ namespace Arbeitszeit {
                             <td>{$rnw}</td>
                             <td>{$start}</td>
                             <td>{$stop}</td>
-                            <td>{$status}</td>
+                            <td>{$status} | Set to <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=pending&u={$rnw}">Pending</a> or <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=approve&u={$rnw}">Approved</a> or <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=reject&u={$rnw}">Rejected</a></td>
                         </tr>
 
 
@@ -95,6 +132,7 @@ namespace Arbeitszeit {
                     echo $data;
                 }
             } else {
+                Exceptions::error_rep("[VACATION] No vacations found. Returning.");
                 return "Keine Urlaube eingetragen.";
             }
         }

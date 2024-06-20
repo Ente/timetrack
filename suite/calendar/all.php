@@ -1,5 +1,5 @@
 <?php
-require dirname(__DIR__, 2). "/api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;
@@ -25,7 +25,7 @@ if(!@$user->is_admin($_SESSION["username"])){
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <?php require dirname(__DIR__, 2) . "/assets/gui/standard_nav.php"; ?>
+        <?php require $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
         <h1>Kalendar</h1>
         <div class="box">
             <h2>Bitte trage etwas ein!</h2>

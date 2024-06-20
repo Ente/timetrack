@@ -1,0 +1,14 @@
+{
+    "title": "Manage users",
+    "add_user": "Add user",
+    "p1": "This menu allows you to either add, remove or modify any user.",
+    "th1": "Action",
+    "th2": "Name",
+    "th3": "Username",
+    "th4": "Email",
+    "label_firstname": "First name",
+    "label_email": "Email",
+    "label_password": "Password",
+    "label_grant_admin": "Grant administrative rights?",
+    "button_text": "Submit"
+}

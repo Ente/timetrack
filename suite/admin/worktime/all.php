@@ -1,5 +1,5 @@
 <?php
-require dirname(__DIR__, 3) . "/api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;
@@ -28,11 +28,11 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
 <html>
     <head>
         <title>Alle Arbeitszeiten | <?php echo $ini["general"]["app_name"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="../../../assets/css/index.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <?php include dirname(__DIR__, 3) . "/assets/gui/standard_nav.php"; ?>
+        <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
         <h1>Alle Arbeitszeiten | <?php echo $ini["general"]["app_name"]; ?></h1>
         <div class="box">
             <h2>Unten siehst du eine Liste aller Arbeitszeiten deiner Mitarbeiter.</h2>

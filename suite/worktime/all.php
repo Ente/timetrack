@@ -1,5 +1,5 @@
 <?php
-require dirname(__DIR__, 2) . "/api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;
@@ -26,11 +26,11 @@ if(!isset($_GET["monat"])){
 <html>
     <head>
         <title>Eigene Arbeitszeiten | <?php echo $ini["general"]["app_name"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="../../../assets/css/index.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <?php include "../../assets/gui/standard_nav.php"; ?>
+        <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
         <h1>Eigene Arbeitszeiten | <?php echo $ini["general"]["app_name"]; ?></h1>
         <div class="box">
             <h2>Liste deiner Schichten</h2>

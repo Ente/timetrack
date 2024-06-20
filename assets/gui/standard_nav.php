@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__, 2) . "/api/v1/inc/arbeit.inc.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Benutzer;
 
@@ -15,7 +15,6 @@ $name = $ini["general"]["app_name"];
     <li><a href="http://<?php echo $base_url ?>/suite">Menü</a></li>
     <li><a href="http://<?php echo $base_url ?>/suite/users/settings.php">Einstellungen</a></li>
     <li><a href="http://<?php echo $base_url ?>/suite/worktime/all.php">Eigene Arbeitszeiten</a></li>
-    <li><a href="http://<?php echo $base_url ?>/suite/mailbox/all.php">Eigene Mailbox</a></li>
     <li><a href="http://<?php echo $base_url ?>/suite/calendar/all.php">Kalender</a></li>
     <li class="b"><a><?php echo $name; ?></a></li>
     <li class="b"><a href="http://<?php echo $base_url ?>/suite/actions/auth/logout.php">Abmelden</a></li>
@@ -24,7 +23,6 @@ $name = $ini["general"]["app_name"];
         $v = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/VERSION");
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/all.php'>Alle Arbeitszeiten</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/users/edit.php'>Benutzer bearbeiten</a></li>";
-        echo "<li><a href='http://{$base_url}/suite/admin/mailbox/ov.php'>Mailbox-Admin</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/sick/all.php'>Alle Krankheiten</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/vacation/all.php'>Alle Urlaube</a></li>";
         echo "<li class='b' style='color:red'>ADMIN ACCOUNT | {$v}</li>";

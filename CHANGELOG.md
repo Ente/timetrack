@@ -1,5 +1,40 @@
 # CHANGELOG
 
+## v6.5
+
+### Generally
+
+* Added localization for some pages in english
+* Removed unused dependency (tcpdf)
+* Removed non-existend API routes
+* You are now able to remove the state `pending` from a vacation or sickness report to either `rejected` or `approved`
+* Fixed the incorrect display of the navigation bar, whilest on the password reset page
+
+### Settings
+
+* Mail authentication allows the use of ssl now by setting `usessl` in the `app.ini` to `true`
+
+<!--
+other changes
+
+* added more authentication and login evaluation into the code
+* removed mailbox class dependency from vacation and sickness classes and used files
+* fixed incorrect sql.sql file
+* removed conflicting apache2 keyword "Satisfy" as it is deprecated as in v2.4
+* fixed hard coded/relative paths
+* fixed some errors within the Arbeitszeit\Vacation class
+* fixed incorrect sql for the `usercreate.php` script
+* fixed redirect for the `delete worktime`, `review worktime`, `unlock worktime` endpoint
+* 
+
+-->
+
+## v6.4
+
+### Generally
+
+* Added the posibility to allow logins via a iFrame provided instance, see `README.md` for more information on this topic
+
 ## v6.3 <!-- bugfix version -->
 
 ### Generally

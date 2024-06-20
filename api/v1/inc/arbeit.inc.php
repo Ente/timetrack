@@ -2,17 +2,16 @@
 /**
  * Script lädt Klassen
  */
-#ini_set("display_errors", 1);
 #ini_set("default_charset", "UTF-8");
 
 if(file_exists(__DIR__ . "/MAINTENANCE") == true){
     header("Location: /errors/503.html");
-} else {
-    #echo "false";
+    die();
 }
 
 require_once dirname(__DIR__, 1) . "/class/arbeitszeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/kalender/kalender.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/i18n/i18n.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/benutzer/benutzer.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/auth/auth.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/pdf/pdf.arbeit.inc.php";

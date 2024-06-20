@@ -29,13 +29,21 @@ Simply install the software by following these steps:
 
 In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` folder:
 
-- `language`: Either `de` or `en` which will specify the default language. This will get overwritten for the specific user if the browser sends something different than specified.
 - `app_name`: The name of your application, e.g. `ACME Inc. TimeRecording`
-- `base_url`: The Base URL (can also be an IP) of your application, without ending trailing slash and the protocol, e.g. `acme.inc` or `10.10.10.2`
+- `base_url`: The Base URL (can also be an IP) of your application, without ending trailing slash and the protocol, e.g. `acme.inc` or `10.10.10.2` (URLs will be built with the http:// protocol, we recommend adding a redirect to https:// if you use an certificate.)
 - `support_email`: An email displayed to users in case of help, e.g. `support@acme.inc`
 - `debug`: (deprecated)
 - `auto_update`: (not yet implemented)
 - `db_*`: Set the connection details for your mysql instance
+- `app`: If set to true, users will be able to use the TimeTrack mobile application
+
+**SMTP section**
+
+- `host`: FQDN of your mail server
+- `username`: Username for the mailbox you want to send emails from
+- `password`: Self explaining
+- `port`: Specify a custom port or change the port if you do not want to use encryption
+- `usessl`: Specify if you want to use STARTTLS after initial communication
 
 If done correctly, you should now be able to access the application via http://BASE_URL/ - redirects to http://BASE_URL/suite/
 
@@ -58,3 +66,21 @@ You would need to register a new account and a complete dump of your SQL databas
 
 To enable the maintenance mode, simply rename the `api/inc/.MAINTENANCE` to `MAINTENANCE` (without the dot) to enable the functionality. No one will be able to access the application, aswell as administrators.
 Disabling is done by renaming the file again.
+
+## Permissions
+
+TimeTrack only differenciates between two user groups:
+
+- `Admin`: This group allows to change application settings, add calendar entries, manage users, manage worktime, sickness and vacation reports
+- `User`: If in this group, you only have access to the elemental functions, like viewing calendar entries, add worktime/vacation/sickness
+
+## Logging
+
+Logs can be found inside the `./data/logs` path, they are named in the following scheme: log-{YEAR}-{MONTH}-{DAY}.log. Log files created do not get deleted automatically.
+Another useful source, while expieriencing errors is the `/var/log/apache2/errors.log` file, containing the errors created by PHP.
+
+## iFrame
+
+For TimeTrack to work within iFrames, it is required to set the `samesite` parameter to `None`, `secure` to `true` and `domain` to your base url.
+TimeTrack does this automatically for you, but we also recommend setting the `php.ini` attribute `session.cookie_samesite` according to PHPs documentation (e.g. `"None"` (don't forget the quotation marks)).
+Please also enable the `headers` mod in apache2 (e.g. `a2enmod headers`)

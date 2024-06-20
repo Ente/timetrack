@@ -1,5 +1,4 @@
 <?php
-#ini_set("display_errors", 1);
 require "../../../../api/v1/inc/arbeit.inc.php";
 require "../../../../api/v1/class/auth/plugins/mail_worktime_uncompliant.auth.arbeit.inc.php";
 session_start();
@@ -25,7 +24,7 @@ if($user->is_admin($user->get_user($_SESSION["username"]))){
         echo "Error while processing...";
     }
 } else {
-    header("Location http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?info=noperms");
 }
 
 

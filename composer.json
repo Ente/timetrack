@@ -1,9 +1,7 @@
 {
     "require": {
         "phpmailer/phpmailer": "^6.1",
-        "tecnickcom/tcpdf": "^6.3",
         "erusev/parsedown": "^1.7",
         "pecee/simple-router": "4.3.7.2"
-    },
-    "minimum-stability": "dev"
+    }
 }

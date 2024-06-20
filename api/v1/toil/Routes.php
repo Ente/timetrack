@@ -6,7 +6,6 @@ use Pecee\SimpleRouter\Route\IGroupRoute;
 use Pecee\SimpleRouter\Route\ILoadableRoute;
 use Pecee\SimpleRouter\Event\EventArgument;
 use Pecee\Http\Request;
-#ini_set("display_errors", 0);
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Benutzer;
@@ -51,10 +50,6 @@ if($benutzer->get_user($user)){
         });
         Router::addEventHandler($eventHandler);
         # Routes
-        Router::get("/api/v1/toil/retrieveLatestVersion", function(){
-            Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'retrieveLatestVersion' endpoint");
-            Controller::createview("retrieveLatestVersion");
-        });
         Router::get("/api/v1/toil/getVersion", function(){
             Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getVersion' endpoint");
             Controller::createview("getVersion");
@@ -70,10 +65,6 @@ if($benutzer->get_user($user)){
         Router::get("/api/v1/toil/getApiVersion", function(){
             Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getApiVersion' endpoint");
             Controller::createview("getApiVersion");
-        });
-        Router::get("/api/v1/toil/getSlots", function(){
-            Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getSlots' endpoint");
-            Controller::createview("getSlots");
         });
         Router::get("/api/v1/toil/getLog", function(){
             Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getLog' endpoint");
