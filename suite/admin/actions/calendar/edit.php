@@ -14,11 +14,11 @@ $base_url = $ini = Arbeitszeit::get_app_ini()["general"]["base_url"];
 $id = $_GET["id"];
 $auth->login_validation();
 if($user->is_admin($user->get_user($_SESSION["username"]))){
-    if($calendar->edit_calendar_entry($_POST["id"], $_POST["uhrzeit"], $_POST["datum"], $_POST["ort"], $_POST["notiz"]) == true){
+    if($calendar->edit_calendar_entry($_GET["id"], $_POST["uhrzeit"], $_POST["datum"], $_POST["ort"], $_POST["notiz"]) == true){
         header("Location: http://{$base_url}/suite/?info=calendar_entry_edited");
     }   
 } else {
-    header("Location http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?info=noperms");
 }
 
 

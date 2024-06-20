@@ -28,6 +28,6 @@ if($user->is_admin($user->get_user($_SESSION["username"]))){
             echo "<meta http-equiv='refresh' content='0; url=http://{$base_url}/suite/?info=created_user'>";
         }   
 } else {
-    header("Location http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?info=noperms");
 }
 ?>

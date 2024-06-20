@@ -1,0 +1,9 @@
+{
+    "title": "All Sickness reports",
+    "note1": "Below you can see a list with all sickness reports from your employees.",
+    "note2": "Ordered: New to old, last 100 entries",
+    "t1": "Employee",
+    "t2": "Sickness Start",
+    "t3": "Sickness End",
+    "t4": "Status"
+}

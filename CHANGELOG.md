@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v6.5.1
+
+### Generally
+
+* Bug fixes
+<!--
+the fixes:
+
+- fixed incorrect form URL for the edit calendars form
+- fixed the error that calendar entries do not get updated
+- removed the actions to add/edit or remove a mailbox entry
+- fixed more incorrect header uses
+
+-->
+
 ## v6.5
 
 ### Generally

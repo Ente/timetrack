@@ -19,7 +19,7 @@ $language = $i18n->loadLanguage($locale, "calendar/edit", "admin"); // Loads the
 
 $auth->login_validation();
 if(!@$user->is_admin($_SESSION["username"])){
-    header("Location http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?info=noperms");
 }
 $id = $_GET["id"];
 $data = $calendar->get_calendar_entry($id);
@@ -36,7 +36,7 @@ $data = $calendar->get_calendar_entry($id);
 
         <h1><?php echo $language["title"] ?></h1>
         <div class="box">
-            <form action="../admin/actions/calendar/edit.php?id=<?php echo $id; ?>" method="POST">
+            <form action="/suite/admin/actions/calendar/edit.php?id=<?php echo $id; ?>" method="POST">
                 <label><?php echo $language["label_date"] ?>: </label><input type="date" name="datum" value="<?php echo $data["datum"] ?>">
                 <br>
                 <label><?php echo $language["label_time"] ?>: </label><input type="time" name="uhrzeit" value="<?php echo $data["uhrzeit"]; ?>">

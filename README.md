@@ -51,11 +51,11 @@ If done correctly, you should now be able to access the application via http://B
 
 ### Requirements
 
-- at least PHP 7.4
-- Apache2.4 with enabled htaccess mod
-- composer (to install dependencies)
+- at least PHP 7.4 (intl, mysqli, curl, fileinfo, ldap, yaml, sockets extension)
+- Apache2.4 with enabled htaccess, headers mod
+- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing)
 
-This software has been tested on Debian 11 and 12.
+This software has been tested on Debian 11/12 and XAMPP.
 
 ### Upgrade from TimeTrack OSS to TimeTrack Oval
 
