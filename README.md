@@ -45,6 +45,13 @@ In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` fo
 - `port`: Specify a custom port or change the port if you do not want to use encryption
 - `usessl`: Specify if you want to use STARTTLS after initial communication
 
+**Plugins** (Read more at `/api/v1/classes/plugins/docs`)
+
+- `plugins`: Specify if you want to enable or disable plugins (default: true)
+- `path`: Plugins path (default: `/api/v1/classes/plugins/plugins`)
+- `data`: Data path for plugins, relative from the `path` variable (default: `data`)
+- `testing`: Specify if the testing mode is enabled or not. If enabled, plugins which are not bundled within an phar archive are working aswell (e.g. just the source code within the plugins folder).
+
 If done correctly, you should now be able to access the application via http://BASE_URL/ - redirects to http://BASE_URL/suite/
 
 **Please delete the whole `/setup/` folder after installation**

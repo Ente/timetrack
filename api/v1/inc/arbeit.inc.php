@@ -2,7 +2,6 @@
 /**
  * Script lädt Klassen
  */
-#ini_set("default_charset", "UTF-8");
 
 if(file_exists(__DIR__ . "/MAINTENANCE") == true){
     header("Location: /errors/503.html");

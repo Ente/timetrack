@@ -1,0 +1,13 @@
+name: usercount
+src: /src
+main: Main
+namespace: userdetail
+author: none
+description: Add User details
+version: "1.0"
+api: 0.1
+permissions: none
+enabled: true
+custom.values:
+nav_links:
+  Get User Count: views/test.php

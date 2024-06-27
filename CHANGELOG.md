@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v6.6
+
+### Generally
+
+* Programmers are now able to create own plugins for TimeTrack. Please read more in the documentation, located at `/api/v1/class/plugins/docs`
+
+<!--
+other changes
+
+- removed unused class `language.inc.php`
+- added a plugin system working with yaml files, see more within the documentation and the template plugin
+
+-->
+
 ## v6.5.1
 
 ### Generally

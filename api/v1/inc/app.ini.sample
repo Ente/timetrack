@@ -17,3 +17,8 @@ username="user"
 password="pass"
 port="587"
 usessl="true"
+[plugins]
+plugins = "false"
+path = "/api/v1/class/plugins/plugins"
+data = "data"
+testing = "true"

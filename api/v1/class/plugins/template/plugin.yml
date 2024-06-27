@@ -1,0 +1,19 @@
+name: "MyPlugin"
+src: "/src"
+main: "Main"
+namespace: "Example"
+author: none
+description: Plugin Skeletton
+version: "1.0"
+
+api: 0.1
+
+permissions:
+  none
+
+
+enabled: true
+custom.values:
+ - testing 
+nav_links:
+  Test: "views/test.php"

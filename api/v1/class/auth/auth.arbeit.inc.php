@@ -40,7 +40,6 @@ namespace Arbeitszeit{
                     if(@isset($option["remember"])){
                         if($ini["general"]["app"] == "true"){
                             ini_set("session.cookie_samesite", "None");
-                            Exceptions::error_rep("Enabling samesite for user '$username'!");
                             session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
                             setcookie("erinnern", "true", ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             setcookie("username", $username, ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
@@ -65,7 +64,6 @@ namespace Arbeitszeit{
             $baseurl = $ini["general"]["base_url"];
             if($ini["general"]["app"] == "true"){
                 ini_set("session.cookie_samesite", "None");
-                Exceptions::error_rep("Enabling samesite!");
                 header('P3P: CP="CAO PSA OUR"');
                 session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
             }
@@ -118,7 +116,6 @@ namespace Arbeitszeit{
             $state = bin2hex(random_bytes(12));
             if($ini["general"]["app"] == "true"){
                 ini_set("session.cookie_samesite", "None");
-                Exceptions::error_rep("Enabling samesite for user STATE '$user'!");
                 session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
                 setcookie("state", $state, null, "/");
                 session_regenerate_id(true);

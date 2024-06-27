@@ -4,7 +4,6 @@ use Arbeitszeit\Exceptions;
 if($ini["general"]["app"] == "true"){
     ini_set("session.cookie_samesite", "None");
     header('P3P: CP="CAO PSA OUR"');
-    Exceptions::error_rep("Enabling samesite for user '$username'!");
     session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
     session_regenerate_id(true);
 }

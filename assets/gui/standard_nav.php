@@ -25,6 +25,7 @@ $name = $ini["general"]["app_name"];
         echo "<li><a href='http://{$base_url}/suite/admin/users/edit.php'>Benutzer bearbeiten</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/sick/all.php'>Alle Krankheiten</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/vacation/all.php'>Alle Urlaube</a></li>";
+        echo "<li><a href='http://{$base_url}/suite/plugins/index.php' target='_blank'>Plugins</a></li>";
         echo "<li class='b' style='color:red'>ADMIN ACCOUNT | {$v}</li>";
     }
     
