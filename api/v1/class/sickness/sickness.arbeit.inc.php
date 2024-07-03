@@ -46,8 +46,25 @@ namespace Arbeitszeit {
             return true;
         }
 
-        public function change_status() # admin function only
+        public function change_status($id, $new_state = 3) # admin function only
         {
+            $conn = Arbeitszeit::get_conn();
+            $id = mysqli_real_escape_string($conn, $id);
+            if($new_state == 1 /* approve */){
+                $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = '{$id}';";
+            } elseif($new_state == 2 /* rejected */) {
+                $sql = "UPDATE `vacation` SET `status` = 'rejected' WHERE `id` = '{$id}';";
+            } else {
+                $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = '{$id}';";
+            }
+            $res = mysqli_query($conn, $sql);
+            if($res == false){
+                Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}' | SQL-Error: " . mysqli_error($conn));
+                return false;
+            } else {
+                Exceptions::error_rep("[VACATION] Successfully changed status for vacation id '{$id}', new state: '{$new_state}'.");
+                return true;
+            }
 
         }
 
@@ -61,8 +78,9 @@ namespace Arbeitszeit {
                 while($row = \mysqli_fetch_assoc($res)){
                     $rnw = $row["username"];
                     $start = strftime("%d.%m.%Y", strtotime($row["start"]));
-                    $stop = @strftime("%d.%m.%Y", strtotime($row["end"]));
+                    $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
                     $status = $row["status"];
+                    $id = $row["id"];
 
                     switch($status){
                         case "pending":
@@ -86,7 +104,7 @@ namespace Arbeitszeit {
                             <td>{$rnw}</td>
                             <td>{$start}</td>
                             <td>{$stop}</td>
-                            <td>{$status}</td>
+                            <td>{$status} | Set to <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=pending&u={$rnw}">Pending</a> or <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=approve&u={$rnw}">Approved</a> or <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=reject&u={$rnw}">Rejected</a></td></td>
                         </tr>
 
 
@@ -96,6 +114,24 @@ namespace Arbeitszeit {
                 }
             } else {
                 return "Keine Krankheiten eingetragen.";
+            }
+        }
+
+        public function get_sickness($id, $mode = 1){
+            $conn = Arbeitszeit::get_conn();
+            $id = mysqli_real_escape_string($conn, $id);
+            $sql = "SELECT * FROM `sickness` WHERE id = '{$id}'";
+            $res = mysqli_query($conn, $sql);
+            if($res == false){
+                Exceptions::error_rep("[SICKNESS] An error occured while getting sickness. id '{$id}' | SQL-Error: " . mysqli_error($conn));
+                return false;
+            } else {
+                Exceptions::error_rep("[SICKNESS] Successfully found sickness id '{$id}' inside database.");
+                if($mode == 2){
+                    return true;
+                } else {
+                    return mysqli_fetch_assoc($res);
+                }
             }
         }
     }

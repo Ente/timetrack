@@ -1,9 +1,9 @@
 <?php
 
 namespace Arbeitszeit {
-    class MailVacationApproved extends Auth
+    class MailSicknessRejected extends Auth
     {
-        public static function mail_vacation_approved($username, $id, \PHPMailer\PHPMailer\PHPMailer $mail, $password = null)
+        public static function mail_sickness_rejected($username, $id, \PHPMailer\PHPMailer\PHPMailer $mail, $password = null)
         {
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $conn = Arbeitszeit::get_conn();
@@ -61,7 +61,8 @@ namespace Arbeitszeit {
 </style>
                 <p>Hallo {$data["name"]},</p>
 
-                <p>dein Vorgesetzter hat deinen Urlaubsantrag <span style="color:green;">genehmigt</span>:
+                <p>dein Vorgesetzter hat deine Krankheit <span style="color:red;">abgelehnt</span>:</p>
+                <p>(Bitte setze dich mit deinem Administrator in Verbindung, um dieses Problem zu lösen.)</p>
 
                 <table>
                     <tr>
@@ -93,7 +94,7 @@ namespace Arbeitszeit {
 DATA;
             $mail->CharSet = "UTF-8";
             $mail->Encoding = "base64";
-            $mail->Subject = "Dein Urlaubsantrag wurde genehmigt!";
+            $mail->Subject = "Deine Krankheit wurde abgelehnt!";
             $mail->Body = $text;
             $mail->isHTML(true);
             #try {
@@ -101,7 +102,7 @@ DATA;
             #} catch (\Exception $e){
             #  echo "Error: {$mail->ErrorInfo}";
             #}
-            Exceptions::error_rep("An email has been sent to user '$username'. Trigger: Vacation approved");
+            Exceptions::error_rep("An email has been sent to user '$username'. Trigger: Sickness rejected");
             return 1;
         }
     }

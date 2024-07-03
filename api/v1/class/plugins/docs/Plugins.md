@@ -18,6 +18,8 @@ You could design your plugin this way, that it only has one page. This page then
 You can also design your plugin the way you want to. Since `PluginBuilder.plugins.arbeit.inc.php` has `Arbeitszeit` as it's parent class, it's functions are inherited aswell. So you are able to communicate with the database aswell. In the future, we are planning to resolve the issue with direct access to the instance data to a plugin through the `permissions` attribute within the `plugin.yml`.
 
 A user would go this way to access your plugin: (Select from nav bar) "Plugins" > "[PluginName] View Name" > (your php file)
+
+Plugins are able to work without a navigation bar aswell, like dependencies for other plugins. Just leave the `nav_links` directive empty inside the `plugin.yml`
  
 ### plugin.yml
 
@@ -55,3 +57,7 @@ When plugins are memorized, you can re-access them with the `PluginBuilder::unme
 Technically, `.tp1` files are just serialized php classes, so you can also just use as a class.
 
 Plugin data can also handled on your own way, e.g. by saving them into the `data` folder in any format you'd like.
+
+### Permissions
+
+While TimeTrack handles permissions in two different ways, plugins can only be viewed by administrators. However, everyone with a link is able to view the plugin views (not the Plugin selection screen itself)

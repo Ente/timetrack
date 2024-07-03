@@ -55,7 +55,7 @@ if ($user->is_admin($user->get_user($_SESSION["username"]))) {
                 }
                 break;
             case "reject":
-                if ($vacation->change_status($id, 2)) {
+                if ($sickness->change_status($id, 2)) {
                     $avr->mail_vacation_rejected($_GET["u"], $id, $auth->mail_init($_GET["u"], true));
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
@@ -65,7 +65,7 @@ if ($user->is_admin($user->get_user($_SESSION["username"]))) {
                 }
                 break;
             default:
-                if ($vacation->change_status($id, 3)) {
+                if ($sickness->change_status($id, 3)) {
                     $ava->mail_vacation_approved($_GET["u"], $id, $auth->mail_init($_GET["u"], true));
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();

@@ -170,7 +170,6 @@ namespace Arbeitszeit{
            $path = $_SERVER["DOCUMENT_ROOT"] . "". $this->basepath . "\\" . $name . "\\plugin.yml";
            if(file_exists($_SERVER["DOCUMENT_ROOT"] . "" . $this->basepath . "/" . $name . "/plugin.yml") == true){
                 try {
-                    Exceptions::error_rep($this->platformSlashes($path));
                     $yaml = Yaml::parseFile($this->platformSlashes($path));
                 } catch(Exception $e){
                     Exceptions::error_rep($e);
@@ -364,6 +363,10 @@ namespace Arbeitszeit{
         final public function get_plugin_nav_html($plugin_name){
             $links = $this->get_plugin_nav($plugin_name);
             $html = "";
+            $conf = $this->read_plugin_configuration($plugin_name);
+            if($conf["enabled"] == false){
+                return null;
+            }
 
             foreach($links as $n => $v){
                 $html .= "<li><a href='/suite/plugins/index.php?pn={$plugin_name}&p_view={$v}'>[{$plugin_name}] $n</a></li>";

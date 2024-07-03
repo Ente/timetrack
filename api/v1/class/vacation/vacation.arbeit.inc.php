@@ -23,7 +23,7 @@ namespace Arbeitszeit {
               return false;   
             }
 
-            $sql = "INSERT INTO `vacation` (`id`, `username`, `date_start`, `date_end`, `status`) VALUES ('0', '{$user}', '{$start}', '{$stop}', 'pending') ";
+            $sql = "INSERT INTO `vacation` (`id`, `username`, `start`, `stop`, `status`) VALUES ('0', '{$user}', '{$start}', '{$stop}', 'pending') ";
             $query = mysqli_query($conn, $sql);
             if(mysqli_error($conn)){
                 Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. | Error: " . mysqli_error($conn));
@@ -97,7 +97,7 @@ namespace Arbeitszeit {
                 while($row = \mysqli_fetch_assoc($res)){
                     $rnw = $row["username"];
                     $start = strftime("%d.%m.%Y", strtotime($row["start"]));
-                    $stop = @strftime("%d.%m.%Y", strtotime($row["end"]));
+                    $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
                     $status = $row["status"];
                     $id = $row["id"];
 

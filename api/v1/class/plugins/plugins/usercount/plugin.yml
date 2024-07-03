@@ -7,7 +7,7 @@ description: Add User details
 version: "1.0"
 api: 0.1
 permissions: none
-enabled: true
+enabled: false
 custom.values:
 nav_links:
   Get User Count: views/test.php

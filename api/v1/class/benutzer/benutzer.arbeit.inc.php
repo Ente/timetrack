@@ -83,9 +83,12 @@ namespace Arbeitszeit{
             $sql = "SELECT * FROM `users`;";
             $res = mysqli_query($conn, $sql);
             $count = mysqli_num_rows($res);
+            $dat = [];
             if($count >= 1){
-                $data = mysqli_fetch_assoc($res);
-                return $data;
+                while($data = mysqli_fetch_assoc($res)){
+                    $dat[$data["id"]] = $data;
+                }
+                return $dat;
             } else {
                 Exceptions::error_rep("Could not get users. Please check the database connection.");
                 return false;

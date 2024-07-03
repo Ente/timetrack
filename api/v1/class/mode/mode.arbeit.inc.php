@@ -96,7 +96,7 @@ DATA;
                             <input type="text" name="username" value="{$_SESSION["username"]}" hidden>
                             <input type="text" name="type" value="pause_start" hidden>
                             <input type="text" name="id" value="{$active}" hidden>
-                            <button type="submit" class="button">Pause startens!</button>
+                            <button type="submit" class="button">Pause starten!</button>
                         </form>
                     </div>
     DATA;

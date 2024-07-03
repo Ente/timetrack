@@ -50,7 +50,7 @@ namespace Arbeitszeit{
             #} catch (\Exception $e){
               #  echo "Error: {$mail->ErrorInfo}";
             #}
-            Exceptions:error_rep("An email has been sent to user '$username'. Trigger: Password Reset Successfully");
+            Exceptions::error_rep("An email has been sent to user '$username'. Trigger: Password Reset Successfully");
             return 1;
         }
     }

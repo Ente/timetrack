@@ -15,13 +15,14 @@ It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more 
 - Easy and fast installation
 
 That's not even all of it, you can also generate timesheets (PDF) to export, user creation menu, an "easymode" to make it even easier to track your time and a mobile-friendly UI.
-You can create up to 30 Users, before you would have to upgrade to TimeTrack Oval
+Additional functionality can be unlocked with TimeTrack Oval
 
 ## Installation
 
 Simply install the software by following these steps:
 
 - Install php and requirements: `apt update && apt install php8.0 php8.0-curl apache2 mariadb-server -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`
+- Install requirements for composer `cd /path/to/timetrack && composer install`
 - Create a new database, e.g. with the name `ab` and create a dedicated user, e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';`; don't forget to `FLUSH PRIVILEGES;`!
 - Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
@@ -43,7 +44,10 @@ In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` fo
 - `username`: Username for the mailbox you want to send emails from
 - `password`: Self explaining
 - `port`: Specify a custom port or change the port if you do not want to use encryption
-- `usessl`: Specify if you want to use STARTTLS after initial communication
+- `usessl`: Specify if you want to use STARTTLS after initial communication or use SSL
+
+If you plan to use this system with a Gmail-Account, please be aware that you are not able to use your usual password. You would have to create a seperate `App Password`, you should note down.
+You can do this following this link: <https://myaccount.google.com/u/0/apppasswords> or by navigating from <https://accounts.google.com> to `Security` > `2-Factor Authentication` > `App Passwords`. If you do not see this option on screen, use the link.
 
 **Plugins** (Read more at `/api/v1/classes/plugins/docs`)
 

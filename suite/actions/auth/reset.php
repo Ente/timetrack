@@ -7,6 +7,7 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Auth;
 use Arbeitszeit\MailPasswordReset;
 use Arbeitszeit\MailPasswordChanged;
+use Arbeitszeit\Exceptions;
 
 $arbeitszeit = new Arbeitszeit;
 $auth = new Auth;
@@ -24,15 +25,16 @@ if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
         $data = mysqli_fetch_assoc($query);
         $pass = password_hash($_POST["password"], PASSWORD_DEFAULT);
         $sql = "UPDATE users SET password = '{$pass}' WHERE email = '{$_POST["auth"]}';";
-        $res = mysqli_query($conn,$sql);
+        $res = mysqli_query($conn, $sql);
         if($res != false){
             $changed->mail_password_changed($data["username"], $auth->mail_init($data["username"], true));
             header("Location: /suite/index.php?info=password_changed");
         } else {
+            Exceptions::error_rep("Could not change password as the query failed! | MySQLI error: " . mysqli_error($conn));
             header("Location: /suite/index.php?info=password_change_failed");
         }
     } else {
-        
+        Exceptions::error_rep("Could not reset password as the user could not be found! | Email: " . $_POST["auth"]);
         echo "Could not find user!";
     }
 }

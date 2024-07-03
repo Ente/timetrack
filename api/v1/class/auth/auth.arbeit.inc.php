@@ -154,9 +154,9 @@ namespace Arbeitszeit{
 
         public function mail_init($user, $html = false){
             $ini = Arbeitszeit::get_app_ini();
-            $userdata = Benutzer::get_user($user);
             $mail = new PHPMailer(true);
             try {
+                $userdata = Benutzer::get_user($user);
                 #$mail->SMTPDebug = SMTP::DEBUG_SERVER;
                 $mail->isSMTP();
                 $mail->Host = $ini["smtp"]["host"];
@@ -170,13 +170,23 @@ namespace Arbeitszeit{
                 }
                 $mail->Port = $ini["smtp"]["port"];
                 $mail->setFrom($ini["smtp"]["username"], "TimeTrack");
-                $mail->addAddress($userdata["email"], $userdata["name"]);
+                $r = $mail->addAddress($userdata["email"], $userdata["name"]);
+                Exceptions::error_rep("Could not set address! | Email:" . $userdata["email"] . " - Username: " . $userdata["username"]);
+                if(!$r){
+                    Exceptions::error_rep("Could not set address! | Email:" . $userdata["email"] . " - Username: " . $userdata["username"]);
+                    return false;
+                }
+                
 
                 if($html == true){
                     $mail->isHTML(true);
                 }
 
             } catch (Exception $e){
+                Exceptions::error_rep($e);
+                Exceptions::error_rep("Error while initiating mails object! | Email:" . $userdata["email"] . " - Username: " . $userdata["username"]);
+                return false;
+
             }
 
             return $mail;

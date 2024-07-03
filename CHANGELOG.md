@@ -1,5 +1,28 @@
 # CHANGELOG
 
+## v6.7
+
+### Generally
+
+* Added more translated pages in English
+* Added composer install command to `README.md`
+* You are now able to mark a sickness entry as either approved, rejected or pending
+
+<!--
+additional fixes:
+
+- removed an debug error reporting from pluginbuilder class
+- reworked `Benutzer::get_all_users()` function to return all users in an array instead of just one
+- added steps to install composer requirements to `README.md`
+- added a check to the `Auth::mail_init()` function to check that the recipent is set
+- Fixed a typo inside the `MailPasswordReset`, `MailVacationApproved`, `Mode` classes
+- Slashes now get translated to either a forward or backlash one depending on the used OS within the `PluginBuilder` class
+- Removed `usercount` plugin and replaced with `userdetail`
+- Fixed SQL within the `Vacation` class
+- Reworked the `/suite/actions/auth/reset.php` file
+
+-->
+
 ## v6.6
 
 ### Generally

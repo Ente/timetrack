@@ -1,0 +1,12 @@
+{
+    "menu": "Menu",
+    "settings": "Settings",
+    "own_worktime": "Worktime records",
+    "calendar": "Calendar",
+    "logout": "Logout",
+    "a_allworktime": "All worktime records",
+    "a_useredit": "Edit users",
+    "a_sickness": "Sickness reports",
+    "a_vacation": "Vacation reports",
+    "a_plugins": "Plugins"
+}
