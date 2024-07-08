@@ -3,7 +3,10 @@
 namespace Arbeitszeit{
     class MailPasswordReset extends Auth{
         public static function mail_password_reset($username, \PHPMailer\PHPMailer\PHPMailer $mail){
+            $i18n = new i18n; 
+            $loc = $i18n->loadLanguage(null, "emails/password_reset");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
+            $ii = Arbeitszeit::get_app_ini()["general"]["app_name"];
             $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
             $res = mysqli_query($conn, $sql);
@@ -12,7 +15,7 @@ namespace Arbeitszeit{
             if($count == 1){
                 $data = mysqli_fetch_assoc($res);
             } else {
-                Exceptions::error_rep("An error occured while fetching user data from database for user '$username' | SQL-Error: " . mysqli_error($res1));
+                Exceptions::error_rep("An error occured while fetching user data from database for user '$username' | SQL-Error: " . mysqli_error($conn));
                 return [
                     "error" => [
                         "error_code" => 10,
@@ -23,19 +26,18 @@ namespace Arbeitszeit{
             $token = base64_encode(implode(";", ["username" => $data["username"], "email" => $data["email"]]));
             $email_urlencoded = urlencode($data["email"]);
             $from = "Password Reset Service (AZES)";
-            $subject = "Deine Anfrage zum zurücksetzen deines Passworts (AZES)";
+            $subject = "{$loc["subject"]} | {$ii}";
             $text = <<< DATA
             
-            Hallo {$data["name"]},
+            {$loc["greetings"]} {$data["name"]},
 
-            wir haben deine Anfrage, zum Zurücksetzen deines Passwortes erhalten.
-            <p>Unten findest du den Link um dein Passwort zurückzusetzen.</p>
+            {$loc["message"]}
 
-            <p>Solltest du das nicht veranlasst haben, informiere deinen Vorgesetzeten sofort oder schicke eine EMail an <a href="mailto:support@openducks.org">support@openducks.org</a></p>
+            <p>{$loc["note"]}</p>
 
             Link: <a href="http://{$base_url}/suite/actions/auth/reset.php?token={$token}">https://{$base_url}/suite/auth/reset.php?token={$token}</a>
 
-            <p><b>Hinweis: Aus sicherheitstechnischen Gründen ist der Link nur 10 Minuten gültig. Nach Ablauf musst du dein Passwort erneut zurücksetzen.</b></p>
+            <p><b>{$loc["security_note"]}</b></p>
 
         DATA;
             $mail->CharSet = "UTF-8";

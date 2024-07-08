@@ -1,0 +1,15 @@
+{
+    "subject": "Your illness has been rejected!",
+    "greetings": "Hello",
+    "message": "your supervisor has <span style='color:red;'>rejected</span> your illness",
+    "note": "Please contact your administrator to resolve this issue.",
+    "id": "ID",
+    "username": "Username",
+    "day": "Day",
+    "begin": "Begin",
+    "send": "End",
+    "end": "Best regards",
+    "noreply": "automatic sender",
+    "confidential": "Confidential information!",
+    "gdpr": "You are receiving this email because you have agreed to the terms. <br> The current General Data Protection Regulation can be viewed here"
+    }

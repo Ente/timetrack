@@ -4,12 +4,14 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_passwo
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Auth;
 use Arbeitszeit\MailPasswordReset;
-
+use Arbeitszeit\i18n;
+$i18n = new i18n;
 $arbeitszeit = new Arbeitszeit;
 $auth = new Auth;
 $reset = new MailPasswordReset;
 
 $ini = $arbeitszeit->get_app_ini();
+$loc = $i18n->loadLanguage(NULL, "reset");
 
 if(@$_POST["reset"] == true && @isset($_POST["email"])){
     $conn = Arbeitszeit::get_conn();
@@ -31,18 +33,18 @@ if(@$_POST["reset"] == true && @isset($_POST["email"])){
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Passwort zurücksetzen | <?php echo $ini["general"]["app_name"]; ?></title>
+        <title><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></title>
         <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
 
         <form class="box" action="<?php $_SERVER["PHP_SELF"]; ?>" method="POST">
-            <h2>Password forgot?</h2>
-            <p>Please enter your e-mail in the below's form.</p>
-            <label>Your E-Mail: </label><input type="email" name="email" placeholder="you@mail.com">
+            <h2><?php echo $loc["title_q"] ?></h2>
+            <p><?php echo $loc["request_mail"] ?></p>
+            <label><?php echo $loc["label_email"] ?>: </label><input type="email" name="email" placeholder="you@mail.com">
             <br>
-            <button type="submit" name="reset" value="true">Submit</button>
+            <button class="button" type="submit" name="reset" value="true"><?php echo $loc["label_button"] ?></button>
         </form>
     </body>
 </html>

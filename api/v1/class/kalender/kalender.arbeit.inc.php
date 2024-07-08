@@ -10,9 +10,11 @@ namespace Arbeitszeit{
     class Kalender extends Arbeitszeit{
 
 
+        public array $i18n;
 
         public function __construct(){
-            
+            $i18n = new i18n;
+            $this->i18n = $i18n->loadLanguage(null, "class/kalendar");
         }
 
 
@@ -52,7 +54,7 @@ namespace Arbeitszeit{
 
                 return $data;
             } else {
-                return "No data";
+                return "{$this->i18n["no_data"]}";
             }
         }
 
@@ -70,7 +72,7 @@ namespace Arbeitszeit{
 
                     $data = <<< DATA
                     <tr>
-                        <td><a href="../admin/calendar/delete.php?id={$id}">Eintrag löschen</a> | <a href="../admin/calendar/edit.php?id={$id}">Eintrag bearbeiten</a></td>
+                        <td><a href="../admin/calendar/delete.php?id={$id}">{$this->i18n["delete"]}</a> | <a href="../admin/calendar/edit.php?id={$id}">{$this->i18n["edit"]}</a></td>
                         <td>$date</td>
                         <td>$time</td>
                         <td>$location</td>
@@ -80,7 +82,7 @@ namespace Arbeitszeit{
                     return $data;
                 }
             } else {
-                return "<p>Keine Einträge gefunden!</p>";
+                return "<p>{$this->i18n["no_entries"]}</p>";
             }
         }
 
@@ -100,7 +102,7 @@ namespace Arbeitszeit{
                     
                     $html = <<< DATA
                     <a href="http://{$base_url}/suite/calendar/view.php?id={$id}"><div>
-                        <h2>Kalender Mitteilung für den $date</h2>
+                        <h2>{$this->i18n["calendar_notify"]} $date</h2>
                         <p><b>$location</b>: $note | <span><b>$date</b></span> - $time</p>
                     </div></a>
                     DATA;

@@ -1,0 +1,15 @@
+{
+    "subject": "Your working time has been deleted!",
+    "greetings": "Hello",
+    "message": "your supervisor has deleted your working time. The affected working time is listed below",
+    "id": "ID",
+    "username": "User name",
+    "day": "Day",
+    "begin": "Begin",
+    "send": "End",
+    "notes": "Notes",
+    "end": "Best regards",
+    "noreply": "automatic sender",
+    "confidential": "Confidential information!",
+    "gdpr": "You are receiving this email because you have agreed to the terms and conditions. <br> The current General Data Protection Regulation can be viewed here"
+    }

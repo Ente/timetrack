@@ -5,6 +5,8 @@ namespace Arbeitszeit {
     {
         public static function mail_worktime_deleted($username, $worktime, \PHPMailer\PHPMailer\PHPMailer $mail, $password = null)
         {
+            $i18n = new i18n;
+            $loc = $i18n->loadLanguage(null, "emails/worktime/deleted");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
@@ -63,18 +65,18 @@ namespace Arbeitszeit {
     background-color: #f2f2f2;
   }
 </style>
-                <p>Hallo {$data["name"]},</p>
+                <p>{$loc["greetings"]} {$data["name"]},</p>
 
-                <p>dein Vorgesetzter hat deine Arbeitszeit gelöscht. Die betroffene Arbeitszeit ist unten aufgelistet:
+                <p>{$loc["message"]}:
 
                 <table>
                     <tr>
-                        <th>ID</th>
-                        <th>Benutzername</th>
-                        <th>Tag</th>
-                        <th>Beginn</th>
-                        <th>Ende</th>
-                        <th>Notizen</th>
+                        <th>{$loc["id"]}</th>
+                        <th>{$loc["username"]}</th>
+                        <th>{$loc["day"]}</th>
+                        <th>{$loc["begin"]}</th>
+                        <th>{$loc["send"]}</th>
+                        <th>{$loc["notes"]}</th>
                     <tr>
                     <tr>
                         <td>{$worktime_data["id"]}</td>
@@ -86,20 +88,19 @@ namespace Arbeitszeit {
                     </tr>
                 </table>
             <br>
-            <p>Mit freundlichen Grüßen</p>
+            <p>{$loc["end"]}</p>
             <br>
-            <b>(automatischer Absender)</b>
+            <b>({$loc["noreply"]})</b>
 
             <hr>
 
-            <i>Sie erhalten die Email, da Ihr Arbeitgeber Sie für dieses System angemeldet hat und Sie den Email-Benachrichtigungen zugestimmt haben.
-            Unter https://{$base_url}/privacy_policy können Sie die aktuelle Datenschutzgrundverordnung einsehen.</i>
+            <i>{$loc["gdpr"]}: https://{$base_url}/privacy_policy</i>
 
-            <span style="color:red"><b>Vertrauliche Informationen!</b></span>
+            <span style="color:red"><b>{$loc["confidential"]}</b></span>
 DATA;
                 $mail->CharSet = "UTF-8";
                 $mail->Encoding = "base64";
-                $mail->Subject = "Deine Arbeitszeit wurde gelöscht!";
+                $mail->Subject = "{$loc["subject"]} | {$ii}";
                 $mail->Body = $text;
                 $mail->isHTML(true);
                 #try {

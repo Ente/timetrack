@@ -1,0 +1,15 @@
+{
+    "subject": "Deine Krankheit wurde abgelehnt!",
+    "greetings": "Hallo",
+    "message": "dein Vorgesetzter hat deine Krankheit <span style='color:red;'>abgelehnt</span>",
+    "note": "Bitte setze dich mit deinem Administrator in Verbindung, um dieses Problem zu lösen.",
+    "id": "ID",
+    "username": "Benutzername",
+    "day": "Tag",
+    "begin": "Beginn",
+    "send": "Ende",
+    "end": "Mit freundlichen Grüßen",
+    "noreply": "automatischer Absender",
+    "confidential": "Vertrauliche Informationen!",
+    "gdpr": "Sie erhalten diese E-Mail da sie den Bestimmungen zugestimmt haben. <br> Die aktuelle Datenschutzgrundverordnung kann hier eingesehen werden"
+    }

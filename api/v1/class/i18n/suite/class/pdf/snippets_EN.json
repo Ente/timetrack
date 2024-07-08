@@ -1,0 +1,13 @@
+{
+    "worktime_note": "Working hours from ",
+    "day": "day",
+    "tbegin": "start time",
+    "tend": "time end",
+    "pbegin": "Break start",
+    "pend": "pause end",
+    "loc": "location",
+    "no_data": "No data found!",
+    "worktime_all": "Total working time (rounded)",
+    "worktime_date": "Start date of the data",
+    "end_date": "End date"
+}

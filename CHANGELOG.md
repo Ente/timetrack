@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v6.7.1
+
+* Bug fixes
+* TimeTrack is now fully localized in German and English
+
+<!--
+bug fixes:
+
+- fixed the `calendar/all.php` used is_admin function to first retrieve the user data
+- fixed users not being able to login if there is a whitespace character [#1](https://github.com/Ente/timetrack/issues/1)
+- Not a bug, but rewritten the error pages to english
+- now returning the error message when login attempt failed
+- localized all missing pages
+- localized all emails and returned strings in classes
+- pdf exports now open in an extra tab
+
+-->
+
 ## v6.7
 
 ### Generally

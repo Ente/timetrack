@@ -14,7 +14,7 @@ $user = new Benutzer;
 $arbeit = new Arbeitszeit;
 $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
 $ini = Arbeitszeit::get_app_ini();
-
+echo Arbeitszeit::check_status_code($_SERVER["REQUEST_URI"]);
 $language = $i18n->loadLanguage(NULL, "login");
 ?>
 <!DOCTYPE html>

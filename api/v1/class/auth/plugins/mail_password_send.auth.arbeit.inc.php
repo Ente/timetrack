@@ -3,6 +3,8 @@
 namespace Arbeitszeit{
     class MailPasswordSend extends Auth{
         public static function mail_password_send($username, $type = 1, \PHPMailer\PHPMailer\PHPMailer $mail, $password = null){
+            $i18n = new i18n;
+            $loc = $i18n->loadLanguage(null, "emails/password_send");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
@@ -13,7 +15,7 @@ namespace Arbeitszeit{
             if($count == 1){
                 $data = mysqli_fetch_assoc($res);
             } else {
-                Exceptions::error_rep("An error occured while fetching user data from database for user '$username' | SQL-Error: " . mysqli_error($res1));
+                Exceptions::error_rep("An error occured while fetching user data from database for user '$username' | SQL-Error: " . mysqli_error($conn));
                 return [
                     "error" => [
                         "error_code" => 10,
@@ -24,29 +26,27 @@ namespace Arbeitszeit{
             $token = rand(111111, PHP_INT_MAX); # token just to identify the user
             $email_urlencoded = urlencode($data["email"]);
             #$from = "Password Reset Service (AZES)";
-            $subject = "Dein Passwort für {$ii} (AZES)";
+            $subject = "{$loc["subject"]} | {$ii}";
             if($type ==1){
-                $password = "Dein Passwort wurde von deinem Vorgesetzten festgelegt. Falls du das Passwort nicht mehr kennst, kannst du es zurücksetzen!";
+                $password = "{$loc["note"]}";
             }
             $text = <<< DATA
-            <p>Hallo {$data["name"]},</p>
+            <p>{$loc["greetings"]} {$data["name"]},</p>
 
-            <pweiter unten findest du dein Passwort.
-            Hierzu wurde zuvor ein Login erstellt, unter welchem du dich unter https://{$base_url}/ anmelden kannst.></p>
+            <p>{$loc["message"]}: https://{$base_url}/</p>
 
-            <p>Dein Passwort: "{$password}"</p>
+            <p>{$loc["password"]}: "{$password}"</p>
             
             <br>
-            <p>Mit freundlichen Grüßen</p>
+            <p>{$loc["end"]}</p>
             <br>
-            <b>(automatischer Absender)</b>
+            <b>({$loc["noreply"]})</b>
 
             <hr>
 
-            <i>Sie erhalten die Email, da Ihr Arbeitgeber Sie für dieses System angemeldet hat und Sie den Email-Benachrichtigungen zugestimmt haben.
-            Unter https://{$base_url}/privacy_policy können Sie die aktuelle Datenschutzgrundverordnung einsehen.</i>
-
-            <span style="color:red"><b>Vertrauliche Informationen!</b></span>
+            <i>{$loc["gdpr"]}: https://{$base_url}/privacy_policy</i>
+            <br>
+            <span style="color:red"><b>{$loc["confidential"]}</b></span>
 
         DATA;
             $mail->CharSet = "UTF-8";

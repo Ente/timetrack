@@ -1,0 +1,15 @@
+{
+    "subject": "Deine Arbeitszeit wurde gelöscht!",
+    "greetings": "Hallo",
+    "message": "dein Vorgesetzter hat deine Arbeitszeit gelöscht. Die betroffene Arbeitszeit ist unten aufgelistet",
+    "id": "ID",
+    "username": "Benutzername",
+    "day": "Tag",
+    "begin": "Beginn",
+    "send": "Ende",
+    "notes": "Notizen",
+    "end": "Mit freundlichen Grüßen",
+    "noreply": "automatischer Absender",
+    "confidential": "Vertrauliche Informationen!",
+    "gdpr": "Sie erhalten diese E-Mail da sie den Bestimmungen zugestimmt haben. <br> Die aktuelle Datenschutzgrundverordnung kann hier eingesehen werden"
+}

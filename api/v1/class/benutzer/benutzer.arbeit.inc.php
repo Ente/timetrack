@@ -2,6 +2,12 @@
 namespace Arbeitszeit{
     class Benutzer extends Arbeitszeit{
 
+        public array $i18n;
+        public function __construct(){
+            $i18n = new i18n;
+            $this->i18n = $i18n->loadLanguage(null, "class/benutzer");
+        }
+
         /**
          * create_user - Erstellt einen Nutzer in der Datenbank
          * 
@@ -102,7 +108,7 @@ namespace Arbeitszeit{
             $count = mysqli_num_rows($res);
 
             if($count == 0){
-                return "<p>Keine Nutzer vorhanden!</p>";
+                return "<p>{$this->i18n["no_users"]}</p>";
             }
             while($data = mysqli_fetch_assoc($res)){
                 if($data["username"] == "api"){
@@ -116,7 +122,7 @@ namespace Arbeitszeit{
 
                 $html = <<< DOC
                 <tr>
-                    <td><a href='http://{$base_url}/suite/admin/actions/users/delete_user.php?id={$id}'>Benutzer löschen</a></td>
+                    <td><a href='http://{$base_url}/suite/admin/actions/users/delete_user.php?id={$id}'>{$this->i18n["delete_user"]}</a></td>
                     <td>$name</td>
                     <td>$username</td>
                     <td>$email</td>
@@ -135,7 +141,7 @@ namespace Arbeitszeit{
             $data = $this->get_user($username);
             if($data == false){
                 Exceptions::error_rep("An error occured while generating user html. User '$username' is either not logged in or the session expired.");
-                return "<p>Ein Fehler ist aufgetreten: Entweder ist die Sitzung abgelaufen oder du hast es geschafft, die Seite anders aufzurufen!\nGlückwunsch!</p>";
+                return "<p>{$this->i18n["unknown_error"]}</p>";
             }
             while($data){
                 $reww = $data["name"];
@@ -146,14 +152,14 @@ namespace Arbeitszeit{
                 $html = <<< DATA
 
                 <div class="box">
-                    <p>Dein Name: {$reww}</p>
-                    <p>Deine ID: {$rol}</p>
-                    <p>Deine Email: {$ral}</p>
-                    <p>Dein Nutzername: {$rww}</p>
+                    <p>{$this->i18n["name"]}: {$reww}</p>
+                    <p>{$this->i18n["id"]}: {$rol}</p>
+                    <p>{$this->i18n["email"]}: {$ral}</p>
+                    <p>{$this->i18n["username"]}: {$rww}</p>
                 </div>
 
                 <br>
-                <p>Du möchstest, dass deine Daten geändert werden? Bitte kontaktiere hierfür deinen Vorgesetzten.</p>
+                <p>{$this->i18n["change_request"]}</p>
 
                 DATA;
             }

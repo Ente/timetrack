@@ -15,8 +15,7 @@ $ar = new Arbeitszeit;
 $benutzer = new Benutzer;
 
 # user authentication
-
-(string) @$user = $_SERVER["PHP_AUTH_USER"] or non("No username provided");
+(string) @$user = $_SERVER["PHP_AUTH_USER"] or non("No username provided") ?? "N/A";
 $pass = $_SERVER["PHP_AUTH_PW"] or non();
 
 function non($name = null){

@@ -1,0 +1,10 @@
+{
+    "subject": "Your request to reset your password",
+    "greetings": "Hello",
+    "message": "We have received your request to reset your password.<br><p>Below you will find the link to reset your password.</p>",
+    "note": "If you have not done so, inform your supervisor immediately.",
+    "security_note": "Note: For security reasons, the link is only valid for 10 minutes. After this period, you must reset your password again.",
+    "end": "Best regards",
+    "noreply": "automatic sender",
+    "gdpr": "You are receiving the email because you have agreed to the general terms and conditions. <br> You can view the current General Data Protection Regulation here"
+    }

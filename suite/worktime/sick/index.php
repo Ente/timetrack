@@ -5,38 +5,40 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Kalender;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Auth;
+use Arbeitszeit\i18n;
+$i18n = new i18n;
 $username = $_SESSION["username"];
 $auth = new Auth;
 $calendar = new Kalender;
 $user = new Benutzer;
 $arbeit = new Arbeitszeit;
 $base_url = $ini = Arbeitszeit::get_app_ini();
-
+$loc = $i18n->loadLanguage(null, "sickness");
 $auth->login_validation();
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Krankheit eintragen | <?php echo $ini["general"]["app_name"]; ?></title>
+        <title><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></title>
         <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
         <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
-        <h1>Krankheit eintragen | <?php echo $ini["general"]["app_name"]; ?></h1>
+        <h1><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>
         <div class="box">
-            <h2>Trage hier deine Krankheit ein</h2>
+            <h2><?php echo $loc["h2"] ?></h2>
                 <form action="/suite/actions/worktime/add_sick.php" method="POST">
-                    <p>Bitte gib hier das Start-Datum deines Ausfalls an. Solltest du nur einen Tag ausfallen, dann fülle "End-Datum" bitte <span style="color:red;">nicht</span> aus.</p>
+                    <p><?php echo $loc["note1"] ?></p>
                     <input type="date" data-date-format="DD.MM.YYYY" name="date-start">
                     <br>
-                    <p>End-Datum deiner Ausfalls*:</p>
+                    <p><?php echo $loc["note2"] ?>:</p>
                     <input type="date" data-date-format="DD.MM.YYYY" name="date-end">
                     <br>
-                    <button type="submit" class="button">Krankheit einreichen.</button>
+                    <button type="submit" class="button"><?php echo $loc["button_submit"] ?></button>
                 </form>
                 <br>
-                <p>Nach dem Absenden wird dein Arbeitgeber die Krankheit überprüfen und sich bei dir, bei Bedarf, melden.</p>
+                <p><?php echo $loc["note3"] ?></p>
         </div>
     </body>
 </html>

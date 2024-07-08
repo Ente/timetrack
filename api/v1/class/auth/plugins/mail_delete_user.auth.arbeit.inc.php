@@ -3,21 +3,24 @@
 namespace Arbeitszeit{
     class MailDeleteUser extends Auth{
         public static function mail_delete_user($user, \PHPMailer\PHPMailer\PHPMailer $mail){
+            $i18n = new i18n;
+            $ini = Arbeitszeit::get_app_ini();
+            $base_url = $ini["general"]["base_url"];
+            $loc = $i18n->loadLanguage(null, "emails/delete_user");
             #$from = "Password Reset Service (AZES)";
-            $subject = "Dein Account wurde gelöscht! (AZES)";
+            $subject = "{$loc["subject"]} | {$ini["general"]["app_name"]}";
             $text = <<< DATA
-            <p>Hallo,</p>
+            <p>{$loc["greetings"]}</p>
 
-            <p>Dein Account wurde von einem Administrator deaktiviert.
+            <p>{$loc["message"]}</p>
             <br>
-            <p>Mit freundlichen Grüßen</p>
+            <p>{$loc["end"]}</p>
             <br>
-            <b>(automatischer Absender)</b>
+            <b>({$loc["noreply"]})</b>
 
             <hr>
 
-            <i>Sie erhalten die Email, da Sie den Bestimmungen zugestimmt hatten. Ihre Email-Adresse, Anmeldename und Password wurde aus dem System entfernt.
-            Unter https://{$base_url}/privacy_policy können Sie die aktuelle Datenschutzgrundverordnung einsehen.</i>
+            <i>{$loc["gdpr"]}: https://{$base_url}/privacy_policy</i>
 
         DATA;
             $mail->CharSet = "UTF-8";

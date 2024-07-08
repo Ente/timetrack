@@ -5,6 +5,8 @@ namespace Arbeitszeit {
     {
         public static function mail_vacation_rejected($username, $id, \PHPMailer\PHPMailer\PHPMailer $mail, $password = null)
         {
+            $i18n = new i18n;
+            $loc = $i18n->loadLanguage(null, "emails/vacation/rejected");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
@@ -59,17 +61,17 @@ namespace Arbeitszeit {
     background-color: #f2f2f2;
   }
 </style>
-                <p>Hallo {$data["name"]},</p>
+                <p>{$loc["greetings"]} {$data["name"]},</p>
 
-                <p>dein Vorgesetzter hat deinen Urlaubsantrag <span style="color:red;">abgelehnt</span>:</p>
+                <p>{$loc["message"]}:</p>
 
                 <table>
                     <tr>
-                        <th>ID</th>
-                        <th>Benutzername</th>
-                        <th>Tag</th>
-                        <th>Beginn</th>
-                        <th>Ende</th>
+                        <th>{$loc["id"]}</th>
+                        <th>{$loc["username"]}</th>
+                        <th>{$loc["day"]}</th>
+                        <th>{$loc["begin"]}</th>
+                        <th>{$loc["send"]}</th>
                     <tr>
                     <tr>
                         <td>{$worktime_data["id"]}</td>
@@ -80,20 +82,19 @@ namespace Arbeitszeit {
                     </tr>
                 </table>
             <br>
-            <p>Mit freundlichen Grüßen</p>
+            <p>{$loc["end"]}</p>
             <br>
-            <b>(automatischer Absender)</b>
+            <b>({$loc["noreply"]})</b>
 
             <hr>
 
-            <i>Sie erhalten die Email, da Ihr Arbeitgeber Sie für dieses System angemeldet hat und Sie den Email-Benachrichtigungen zugestimmt haben.
-            Unter https://{$base_url}/privacy_policy können Sie die aktuelle Datenschutzgrundverordnung einsehen.</i>
+            <i>{$loc["end"]}: https://{$base_url}/privacy_policy</i>
 
-            <span style="color:red"><b>Vertrauliche Informationen!</b></span>
+            <span style="color:red"><b>{$loc["confidential"]}</b></span>
 DATA;
             $mail->CharSet = "UTF-8";
             $mail->Encoding = "base64";
-            $mail->Subject = "Dein Urlaubsantrag wurde abgelehnt!";
+            $mail->Subject = "{$loc["subject"]} | {$ii}";
             $mail->Body = $text;
             $mail->isHTML(true);
             #try {

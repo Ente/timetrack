@@ -3,6 +3,8 @@
 namespace Arbeitszeit{
     class MailPasswordNewUser extends Auth{
         public static function mail_password_new_user($username, \PHPMailer\PHPMailer\PHPMailer $mail){
+            $i18n = new i18n;
+            $loc = $i18n->loadLanguage(null, "emails/new_user");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
@@ -24,27 +26,22 @@ namespace Arbeitszeit{
             $token = rand(111111, PHP_INT_MAX); # token just to identify the user
             $email_urlencoded = urlencode($data["email"]);
             #$from = "Password Reset Service (AZES)";
-            $subject = "Du wurdest von {$ii} eingeladen, deine Arbeitszeiten zu erfassen! (AZES)";
+            $subject = "{$loc["subject"]} | {$ii}";
             $text = <<< DATA
-            <p>Hallo {$data["name"]},</p>
+            <p>{$loc["greetings"]} {$data["name"]},</p>
 
-            <p>du wurdest eingeladen, deine Arbeitszeiten zu erfassen.
-            Hierzu wurde ein Login erstellt, unter welchem du dich unter https://{$base_url}/ anmelden kannst.></p>
+            <p>{$loc["message"]}: https://{$base_url}/</p>
 
-            <p>Solltest du Hilfe bei der Verwendung vom ASZE benötigen, dann klicke auf <a href="https://{$base_url}/suite/help.php">den Link</a></p>
-            <p>Wir empfehlen dir zuerst die Hilfe-Seite zu lesen, jedoch ist das System einfach in der Nutzung und wird im besten Fall nicht benötigt.</p>
-
-            <p>Dein Benutzname: "{$data["username"]}"</p>
-            <p>Dein Passwort erhältst du in einer seperaten Email.</p>
+            <p>{$loc["username"]}: "{$data["username"]}"</p>
+            <p>{$loc["password"]}</p>
             <br>
-            <p>Mit freundlichen Grüßen</p>
+            <p>{$loc["end"]}</p>
             <br>
-            <b>(automatischer Absender)</b>
+            <b>({$loc["noreply"]})</b>
 
             <hr>
 
-            <i>Sie erhalten die Email, da Ihr Arbeitgeber Sie für dieses System angemeldet hat und Sie den Email-Benachrichtigungen zugestimmt haben.
-            Unter https://{$base_url}/privacy_policy können Sie die aktuelle Datenschutzgrundverordnung einsehen.</i>
+            <i>{$loc["gdpr"]}: https://{$base_url}/privacy_policy </i>
 
         DATA;
             $mail->CharSet = "UTF-8";

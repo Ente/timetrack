@@ -11,6 +11,7 @@ namespace Arbeitszeit{
             $conn = Arbeitszeit::get_conn();
             $ini = Arbeitszeit::get_app_ini();
             $base_url = $ini["general"]["base_url"];
+            $username = mysqli_real_escape_string($conn, preg_replace("/\s+/", "", $username));
             if(!isset($username, $password)){
                 Exceptions::error_rep("Login failed for username '$username' - no data supplied. Redirecting...");
                 die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));

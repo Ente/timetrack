@@ -3,6 +3,8 @@
 namespace Arbeitszeit{
     class MailPasswordChanged extends Auth{
         public static function mail_password_changed($username, \PHPMailer\PHPMailer\PHPMailer $mail){
+            $i18n = new i18n;
+            $loc = $i18n->loadLanguage(null, "emails/password_changed");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
@@ -22,22 +24,21 @@ namespace Arbeitszeit{
                 ];
             }
             #$from = "Password Reset Service (AZES)";
-            $subject = "Dein Passwort für {$ii} (AZES) wurde zurückgesetzt!";
+            $subject = "{$loc["subject"]} | {$ii}";
             $text = <<< DATA
-            <p>Hallo {$data["name"]},</p>
+            <p>{$loc["greetings"]} {$data["name"]},</p>
 
-            <p>dein Passwort wurde soeben geändert. Solltest du das nicht veranlasst haben, kannst du dein Passwort zurücksetzen unter dem folgenden Link:</p>
+            <p>{$loc["message"]}:</p>
             <a href="http://{$base_url}/suite/forgot_password.php">https://{$base_url}/auth/forgot_password.php</a>
             
             <br>
-            <p>Mit freundlichen Grüßen</p>
+            <p>{$loc["end"]}</p>
             <br>
-            <b>(automatischer Absender)</b>
+            <b>({$loc["noreply"]})</b>
 
             <hr>
 
-            <i>Sie erhalten die Email, da Ihr Arbeitgeber Sie für dieses System angemeldet hat und Sie den Email-Benachrichtigungen zugestimmt haben.
-            Unter https://{$base_url}/privacy_policy können Sie die aktuelle Datenschutzgrundverordnung einsehen.</i>
+            <i>{$loc["gdpr"]}: https://{$base_url}/privacy_policy</i>
 
         DATA;
             $mail->CharSet = "UTF-8";

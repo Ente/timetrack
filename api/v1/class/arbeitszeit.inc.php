@@ -6,6 +6,7 @@ namespace Arbeitszeit {
      * 
      * @author Bryan Böhnke-Avan <bryan@duckerz.de>
      */
+    use Arbeitszeit\i18n;
     class Arbeitszeit
     {
 
@@ -23,11 +24,19 @@ namespace Arbeitszeit {
         #    }
         #}
 
+        public array $i18n;
+
         public function __construct()
         {
             if (self::get_app_ini()["general"]["debug"] == true || self::get_app_ini()["general"]["debug"] == "false") {
                 #_errors", 1);
             }
+            $this->init_lang() ?? null;
+        }
+
+        public function init_lang(){
+            $n = new i18n;
+            $this->i18n = $n->loadLanguage(null, "class/arbeitszeit");
         }
 
 
@@ -202,12 +211,12 @@ namespace Arbeitszeit {
                     if ($mode == 1) {
                         return true;
                     }
-                    return "Easymode aktiviert.";
+                    return "{$this->i18n["easymode_enabled"]}";
                 } else {
                     if ($mode == 1) {
                         return false;
                     }
-                    return "Easymode deaktiviert.";
+                    return "{$this->i18n["easymode_disabled"]}";
                 }
             }
         }
@@ -382,17 +391,17 @@ namespace Arbeitszeit {
                     }
 
                     if ($row["review"] == 0) {
-                        $rmm = "<a href=\"http://{$base_url}/suite/admin/actions/worktime/review.php?id={$rqw}&u={$rbn}\">zur Prüfung</a>";
+                        $rmm = "<a href=\"http://{$base_url}/suite/admin/actions/worktime/review.php?id={$rqw}&u={$rbn}\">{$this->i18n["to_review"]}</a>";
                         $rno = null;
                     } else {
-                        $rno = " <span style='color:red;'>&#9888; zur Prüfung &#9888;</span>" ?? null;
-                        $rmm = "<a href=\"http://{$base_url}/suite/admin/actions/worktime/unlock.php?id={$rqw}&u={$rbn}\">Prüfung aufheben</a>";
+                        $rno = " <span style='color:red;'>&#9888; {$this->i18n["to_review"]} &#9888;</span>" ?? null;
+                        $rmm = "<a href=\"http://{$base_url}/suite/admin/actions/worktime/unlock.php?id={$rqw}&u={$rbn}\">{$this->i18n["remove_review"]}</a>";
                     }
 
                     $data = <<< DATA
 
                         <tr>
-                            <td><a href="http://{$base_url}/suite/worktime/view_pdf.php?mitarbeiter={$rnw2}&{$rrr2}">(Drucken) $rnw</a>, <a href="http://{$base_url}/suite/admin/actions/worktime/delete.php?id={$rqw}&u={$rbn}">Eintrag löschen</a> oder $rmm</td>
+                            <td><a href="http://{$base_url}/suite/worktime/view_pdf.php?mitarbeiter={$rnw2}&{$rrr2}" target="_blank">{$this->i18n["print"]} $rnw</a>, <a href="http://{$base_url}/suite/admin/actions/worktime/delete.php?id={$rqw}&u={$rbn}">{$this->i18n["delete_entry"]}</a> {$this->i18n["or"]} $rmm</td>
                             <td>$raw</td>
                             <td>$rew</td>
                             <td>$rol</td>
@@ -409,7 +418,7 @@ namespace Arbeitszeit {
 
                 }
             } else {
-                return "Keine Schichten eingetragen.";
+                return "{$this->i18n["no_shifts"]}";
             }
 
         }
@@ -420,7 +429,7 @@ namespace Arbeitszeit {
             $sql = "SELECT * FROM `arbeitszeiten` WHERE username = '{$username}' ORDER BY id DESC;";
             $res = mysqli_query($conn, $sql);
             if ($res == false) {
-                return "Keine Schichten eingetragen.";
+                return "No shifts found.";
             }
             if (mysqli_num_rows($res) > 0) {
                 while ($row = mysqli_fetch_assoc($res)) {
@@ -443,7 +452,7 @@ namespace Arbeitszeit {
 
                     if ($row["review"] != 0) {
                         $rmn = "style='color: red;'" ?? null;
-                        $rno = "&#9888; zur Prüfung. &#9888;" ?? null;
+                        $rno = "&#9888; {$this->i18n["to_review"]} &#9888;" ?? null;
                     } else {
                         $rmn = null;
                         $rno = null;
@@ -467,7 +476,7 @@ namespace Arbeitszeit {
                     echo $data;
                 }
             } else {
-                return "Keine Schichten eingetragen.";
+                return "{$this->i18n["no_shifts"]}";
             }
         }
 
@@ -497,82 +506,84 @@ namespace Arbeitszeit {
             }
         }
 
-        public function check_status_code($url)
+        public static function check_status_code($url)
         {
+            $i18n = new i18n;
+            $loc = $i18n->loadLanguage(null, "status");
             if (strpos($url, "info=worktime_deleted")) {
-                return "<p><span style='color:blue;'>Hinweis: Arbeitszeit erfolgreich gelöscht!</p>";
+                return "<p><span style='color:blue;'>{$loc["worktime_deleted"]}</p>";
             }
             if (strpos($url, "info=logged_out")) {
-                return "<p><span style='color:blue;'>Hinweis: Erfolgreich ausgeloggt!</p>";
+                return "<p><span style='color:blue;'>{$loc["logged_out"]}</p>";
             }
             if (strpos($url, "info=error_sickness")) {
-                return "<p><span style='color:red;'>Fehler: Deine Krankheit konnte nicht gespeichert werden! Bitte kontaktiere deinen Administrator!</p>";
+                return "<p><span style='color:red;'>{$loc["error_sickness"]}</p>";
             }
             if (strpos($url, "info=error_vacation")) {
-                return "<p><span style='color:red;'>Fehler: Dein Urlaub konnte nicht gespeichert werden! Bitte kontaktiere deinen Administrator</p>";
+                return "<p><span style='color:red;'>{$loc["error_vacation"]}</p>";
             }
             if (strpos($url, "info=vacation_added")) {
-                return "<p><span style='color:green;'>Hinweis: Dein Urlaub wurde erfolgreich gespeichert!</p>";
+                return "<p><span style='color:green;'>{$loc["vacation_added"]}</p>";
             }
             if (strpos($url, "info=sickness_added")) {
-                return "<p><span style='color:green;'>Hinweis: Deine Krankheit wurde erfolgreich gespeichert!</p>";
+                return "<p><span style='color:green;'>{$loc["sickness_added"]}</p>";
             }
             if (strpos($url, "info=calendar_entry_deleted")) {
-                return "<p><span style='color:blue;'>Hinweis: Kalendereintrag gelöscht!</p>";
+                return "<p><span style='color:blue;'>{$loc["calendar_entry_deleted"]}</p>";
             }
             if (strpos($url, "info=noperms")) {
-                return "<p><span style='color:red;'>Hinweis: Fehlende Berechtigungen!</p>";
+                return "<p><span style='color:red;'>{$loc["noperms"]}</p>";
             }
             if (strpos($url, "info=user_deleted")) {
-                return "<p><span style='color:blue;'>Hinweis: Benutzer erfolgreich gelöscht!</p>";
+                return "<p><span style='color:blue;'>{$loc["user_deleted"]}</p>";
             }
             if (strpos($url, "info=created_user")) {
-                return "<p><span style='color:green;'>Hinweis: Benutzer erfolgreich erstellt!</p>";
+                return "<p><span style='color:green;'>{$loc["created_user"]}</p>";
             }
             if (strpos($url, "info=worktime_added")) {
-                return "<p><span style='color:green;'>Hinweis: Arbeitszeit erfolgreich hinzugefügt!</span></p>";
+                return "<p><span style='color:green;'>{$loc["worktime_added"]}</span></p>";
             }
             if (strpos($url, "info=mailbox_entry_added")) {
                 return "<p><span style='color: green;'>Hinweis: Mailbox-Eintrag hinzugefügt!</span></p>";
             }
             if (strpos($url, "info=password_changed")) {
-                return "<p><span style='color: green;'>Hinweis: Dein Passwort wurde erfolgreich geändert. Bitte melde dich erneut an.</span></p>";
+                return "<p><span style='color: green;'>{$loc["password_changed"]}</span></p>";
             }
             if (strpos($url, "info=password_change_failed")) {
-                return "<p><span style='color: red;'>Fehler: Dein Passwort konnte nicht geändert werden, bitte kontaktiere den Support.</span></p>";
+                return "<p><span style='color: red;'>{$loc["password_change_failed"]}</span></p>";
             }
             if (strpos($url, "error=nodata")) {
-                return "<p><span style='color: red;'>Fehler: Es wurden kein Benutzername oder Passwort eingegeben.</span></p>";
+                return "<p><span style='color: red;'>{$loc["nodata"]}</span></p>";
             }
             if (strpos($url, "info=statemismatch")) {
-                return "<p><span style='color: red;'>Fehler: Sicherheitsfehler.</span></p>";
+                return "<p><span style='color: red;'>{$loc["statemismatch"]}</span></p>";
             }
             if (strpos($url, "info=wrongdata")) {
-                return "<p><span style='color: red;'>Fehler: Falsche Anmeldedaten.</span></p>";
+                return "<p><span style='color: red;'>{$loc["wrongdata"]}</span></p>";
             }
             if (strpos($url, "info=worktime_review")) {
-                return "<p><span style='color:blue;'>Hinweis: Arbeitszeit erfolgreich auf Prüfung gestellt!</span></p>";
+                return "<p><span style='color:blue;'>{$loc["worktime_review"]}</span></p>";
             }
             if (strpos($url, "info=worktime_review_unlock")) {
-                return "<p><span style='color:blue;'>Hinweis: Prüfung erfolgreich aufgehoben für Arbeitszeit!</span></p>";
+                return "<p><span style='color:blue;'>{$loc["worktime_review_unlock"]}</span></p>";
             }
             if (strpos($url, "info=worktime_easymode_start")) {
-                return "<p><span style='color:blue;'>Hinweis: Deine Schicht wurde erfolgreich gestartet!</span></p>";
+                return "<p><span style='color:blue;'>{$loc["worktime_easymode_start"]}</span></p>";
             }
             if (strpos($url, "info=worktime_easymode_end")) {
-                return "<p><span style='color:blue;'>Hinweis: Deine Schicht wurde erfolgreich beendet!</span></p>";
+                return "<p><span style='color:blue;'>{$loc["worktime_easymode_end"]}</span></p>";
             }
             if (strpos($url, "info=worktime_easymode_pause_start")) {
-                return "<p><span style='color:blue;'>Hinweis: Deine Pause wurde erfolgreich gestartet!</span></p>";
+                return "<p><span style='color:blue;'>{$loc["worktime_easymode_pause_start"]}</span></p>";
             }
             if (strpos($url, "info=worktime_easymode_pause_end")) {
-                return "<p><span style='color:blue;'>Hinweis: Deine Pause wurde erfolgreich beendet!</span></p>";
+                return "<p><span style='color:blue;'>{$loc["worktime_easymode_pause_end"]}</span></p>";
             }
             if (strpos($url, "info=easymode_toggled")) {
-                return "<p><span style='color:blue;'>Hinweis: Der Modus wurde erfolgreich gewechselt!</span></p>";
+                return "<p><span style='color:blue;'>{$loc["easymode_toggled"]}</span></p>";
             }
             if (strpos($url, "info=error")) {
-                return "<p><span style='color:red;'>Hinweis: Ein Fehler ist aufgetreten. Bitte überprüfe den Log, falls möglich.</span></p>";
+                return "<p><span style='color:red;'>{$loc["error"]}</span></p>";
             }
 
         }

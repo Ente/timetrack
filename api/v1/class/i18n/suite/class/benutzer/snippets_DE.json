@@ -1,0 +1,10 @@
+{
+    "no_users": "Keine Nutzer vorhanden!",
+    "delete_user": "Benutzer löschen",
+    "unknown_error": "Ein unbekannter Fehler ist aufgetreten!",
+    "username": "Dein Nutzername",
+    "name": "Dein Name",
+    "id": "Deine ID",
+    "email": "Deine Email",
+    "change_request": "Du möchtest, dass deine Daten geändert werden? Bitte kontaktiere hierfür deinen Vorgesetzten."
+}

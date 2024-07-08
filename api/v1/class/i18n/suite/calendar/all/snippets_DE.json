@@ -1,0 +1,14 @@
+{
+    "title": "Kalender",
+    "note1": "Bitte trage etwas ein!",
+    "p1": "Das von dir Eingegebene wird auf der Startseite und hier im Kalendar angezeigt.",
+    "p2": "Um einen Eintrag zu löschen oder als erledigt zu markieren, drücke bitte auf 'Löschen'.",
+    "note2": "Zu viele Einträge machen die Startseite unübersichtlich!",
+    "label_date": "Datum",
+    "label_time": "Uhrzeit",
+    "label_location": "Ort",
+    "label_note": "Notiz",
+    "pl_note": "Trage hier eine Notiz ein.",
+    "button_send": "Absenden",
+    "a_entries": "Alle Einträge"
+}

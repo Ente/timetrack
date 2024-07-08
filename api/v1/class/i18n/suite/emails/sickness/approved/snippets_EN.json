@@ -1,0 +1,14 @@
+{
+    "subject": "Your illness has been approved!",
+    "greetings": "Hello",
+    "message": "your supervisor has <span style='color:green;'>approved</span> your illness",
+    "id": "ID",
+    "username": "Username",
+    "day": "Day",
+    "begin": "Begin",
+    "send": "End",
+    "end": "Best regards",
+    "noreply": "automatic sender",
+    "confidential": "Confidential information!",
+    "gdpr": "You are receiving the email because you have agreed to the general terms and conditions. Your email address, login name and password have been removed from the system. <br> You can view the current General Data Protection Regulation here"
+    }

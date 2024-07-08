@@ -1,6 +1,6 @@
 <?php
 namespace Arbeitszeit {
-    class i18n extends Arbeitszeit
+    class i18n 
     {
 
         /**

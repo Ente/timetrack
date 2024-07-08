@@ -2,6 +2,8 @@
 namespace Arbeitszeit{
     class pdf extends Arbeitszeit{
         public function get_specific_worktime_pdf($user, $month, $year){
+            $i18n = new i18n;
+            $i18nn = $i18n->loadLanguage(null, "class/pdf");
             $conn = Arbeitszeit::get_conn();
             $ini = Arbeitszeit::get_app_ini();
             $hours = $this->calculate_hours_specific_time($user, $month, $year);
@@ -20,7 +22,7 @@ namespace Arbeitszeit{
             $data = <<< DATA
             <html>
                 <body style="text-align:center; font-family: Arial;">
-                    <h1>Arbeitszeiten von <b>{$user_data["name"]}</b></h1>
+                    <h1>{$i18nn["worktime_note"]} <b>{$user_data["name"]}</b></h1>
                     <style>
                         .box {
                             width: auto;
@@ -39,12 +41,12 @@ namespace Arbeitszeit{
                     <div class="box">
                         <table style="width:100%;border:solid;">
                             <tr>
-                                <th>Tag</th>
-                                <th>Uhrzeit Anfang</th>
-                                <th>Uhrzeit Ende</th>
-                                <th>Pause Start</th>
-                                <th>Pause Ende</th>
-                                <th>Ort</th>
+                                <th>{$i18nn["day"]}</th>
+                                <th>{$i18nn["tbegin"]}</th>
+                                <th>{$i18nn["tend"]}</th>
+                                <th>{$i18nn["pbegin"]}</th>
+                                <th>{$i18nn["pend"]}</th>
+                                <th>{$i18nn["loc"]}</th>
                             </tr>
 
             DATA;
@@ -91,13 +93,13 @@ namespace Arbeitszeit{
                     }
                 }
             } else {
-                return "<p style='text-align: center;'>Keine Daten gefunden!</p>";
+                return "<p style='text-align: center;'>{$i18nn["no_data"]}</p>";
             }
             $data .= <<< DATA
 
                         </table>
-                        <p>Arbeitszeit insgesamt (gerundet): {$hours["hours_rounded"]}</p>
-                        <p>Anfangsdatum der Daten: {$s} - Enddatum: {$r}</p>
+                        <p>{$i18nn["worktime_all"]}: {$hours["hours_rounded"]}</p>
+                        <p>{$i18nn["worktime_date"]}: {$s} - {$i18nn["end_date"]}: {$r}</p>
                     </div>
                 </body>
             </html>

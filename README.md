@@ -23,7 +23,7 @@ Simply install the software by following these steps:
 
 - Install php and requirements: `apt update && apt install php8.0 php8.0-curl apache2 mariadb-server -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`
 - Install requirements for composer `cd /path/to/timetrack && composer install`
-- Create a new database, e.g. with the name `ab` and create a dedicated user, e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';`; don't forget to `FLUSH PRIVILEGES;`!
+- Create a new database, e.g. with the name `ab` and create a dedicated user, e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
 - Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
 - Run the statement printed by the `usercreate.php` inside your database.
@@ -44,7 +44,7 @@ In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` fo
 - `username`: Username for the mailbox you want to send emails from
 - `password`: Self explaining
 - `port`: Specify a custom port or change the port if you do not want to use encryption
-- `usessl`: Specify if you want to use STARTTLS after initial communication or use SSL
+- `usessl`: Specify if you want to use STARTTLS (false) after initial communication or use SSL (true)
 
 If you plan to use this system with a Gmail-Account, please be aware that you are not able to use your usual password. You would have to create a seperate `App Password`, you should note down.
 You can do this following this link: <https://myaccount.google.com/u/0/apppasswords> or by navigating from <https://accounts.google.com> to `Security` > `2-Factor Authentication` > `App Passwords`. If you do not see this option on screen, use the link.
@@ -60,9 +60,11 @@ If done correctly, you should now be able to access the application via http://B
 
 **Please delete the whole `/setup/` folder after installation**
 
+After configuring, please rename the `app.ini.sample` to `app.ini` (`mv app.ini.sample app.ini`)
+
 ### Requirements
 
-- at least PHP 7.4 (intl, mysqli, curl, fileinfo, ldap, yaml, sockets extension)
+- at least PHP 8.0 (intl, mysqli, curl, fileinfo, ldap, sockets extension)
 - Apache2.4 with enabled htaccess, headers mod
 - composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing)
 
@@ -71,7 +73,7 @@ This software has been tested on Debian 11/12 and XAMPP.
 ### Upgrade from TimeTrack OSS to TimeTrack Oval
 
 Currently, this is not available, but we are working on an solution.
-You would need to register a new account and a complete dump of your SQL database.
+You would need to register a new account and upload a complete dump of your SQL database.
 
 ## Maintenance Mode
 
@@ -89,6 +91,10 @@ TimeTrack only differenciates between two user groups:
 
 Logs can be found inside the `./data/logs` path, they are named in the following scheme: log-{YEAR}-{MONTH}-{DAY}.log. Log files created do not get deleted automatically.
 Another useful source, while expieriencing errors is the `/var/log/apache2/errors.log` file, containing the errors created by PHP.
+
+## Language
+
+TimeTrack supports German and English. Users currently can't actively switch between any of them, instead TimeTrack uses the locale provided by the browser.
 
 ## iFrame
 
