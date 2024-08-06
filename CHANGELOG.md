@@ -1,5 +1,35 @@
 # CHANGELOG
 
+## v6.8
+
+* Enhanced Toil API with its `v1.4` release: `addWorktime`, `approveVacation`, `getUserDetails`, `getUsers`, `getVacations`, `getWorktimes`
+* (Internal) Added a function to return all worktimes to the `arbeitszeit.inc.php`
+* Added LDAP authentication
+* Added a database scheme updating class and utility to upgrade the database scheme after an software update
+
+<!-- 
+additional fixes:
+
+- fixed incorrect title for the 403 error page
+- in order for LDAP to work with ldaptools and php 8.0 an additional patch is required applied by cweagans/composer-patches
+- added update and ldap documentation
+
+-->
+
+## v6.7.2
+
+* Bug fixes
+  
+<!--
+bug fixes:
+
+- login() function now reports if the login was successfully or not
+- fixed plugins not able to load cause of a hardcoded path
+- fixed broken links for vacation and sickness reporting in the menu
+- fixed an issue while logging in on certain older devices with the app.ini set to app=true, fixes [#2](https://github.com/Ente/timetrack/issues/2)
+
+-->
+
 ## v6.7.1
 
 * Bug fixes

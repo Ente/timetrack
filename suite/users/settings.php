@@ -34,6 +34,7 @@ $data = $user->get_user($_SESSION["username"]);
                     <p><?php echo $loc["label_id"] ?>: <?php  echo $data["id"];    ?></p>
                     <p><?php echo $loc["label_email"] ?>: <?php   echo $data["email"]    ?></p>
                     <p><?php echo $loc["label_username"] ?>: <?php echo $data["username"] ?></p>
+                    <p><?php echo $loc["label_provider"] ?>: <?php echo $_SESSION["provider"] ?></p>
 
                     <br>
 

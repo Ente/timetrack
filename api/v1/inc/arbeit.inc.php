@@ -24,5 +24,13 @@ require_once dirname(__DIR__, 1) . "/class/sickness/sickness.arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
 require_once dirname(__DIR__, 1) . "/toil/Controller.php";
 
+require_once dirname(__DIR__, 1) . "/class/plugins/Hooks.plugins.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/auth/plugins/ldap/ldap.auth.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/updates/updates.arbeit.inc.php";
+use Arbeitszeit\Hooks;
+Hooks::initialize();
 
+use Arbeitszeit\Updates;
+$updates = new Updates;
+$updates->compare_scheme();
 ?>

@@ -1,5 +1,6 @@
 <?php
 namespace Arbeitszeit{
+    use Arbeitszeit\Hooks;
     class Benutzer extends Arbeitszeit{
 
         public array $i18n;
@@ -9,28 +10,31 @@ namespace Arbeitszeit{
         }
 
         /**
-         * create_user - Erstellt einen Nutzer in der Datenbank
+         * create_user - Creates a zser
          * 
-         * @param string $username Der Nutzername des Mitarbeiters
-         * @param string $name Vorname des Nutzers
-         * @return array|bool Gibt "true" bei Erfolg zurück und ein Fehler-Array bei einem Fehler
+         * @param string $username Username of the employee
+         * @param string $name First name of the employee
+         * @return array|bool Returns true on success and an array otherwise
          */
         public function create_user($username, $name, $email, $password, $isAdmin = 0){
-            $conn = parent::get_conn();
-            $password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES ('{$name}', '{$username}', '{$email}', '{$password}', '1', '{$isAdmin}');";
-            mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("An error occured while creating a user. | SQL-Error: " . mysqli_error($conn));
-                return [
-                    "error" => [
-                        "error_code" => 3,
-                        "error_message" => "Error while creating a user!"
-                    ]
-                ];
-            } else {
-                return true;
-            }
+            #$originalFunction = function($username, $name, $email, $password, $isAdmin){
+                $conn = parent::get_conn();
+                $password = password_hash($password, PASSWORD_DEFAULT);
+                $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES ('{$name}', '{$username}', '{$email}', '{$password}', '1', '{$isAdmin}');";
+                mysqli_query($conn, $sql);
+                if(mysqli_error($conn)){
+                    Exceptions::error_rep("An error occured while creating a user. | SQL-Error: " . mysqli_error($conn));
+                    return [
+                        "error" => [
+                            "error_code" => 3,
+                            "error_message" => "Error while creating a user!"
+                        ]
+                    ];
+                } else {
+                    return true;
+                }
+            #};
+            #return Hooks::executeWithHooks('create_user', $originalFunction, $username, $name, $email, $password, $isAdmin);
         }
 
         /**

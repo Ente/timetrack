@@ -351,7 +351,17 @@ namespace Arbeitszeit {
 
         public function get_all_worktime()
         {
-
+            $conn = Arbeitszeit::get_conn();
+            $sql = "SELECT * FROM `arbeitszeiten`;";
+            $res = mysqli_query($conn, $sql);
+            $arr = [];
+            if(mysqli_num_rows($res) == 0){
+                return false;
+            }
+            while($row = mysqli_fetch_assoc($res)){
+                $arr[$row["id"]] = $row;
+            }
+            return $arr;
         }
 
         public function get_specific_worktime_html(int $month, int $year)
@@ -558,8 +568,14 @@ namespace Arbeitszeit {
             if (strpos($url, "info=statemismatch")) {
                 return "<p><span style='color: red;'>{$loc["statemismatch"]}</span></p>";
             }
-            if (strpos($url, "info=wrongdata")) {
+            if (strpos($url, "error=wrongdata")) {
                 return "<p><span style='color: red;'>{$loc["wrongdata"]}</span></p>";
+            }
+            if (strpos($url, "error=ldapauth")) {
+                return "<p><span style='color: red;'>{$loc["ldapauth"]}</span></p>";
+            }
+            if (strpos($url, "info=ldapcreated")) {
+                return "<p><span style='color: red;'>{$loc["ldapcreated"]}</span></p>";
             }
             if (strpos($url, "info=worktime_review")) {
                 return "<p><span style='color:blue;'>{$loc["worktime_review"]}</span></p>";
@@ -601,7 +617,7 @@ namespace Arbeitszeit {
                     $hours += ($end - $start) / 3600;
                 }
                 return $r = [
-                    "hours_rounded" => round($hours, 2, PHP_ROUND_HALF_UP),
+                    "hours_rounded" => round($hours, 1, PHP_ROUND_HALF_UP),
                     "hours_raw" => $hours
                 ];
 

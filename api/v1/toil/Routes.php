@@ -20,12 +20,12 @@ $pass = $_SERVER["PHP_AUTH_PW"] or non();
 
 function non($name = null){
         Exceptions::error_rep("[LIC] Failed authentication for Toil API for user '$name'");
-        header("WWW-Authenticate: Basic realm='Toil API v1.0'");
+        header("WWW-Authenticate: Basic realm='Toil API v1.4'");
         header("HTTP/1.0 401 Unauthorized");
-        die("Not authenticated - Toil API v1.0");
+        die("Not authenticated - Toil API v1.4");
 }
 
-
+// rework this function to use the native Auth::login function. This messes with other code inside the API endpoints which requires the session parameters to be set
 if($benutzer->get_user($user)){
     $data = $benutzer->get_user($user) or non();
     if(password_verify($pass, $data["password"])){
@@ -68,6 +68,10 @@ if($benutzer->get_user($user)){
         Router::get("/api/v1/toil/getLog", function(){
             Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getLog' endpoint");
             Controller::createview("getLog");
+        });
+        Router::get("/api/v1/toil/Worktimes", function(){
+            Exceptions::error_rep("[LIC] User '$user' authenticated and accessing 'getWorktimes' endpoint");
+            Controller::createview("getWorktimes");
         });
     } else {
         non($user);

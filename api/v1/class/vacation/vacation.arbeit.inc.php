@@ -136,6 +136,21 @@ namespace Arbeitszeit {
                 return "Keine Urlaube eingetragen.";
             }
         }
+
+        public function get_all_vacation()
+        {
+            $conn = Arbeitszeit::get_conn();
+            $sql = "SELECT * FROM `vacation`;";
+            $res = mysqli_query($conn, $sql);
+            $arr = [];
+            if(mysqli_num_rows($res) == 0){
+                return false;
+            }
+            while($row = mysqli_fetch_assoc($res)){
+                $arr[$row["id"]] = $row;
+            }
+            return $arr;
+        }
     }
 }
 

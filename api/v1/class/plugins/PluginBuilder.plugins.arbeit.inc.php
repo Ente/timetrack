@@ -1,13 +1,18 @@
 <?php
 
 declare(strict_types=1);
-
 namespace Arbeitszeit{
     require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
     use Symfony\Component\Yaml\Yaml;
 
     use Exception;
 
+
+    interface PluginInterface {
+        public function onLoad(): void;
+        public function onEnable(): void;
+        public function onDisable(): void;
+    }
     class PluginBuilder{
 
         /**
@@ -167,7 +172,7 @@ namespace Arbeitszeit{
          */
         final public function read_plugin_configuration($name): ?array{
            $la = $this->la;
-           $path = $_SERVER["DOCUMENT_ROOT"] . "". $this->basepath . "\\" . $name . "\\plugin.yml";
+           $path = $_SERVER["DOCUMENT_ROOT"] . "". $this->basepath . "/" . $name . "/plugin.yml";
            if(file_exists($_SERVER["DOCUMENT_ROOT"] . "" . $this->basepath . "/" . $name . "/plugin.yml") == true){
                 try {
                     $yaml = Yaml::parseFile($this->platformSlashes($path));
@@ -383,6 +388,31 @@ namespace Arbeitszeit{
                 return false;
             }
             return true;
+        }
+
+        public function getPluginClassPath($pluginName) {
+            $config = $this->read_plugin_configuration($pluginName);
+            $srcDir = $config['src'] ?? 'src';
+            $mainClass = $config['main'] ?? '';
+            if ($mainClass && $srcDir) {
+                return $_SERVER["DOCUMENT_ROOT"] . $this->basepath . "/" . $pluginName . "/" . $srcDir . "/" . $mainClass . ".php";
+            }
+            return '';
+        }
+    
+        /**
+         * Lädt die Plugin-Klasse basierend auf der `plugin.yml`.
+         *
+         * @param string $pluginName Der Name des Plugins.
+         * @return void
+         */
+        public function loadPluginClass($pluginName) {
+            $classPath = $this->getPluginClassPath($pluginName);
+            if (file_exists($classPath)) {
+                require_once $classPath;
+            } else {
+                throw new Exception("Class file not found: " . $classPath);
+            }
         }
 
         /* Plugin section */

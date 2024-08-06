@@ -1,6 +1,6 @@
 
 SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
-Header edit Set-Cookie ^(PHPSESSID.*) $1;SameSite=None
+#Header edit Set-Cookie ^(PHPSESSID.*) $1;SameSite=None
 
 ErrorDocument 503 /errors/503.html
 ErrorDocument 403 /errors/403.html

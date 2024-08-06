@@ -6,11 +6,20 @@ namespace Arbeitszeit{
     use PHPMailer\PHPMailer\Exception;
     class Auth extends Arbeitszeit{
         
-        public function login($username, $password, $option){ # "option"-> array [ "remember" => true/false, ... ]
+        public static function login($username, $password, $option){ # "option"-> array [ "remember" => true/false, ... ]
             session_start();
             $conn = Arbeitszeit::get_conn();
             $ini = Arbeitszeit::get_app_ini();
             $base_url = $ini["general"]["base_url"];
+
+            if($ini["ldap"]["ldap"] == "true" && !isset($option["LOCAL"])){
+                if(LDAP::authenticate($username, $password) != true){
+                    Exceptions::error_rep("Login failed for username '$username' - Could not authenticate user via LDAP. See errors from before to find issue.");
+                    die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=ldapauth"));
+                } else {
+                    $ldap = true;
+                }
+            }
             $username = mysqli_real_escape_string($conn, preg_replace("/\s+/", "", $username));
             if(!isset($username, $password)){
                 Exceptions::error_rep("Login failed for username '$username' - no data supplied. Redirecting...");
@@ -31,26 +40,60 @@ namespace Arbeitszeit{
                 }
 
                 $data = mysqli_fetch_assoc($res);
-                if(password_verify($password, $data["password"])){
+
+                # check login for ldap
+                if(@$ldap == true){
                     $ts = time();
                     $_SESSION["logged_in"] = true;
                     $_SESSION["username"] = $username;
                     $_SESSION["time"] = date("d.m.Y H:i:s", $ts);
-                    $this->store_state($username);
+                    self::store_state($username);
 
                     if(@isset($option["remember"])){
                         if($ini["general"]["app"] == "true"){
+                            Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                             ini_set("session.cookie_samesite", "None");
                             session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
                             setcookie("erinnern", "true", ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             setcookie("username", $username, ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                         } else {
+                            Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                             setcookie("erinnern", "true", $ts+(60*60*24*30), "/");
                             setcookie("username", $username, $ts + (60*60*24*30), "/");
                             header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                         }
                     } else {
+                        Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
+                        header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
+                    }
+                    die();
+                }
+
+                if(password_verify($password, $data["password"])){
+                    $ts = time();
+                    $_SESSION["logged_in"] = true;
+                    $_SESSION["username"] = $username;
+                    $_SESSION["time"] = date("d.m.Y H:i:s", $ts);
+                    $_SESSION["provider"] = "(local)";
+                    self::store_state($username);
+
+                    if(@isset($option["remember"])){
+                        if($ini["general"]["app"] == "true"){
+                            Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
+                            ini_set("session.cookie_samesite", "None");
+                            session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+                            setcookie("erinnern", "true", ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
+                            setcookie("username", $username, ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
+                            header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
+                        } else {
+                            Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
+                            setcookie("erinnern", "true", $ts+(60*60*24*30), "/");
+                            setcookie("username", $username, $ts + (60*60*24*30), "/");
+                            header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
+                        }
+                    } else {
+                        Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
                         header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                     }
                 } else {
@@ -112,8 +155,8 @@ namespace Arbeitszeit{
          * @param string $user Username
          * @return string Returns the state
          */
-        public function store_state($user){
-            $ini = $this->get_app_ini();
+        public static function store_state($user){
+            $ini = self::get_app_ini();
             $state = bin2hex(random_bytes(12));
             if($ini["general"]["app"] == "true"){
                 ini_set("session.cookie_samesite", "None");

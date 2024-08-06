@@ -44,7 +44,7 @@ namespace Arbeitszeit {
                     return 1;
                 }
             } else {
-                Exceptions::error_rep("An error occured while fetching user data from database for user '$username' | SQL-Error: " . mysqli_error($res1));
+                Exceptions::error_rep("An error occured while fetching user data from database for user '' | SQL-Error: " . mysqli_error($conn));
                 return [
                     "error" => [
                         "error_code" => 10,

@@ -56,8 +56,57 @@ Everytime the system restarts (which in TimeTrack is triggered once a day) or th
 When plugins are memorized, you can re-access them with the `PluginBuilder::unmemorize_plugin($name)` function. There is no need to delete the `.tp1` file. After you want to save your class again, run `memorize_plugin($name)` and the file get's overwritten.
 Technically, `.tp1` files are just serialized php classes, so you can also just use as a class.
 
-Plugin data can also handled on your own way, e.g. by saving them into the `data` folder in any format you'd like.
+Plugin data can also handled on your own way, e.g. by saving them into the `data` folder in any format you'd like. `.tp1` Files only contain the current configuration of your plugin.
 
 ### Permissions
 
 While TimeTrack handles permissions in two different ways, plugins can only be viewed by administrators. However, everyone with a link is able to view the plugin views (not the Plugin selection screen itself)
+
+### Hooks / Callbacks
+
+In general you are able to interact with native functions in two ways:
+
+- Hooks
+- Callbacks
+
+Hooks and Callbacks are initialized by `Hooks:initialize()` which reads one-time when loading a desired class.
+
+To remove either a hook or a callback, simply run e.g. `Hooks::removeHook('create_user', 'after', [$this, 'internalCallbackFunction'])`
+
+#### Hooks
+
+Hooks allow you to either execute code before or after the function has ran. This allows you to inject code within the native function.
+
+You can register a hook within your plugin this way:
+
+```php
+Hooks::addHook('create_user', 'before', function(callable $originalFunction, $username, $name, $email, $password, $isAdmin){
+  echo "Something before creating the user";
+});
+...
+Hooks::addHook('create_user', 'after', [$this, 'internalCallbackFunction']);
+```
+
+Hooks also allow a special type `around`. This allows the callback functionality while still being able to inject your own code but without running `after` hooks.
+
+This allows you to perform some checks before a user has been created or whatever else.
+
+#### Callbacks
+
+Callbacks allow you to also execute a custom function after the native code, but it doesn't allows you to inject anything into it as it's just a callback. Callbacks might be also referred to as "simple Hooks".
+
+You can register a callback like this:
+
+```php
+Hooks::addHook('create_user', 'callback', function($username, $name, $email, $password, $isAdmin){
+  echo "User created: $username";
+});
+
+...
+Hooks::addHook('create_user', 'callback', [$this, 'internalCallbackFunction']);
+```
+
+You could likely use this to redirect your user to a custom page of your plugin or to proceed your own data. Callbacks can only be registered by one. If a plugin has registered the callback address, no other plugin would be able to overwrite it or to register it on its own.
+
+(`internalCallbackFunction` would be the name of a function you have defined within your class.)
+You might have to open a plugin the first name to get the hook or callback registered.

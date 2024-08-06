@@ -1,6 +1,6 @@
 name: userdetail
 src: /src
-main: Userdetail
+main: Main
 namespace: userdetail
 author: Ente
 description: Save more information about your employees

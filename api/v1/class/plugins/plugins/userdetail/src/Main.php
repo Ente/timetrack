@@ -8,8 +8,10 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Exceptions;
 use Arbeitszeit\PluginBuilder;
+use Arbeitszeit\Hooks;
+use Arbeitszeit\PluginInterface;
 
-class Userdetail extends PluginBuilder {
+class Userdetail extends PluginBuilder implements PluginInterface {
 
 
     private string $log_append;
@@ -46,6 +48,7 @@ class Userdetail extends PluginBuilder {
     public function __construct(){
         $this->set_log_append();
         $this->set_plugin_configuration();
+        #Hooks::addHook("create_user", "callback", function(){echo "hi";}, "userdetail");
     }
 
     public function onLoad(): void{
@@ -121,6 +124,10 @@ class Userdetail extends PluginBuilder {
         } else {
             return false;
         }
+    }
+
+    public function create_user_callback($username, $name, $email, $password, $isAdmin){
+        echo "Successfully created user account...";
     }
 }
 

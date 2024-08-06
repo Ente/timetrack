@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.3
+
+* Fixed Bugs
+
 ## v0.2
 
 * Added a permissions system, read more within the documentation

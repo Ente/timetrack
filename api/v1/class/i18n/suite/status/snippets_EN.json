@@ -22,5 +22,8 @@
     "worktime_easymode_pause_end": "Note: Your break has ended successfully!",
     "easymode_toggled": "Note: The mode was successfully switched!",
     "error": "Note: An error has occurred. Please check the log if possible.",
-    "statemismatch": "Error: Security error"
+    "statemismatch": "Error: Security error",
+    "ldapauth": "Error: The authentication via LDAP failed!",
+    "ldapcreated": "Note: Please login again. Your account has just been created. (LDAP allowed self-login)"
+
 }
