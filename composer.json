@@ -12,11 +12,7 @@
             "cweagans/composer-patches": true
         }
     },
-    "extra": {
-        "patches": {
-            "ldaptools/ldaptools": {
-                "Php 8 paged result changes fix": "patch/ldaptools-php8.patch"
-            }
-        }
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
     }
 }

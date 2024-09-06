@@ -10,7 +10,7 @@ use Arbeitszeit\Updates;
 
 $updates = new Updates;
 
-$missingUpdate = 2; # if your database is at scheme 1 and the latest is 5 you should upgrade from 1 -> 2, 2 -> 3, ...
+$missingUpdate = null; # if your database is at scheme 1 and the latest is 5 you should upgrade from 1 -> 2, 2 -> 3, ...
 $o = $updates->perform_migration($missingUpdate);
 
 ?>

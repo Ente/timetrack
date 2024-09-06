@@ -5,30 +5,12 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Auth;
 use Arbeitszeit\MailPasswordReset;
 use Arbeitszeit\i18n;
+use Arbeitszeit\DB;
 $i18n = new i18n;
 $arbeitszeit = new Arbeitszeit;
 $auth = new Auth;
-$reset = new MailPasswordReset;
-
 $ini = $arbeitszeit->get_app_ini();
 $loc = $i18n->loadLanguage(NULL, "reset");
-
-if(@$_POST["reset"] == true && @isset($_POST["email"])){
-    $conn = Arbeitszeit::get_conn();
-    $sql = "SELECT * FROM users WHERE email = '{$_POST["email"]}'";
-    $query = mysqli_query($conn, $sql);
-    @$count = mysqli_num_rows($query);
-    if($count == 0 || $count > 1){
-        echo "The user does not exist, please re-check the input values!";
-    } else {
-        $id = mysqli_fetch_assoc($query)["username"];
-        if($auth->reset_password($id) == true){
-            echo "An email to reset your password has been sent to your email address.";
-        } else {
-            echo "Could not send an email to your account. Please contact the system administrator!";
-        }
-    }
-}
 ?>
 <!DOCTYPE html>
 <html>

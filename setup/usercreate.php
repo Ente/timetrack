@@ -1,6 +1,10 @@
 <?php
-    # Helper for first user creation
-    # This script allows 3 input variables, username, desired password and email and returns an SQL statement to be run in the database
+    /*
+     * Helper for first user creation
+     * This script allows 3 input variables:
+     * username, desired password and email
+     * and returns an SQL statement to be run in the database
+     */
 
 if(isset($argv[1], $argv[2], $argv[3])){
     $username = $argv[1];

@@ -20,6 +20,20 @@ namespace Arbeitszeit {
         
         }
 
+        public static function getSpecificLogFilePath($date = null){
+            if($date == null){
+                $date = date("Y-m-d");
+                return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$date}.log";
+            } else {
+                preg_match("/^\d{4}-\d{2}-\d{2}$/m", $date, $match);
+                if($match[0] == null){
+                    self::getSpecificLogFilePath();
+                }
+                Exceptions::error_rep("Trying to get log file for date '$date'");
+                return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$match[0]}.log";
+            }
+        }
+
         public static function logrotate(){
             $logpath = $_SERVER["DOCUMENT_ROOT"] . "/data/logs/";
             $date = date("Y-m-d");
@@ -34,6 +48,12 @@ namespace Arbeitszeit {
                 return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$date}.log";
             }
             return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$date}.log";
+        }
+
+        public static function failure($code, $error, $stack){
+            Exceptions::error_rep("[EXCEPTIONS] A critical error occured. | Message: " . $error);
+            $parms = http_build_query(array("code" => $code, "error" => $error, "stack" => base64_encode($stack)));
+            header("Location: /errors/500.php?$parms");
         }
     }
 }

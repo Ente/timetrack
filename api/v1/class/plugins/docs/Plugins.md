@@ -109,4 +109,4 @@ Hooks::addHook('create_user', 'callback', [$this, 'internalCallbackFunction']);
 You could likely use this to redirect your user to a custom page of your plugin or to proceed your own data. Callbacks can only be registered by one. If a plugin has registered the callback address, no other plugin would be able to overwrite it or to register it on its own.
 
 (`internalCallbackFunction` would be the name of a function you have defined within your class.)
-You might have to open a plugin the first name to get the hook or callback registered.
+You might have to open a plugin the first time to get the hook or callback registered.

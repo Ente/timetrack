@@ -1,5 +1,26 @@
 # CHANGELOG
 
+## v7.0
+
+* The Toil API has been enhanced within its `1.5` release: `addVacation`, `getLog` (allowing to get a specific log now), `addProject` <!-- DONE -->
+* Toil API has been reworked into a class: `toil.arbeit.inc.php` (and its subclasses `Controller.toil.arbeit.inc.php`, `API.toil.arbeit.inc.php`, `Routes.API.toil.arbeit.inc.php`, `*.ep.API.toil.arbeit.inc.php`) <!-- DONE -->
+* Database communication has been outsourced from the `class/*`-Classes to the newly added `class/db/db.arbeit.inc.php` <!-- DONE -->
+* A few bugs have been fixed.
+* Removed unused code. <!-- DONE -->
+* Moved code from `suite/*` files into the appropriate classes.
+
+<!--
+"bug" fixes:
+
+- fixed some typos
+- fixed use of undefined vars
+- fixed incorrect "getWorktimes" endpoint URL
+- fixed typos in API routes
+
+- added `projects.arbeit.inc.php` for future release v8.0
+
+-->
+
 ## v6.8
 
 * Enhanced Toil API with its `v1.4` release: `addWorktime`, `approveVacation`, `getUserDetails`, `getUsers`, `getVacations`, `getWorktimes`

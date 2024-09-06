@@ -12,8 +12,11 @@ namespace Arbeitszeit{
 
         public array $i18n;
 
+        public $db;
+
         public function __construct(){
             $i18n = new i18n;
+            $this->db = new DB;
             $this->i18n = $i18n->loadLanguage(null, "class/kalendar");
         }
 
@@ -25,16 +28,14 @@ namespace Arbeitszeit{
          * 
          */
         public function calender_delete(){
-            $conn = $this->get_conn();
             $sql = "DELETE FROM `kalender` WHERE `datum` < NOW();";
-            mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                $mysql_error = mysqli_error($conn);
-                Exceptions::error_rep("An error occured while deleting expired calendar entries. SQL-Error: " . mysqli_error($conn));
+            $data = $this->db->sendQuery($sql)->execute();
+            if($data == false){
+                Exceptions::error_rep("An error occured while deleting expired calendar entries. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 1,
-                        "error_message" => "Error while executing a query: {$mysql_error}"
+                        "error_message" => "Error while executing a query!"
                     ]
                 ];
             } else {
@@ -43,12 +44,12 @@ namespace Arbeitszeit{
         }
 
         public function get_calendar(){
-            $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `kalender`;";
-            $res = mysqli_query($conn, $sql);
-            $count = mysqli_num_rows($res);
+            $res = $this->db->sendQuery($sql);
+            $res->execute();
+            $count = $res->rowCount();
             if($count >=1){
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
                 $date = strftime("%d.%m.%Y", strtotime($data["datum"]));
                 $data["datum_new"] = $date;
 
@@ -59,11 +60,11 @@ namespace Arbeitszeit{
         }
 
         public function get_calendar_edit_html(){
-            $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `kalender` ORDER BY id DESC;";
-            $res = mysqli_query($conn, $sql);
-            if(mysqli_num_rows($res) > 0){
-                while($row = mysqli_fetch_assoc($res)){
+            $res = $this->db->sendQuery($sql);
+            $res->execute();
+            if($res->rowCount() > 0){
+                while($row = $res->fetch(\PDO::FETCH_ASSOC)){
                     $time = $row["uhrzeit"];
                     $date = strftime("%d.%m.%Y", strtotime($row["datum"]));
                     $location = $row["ort"];
@@ -87,13 +88,13 @@ namespace Arbeitszeit{
         }
 
         public function get_calendar_html(){
-            $conn = Arbeitszeit::get_conn();
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `kalender` ORDER BY id DESC;";
-            $res = mysqli_query($conn, $sql);
+            $res = $this->db->sendQuery($sql);
+            $res->execute();
             $html = null;
-            if(mysqli_num_rows($res) > 0){
-                while($row = mysqli_fetch_assoc($res)){
+            if($res->rowCount() > 0){
+                while($row = $res->fetch(\PDO::FETCH_ASSOC)){
                     $location = $row["ort"];
                     $date = strftime("%d.%m.%Y", strtotime($row["datum"]));
                     $time = $row["uhrzeit"];
@@ -123,13 +124,13 @@ namespace Arbeitszeit{
          * 
          */
         public function get_calendar_entry($id){
-            $conn = $this->get_conn();
-            $sql = "SELECT * FROM `kalender` WHERE id = '{$id}';";
-            $res = mysqli_query($conn, $sql);
-            $count = mysqli_num_rows($res);
+            $sql = "SELECT * FROM `kalender` WHERE id = ?";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$id]);
+            $count = $res->rowCount();
 
             if($count == 1){
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
                 $datum = strftime("%d.%m.%Y", strtotime($data["datum"]));
 
                 $data["datum_new"] = $datum;
@@ -156,11 +157,10 @@ namespace Arbeitszeit{
          * @param bool|array Gibt "true" bei Erfolg zurück und ein Fehler-Array bei einem Fehler
          */
         public function create_calendar_entry($time, $date, $location, $comment){
-            $conn = $this->get_conn();
-            $sql = "INSERT INTO `kalender` (`datum`, `uhrzeit`, `ort`, `notiz`) VALUES ('{$date}', '{$time}', '{$location}', '{$comment}')";
-            mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("An error occured while creating an calendar entry. | SQL-Error: " . mysqli_error($conn));
+            $sql = "INSERT INTO `kalender` (`datum`, `uhrzeit`, `ort`, `notiz`) VALUES (?, ?, ?, ?)";
+            $res = $this->db->sendQuery($sql)->execute([$date, $time, $location, $comment]);
+            if(!$res){
+                Exceptions::error_rep("An error occured while creating an calendar entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 6,
@@ -183,11 +183,10 @@ namespace Arbeitszeit{
          * @Hinweis Es müssen alle Felder ausgefüllt sein, da ansonsten leere Felder den Wert NULL bekommen
          */
         public function edit_calendar_entry($id, $time, $date, $location, $comment){
-            $conn = $this->get_conn();
-            $sql = "UPDATE `kalender` SET `datum` = '{$date}', `uhrzeit` = '{$time}', `ort` = '{$location}', `notiz` = '{$comment}' WHERE id = '{$id}';";
-            mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("An error occured while editing an calendar entry. | SQL-Error: " . mysqli_error($conn));
+            $sql = "UPDATE `kalender` SET `datum` = ?, `uhrzeit` = ?, `ort` = ?, `notiz` = ? WHERE id = ?;";
+            $res = $this->db->sendQuery($sql)->execute([$date, $time, $location, $comment, $id]);
+            if(!$res){
+                Exceptions::error_rep("An error occured while editing an calendar entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 8,
@@ -206,11 +205,10 @@ namespace Arbeitszeit{
          * @return bool|array Gibt "true" bei Erfolg zurück und ein Fehler-Array bei einem Fehler
          */
         public function delete_calendar_entry($id){
-            $conn = $this->get_conn();
-            $sql = "DELETE FROM `kalender` WHERE id = '{$id}';";
-            mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("An error occured while deleting an calendar entry. | SQL-Error: " . mysqli_error($conn));
+            $sql = "DELETE FROM `kalender` WHERE id = ?;";
+            $res = $this->db->sendQuery($sql)->execute([$id]);
+            if(!$res){
+                Exceptions::error_rep("An error occured while deleting an calendar entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 9,

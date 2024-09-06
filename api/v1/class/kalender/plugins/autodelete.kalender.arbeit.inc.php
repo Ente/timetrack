@@ -12,11 +12,11 @@ namespace Arbeitszeit{
          * @author Bryan Böhnke-Avan <bryan.boehnke04@gmail.com>
          */
         public function autodelete_obsolete_calendar_entries(){
-            $conn = parent::get_conn();
+            $db = new DB;
             $sql = "DELETE FROM `kalender` WHERE `datum` < NOW();";
-            mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("An error occured while autodeleting calendar entries. | SQL-Error: " . mysqli_error($conn));
+            $data = $db->sendQuery($sql)->execute();
+            if($data == false){
+                Exceptions::error_rep("An error occured while autodeleting calendar entries. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 7,

@@ -4,8 +4,10 @@ namespace Arbeitszeit{
     class Benutzer extends Arbeitszeit{
 
         public array $i18n;
+        public $db;
         public function __construct(){
             $i18n = new i18n;
+            $this->db = new DB;
             $this->i18n = $i18n->loadLanguage(null, "class/benutzer");
         }
 
@@ -18,12 +20,11 @@ namespace Arbeitszeit{
          */
         public function create_user($username, $name, $email, $password, $isAdmin = 0){
             #$originalFunction = function($username, $name, $email, $password, $isAdmin){
-                $conn = parent::get_conn();
                 $password = password_hash($password, PASSWORD_DEFAULT);
-                $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES ('{$name}', '{$username}', '{$email}', '{$password}', '1', '{$isAdmin}');";
-                mysqli_query($conn, $sql);
-                if(mysqli_error($conn)){
-                    Exceptions::error_rep("An error occured while creating a user. | SQL-Error: " . mysqli_error($conn));
+                $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES (?, ?, ?, ?, '1', ?);";
+                $data = $this->db->sendQuery($sql)->execute([$name, $username, $email, $password, $isAdmin]);
+                if($data == false){
+                    Exceptions::error_rep("An error occured while creating a user. See previous message for more information");
                     return [
                         "error" => [
                             "error_code" => 3,
@@ -46,11 +47,10 @@ namespace Arbeitszeit{
          * @Hinweis Funktion löscht nur den Nutzer, jedoch nicht seine Daten (Arbeitszeiten)
          */
         public function delete_user($id){
-            $conn = parent::get_conn();
-            $sql = "DELETE FROM `users` WHERE id = '{$id}';";
-            mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("An error occured while deleting an user. | SQL-Error: " . mysqli_error($conn));
+            $sql = "DELETE FROM `users` WHERE id = ?;";
+            $data = $this->db->sendQuery($sql)->execute();
+            if($data == false){
+                Exceptions::error_rep("An error occured while deleting an user. See previous message for more information");
                 return [
                     "error" => [
                         "error_code" => 4,
@@ -63,11 +63,13 @@ namespace Arbeitszeit{
         }
 
         public static  function get_user($username){
-            $conn = Arbeitszeit::get_conn();
-            $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
-            $res = mysqli_query($conn, $sql);
-            if(mysqli_num_rows($res) == 1){
-                $data = mysqli_fetch_assoc($res);
+            $sql = "SELECT * FROM `users` WHERE username = ?;";
+            $db = new DB;
+            $res = $db->sendQuery($sql);
+            $res->execute([$username]);
+            $count = $res->rowCount();
+            if($count == 1){
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
                 return $data;
             } else {
                 Exceptions::error_rep("Could not find user '$username'.");
@@ -76,11 +78,12 @@ namespace Arbeitszeit{
         }
 
         public static  function get_user_from_id($id){
-            $conn = Arbeitszeit::get_conn();
-            $sql = "SELECT * FROM `users` WHERE id = '{$id}';";
-            $res = mysqli_query($conn, $sql);
-            if(mysqli_num_rows($res) == 1){
-                $data = mysqli_fetch_assoc($res);
+            $conn = new DB();
+            $sql = "SELECT * FROM `users` WHERE id = ?;";
+            $res = $conn->sendQuery($sql);
+            $res->execute([$id]);
+            if($res->rowCount() == 1){
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
                 return $data;
             } else {
                 Exceptions::error_rep("Could not find user with id '$id'.");
@@ -89,13 +92,13 @@ namespace Arbeitszeit{
         }
 
         public function get_all_users(){
-            $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `users`;";
-            $res = mysqli_query($conn, $sql);
-            $count = mysqli_num_rows($res);
+            $res = $this->db->sendQuery($sql);
+            $res->execute();
+            $count = $res->rowCount();
             $dat = [];
             if($count >= 1){
-                while($data = mysqli_fetch_assoc($res)){
+                while($data = $res->fetch(\PDO::FETCH_ASSOC)){
                     $dat[$data["id"]] = $data;
                 }
                 return $dat;
@@ -108,13 +111,14 @@ namespace Arbeitszeit{
         public function get_all_users_html(){
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `users`;";
-            $res = mysqli_query(Arbeitszeit::get_conn(), $sql);
-            $count = mysqli_num_rows($res);
+            $res = $this->db->sendQuery($sql);
+            $res->execute();
+            $count = $res->rowCount();
 
             if($count == 0){
                 return "<p>{$this->i18n["no_users"]}</p>";
             }
-            while($data = mysqli_fetch_assoc($res)){
+            while($data = $res->fetch(\PDO::FETCH_ASSOC)){
                 if($data["username"] == "api"){
                     $data["email"] = "System user";
                 }

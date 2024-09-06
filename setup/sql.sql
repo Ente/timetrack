@@ -1,3 +1,5 @@
+USE ab; 
+-- Remove the above line if your database name is not 'ab'
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -16,7 +18,8 @@ CREATE TABLE `arbeitszeiten` (
   `type` varchar(11) DEFAULT NULL,
   `pause_start` varchar(255) DEFAULT NULL,
   `pause_end` varchar(255) DEFAULT NULL,
-  `attachements` text DEFAULT NULL
+  `attachements` text DEFAULT NULL,
+  `project` varchar(255) DEFAULT null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `kalender` (

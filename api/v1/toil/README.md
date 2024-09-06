@@ -16,7 +16,7 @@ Currently, there are 5 supported endpoints:
 * addWorktime - **Only Admins** | Specify the values within your GET request like this:
   date=2024-09-01&end=18%3A45&location=Berlin%20-%20Shop%201&meta=null&pause=%5Bobject%20Object%5D&start=11%3A30&username=admin
 
-Which is the exact same just in JSON:
+Which is (quite) the exact same just in JSON:
 
 ```json
 {

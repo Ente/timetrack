@@ -6,16 +6,17 @@ namespace Arbeitszeit{
             $i18n = new i18n;
             $loc = $i18n->loadLanguage(null, "emails/new_user");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-            $conn = Arbeitszeit::get_conn();
-            $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
-            $res = mysqli_query($conn, $sql);
-            $count = mysqli_num_rows($res);
+            $conn = new DB;
+            $sql = "SELECT * FROM `users` WHERE username = ?;";
+            $res = $conn->sendQuery($sql);
+            $res->execute([$username]);
+            $count = $res->rowCount();
             $ii = Arbeitszeit::get_app_ini()["general"]["app_name"];
 
             if($count == 1){
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
             } else {
-                Exceptions::error_rep("An error occured while fetching user data from database for user '$user' | SQL-Error: " . mysqli_error($res1));
+                Exceptions::error_rep("An error occured while fetching user data from database for user '$username'. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 10,

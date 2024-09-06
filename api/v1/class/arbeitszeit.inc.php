@@ -26,8 +26,11 @@ namespace Arbeitszeit {
 
         public array $i18n;
 
+        public $db;
+
         public function __construct()
         {
+            $this->db = new DB();
             if (self::get_app_ini()["general"]["debug"] == true || self::get_app_ini()["general"]["debug"] == "false") {
                 #_errors", 1);
             }
@@ -68,16 +71,13 @@ namespace Arbeitszeit {
          */
         public function delete_worktime($id)
         {
-            $conn = $this->get_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-            $sql = "DELETE FROM `arbeitszeiten` WHERE id = '{$id}';";
-            mysqli_query($conn, $sql);
-            if (mysqli_error($conn)) {
-                Exceptions::error_rep("An error occured while deleting an worktime entry. | SQL-Error: " . mysqli_error($conn));
+            $data = $this->db->sendQuery("DELETE FROM arbeitszeiten WHERE id = ?", array([$id]));
+            if ($data == false) {
+                Exceptions::error_rep("An error occured while deleting an worktime entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 1,
-                        "error_message" => "Error while deleting a entry from the database!"
+                        "error_message" => "Error while deleting an entry from the database!"
                     ]
                 ];
             } else {
@@ -90,18 +90,17 @@ namespace Arbeitszeit {
         {
             $date = date("Y-m-d");
             $time = date("H:i");
-            $conn = self::get_conn();
+            $conn = new DB;
             $user = new Benutzer();
             $usr = $user->get_user($username);
 
             if (!$user->get_user($username)) {
                 return false;
             } else {
-                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `active`, `review`) VALUES ( '{$usr["name"]}', '0', '{$usr["email"]}', '{$username}', '{$date}', '{$time}', '00:00', '-', '1', '0');";
-                mysqli_query($conn, $sql);
-                if (mysqli_error($conn)) {
-                    Exceptions::error_rep("An error occured while creating an worktime entry. | SQL-Error: " . mysqli_error($conn));
-                    error_log(mysqli_error($conn));
+                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `active`, `review`) VALUES ( ?, '0', ?, ?, ?, ?, '00:00', '-', '1', '0');";
+                $data = $conn->sendQuery($sql)->execute([$usr["name"], $usr["email"], $username, $date, $time]);
+                if ($data == false) {
+                    Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information");
                     return false;
                 } else {
                     return true;
@@ -112,17 +111,16 @@ namespace Arbeitszeit {
         public static function end_easymode_worktime($username, $id)
         {
             $time = date("H:i");
-            $conn = self::get_conn();
+            $conn = new DB;
             $user = new Benutzer();
 
             if (!$user->get_user($username)) {
                 return false;
             } else {
-                $sql = "UPDATE `arbeitszeiten` SET `schicht_ende` = '$time', `active` = '0' WHERE `id` = '{$id}';";
-                mysqli_query($conn, $sql);
-                if (mysqli_error($conn)) {
-                    Exceptions::error_rep("An error occured while creating an worktime entry. | SQL-Error: " . mysqli_error($conn));
-                    error_log(mysqli_error($conn));
+                $sql = "UPDATE `arbeitszeiten` SET `schicht_ende` = ?, `active` = '0' WHERE `id` = ?;";
+                $data = $conn->sendQuery($sql)->execute([$time, $id]);
+                if (!$data) {
+                    Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information.");
                     return false;
                 } else {
                     return true;
@@ -133,16 +131,15 @@ namespace Arbeitszeit {
         public function start_easymode_pause_worktime($username, $id)
         {
             $time = date("H:i");
-            $conn = self::get_conn();
             $user = new Benutzer;
 
             if (!$user->get_user($username)) {
                 return false;
             } else {
-                $sql = "UPDATE `arbeitszeiten` SET `pause_start` = '{$time}' WHERE id = '{$id}';";
-                mysqli_query($conn, $sql);
-                if (mysqli_error($conn)) {
-                    Exceptions::error_rep("An error occured while starting user pause for worktime with ID '{$id}' for user '{$username}'. Error: " . mysqli_error($conn));
+                $sql = "UPDATE `arbeitszeiten` SET `pause_start` = ? WHERE id = ?;";
+                $data = $this->db->sendQuery($sql)->execute([$time, $id]);
+                if (!$data) {
+                    Exceptions::error_rep("An error occured while starting user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
                     return true;
@@ -152,16 +149,15 @@ namespace Arbeitszeit {
         public function end_easymode_pause_worktime($username, $id)
         {
             $time = date("H:i");
-            $conn = self::get_conn();
             $user = new Benutzer;
 
             if (!$user->get_user($username)) {
                 return false;
             } else {
-                $sql = "UPDATE `arbeitszeiten` SET `pause_end` = '{$time}' WHERE id = '{$id}';";
-                mysqli_query($conn, $sql);
-                if (mysqli_error($conn)) {
-                    Exceptions::error_rep("An error occured while ending user pause for worktime with ID '{$id}' for user '{$username}'. Error: " . mysqli_error($conn));
+                $sql = "UPDATE `arbeitszeiten` SET `pause_end` = ? WHERE id = ?;";
+                $data = $this->db->sendQuery($sql)->execute([$time, $id]);
+                if (!$data) {
+                    Exceptions::error_rep("An error occured while ending user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
                     return true;
@@ -171,25 +167,26 @@ namespace Arbeitszeit {
 
         public function toggle_easymode($username)
         {
-            $sql = "SELECT * FROM `users` WHERE username = '$username';";
-            $res = mysqli_query(self::get_conn(), $sql);
+            $sql = "SELECT * FROM `users` WHERE username = ?;";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$username]);
             if (!$res) {
                 Exceptions::error_rep("An error occured while toggling easymode for user '{$username}'!");
                 return false;
             } else {
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
                 if ($data["easymode"] == false) {
-                    $sql1 = "UPDATE `users` SET `easymode` = '1' WHERE username = '{$username}';";
-                    $res1 = mysqli_query(self::get_conn(), $sql1);
-                    if (!$res) {
+                    $sql1 = "UPDATE `users` SET `easymode` = '1' WHERE username = ?;";
+                    $res1 = $this->db->sendQuery($sql1)->execute([$username]);
+                    if (!$res1) {
                         Exceptions::error_rep("An error occured while toggling easymode for user '{$username}'! Could not enable mode.");
                         return false;
                     }
                     return true;
                 } else {
                     $sql1 = "UPDATE `users` SET `easymode` = '0';";
-                    $res1 = mysqli_query(self::get_conn(), $sql1);
-                    if (!$res) {
+                    $res1 = $this->db->sendQuery($sql)->execute();
+                    if (!$res1) {
                         Exceptions::error_rep("An error occured while toggling easymode for user '{$username}'! Could not disable mode.");
                         return false;
                     }
@@ -200,13 +197,14 @@ namespace Arbeitszeit {
 
         public function get_easymode_status($username, $mode = 0)
         {
-            $sql = "SELECT * FROM `users` WHERE username = '$username';";
-            $res = mysqli_query(self::get_conn(), $sql);
+            $sql = "SELECT * FROM `users` WHERE username = ?;";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$username]);
             if (!$res) {
                 Exceptions::error_rep("An error occured while getting status easymode for user '{$username}'!");
                 return false;
             } else {
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
                 if ($data["easymode"] == true) {
                     if ($mode == 1) {
                         return true;
@@ -232,20 +230,21 @@ namespace Arbeitszeit {
          */
         public static function check_easymode_worktime_finished($username)
         {
-            $conn = Arbeitszeit::get_conn();
-            $sql = "SELECT * FROM `arbeitszeiten` WHERE active = '1' AND username = '{$username}';";
-            $res = mysqli_query($conn, $sql);
-            if (mysqli_error($conn)) {
+            $db = new DB;
+            $sql = "SELECT * FROM `arbeitszeiten` WHERE active = '1' AND username = ?;";
+            $res = $db->sendQuery($sql);
+            $res->execute([$username]);
+            if (!$res) {
                 Exceptions::error_rep("An error occured while checking user entries for easymode worktime");
                 return false;
             } else {
-                if (mysqli_num_rows($res) > 1) {
+                if ($res->rowCount() > 1) {
                     Exceptions::error_rep("An error occured while checking user entries for easymode worktime. Duplicated easymode entry found, please fix manually.");
                     return false;
-                } elseif (mysqli_num_rows($res) < 1) {
+                } elseif ($res->rowCount() < 1) {
                     return -1;
                 } else {
-                    return (int) mysqli_fetch_assoc($res)["id"];
+                    return (int) $res->fetch(\PDO::FETCH_ASSOC)["id"];
                 }
             }
         }
@@ -262,7 +261,6 @@ namespace Arbeitszeit {
          */
         public function add_worktime($start, $end, $location, $date, $username, $type, $pause = null, $meta = null)
         {
-            $conn = Arbeitszeit::get_conn();
             $user = new Benutzer;
             $usr = $user->get_user($username);
             if ($date > date("y-m-d") /*|| $date < date("y-m-d")*/) {
@@ -271,11 +269,11 @@ namespace Arbeitszeit {
             if (!$user->get_user($username)) {
                 return false;
             } else {
-                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `review`, `active`, `type`, `pause_start`, `pause_end`, `attachements`) VALUES ( '{$usr["name"]}', '0', '{$usr["email"]}', '{$username}', '{$date}', '{$start}', '{$end}', '{$location}', '0', '0', '{$type}', '{$pause["start"]}', '{$pause["end"]}', '{$meta}');";
-                mysqli_query($conn, $sql);
-                if (mysqli_error($conn)) {
-                    Exceptions::error_rep("An error occured while creating an worktime entry. | SQL-Error: " . mysqli_error($conn));
-                    error_log(mysqli_error($conn));
+                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `review`, `active`, `type`, `pause_start`, `pause_end`, `attachements`) VALUES ( ?, '0', ?, ?, ?, ?, ?, ?, '0', '0', ?, ?, ?, ?);";
+                $data = $this->db->sendQuery($sql);
+                $data->execute([$usr["name"], $usr["email"], $username, $date, $start, $end, $location, $type, $pause["start"], $pause["end"], $meta]);
+                if (!$data) {
+                    Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information.");
                     return false;
                 } else {
                     return true;
@@ -351,14 +349,14 @@ namespace Arbeitszeit {
 
         public function get_all_worktime()
         {
-            $conn = Arbeitszeit::get_conn();
             $sql = "SELECT * FROM `arbeitszeiten`;";
-            $res = mysqli_query($conn, $sql);
+            $res = $this->db->sendQuery($sql);
+            $res->execute();
             $arr = [];
-            if(mysqli_num_rows($res) == 0){
+            if($res->rowCount() == 0){
                 return false;
             }
-            while($row = mysqli_fetch_assoc($res)){
+            while($row = $res->fetch(\PDO::FETCH_ASSOC)){
                 $arr[$row["id"]] = $row;
             }
             return $arr;
@@ -366,12 +364,12 @@ namespace Arbeitszeit {
 
         public function get_specific_worktime_html(int $month, int $year)
         {
-            $conn = Arbeitszeit::get_conn();
             $base_url = $ini = Arbeitszeit::get_app_ini()["general"]["base_url"];
-            $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = '{$year}' AND MONTH(schicht_tag) = '{$month}' ORDER BY schicht_tag DESC;";
-            $res = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($res) > 0) {
-                while ($row = mysqli_fetch_assoc($res)) {
+            $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? ORDER BY schicht_tag DESC;";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$year, $month]);
+            if ($res->rowCount() > 0) {
+                while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
                     $rnw = $row["name"];
                     $rnw2 = $row["username"];
                     if (isset($year) || isset($month)) {
@@ -434,15 +432,15 @@ namespace Arbeitszeit {
         }
         public function get_employee_worktime_html($username)
         {
-            $conn = Arbeitszeit::get_conn();
             $base_url = $ini = Arbeitszeit::get_app_ini()["general"]["base_url"];
-            $sql = "SELECT * FROM `arbeitszeiten` WHERE username = '{$username}' ORDER BY id DESC;";
-            $res = mysqli_query($conn, $sql);
+            $sql = "SELECT * FROM `arbeitszeiten` WHERE username = ? ORDER BY id DESC;";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$username]);
             if ($res == false) {
                 return "No shifts found.";
             }
-            if (mysqli_num_rows($res) > 0) {
-                while ($row = mysqli_fetch_assoc($res)) {
+            if ($res->rowCount() > 0) {
+                while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
                     $rnw = $row["name"];
 
                     $raw = strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
@@ -492,11 +490,10 @@ namespace Arbeitszeit {
 
         public function mark_for_review($id)
         {
-            $conn = Arbeitszeit::get_conn();
-            $sql = "UPDATE `arbeitszeiten` SET `review` = '1' WHERE `id` = '{$id}';";
-            $res = mysqli_query($conn, $sql);
-            if ($res == false) {
-                Exceptions::error_rep("An error occured while marking an worktime as under review, id '{$id}'. SQL-Error: " . mysqli_error(self::get_conn()));
+            $sql = "UPDATE `arbeitszeiten` SET `review` = '1' WHERE `id` = ?;";
+            $res = $this->db->sendQuery($sql)->execute([$id]);
+            if (!$res) {
+                Exceptions::error_rep("An error occured while marking an worktime as under review, id '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 return true;
@@ -505,11 +502,10 @@ namespace Arbeitszeit {
 
         public function unlock_for_review($id)
         {
-            $conn = Arbeitszeit::get_conn();
-            $sql = "UPDATE `arbeitszeiten` SET `review` = '0' WHERE `id` = '{$id}';";
-            $res = mysqli_query($conn, $sql);
-            if ($res == false) {
-                Exceptions::error_rep("An error occured while unlocking an worktime from review, id '{$id}'. SQL-Error: " . mysqli_error(Arbeitszeit::get_conn()));
+            $sql = "UPDATE `arbeitszeiten` SET `review` = '0' WHERE `id` = ?;";
+            $res = $this->db->sendQuery($sql)->execute([$id]);
+            if (!$res) {
+                Exceptions::error_rep("An error occured while unlocking an worktime from review, id '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 return true;
@@ -606,12 +602,12 @@ namespace Arbeitszeit {
 
         public function calculate_hours_specific_time($username, $month, $year)
         {
-            $conn = Arbeitszeit::get_conn();
-            $sql = "SELECT * FROM `arbeitszeiten` WHERE `username` = '{$username}' AND MONTH(schicht_tag) = '{$month}' AND YEAR(schicht_tag) = '{$year}' ORDER BY `schicht_tag` DESC;";
-            $res = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($res) > 0) {
+            $sql = "SELECT * FROM `arbeitszeiten` WHERE `username` = ? AND MONTH(schicht_tag) = ? AND YEAR(schicht_tag) = ? ORDER BY `schicht_tag` DESC;";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$username, $month, $year]);
+            if ($res->rowCount() > 0) {
                 $hours = 0;
-                while ($worktime = mysqli_fetch_assoc($res)) {
+                while ($worktime = $res->fetch(\PDO::FETCH_ASSOC)) {
                     $start = strtotime($worktime["schicht_anfang"]);
                     $end = strtotime($worktime["schicht_ende"]);
                     $hours += ($end - $start) / 3600;
@@ -672,13 +668,13 @@ namespace Arbeitszeit {
 
         public static function get_worktime_by_id($id)
         {
-            $conn = self::get_conn();
-            $sql = "SELECT * FROM `arbeitszeiten` WHERE id = '{$id}';";
-            $res = mysqli_query($conn, $sql);
+            $conn = new DB;
+            $sql = "SELECT * FROM `arbeitszeiten` WHERE id = ?;";
+            $res = $conn->sendQuery($sql);
             if (!$res) {
                 return false;
             } else {
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
                 return $data;
             }
         }

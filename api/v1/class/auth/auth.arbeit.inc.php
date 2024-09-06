@@ -5,10 +5,16 @@ namespace Arbeitszeit{
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
     class Auth extends Arbeitszeit{
+
+        public $db;
+
+        public function __construct(){
+            $this->db = new DB;
+        }
         
         public static function login($username, $password, $option){ # "option"-> array [ "remember" => true/false, ... ]
+            $db = new DB;
             session_start();
-            $conn = Arbeitszeit::get_conn();
             $ini = Arbeitszeit::get_app_ini();
             $base_url = $ini["general"]["base_url"];
 
@@ -20,26 +26,27 @@ namespace Arbeitszeit{
                     $ldap = true;
                 }
             }
-            $username = mysqli_real_escape_string($conn, preg_replace("/\s+/", "", $username));
+            $username = preg_replace("/\s+/", "", $username);
             if(!isset($username, $password)){
                 Exceptions::error_rep("Login failed for username '$username' - no data supplied. Redirecting...");
                 die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
             } else {
-                $sql = "SELECT * FROM users WHERE username = '{$username}';";
-                $res = mysqli_query($conn, $sql);
+                $sql = "SELECT * FROM users WHERE username = ?;";
+                $res = $db->sendQuery($sql);
+                $res->execute([$username]);
 
-                if(mysqli_error($conn)){
+                if($res == false){
                    Exceptions::error_rep("Login failed for username '$username' - Database connection error. Redirecting...");
                    die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
                 }
 
-                $count = mysqli_num_rows($res);
+                $count = $res->rowCount();
                 if($count != 1){
                     Exceptions::error_rep("Login failed for username '$username' - User not found. Redirecting...");
                     die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
                 }
 
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
 
                 # check login for ldap
                 if(@$ldap == true){
@@ -156,6 +163,7 @@ namespace Arbeitszeit{
          * @return string Returns the state
          */
         public static function store_state($user){
+            $db = new DB;
             $ini = self::get_app_ini();
             $state = bin2hex(random_bytes(12));
             if($ini["general"]["app"] == "true"){
@@ -167,30 +175,32 @@ namespace Arbeitszeit{
                 setcookie("state", $state, null, "/");
                 $_SESSION["state"] = $state;
             }
-            $sql = "UPDATE `users` SET `state` = '{$state}' WHERE `username` = '{$user}';";
-            $res = mysqli_query(parent::get_conn(), $sql);
+            $sql = "UPDATE `users` SET `state` = ? WHERE `username` = ?;";
+            $res = $db->sendQuery($sql)->execute([$state, $user]);
             if($res == false){
-                return mysqli_error(parent::get_conn());
+                return false;
             } else {
                 return $state;
             }
         }
 
         public function get_state($user){
-            $sql = "SELECT state FROM users WHERE username = '{$user}';";
-            $res = mysqli_query(parent::get_conn(), $sql);
-            if(mysqli_num_rows($res) == 0 || mysqli_num_rows($res) > 1){
+            $sql = "SELECT state FROM users WHERE username = ?;";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$user]);
+            $count = $res->rowCount();
+            if($count == 0 || $count > 1){
                 return false;
             } else {
-                return mysqli_fetch_assoc($res)["state"];
+                return $res->fetch(\PDO::FETCH_ASSOC)["state"];
             }
         }
 
         public function remove_state($user){
-            $sql = "UPDATE `users` SET `state` = '' WHERE `username` = '{$user}';";
-            $res = mysqli_query(parent::get_conn(), $sql);
+            $sql = "UPDATE `users` SET `state` = '' WHERE `username` = ?;";
+            $res = $this->db->sendQuery($sql)->sendQuery([$user]);
             if($res == false){
-                return mysqli_error(parent::get_conn());
+                return false;
             } else {
                 return true;
             }
@@ -234,6 +244,26 @@ namespace Arbeitszeit{
             }
 
             return $mail;
+        }
+
+        public function isPasswordReset(){
+            if(@$_POST["reset"] == true && @isset($_POST["email"])){
+                $db = new DB;
+                $sql = "SELECT * FROM users WHERE email = ?";
+                $query = $db->sendQuery($sql);
+                $query->execute([$_POST["email"]]);
+                @$count = $query->rowCount();
+                if($count == 0 || $count > 1){
+                    echo "The user does not exist, please re-check the input values!";
+                } else {
+                    $id = $query->fetch(\PDO::FETCH_ASSOC)["username"];
+                    if($this->reset_password($id) == true){
+                        echo "An email to reset your password has been sent to your email address.";
+                    } else {
+                        echo "Could not send an email to your account. Please contact the system administrator!";
+                    }
+                }
+            }
         }
     }
 }

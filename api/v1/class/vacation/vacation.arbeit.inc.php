@@ -9,38 +9,42 @@ namespace Arbeitszeit {
     class Vacation extends Arbeitszeit
     {
 
-        public function add_vacation($start, $stop)
+        public $db;
+
+        public function __construct(){
+            $this->db = new DB;
+        }
+
+        public function add_vacation($start, $stop, $username = null)
         {
-            $conn = $this->get_conn();
-            $user = $_SESSION["username"];
+            if($username != null){
+                $user = $_SESSION["username"];
+            }
             $dateString = $start;
             $format = 'Y-m-d';
 
             $dateObj = \DateTime::createFromFormat($format, $dateString);
 
             if ($dateObj == false) {
-              Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
-              return false;   
+              Exceptions::error_rep("An error occured while adding an vacation for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
+              return false;
             }
-
-            $sql = "INSERT INTO `vacation` (`id`, `username`, `start`, `stop`, `status`) VALUES ('0', '{$user}', '{$start}', '{$stop}', 'pending') ";
-            $query = mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. | Error: " . mysqli_error($conn));
+            $sql = "INSERT INTO `vacation` (`id`, `username`, `start`, `stop`, `status`) VALUES ('0', ?, ?, ?, 'pending') ";
+            $data = $this->db->sendQuery($sql)->execute([$user, $start, $stop]);
+            if(!$data){
+                Exceptions::error_rep("An error occured while adding an vacation for user '$user'. See previous message for more information.");
                 return false;
             } else {
-                Exceptions::error_rep("[VACATION] Successfully added vacation for user '$user'.");
+                Exceptions::error_rep("Successfully added vacation for user '$user'.");
                 return true;
             }
         }
 
         public function remove_vacation($id){ # admin function only
-            $conn = $this->get_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-            $query = mysqli_query($conn, "DELETE * FROM `vacation` WHERE id = '{$id}';");
-
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("[VACATION] An error occured while deleting a vacation with id '{$id}'. | Error: " . mysqli_error($conn));
+            $sql = "DELETE * FROM `vacation` WHERE id = ?";
+            $data = $this->db->sendQuery($sql)->execute(array([$id]));
+            if($data == false){
+                Exceptions::error_rep("[VACATION] An error occured while deleting a vacation with id '{$id}'. See previous message for more information");
                 return false;
             }
             Exceptions::error_rep("[VACATION] Successfully removed vacation with id '{$id}'.");
@@ -49,18 +53,16 @@ namespace Arbeitszeit {
 
         public function change_status($id, $new_state = 3) # admin function only
         {
-            $conn = Arbeitszeit::get_conn();
-            $id = mysqli_real_escape_string($conn, $id);
             if($new_state == 1 /* approve */){
-                $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = '{$id}';";
+                $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = ?;";
             } elseif($new_state == 2 /* rejected */) {
-                $sql = "UPDATE `vacation` SET `status` = 'rejected' WHERE `id` = '{$id}';";
+                $sql = "UPDATE `vacation` SET `status` = 'rejected' WHERE `id` = ?;";
             } else {
-                $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = '{$id}';";
+                $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = ?;";
             }
-            $res = mysqli_query($conn, $sql);
-            if($res == false){
-                Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}' | SQL-Error: " . mysqli_error($conn));
+            $data = $this->db->sendQuery($sql)->execute(array([$id]));
+            if($data == false){
+                Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[VACATION] Successfully changed status for vacation id '{$id}', new state: '{$new_state}'.");
@@ -70,34 +72,31 @@ namespace Arbeitszeit {
         }
 
         public function get_vacation($id, $mode = 1){
-            $conn = Arbeitszeit::get_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-            $sql = "SELECT * FROM `vacation` WHERE id = '{$id}'";
-            $res = mysqli_query($conn, $sql);
-            if($res == false){
-                Exceptions::error_rep("[VACATION] An error occured while getting vacaction. id '{$id}' | SQL-Error: " . mysqli_error($conn));
+            $data = $this->db->sendQuery("SELECT * FROM `vacation` WHERE id = ?")->execute([$id]);
+            if($data == false){
+                Exceptions::error_rep("[VACATION] An error occured while getting vacaction. id '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[VACATION] Successfully found vacation id '{$id}' inside database.");
                 if($mode == 2){
                     return true;
                 } else {
-                    return mysqli_fetch_assoc($res);
+                    return $data;
                 }
             }
         }
 
         public function display_vacation_all(){ # admin function only
-            $conn = $this->get_conn();
-            $sql = "SELECT * FROM `vacation` LIMIT 100;";
-            $res = mysqli_query($conn, $sql);
-
-            if(@mysqli_num_rows($res) > 0){
+            $sql = "SELECT * FROM `vacation`";
+            $data = $this->db->sendQuery($sql);
+            $data->execute();
+            $count = $data->rowCount();
+            if($count > 1){
                 # compute and return data
-                while($row = \mysqli_fetch_assoc($res)){
+                foreach($data->fetchAll(\PDO::FETCH_ASSOC) as $row){
                     $rnw = $row["username"];
                     $start = strftime("%d.%m.%Y", strtotime($row["start"]));
-                    $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
+                    $stop = strftime("%d.%m.%Y", strtotime($row["stop"]));
                     $status = $row["status"];
                     $id = $row["id"];
 
@@ -113,7 +112,7 @@ namespace Arbeitszeit {
                             break;
                     }
 
-                    if($stop = "01.01.1970"){
+                    if($stop == "01.01.1970"){
                         $stop = "-";
                     }
 
@@ -139,14 +138,14 @@ namespace Arbeitszeit {
 
         public function get_all_vacation()
         {
-            $conn = Arbeitszeit::get_conn();
-            $sql = "SELECT * FROM `vacation`;";
-            $res = mysqli_query($conn, $sql);
-            $arr = [];
-            if(mysqli_num_rows($res) == 0){
+            $data = $this->db->sendQuery("SELECT * FROM `vacation`;");
+            $data->execute();
+            $count = $data->rowCount();
+
+            if($count == 0){
                 return false;
             }
-            while($row = mysqli_fetch_assoc($res)){
+            while($row = $data->fetch(\PDO::FETCH_ASSOC)){
                 $arr[$row["id"]] = $row;
             }
             return $arr;

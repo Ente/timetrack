@@ -8,16 +8,17 @@ namespace Arbeitszeit {
             $i18n = new i18n;
             $loc = $i18n->loadLanguage(null, "emails/vacation/pending");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-            $conn = Arbeitszeit::get_conn();
-            $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
-            $res = mysqli_query($conn, $sql);
-            $count = mysqli_num_rows($res);
+            $conn = new DB;
+            $sql = "SELECT * FROM `users` WHERE username = ?;";
+            $res = $conn->sendQuery($sql);
+            $res->execute([$username]);
+            $count = $res->rowCount();
             $ii = Arbeitszeit::get_app_ini()["general"]["app_name"];
 
             if ($count == 1) {
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
             } else {
-                Exceptions::error_rep("An error occured while fetching user data from database for user '$username' | SQL-Error: " . mysqli_error($conn));
+                Exceptions::error_rep("An error occured while fetching user data from database for user '$username'. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 10,
@@ -26,12 +27,13 @@ namespace Arbeitszeit {
                 ];
             }
 
-            $sql1 = "SELECT * FROM `vacation` WHERE id = '{$id}';";
-            $res1 = mysqli_query($conn, $sql1);
+            $sql1 = "SELECT * FROM `vacation` WHERE id = ?;";
+            $res1 = $conn->sendQuery($sql1);
+            $res1->execute([$id]);
             if ($res1 != false) {
-                $worktime_data = mysqli_fetch_assoc($res1);
+                $worktime_data = $res1->fetch(\PDO::FETCH_ASSOC);
             } else {
-                Exceptions::error_rep("An error occured while fetching vacation data from database for id '{$id}' | SQL-Error: " . mysqli_error($conn));
+                Exceptions::error_rep("An error occured while fetching vacation data from database for id '{$id}'. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 11,

@@ -11,7 +11,6 @@ namespace Arbeitszeit {
 
         public function add_sickness($start, $stop)
         {
-            $conn = $this->get_conn();
             $user = $_SESSION["username"];
             $dateString = $start;
             $format = 'Y-m-d';
@@ -23,10 +22,9 @@ namespace Arbeitszeit {
               return false;   
             }
 
-            $sql = "INSERT INTO `sick` (`id`, `username`, `start`, `stop`, `status`) VALUES ('0', '{$user}', '{$start}', '{$stop}', 'pending') ";
-            $query = mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("[SICK] An error occured while adding an sickness for user '$user'. | Error: " . mysqli_error($conn));
+            $data = $this->db->sendQuery("INSERT INTO sick (id, username, start, stop, status) VALUES (0, ?, ?, ?, 'pending'")->execute([$user, $start, $stop]);
+            if($data == false){
+                Exceptions::error_rep("[SICK] An error occured while adding an sickness for user '$user'. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[SICK] Successfully added sickness for user '$user'.");
@@ -35,12 +33,9 @@ namespace Arbeitszeit {
         }
 
         public function remove_sickness($id){ # admin function only
-            $conn = $this->get_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-            $query = mysqli_query($conn, "DELETE * FROM `sick` WHERE id = '{$id}';");
-
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("[SICK] An error occured while deleting a sickness with id '{$id}'. | Error: " . mysqli_error($conn));
+            $data = $this->db->sendQuery("DELETE * FROM sick WHERE id = ?")->execute([$id]);
+            if($data == false){
+                Exceptions::error_rep("[SICK] An error occured while deleting a sickness with id '{$id}'. See previous message for more information.");
                 return false;
             }
             return true;
@@ -48,18 +43,16 @@ namespace Arbeitszeit {
 
         public function change_status($id, $new_state = 3) # admin function only
         {
-            $conn = Arbeitszeit::get_conn();
-            $id = mysqli_real_escape_string($conn, $id);
             if($new_state == 1 /* approve */){
-                $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = '{$id}';";
+                $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = ?;";
             } elseif($new_state == 2 /* rejected */) {
-                $sql = "UPDATE `vacation` SET `status` = 'rejected' WHERE `id` = '{$id}';";
+                $sql = "UPDATE `vacation` SET `status` = 'rejected' WHERE `id` = ?;";
             } else {
-                $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = '{$id}';";
+                $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = ?;";
             }
-            $res = mysqli_query($conn, $sql);
-            if($res == false){
-                Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}' | SQL-Error: " . mysqli_error($conn));
+            $data = $this->db->sendQuery($sql)->execute([$id]);
+            if($data == false){
+                Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[VACATION] Successfully changed status for vacation id '{$id}', new state: '{$new_state}'.");
@@ -69,13 +62,14 @@ namespace Arbeitszeit {
         }
 
         public function display_sickness_all(){ # admin function only
-            $conn = $this->get_conn();
             $sql = "SELECT * FROM `sick` LIMIT 100;";
-            $res = mysqli_query($conn, $sql);
+            $data = $this->db->sendQuery($sql);
+            $data->execute();
+            $count = $data->rowCount();
 
-            if(@mysqli_num_rows($res) > 0){
+            if($count > 0){
                 # compute and return data
-                while($row = \mysqli_fetch_assoc($res)){
+                while($row = $data->fetch(\PDO::FETCH_ASSOC)){
                     $rnw = $row["username"];
                     $start = strftime("%d.%m.%Y", strtotime($row["start"]));
                     $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
@@ -98,7 +92,7 @@ namespace Arbeitszeit {
                         $stop = "-";
                     }
 
-                    $data = <<< DATA
+                    $print = <<< DATA
 
                         <tr>
                             <td>{$rnw}</td>
@@ -110,7 +104,7 @@ namespace Arbeitszeit {
 
                     DATA;
 
-                    echo $data;
+                    echo $print;
                 }
             } else {
                 return "Keine Krankheiten eingetragen.";
@@ -118,19 +112,17 @@ namespace Arbeitszeit {
         }
 
         public function get_sickness($id, $mode = 1){
-            $conn = Arbeitszeit::get_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-            $sql = "SELECT * FROM `sickness` WHERE id = '{$id}'";
-            $res = mysqli_query($conn, $sql);
-            if($res == false){
-                Exceptions::error_rep("[SICKNESS] An error occured while getting sickness. id '{$id}' | SQL-Error: " . mysqli_error($conn));
+            $sql = "SELECT * FROM `sickness` WHERE id = ?";
+            $data = $this->db->sendQuery($sql)->execute([$id]);
+            if($data == false){
+                Exceptions::error_rep("[SICKNESS] An error occured while getting sickness. id '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[SICKNESS] Successfully found sickness id '{$id}' inside database.");
                 if($mode == 2){
                     return true;
                 } else {
-                    return mysqli_fetch_assoc($res);
+                    return $data;
                 }
             }
         }

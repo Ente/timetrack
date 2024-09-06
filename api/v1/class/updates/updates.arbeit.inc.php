@@ -18,17 +18,18 @@ namespace Arbeitszeit{
         }
 
         public function request_schemev(){
-            $conn = Arbeitszeit::get_conn();
+            $conn = new DB;
 
             try {
                 $sql = "SELECT * FROM scheme;";
-                $res = mysqli_query($conn, $sql);
-                $data = mysqli_fetch_assoc($res)["v"];
+                $res = $conn->sendQuery($sql);
+                $res->execute();
+                $data = $res->fetch(\PDO::FETCH_ASSOC)["v"];
             } catch(\Exception $e){
                 $sql = "CREATE TABLE scheme (v INT DEFAULT 1);";
                 $sql1 = "INSERT INTO scheme (v) VALUES (1);";
-                mysqli_query($conn, $sql);
-                mysqli_query($conn, $sql1);
+                $conn->simpleQuery($sql);
+                $conn->simpleQuery($sql1);
                 $this->request_schemev();
             }
 

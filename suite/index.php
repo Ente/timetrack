@@ -19,14 +19,7 @@ $user = new Benutzer;
 $arbeit = new Arbeitszeit;
 $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
 $ini = Arbeitszeit::get_app_ini();
-if($ini["general"]["app"] == "true"){
-    ini_set("session.cookie_samesite", "None");
-    header('P3P: CP="CAO PSA OUR"');
-    session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
-    session_regenerate_id(true);
-}
 $auth->login_validation();
-
 $language = $i18n->loadLanguage(NULL, "index");
 
 ?>

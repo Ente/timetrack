@@ -22,11 +22,7 @@ Additional functionality can be unlocked with TimeTrack Oval
 
 Simply install the software by following these steps:
 
-**Requirements**:
-
-* A machine able to run at least:
-
-- Install php and requirements: `apt update && apt install php8.0 php8.0-curl apache2 mariadb-server -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`
+- Install php and requirements: `apt update && apt install php8.0 php8.0-curl php8.0-mysqli apache2 mariadb-server -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`
 - Install requirements for composer `cd /path/to/timetrack && composer install`
 - Create a new database, e.g. with the name `ab` and create a dedicated user, e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
 - Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
@@ -86,7 +82,7 @@ After configuring, please rename the `app.ini.sample` to `app.ini` (`mv app.ini.
 
 ### Requirements
 
-- at least PHP 8.0 (intl, mysqli, curl, fileinfo, ldap, sockets extension)
+- at least PHP 8.0 (intl, pdo_mysql, curl, fileinfo, ldap, sockets extension)
 - Apache2.4 with enabled htaccess, headers mod
 - composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing)
 

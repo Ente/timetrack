@@ -6,6 +6,7 @@ namespace userdetail;
 
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\PluginBuilder;
+use Arbeitszeit\DB;
 
 class Main extends PluginBuilder {
 
@@ -15,6 +16,8 @@ class Main extends PluginBuilder {
     private array $plugin_configuration;
 
     private self $data;
+
+    private $db;
 
     public function set_log_append(): void{
         $v = $this->plugin_configuration["version"];
@@ -36,6 +39,7 @@ class Main extends PluginBuilder {
     public function __construct(){
         $this->set_plugin_configuration();
         $this->set_log_append();
+        $this->db = new DB;
     }
 
     public function onLoad(): void{
@@ -77,9 +81,9 @@ class Main extends PluginBuilder {
     public function get_users(){
         try {
             $sql = "SELECT COUNT(*) FROM `users`;";
-            $result = mysqli_query(Arbeitszeit::get_conn(), $sql);
+            $result = $this->db->sendQuery($sql)->execute();
 
-            $r = mysqli_fetch_array($result);
+            $r = $result->fetch(\PDO::FETCH_ASSOC);
 
             return $r[0];
         } catch (\Exception $e){

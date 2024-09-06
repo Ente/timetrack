@@ -8,6 +8,7 @@ use Arbeitszeit\Auth;
 use Arbeitszeit\MailPasswordReset;
 use Arbeitszeit\MailPasswordChanged;
 use Arbeitszeit\Exceptions;
+use Arbeitszeit\DB;
 
 $arbeitszeit = new Arbeitszeit;
 $auth = new Auth;
@@ -17,20 +18,21 @@ $changed = new MailPasswordChanged;
 $ini = $arbeitszeit->get_app_ini();
 
 if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
-    $conn = Arbeitszeit::get_conn();
-    $sql = "SELECT * FROM `users` WHERE email = '{$_POST["auth"]}'";
-    $query = mysqli_query($conn, $sql);
-    @$count = mysqli_num_rows($query);
+    $conn = new DB;
+    $sql = "SELECT * FROM `users` WHERE email = ?";
+    $query = $db->sendQuery($sql);
+    $query->execute([$_POST["auth"]]);
+    @$count = $query->rowCount();
     if($count != 0 || $count >! 1){
-        $data = mysqli_fetch_assoc($query);
+        $data = $query->fetch(\PDO::FETCH_ASSOC);
         $pass = password_hash($_POST["password"], PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET password = '{$pass}' WHERE email = '{$_POST["auth"]}';";
-        $res = mysqli_query($conn, $sql);
-        if($res != false){
+        $sql = "UPDATE users SET password = ? WHERE email = ?;";
+        $res = $db->sendQuery($sql)->execute([$pass, $_POST["auth"]]);
+        if($res){
             $changed->mail_password_changed($data["username"], $auth->mail_init($data["username"], true));
             header("Location: /suite/index.php?info=password_changed");
         } else {
-            Exceptions::error_rep("Could not change password as the query failed! | MySQLI error: " . mysqli_error($conn));
+            Exceptions::error_rep("Could not change password as the query failed!. See previous message for more information.");
             header("Location: /suite/index.php?info=password_change_failed");
         }
     } else {

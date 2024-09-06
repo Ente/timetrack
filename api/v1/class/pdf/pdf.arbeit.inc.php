@@ -4,20 +4,20 @@ namespace Arbeitszeit{
         public function get_specific_worktime_pdf($user, $month, $year){
             $i18n = new i18n;
             $i18nn = $i18n->loadLanguage(null, "class/pdf");
-            $conn = Arbeitszeit::get_conn();
             $ini = Arbeitszeit::get_app_ini();
             $hours = $this->calculate_hours_specific_time($user, $month, $year);
             if(is_string($year) != true){
                 $year = date("Y");
             }
-            $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = '{$year}' AND MONTH(schicht_tag) = '{$month}' AND username = '{$user}' ORDER BY schicht_tag DESC;";
-            $res = mysqli_query($conn, $sql);
-            if(mysqli_error($conn)){
-                Exceptions::error_rep("An error occured while generating worktime pdf. | SQL-Error: " . mysqli_error($conn));
-                die(mysqli_error($conn));
+            $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? AND username = ? ORDER BY schicht_tag DESC;";
+            $statement = $this->db->sendQuery($sql);
+            $userdata = $statement->execute([$year, $month, $user]);
+            if($userdata == false){
+                Exceptions::error_rep("An error occured while generating worktime pdf. See previous message for more information");
+                die("An error occured!");
             }
             $user_data = Benutzer::get_user($user);
-            $user_data["name"] ?? mysqli_fetch_assoc($res)[0]["name"]; # Bug 14 Fix -> http://bugzilla.openducks.org/show_bug.cgi?id=14
+            $user_data["name"] ?? $statement->fetch(\PDO::FETCH_ASSOC)[0]["name"]; # Bug 14 Fix -> http://bugzilla.openducks.org/show_bug.cgi?id=14
 
             $data = <<< DATA
             <html>
@@ -50,10 +50,10 @@ namespace Arbeitszeit{
                             </tr>
 
             DATA;
-            if(mysqli_num_rows($res) > 0){
-                $q = mysqli_num_rows($res);
+            if($statement->rowCount() > 0){
+                $q = $statement->rowCount();
                 $i = 0;
-                while($row = mysqli_fetch_assoc($res)){
+                while($row = $statement->fetch(\PDO::FETCH_ASSOC)){
                     if($i == 0){
                         $r = strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                         
