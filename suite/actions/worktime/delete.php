@@ -1,17 +1,11 @@
 <?php
-require "../../../api/v1/inc/arbeit.inc.php";
-use Arbeitszeit\Auth;
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Benutzer;
-$auth = new Auth();
-$user = new Benutzer();
 $worktime = new Arbeitszeit;
 $base_url = $worktime->get_app_ini()["general"]["base_url"];
-
-$data = $user->get_user($_SESSION["username"]);
-
-$auth->login_validation();
-if($user->is_admin($data) == true){
+$data = $arbeit->benutzer()->get_user($_SESSION["username"]);
+$arbeit->auth()->login_validation();
+if($arbeit->benutzer()->is_admin($data) == true){
     echo "yes";
 }
 

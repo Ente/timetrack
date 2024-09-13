@@ -1,14 +1,35 @@
 <?php
 namespace Arbeitszeit {
-
+    use Arbeitszeit\DB;
+    use Arbeitszeit\Kalender;
+    use Arbeitszeit\i18n;
+    use Arbeitszeit\Benutzer;
+    use Arbeitszeit\Auth;
+    use Arbeitszeit\pdf;
+    use Arbeitszeit\Mode;
+    use Arbeitszeit\Autodelete;
+    use Arbeitszeit\Exceptions;
+    use Arbeitszeit\Vacation;
+    use Arbeitszeit\Sickness;
     /**
      * Beinhaltet wesentliche Inhalte, wie Einstellungen, Arbeitszeiten erstellen, etc.
      * 
      * @author Bryan Böhnke-Avan <bryan@duckerz.de>
      */
-    use Arbeitszeit\i18n;
     class Arbeitszeit
     {
+
+        private $db;
+        private $kalender;
+        private $i18nC;
+        private $i18n;
+        private $benutzer;
+        private $auth;
+        private $pdf;
+        private $mode;
+        private $autodelete;
+        private $sickness;
+        private $vacation;
 
         #public function __construct($db, $db_username, $db_password, $db_host){
         #    $conn = mysqli_connect($db_host, $db_username, $db_password, $db);
@@ -23,10 +44,6 @@ namespace Arbeitszeit {
         #        return $conn;
         #    }
         #}
-
-        public array $i18n;
-
-        public $db;
 
         public function __construct()
         {
@@ -362,6 +379,21 @@ namespace Arbeitszeit {
             return $arr;
         }
 
+        public function get_all_user_worktime($username)
+        {
+            $sql = "SELECT * FROM `arbeitszeiten` WHERE username = ?;";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$username]);
+            $arr = [];
+            if($res->rowCount() == 0){
+                return false;
+            }
+            while($row = $res->fetch(\PDO::FETCH_ASSOC)){
+                $arr[$row["id"]] = $row;
+            }
+            return $arr;
+        }
+
         public function get_specific_worktime_html(int $month, int $year)
         {
             $base_url = $ini = Arbeitszeit::get_app_ini()["general"]["base_url"];
@@ -382,14 +414,14 @@ namespace Arbeitszeit {
                     }
 
                     $rrr2 = http_build_query($rrr, "\n");
-                    $raw = strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
+                    $raw = @strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                     $rew = $row["schicht_anfang"];
                     $rol = $row["schicht_ende"];
                     $rum = $row["ort"];
                     $rqw = $row["id"]; # TODO: fix broken "delete" link
                     $rbn = $row["username"];
-                    $rps = strftime("%H:%M", strtotime($row["pause_start"]));
-                    $rpe = strftime("%H:%M", strtotime($row["pause_end"]));
+                    $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
+                    $rpe = @strftime("%H:%M", strtotime($row["pause_end"]));
 
                     if ($rps == "01:00" || $rps == null) {
                         $rps = "-";
@@ -443,13 +475,13 @@ namespace Arbeitszeit {
                 while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
                     $rnw = $row["name"];
 
-                    $raw = strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
+                    $raw = @strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                     $rew = $row["schicht_anfang"];
                     $rol = $row["schicht_ende"];
                     $rum = $row["ort"];
                     $rqw = $row["id"];
-                    $rps = strftime("%H:%M", strtotime($row["pause_start"]));
-                    $rpe = strftime("%H.%M", strtotime($row["pause_end"]));
+                    $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
+                    $rpe = @strftime("%H.%M", strtotime($row["pause_end"]));
 
                     if ($rps == "01:00" || $rps == null) {
                         $rps = "-";
@@ -679,6 +711,55 @@ namespace Arbeitszeit {
             }
         }
 
+        public function kalender(): Kalender{
+            if(!$this->kalender) $this->kalender = new Kalender;
+            return $this->kalender;
+        }
+
+        public function db(): DB{
+            if(!$this->db) $this->db = new DB;
+            return $this->db;
+        }
+
+        public function i18n(): i18n{
+            if(!$this->i18nC) $this->i18nC = new i18n;
+            return $this->i18nC;
+        }
+
+        public function benutzer(): Benutzer{
+            if(!$this->benutzer) $this->benutzer = new Benutzer;
+            return $this->benutzer;
+        }
+
+        public function auth(): Auth{
+            if(!$this->auth) $this->auth = new Auth;
+            return $this->auth;
+        }
+
+        public function pdf(): pdf{
+            if(!$this->pdf) $this->pdf = new pdf;
+            return $this->pdf;
+        }
+
+        public function mode(): Mode{
+            if(!$this->mode) $this->mode = new Mode;
+            return $this->mode;
+        }
+
+        public function autodelete(): Autodelete{
+            if(!$this->autodelete) $this->autodelete = new Autodelete;
+            return $this->autodelete;
+        }
+
+        public function sickness(): Sickness{
+            if(!$this->sickness) $this->sickness = new Sickness;
+            return $this->sickness;
+        }
+
+        public function vacation(): Vacation{
+            if(!$this->vacation) $this->vacation = new Vacation;
+            return $this->vacation;
+        }
     }
 }
 

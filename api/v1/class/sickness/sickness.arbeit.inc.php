@@ -71,7 +71,7 @@ namespace Arbeitszeit {
                 # compute and return data
                 while($row = $data->fetch(\PDO::FETCH_ASSOC)){
                     $rnw = $row["username"];
-                    $start = strftime("%d.%m.%Y", strtotime($row["start"]));
+                    $start = @strftime("%d.%m.%Y", strtotime($row["start"]));
                     $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
                     $status = $row["status"];
                     $id = $row["id"];

@@ -2,22 +2,13 @@
 require dirname(__DIR__, 2) . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-use Arbeitszeit\i18n;
-$username = $_SESSION["username"];
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$ini = Arbeitszeit::get_app_ini();
-$auth->login_validation();
+$ini = $arbeit->get_app_ini();
+$arbeit->auth()->login_validation();
 
-$i18n = new i18n;
 $locale = locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]); // Locale retrieved from Header
-$loc = $i18n->loadLanguage(null, "users/settings");
-$data = $user->get_user($_SESSION["username"]);
+$loc = $arbeit->i18n()->loadLanguage(null, "users/settings");
+$data = $arbeit->benutzer()->get_user($_SESSION["username"]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,7 +31,7 @@ $data = $user->get_user($_SESSION["username"]);
 
                     <p><?php echo $loc["note1"] ?></p>
                     <p><?php echo $loc["note2_a"] ?> <a href="http://<?php echo $ini["general"]["base_url"]; ?>/suite/users/changes.php"><?php echo $loc["note2_b"] ?></a> <?php echo $loc["note2_c"] ?></p>
-                    <?php if($user->is_admin($user->get_user($_SESSION["username"]))){ echo "<p style='font-size:x-small;color:red'>YOU ARE USING AN ADMIN ACCOUNT!</p>"; }          ?>
+                    <?php if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){ echo "<p style='font-size:x-small;color:red'>YOU ARE USING AN ADMIN ACCOUNT!</p>"; }          ?>
                     <hr>
                     <?php  # add toggle for easymode and current status
                         echo "<p>Status - Easymode: " . $arbeit->get_easymode_status($_SESSION["username"]) . "</p>";
@@ -53,7 +44,7 @@ $data = $user->get_user($_SESSION["username"]);
 
             <h2><?php echo $loc["support"] ?></h2>
             <p><?php echo $loc["support_note"] ?>: <a href="mailto:<?php echo $ini["general"]["support_email"]; ?>"><?php echo $ini["general"]["support_email"]; ?></a></p>
-                <?php if($user->is_admin($user->get_user($_SESSION["username"]))){ require_once "../admin/users/settings.php"; }   ?>
+                <?php if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){ require_once "../admin/users/settings.php"; }   ?>
         </div>
     </body>
 </html>

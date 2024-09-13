@@ -2,16 +2,9 @@
 session_start();
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-$ini = Arbeitszeit::get_app_ini();
+$ini = $arbeit->get_app_ini();
+$base_url = $ini["general"]["base_url"];
 
 if(!isset($_POST["username"])){
     header("Location: http://{$base_url}/suite/?info=nouserid");

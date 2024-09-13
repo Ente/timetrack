@@ -50,7 +50,7 @@ namespace Arbeitszeit{
             $count = $res->rowCount();
             if($count >=1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
-                $date = strftime("%d.%m.%Y", strtotime($data["datum"]));
+                $date = @strftime("%d.%m.%Y", strtotime($data["datum"]));
                 $data["datum_new"] = $date;
 
                 return $data;
@@ -66,7 +66,7 @@ namespace Arbeitszeit{
             if($res->rowCount() > 0){
                 while($row = $res->fetch(\PDO::FETCH_ASSOC)){
                     $time = $row["uhrzeit"];
-                    $date = strftime("%d.%m.%Y", strtotime($row["datum"]));
+                    $date = @strftime("%d.%m.%Y", strtotime($row["datum"]));
                     $location = $row["ort"];
                     $note = $row["notiz"];
                     $id = $row["id"];
@@ -96,7 +96,7 @@ namespace Arbeitszeit{
             if($res->rowCount() > 0){
                 while($row = $res->fetch(\PDO::FETCH_ASSOC)){
                     $location = $row["ort"];
-                    $date = strftime("%d.%m.%Y", strtotime($row["datum"]));
+                    $date = @strftime("%d.%m.%Y", strtotime($row["datum"]));
                     $time = $row["uhrzeit"];
                     $note = $row["notiz"];
                     $id = $row["id"];
@@ -131,7 +131,7 @@ namespace Arbeitszeit{
 
             if($count == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
-                $datum = strftime("%d.%m.%Y", strtotime($data["datum"]));
+                $datum = @strftime("%d.%m.%Y", strtotime($data["datum"]));
 
                 $data["datum_new"] = $datum;
 

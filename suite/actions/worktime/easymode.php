@@ -1,13 +1,9 @@
 <?php
-require "../../../api/v1/inc/arbeit.inc.php";
-use Arbeitszeit\Auth;
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Benutzer;
-$auth = new Auth();
-$user = new Benutzer();
 $worktime = new Arbeitszeit;
-$base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-$auth->login_validation();
+$base_url = $arbeit->get_app_ini()["general"]["base_url"];
+$arbeit->auth()->login_validation();
 
 if($_POST["type"] == "start"){
     $work = $worktime->add_easymode_worktime($_SESSION["username"]);

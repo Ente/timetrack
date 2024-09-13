@@ -95,8 +95,8 @@ namespace Arbeitszeit {
                 # compute and return data
                 foreach($data->fetchAll(\PDO::FETCH_ASSOC) as $row){
                     $rnw = $row["username"];
-                    $start = strftime("%d.%m.%Y", strtotime($row["start"]));
-                    $stop = strftime("%d.%m.%Y", strtotime($row["stop"]));
+                    $start = @strftime("%d.%m.%Y", strtotime($row["start"]));
+                    $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
                     $status = $row["status"];
                     $id = $row["id"];
 

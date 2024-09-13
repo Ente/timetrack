@@ -25,7 +25,10 @@ namespace Arbeitszeit {
         */
         function loadLanguage($locale = null, $page = "index", $area = "suite"){
             if($locale == null){
-                $locale = locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]);
+                $locale = @locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]);
+                if($locale == null){
+                    $locale = "en_EN";
+                }
             }
             $langlist = [
                 "de",

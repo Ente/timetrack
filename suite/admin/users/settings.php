@@ -1,26 +1,14 @@
 <?php
-
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Auth;
-use Arbeitszeit\Benutzer;
 use Arbeitszeit\Exceptions;
-use Arbeitszeit\i18n;
 @session_start();
 $ar = new Arbeitszeit();
-$auth = new Auth();
-$user = new Benutzer();
-$i18n = new i18n;
-
-$language = $i18n->loadLanguage(null, "users/settings", "admin");
-
+$language = $arbeit->i18n()->loadLanguage(null, "users/settings", "admin");
 $ini = $ar->get_app_ini();
-
-if(!$user->is_admin($user->get_user($_SESSION["username"]))){
+if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     die();
 }
-
-
 ?>
 <br>
 <div class="box">
@@ -35,21 +23,14 @@ if(!$user->is_admin($user->get_user($_SESSION["username"]))){
         <br>
         <button type="submit" name="submit"><?php echo $language["button_text"] ?></button>
     </form>
-
-
 <?php
-
 $log_contents = @file_get_contents(Exceptions::logrotate()) ?? "Error retrieving log file!";
-
 echo <<< DAT
 <div class="box">
     <h2> {$language["log_title"]} </h2>
     <p>{$language["log_p1"]}</p>
 
     <pre style="font-family:monospace;text-size:x-small;">{$log_contents}</pre>
-
-
 DAT;
-
 ?>
 </div>

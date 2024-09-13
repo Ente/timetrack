@@ -2,21 +2,12 @@
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-use Arbeitszeit\i18n;
-$username = $_SESSION["username"];
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$base_url = $ini = Arbeitszeit::get_app_ini();
-$i18n = new i18n;
+$ini = $arbeit->get_app_ini();
 
-$loc = $i18n->loadLanguage(null, "vacation");
+$loc = $arbeit->i18n()->loadLanguage(null, "vacation");
 
-$auth->login_validation();
+$arbeit->auth()->login_validation();
 ?>
 <!DOCTYPE html>
 <html>

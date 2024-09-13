@@ -2,27 +2,18 @@
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-use Arbeitszeit\i18n;
 $username = $_SESSION["username"];
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-$ini = Arbeitszeit::get_app_ini();
-$i18n = new i18n;
-$locale = locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]); // Locale retrieved from Header
-$language = $i18n->loadLanguage($locale, "calendar/edit", "admin"); // Loads the language for the "panel" Page
+$ini = $arbeit->get_app_ini();
+$base_url = $ini["general"]["base_url"];
+$language = $arbeit->i18n()->loadLanguage(null, "calendar/edit", "admin");
 
-$auth->login_validation();
-if(!@$user->is_admin($_SESSION["username"])){
+$arbeit->auth()->login_validation();
+if(!@$arbeit->benutzer()->is_admin($_SESSION["username"])){
     header("Location: http://{$base_url}/suite/?info=noperms");
 }
 $id = $_GET["id"];
-$data = $calendar->get_calendar_entry($id);
+$data = $arbeit->kalender()->get_calendar_entry($id);
 ?>
 <!DOCTYPE html>
 <html>

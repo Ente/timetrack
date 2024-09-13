@@ -3,6 +3,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/loader.plugins.arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_password_reset.auth.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/src/Main.php";
+require_once dirname(__DIR__, 2) . "/mailcow/src/Main.php";
 
 use Userdetail\Userdetail;
 use Arbeitszeit\Benutzer;
@@ -22,7 +23,8 @@ if($_POST["id"]){
         "notes" => $_POST["notes"],
         "position" => $_POST["position"],
         "employee-id" => $_POST["employee-id"],
-        "department" => $_POST["department"]
+        "department" => $_POST["department"],
+        "email" => $_POST["email"],
     ];
     if($main->save_employee_data($payload)){
         echo "Successfully saved data for {$payload["username"]}<br>";
@@ -32,6 +34,7 @@ if($_POST["id"]){
             echo "Successfully reset password for {$payload["username"]}";
         }
     }
+
 }
 
 if($r = $main->get_employee_data($_GET["user"])){
@@ -47,10 +50,12 @@ if($r = $main->get_employee_data($_GET["user"])){
 <h2><?php echo $user["username"];  ?> | Userdetail</h2>
 <div class="box">
     <form action="/suite/plugins/index.php?pn=userdetail&p_view=views/user.php&user=<?php echo $user["username"];  ?>&id=<?php echo $user["id"]; ?>" method="POST">
-        <label>Username: </label><input type="text" min="3" name="username" value="<?php echo $user["username"] ?>"><br>
+        <label>Username: </label><input type="text" min="3" name="username" value="<?php echo $user["username"]; ?>"><br>
         <label>Reset Password? </label><input type="checkbox" name="reset-password"><br>
         <label>Notes: </label><textarea name="notes"><?php echo $notes; ?></textarea><br>
-        <label>Position: </label><input type="text" name="position" value="<?php echo $pos; ?>" placeholder="CEO">
+        <label>Position: </label><input type="text" name="position" value="<?php echo $pos; ?>" placeholder="CEO"><br>
+        <label>Email:</label><input type="email" name="email" value="<?php echo $user["email"]; ?>" placeholder="box@mail.com"><br>
+        <label>Create Mailbox?</label><input type="checkbox" name="create-mailbox">
         <input type="text" name="id" value="<?php echo $user["id"]; ?>" hidden>
 
         <h3>HR</h3>

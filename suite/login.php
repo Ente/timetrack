@@ -2,20 +2,11 @@
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-use Arbeitszeit\i18n;
-$i18n = new i18n;
-@$username = $_SESSION["username"];
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-$ini = Arbeitszeit::get_app_ini();
-echo Arbeitszeit::check_status_code($_SERVER["REQUEST_URI"]);
-$language = $i18n->loadLanguage(NULL, "login");
+$ini = $arbeit->get_app_ini();
+$base_url = $ini["general"]["base_url"];
+echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]);
+$language = $arbeit->i18n()->loadLanguage(NULL, "login");
 ?>
 <!DOCTYPE html>
 <html>

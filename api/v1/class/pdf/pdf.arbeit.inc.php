@@ -10,7 +10,7 @@ namespace Arbeitszeit{
                 $year = date("Y");
             }
             $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? AND username = ? ORDER BY schicht_tag DESC;";
-            $statement = $this->db->sendQuery($sql);
+            $statement = $this->db()->sendQuery($sql);
             $userdata = $statement->execute([$year, $month, $user]);
             if($userdata == false){
                 Exceptions::error_rep("An error occured while generating worktime pdf. See previous message for more information");
@@ -55,17 +55,17 @@ namespace Arbeitszeit{
                 $i = 0;
                 while($row = $statement->fetch(\PDO::FETCH_ASSOC)){
                     if($i == 0){
-                        $r = strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
+                        $r = @strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                         
                     }
                     $i++;
                     #$rnw = $row["name"];
-                    $raw = strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
+                    $raw = @strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                     $rew = $row["schicht_anfang"];
                     $rol = $row["schicht_ende"];
                     $ral = $row["ort"];
-                    $rps = strftime("%H:%M", strtotime($row["pause_start"]));
-                    $rpe = strftime("%H:%M", strtotime($row["pause_end"]));
+                    $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
+                    $rpe = @strftime("%H:%M", strtotime($row["pause_end"]));
 
                     
                     if($rps == "01:00" ||$rps == null){
@@ -89,7 +89,7 @@ namespace Arbeitszeit{
 
                     DATA;
                     if($i == $q){
-                        $s = strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
+                        $s = @strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                     }
                 }
             } else {
@@ -103,6 +103,7 @@ namespace Arbeitszeit{
                     </div>
                 </body>
             </html>
+            <script>window.print()</script>
 
 
             DATA;

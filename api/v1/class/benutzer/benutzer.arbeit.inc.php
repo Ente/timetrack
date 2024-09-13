@@ -3,12 +3,11 @@ namespace Arbeitszeit{
     use Arbeitszeit\Hooks;
     class Benutzer extends Arbeitszeit{
 
-        public array $i18n;
+        public $i18n;
         public $db;
         public function __construct(){
-            $i18n = new i18n;
-            $this->db = new DB;
-            $this->i18n = $i18n->loadLanguage(null, "class/benutzer");
+            $this->db = $this->db();
+            $this->i18n = $this->i18n()->loadLanguage(null, "class/benutzer");
         }
 
         /**
@@ -48,7 +47,7 @@ namespace Arbeitszeit{
          */
         public function delete_user($id){
             $sql = "DELETE FROM `users` WHERE id = ?;";
-            $data = $this->db->sendQuery($sql)->execute();
+            $data = $this->db->sendQuery($sql)->execute([$id]);
             if($data == false){
                 Exceptions::error_rep("An error occured while deleting an user. See previous message for more information");
                 return [

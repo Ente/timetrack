@@ -145,6 +145,42 @@ class Routes extends Toil {
             Exceptions::error_rep("[LIC] User authenticated and accessing 'addProject' endpoint");
             Controller::createview("addProject");
         });
+        
+        Router::get("/api/v1/toil/getUserWorktimes", function(){
+            Exceptions::error_rep("[LIC] User authenticated and accessing 'getUserWorktimes' endpoint");
+            Controller::createview("getUserWorktimes");
+        });
+
+        Router::get("/api/v1/toil/deleteWorktime", function(){
+            Exceptions::error_rep("[LIC] User authenticated and accessing 'deleteWorktime' endpoint");
+            Controller::createview("deleteWorktime");
+        });
+
+        Router::get("/api/v1/toil/deleteUser", function(){
+            Exceptions::error_rep("[LIC] User authenticated and accessing 'deleteUser' endpoint");
+            Controller::createview("deleteUser");
+        });
+
+        Router::get("/api/v1/toil/addUser", function(){
+            Exceptions::error_rep("[LIC] User authenticated and accessing 'addUser' endpoint");
+            Controller::createview("addUser");
+        });
+
+
+        Router::error(function(Request $request, \Exception $e){
+            switch($e->getCode()){
+                case 404:
+                    header("Content-type: application/json");
+                    header("HTTP/1.1 404 Not found");
+                    echo json_encode(["error" => "not found"]);
+                    die();
+                case 403:
+                    header("Content-type: application/json");
+                    header("HTTP/1.1 403 Forbidden");
+                    echo json_encode(["error" => "forbidden"]);
+                    die();
+            }
+        });
     }
 
     public function getResourceNameFromPath($path){

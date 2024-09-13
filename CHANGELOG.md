@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## v7.1
+
+* Added API routes for Toil API `1.6`: `addUser`, `deleteUser`, `deleteWorktime`, `getUserWorktimes` <!-- DONE -->
+* Rewritten `README.md` and updated `composer.json` <!-- DONE -->
+
+<!--
+
+additional fixes:
+
+- added `window.print()` to PDF output to trigger printing directly.
+- cleaned up `suite/*` files
+- added statistics to `projects.arbeit.inc.php`
+- added 404 and 403 handling to Toil API
+- fixed not being able to reject a vacation
+
+-->
+
 ## v7.0
 
 * The Toil API has been enhanced within its `1.5` release: `addVacation`, `getLog` (allowing to get a specific log now), `addProject` <!-- DONE -->

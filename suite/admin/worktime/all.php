@@ -2,20 +2,12 @@
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-use Arbeitszeit\i18n;
-$i18n = new i18n;
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-$ini = Arbeitszeit::get_app_ini();
-$loc = $i18n->loadLanguage(null, "worktime/all", "admin");
-$auth->login_validation();
-if(!$user->is_admin($user->get_user($_SESSION["username"]))){
+$ini = $arbeit->get_app_ini();
+$base_url = $ini["general"]["base_url"];
+$loc = $arbeit->i18n()->loadLanguage(null, "worktime/all", "admin");
+$arbeit->auth()->login_validation();
+if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     header("Location: http://{$base_url}/suite/?info=noperms");
 }
 if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){

@@ -2,23 +2,14 @@
 session_start();
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-use Arbeitszeit\i18n;
-
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-$ini = Arbeitszeit::get_app_ini();
-$i18n = new i18n();
+$ini = $arbeit->get_app_ini();
+$base_url = $ini["general"]["base_url"];
 
-$language = $i18n->loadLanguage(null, "users/edit", "admin");
+$language = $arbeit->i18n()->loadLanguage(null, "users/edit", "admin");
 
-$auth->login_validation();
-if(!$user->is_admin($user->get_user($_SESSION["username"]))){
+$arbeit->auth()->login_validation();
+if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     header("Location: http://{$base_url}/suite/?info=noperms");
 }
 $add_style = "";
@@ -46,7 +37,7 @@ $add_style = "";
                         <th><?php echo $language["th3"] ?></th>
                         <th><?php echo $language["th4"] ?></th>
                     </tr>
-                    <?php $user->get_all_users_html(); ?>
+                    <?php $arbeit->benutzer()->get_all_users_html(); ?>
                 </table>
 
                 <h2><?php echo $language["add_user"] ?></h2>
