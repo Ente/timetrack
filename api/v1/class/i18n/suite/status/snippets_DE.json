@@ -12,6 +12,7 @@
     "worktime_added": "Hinweis: Arbeitszeit erfolgreich hinzugefügt!",
     "password_changed": "Hinweis: Dein Passwort wurde erfolgreich geändert. Bitte melde dich erneut an.",
     "password_change_failed": "Fehler: Dein Passwort konnte nicht geändert werden, bitte kontaktiere den Support.",
+    "password_reset": "Hinweis: Es wurde eine E-Mail verschickt, damit du dein Passwort zurücksetzen kannst.",
     "nodata": "Fehler: Es wurde kein Benutzername oder Passwort eingegeben.",
     "wrongdata": "Fehler: Falsche Anmeldedaten.",
     "worktime_review": "Hinweis: Arbeitszeit erfolgreich auf Prüfung gestellt!",

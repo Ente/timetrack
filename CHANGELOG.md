@@ -1,5 +1,48 @@
 # CHANGELOG
 
+## v7.2.1
+
+* Bug fixes and minor changes
+* Updated Toil API to `1.7`: Added permission handling and added API endpoint `getOwnWorktimes`, `addOwnWorktime`, `addOwnVacation`
+
+<!--
+bug & additional fixes:
+
+- removed version from Toil API response
+- added `public` keyword to `loadLanguage()` function within i18n class
+- updated Toil APIs `README.md`
+- rewritten `getUserCount` API endpoint to match `EP` Interface of Toil
+- made certain API endpoints only available for admins therefore added the `Permissions.routes.toil.arbeit.inc.php` class to manage 
+- removed version hash from Toil API `VERSION` file
+- fixed unset variable for i18n within the `Forgot Password` page
+- fixed being unable to reset password
+- fixed unset variable for easymode action
+- fixed links
+- fixed an bug soft-locking the dashboard if using easymode and the active worktime got deleted
+- fixed an bug preventing to end worktimes if using the easymode
+- fixed an bug preventing to delete worktime entries
+- fixed not being able to add a vacation/sickness
+- added status message if password reset mail has been sent
+
+-->
+
+## v7.1
+
+* Added API routes for Toil API `1.6`: `addUser`, `deleteUser`, `deleteWorktime`, `getUserWorktimes` <!-- DONE -->
+* Rewritten `README.md` and updated `composer.json` <!-- DONE -->
+
+<!--
+
+additional fixes:
+
+- added `window.print()` to PDF output to trigger printing directly.
+- cleaned up `suite/*` files
+- added statistics to `projects.arbeit.inc.php`
+- added 404 and 403 handling to Toil API
+- fixed not being able to reject a vacation
+
+-->
+
 ## v7.0
 
 * The Toil API has been enhanced within its `1.5` release: `addVacation`, `getLog` (allowing to get a specific log now), `addProject` <!-- DONE -->

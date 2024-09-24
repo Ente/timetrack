@@ -61,17 +61,24 @@ DATA;
             $i18n = new i18n;
             $loc = $i18n->loadLanguage(null, "mode/easymode");
             $active = Arbeitszeit::check_easymode_worktime_finished($_SESSION["username"]);
-            if($active == false){
+            $worktime = Arbeitszeit::get_worktime_by_id($active);
+            if($active === false){
                 $data = <<< DATA
                 <p>An error occured while checking for active easymode entries. Either a connection error to the database or you have multiple entries marked as active. If the problem persists, contact the system administrator!</p>
                 <p style="font-family:monospace;">Error-Code: DEM-CHK_FAIL_EM_ENY_AC</p>
 DATA;
+                goto skip_to_output;
+            } elseif(!$worktime && $active === true){
+                $data = <<< DATA
+                <p>An error occured while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry!</p>
+DATA;
+            
             } elseif($active == -1){
                 $data = <<< DATA
                 <div class="box">
                 <!--<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAQ0lEQVR4nDXMMQqAMBREwUDAKufwEHoFQ7SyUrCw8v71SOCnessUm5Cx44jmFKNgibaBE16c2AbOuPDg69g/GypurD+SzVDTKu3cOgAAAABJRU5ErkJggg==">
  -->               <p>{$loc["easymode_enabled_note"]}</p>
-                    <form action="actions/worktime/easymode.php" method="POST">
+                    <form action="/suite/actions/worktime/easymode.php" method="POST">
                         <input type="text" name="username" value="{$_SESSION["username"]}" hidden>
                         <input type="text" name="type" value="start" hidden>
                         <button type="submit" class="button">{$loc["start_shift"]}</button>
@@ -97,7 +104,7 @@ DATA;
                     <div class="box">
                     <p>{$loc["note_ps"]}</p>
                     <small style="font-family:monospace;">ID: {$active}</small>
-                        <form action="actions/worktime/easymode.php" method="POST">
+                        <form action="/suite/actions/worktime/easymode.php" method="POST">
                             <input type="text" name="username" value="{$_SESSION["username"]}" hidden>
                             <input type="text" name="type" value="pause_start" hidden>
                             <input type="text" name="id" value="{$active}" hidden>
@@ -110,7 +117,7 @@ DATA;
                     <div class="box">
                     <p>{$loc["note_pe"]}</p>
                     <small style="font-family:monospace;">ID: {$active}</small>
-                        <form action="actions/worktime/easymode.php" method="POST">
+                        <form action="/suite/actions/worktime/easymode.php" method="POST">
                             <input type="text" name="username" value="{$_SESSION["username"]}" hidden>
                             <input type="text" name="type" value="pause_end" hidden>
                             <input type="text" name="id" value="{$active}" hidden>
@@ -123,7 +130,7 @@ DATA;
                 <div class="box">
                 <p>{$loc["note_se"]}</p>
                 <small style="font-family:monospace;">ID: {$active}</small>
-                    <form action="actions/worktime/easymode.php" method="POST">
+                    <form action="/suite/actions/worktime/easymode.php" method="POST">
                         <input type="text" name="username" value="{$_SESSION["username"]}" hidden>
                         <input type="text" name="type" value="stop" hidden>
                         <input type="text" name="id" value="{$active}" hidden>
@@ -133,6 +140,7 @@ DATA;
 DATA;
                 }
             }
+            skip_to_output:
             return $data;
         }
     }

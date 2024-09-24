@@ -20,6 +20,16 @@ Additional functionality can be unlocked with TimeTrack Oval
 
 ## Installation
 
+### Requirements
+
+- at least PHP 8.0 (intl, pdo_mysql, curl, fileinfo, ldap, sockets extension)
+- Apache2.4 with enabled htaccess, headers mod
+- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing)
+
+This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. `php -S 0.0.0.0:80`).
+
+### Install dependencies and TimeTrack
+
 Simply install the software by following these steps:
 
 - Install php and requirements: `apt update && apt install php8.0 php8.0-curl php8.0-mysqli apache2 mariadb-server -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`
@@ -29,6 +39,8 @@ Simply install the software by following these steps:
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
 - Run the statement printed by the `usercreate.php` inside your database.
 - Please run the `run-patch.sh` file located in the `setup` folder to apply a patch regarding LDAP authentication. If you do not want to use LDAP you can ignore this step.
+
+### Configure app.ini
 
 In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` folder:
 
@@ -40,7 +52,7 @@ In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` fo
 - `db_*`: Set the connection details for your mysql instance
 - `app`: If set to true, users will be able to use the TimeTrack mobile application
 
-**SMTP section**
+#### **SMTP section**
 
 - `host`: FQDN of your mail server
 - `username`: Username for the mailbox you want to send emails from
@@ -51,14 +63,14 @@ In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` fo
 If you plan to use this system with a Gmail-Account, please be aware that you are not able to use your usual password. You would have to create a seperate `App Password`, you should note down.
 You can do this following this link: <https://myaccount.google.com/u/0/apppasswords> or by navigating from <https://accounts.google.com> to `Security` > `2-Factor Authentication` > `App Passwords`. If you do not see this option on screen, use the link.
 
-**Plugins** (Read more at `/api/v1/classes/plugins/docs`)
+#### **Plugins** (Read more at `/api/v1/classes/plugins/docs`)
 
 - `plugins`: Specify if you want to enable or disable plugins (default: true)
 - `path`: Plugins path (default: `/api/v1/classes/plugins/plugins`)
 - `data`: Data path for plugins, relative from the `path` variable (default: `data`)
 - `testing`: Specify if the testing mode is enabled or not. If enabled, plugins which are not bundled within an phar archive are working aswell (e.g. just the source code within the plugins folder).
 
-**LDAP**
+#### **LDAP**
 
 LDAP authentication works with OpenLDAP and Active Directory.
 
@@ -80,19 +92,6 @@ If done correctly, you should now be able to access the application via http://B
 
 After configuring, please rename the `app.ini.sample` to `app.ini` (`mv app.ini.sample app.ini`)
 
-### Requirements
-
-- at least PHP 8.0 (intl, pdo_mysql, curl, fileinfo, ldap, sockets extension)
-- Apache2.4 with enabled htaccess, headers mod
-- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing)
-
-This software has been tested on Debian 11/12 and XAMPP.
-
-### Upgrade from TimeTrack OSS to TimeTrack Oval
-
-Currently, this is not available, but we are working on an solution.
-You would need to register a new account and upload a complete dump of your SQL database.
-
 ## Maintenance Mode
 
 To enable the maintenance mode, simply rename the `api/inc/.MAINTENANCE` to `MAINTENANCE` (without the dot) to enable the functionality. No one will be able to access the application, aswell as administrators.
@@ -113,12 +112,6 @@ Another useful source, while expieriencing errors is the `/var/log/apache2/error
 ## Language
 
 TimeTrack supports German and English. Users currently can't actively switch between any of them, instead TimeTrack uses the locale provided by the browser.
-
-## iFrame
-
-For TimeTrack to work within iFrames, it is required to set the `samesite` parameter to `None`, `secure` to `true` and `domain` to your base url.
-TimeTrack does this automatically for you, but we also recommend setting the `php.ini` attribute `session.cookie_samesite` according to PHPs documentation (e.g. `"None"` (don't forget the quotation marks)).
-Please also enable the `headers` mod in apache2 (e.g. `a2enmod headers`)
 
 ## LDAP
 

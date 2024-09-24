@@ -12,6 +12,7 @@
     "worktime_added": "Note: Working time added successfully!",
     "password_changed": "Note: Your password has been changed successfully. Please log in again.",
     "password_change_failed": "Error: Your password could not be changed, please contact support.",
+    "password_reset": "Note: An email has been sent with instructions to reset your password.",
     "nodata": "Error: No username or password was entered.",
     "wrongdata": "Error: Incorrect login details.",
     "worktime_review": "Note: Working time successfully checked!",

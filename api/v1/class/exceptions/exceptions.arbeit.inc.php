@@ -15,8 +15,10 @@ namespace Arbeitszeit {
             if($method == NULL){
                 $method = $_SERVER["REQUEST_METHOD"];
             }
+            $addr = @$_SERVER["SERVER_ADDR"] ?? "N/A";
+            $rhost = @$_SERVER["REMOTE_HOST"] ?? "N/A";
             $time = date("[d.m.Y | H:i:s]");
-            error_log("{$time} \"{$message}\"\nURL: {$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]} \nVersion: {$version} Server IP:{$_SERVER["SERVER_ADDR"]} - Server Name: {$_SERVER["SERVER_NAME"]} - Request Method: '{$method}'\nRemote Addresse: {$_SERVER["REMOTE_ADDR"]} - Remote Name: '{$_SERVER["REMOTE_HOST"]}' - Remote Port: {$_SERVER["REMOTE_PORT"]}\nScript Name: '{$_SERVER["SCRIPT_FILENAME"]}'\n=======================\n", 3, $error_file);
+            error_log("{$time} \"{$message}\"\nURL: {$_SERVER["HTTP_HOST"]}{$_SERVER["REQUEST_URI"]} \nVersion: {$version} Server IP:{$addr} - Server Name: {$_SERVER["SERVER_NAME"]} - Request Method: '{$method}'\nRemote Addresse: {$_SERVER["REMOTE_ADDR"]} - Remote Name: '{$rhost}' - Remote Port: {$_SERVER["REMOTE_PORT"]}\nScript Name: '{$_SERVER["SCRIPT_FILENAME"]}'\n=======================\n", 3, $error_file);
         
         }
 

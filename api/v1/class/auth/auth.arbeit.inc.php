@@ -59,8 +59,8 @@ namespace Arbeitszeit{
                     if(@isset($option["remember"])){
                         if($ini["general"]["app"] == "true"){
                             Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
-                            ini_set("session.cookie_samesite", "None");
-                            session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+                            @ini_set("session.cookie_samesite", "None");
+                            @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
                             setcookie("erinnern", "true", ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             setcookie("username", $username, ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
@@ -88,8 +88,8 @@ namespace Arbeitszeit{
                     if(@isset($option["remember"])){
                         if($ini["general"]["app"] == "true"){
                             Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
-                            ini_set("session.cookie_samesite", "None");
-                            session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+                            @ini_set("session.cookie_samesite", "None");
+                            @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
                             setcookie("erinnern", "true", ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             setcookie("username", $username, ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
@@ -114,9 +114,9 @@ namespace Arbeitszeit{
             $ini = Arbeitszeit::get_app_ini();
             $baseurl = $ini["general"]["base_url"];
             if($ini["general"]["app"] == "true"){
-                ini_set("session.cookie_samesite", "None");
+                @ini_set("session.cookie_samesite", "None");
                 header('P3P: CP="CAO PSA OUR"');
-                session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+                @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
             }
             @session_start();
             if(isset($_SESSION["logged_in"]) == false){
@@ -167,8 +167,8 @@ namespace Arbeitszeit{
             $ini = self::get_app_ini();
             $state = bin2hex(random_bytes(12));
             if($ini["general"]["app"] == "true"){
-                ini_set("session.cookie_samesite", "None");
-                session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+                @ini_set("session.cookie_samesite", "None");
+                @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
                 setcookie("state", $state, null, "/");
                 session_regenerate_id(true);
             } else {

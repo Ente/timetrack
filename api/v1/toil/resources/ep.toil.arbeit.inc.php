@@ -4,7 +4,7 @@ namespace Toil;
 
 interface EPInterface {
     public function get();
-    public function post();
+    public function post($post = null);
     public function put();
     public function delete();
     public function __construct();

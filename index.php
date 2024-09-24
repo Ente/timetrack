@@ -5,6 +5,3 @@ $arbeit = new Arbeitszeit;
 $ini = $arbeit->get_app_ini();
 
 header("Location: http://{$ini["general"]["base_url"]}/suite/");
-
-
-?>

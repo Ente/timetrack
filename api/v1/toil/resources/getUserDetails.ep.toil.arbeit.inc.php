@@ -43,7 +43,7 @@ namespace Toil {
             echo json_encode($user);
         }
 
-        public function post()
+        public function post($post = null)
         {
 
         }

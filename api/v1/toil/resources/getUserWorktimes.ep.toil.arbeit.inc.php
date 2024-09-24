@@ -3,12 +3,16 @@ namespace Toil {
     require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
     use Toil\EP;
     use Arbeitszeit\Arbeitszeit;
+    use Arbeitszeit\Benutzer;
 
-    class getWorktimes implements EPInterface
+    class getUserWorktimes implements EPInterface
     {
+
+        private $arbeit;
+
         public function __construct()
         {
-
+            $this->arbeit = new Arbeitszeit;
         }
 
         public function __set($name, $value)
@@ -23,14 +27,17 @@ namespace Toil {
 
         public function get()
         {
-            $arbeit = new Arbeitszeit;
-            header('Content-Type: application/json');
-            $worktimes = $arbeit->get_all_worktime();
-            if ($worktimes != false) {
-                echo json_encode($worktimes);
-            } else {
+            $benutzer = new Benutzer;
+            header("Content-Type: application/json");
+            $username = $_GET["username"] ?? false;
+            if(!$username){
                 echo json_encode(["error" => true]);
+                die();
             }
+            
+            $data = $this->arbeit->get_all_user_worktime($username);
+            if(!$data) echo json_encode(["error" => "no data"]) && die();
+            echo json_encode($data);
         }
 
         public function post($post = null)
@@ -49,6 +56,3 @@ namespace Toil {
         }
     }
 }
-
-
-?>

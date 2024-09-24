@@ -23,9 +23,12 @@ namespace Arbeitszeit {
        $language = loadLanguage($locale, "panel"); // Loads the language for the "panel" Page
 
         */
-        function loadLanguage($locale = null, $page = "index", $area = "suite"){
+        public function loadLanguage($locale = null, $page = "index", $area = "suite"){
             if($locale == null){
-                $locale = locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]);
+                $locale = @locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]);
+                if($locale == null){
+                    $locale = "en_EN";
+                }
             }
             $langlist = [
                 "de",
@@ -48,6 +51,8 @@ namespace Arbeitszeit {
                     }
                 }
             }
+
+            Exceptions::failure(code: 1, error: "Could not retrieve language files for page '" . $page . "' and area '" . $area ."'.", stack: "N/A");
         }
     }
 }

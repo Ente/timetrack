@@ -1,5 +1,5 @@
 <?php
-require "../../../api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Auth;
 $auth = new Auth();
 

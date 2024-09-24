@@ -3,11 +3,9 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/loader.plugins.arbeit.inc.php";
 use Arbeitszeit\PluginBuilder;
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Auth;
-$auth = new Auth;
 $arbeit = new Arbeitszeit;
-$auth->login_validation();
-$pl = new PluginBuilder(Arbeitszeit::get_app_ini()["plugins"]);
+$arbeit->auth()->login_validation();
+$pl = new PluginBuilder();
 ?>
 <!DOCTYPE html>
 <html>

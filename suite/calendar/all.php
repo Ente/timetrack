@@ -2,22 +2,12 @@
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-use Arbeitszeit\i18n;
-$username = $_SESSION["username"];
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
-$base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
-$ini = Arbeitszeit::get_app_ini();
-$i18n = new i18n;
-$locale = locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]); // Locale retrieved from Header
-$loc = $i18n->loadLanguage($locale, "calendar/all");
-$auth->login_validation();
-if(!$user->is_admin($user->get_user($_SESSION["username"]))){
+$ini = $arbeit->get_app_ini();
+$base_url = $ini["general"]["base_url"];
+$loc = $arbeit->i18n()->loadLanguage(null, "calendar/all");
+$arbeit->auth()->login_validation();
+if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     header("Location: http://{$base_url}/suite/?info=noperms");
 }
 ?>
@@ -63,7 +53,7 @@ if(!$user->is_admin($user->get_user($_SESSION["username"]))){
                     <th><?php echo $loc["label_note"] ?></th>
                 </tr>
 
-                <?php echo $calendar->get_calendar_edit_html(); ?>
+                <?php echo $arbeit->kalender()->get_calendar_edit_html(); ?>
             </table>
         </div>
     </body>

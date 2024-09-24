@@ -25,7 +25,8 @@ class Userdetail extends PluginBuilder implements PluginInterface {
         "notes" => null,
         "position" => null,
         "employee-id" => null,
-        "department" => null
+        "department" => null,
+        "email" => null,
     ];
 
     public function set_log_append(): void{
@@ -87,7 +88,8 @@ class Userdetail extends PluginBuilder implements PluginInterface {
                    "notes" => null,
                    "position" => null,
                    "employee-id" => null,
-                   "department" => null
+                   "department" => null,
+                   "email" => null,
                 ]);
             }
             $name = $user["username"];

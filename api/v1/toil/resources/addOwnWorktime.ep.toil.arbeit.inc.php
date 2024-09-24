@@ -6,7 +6,7 @@ namespace Toil {
     use Arbeitszeit\Auth;
     use Arbeitszeit\Benutzer;
 
-    class addWorktime implements EPInterface
+    class addOwnWorktime implements EPInterface
     {
         public function __construct()
         {
@@ -35,7 +35,7 @@ namespace Toil {
                 "end" => $_GET["end"],
                 "date" => $_GET["date"],
                 "location" => $_GET["location"],
-                "username" => $_GET["username"],
+                "username" => $_SERVER["PHP_AUTH_USER"],
                 "type" => "worktime",
                 "pause" => [
                     "start" => $_GET["pause_start"] ?? null,
@@ -44,15 +44,12 @@ namespace Toil {
                 "meta" => $_GET["meta"] ?? null
             ];
 
-            if ($user->is_admin($user->get_user($_SERVER["PHP_AUTH_USER"])) == true) {
+            
                 if ($arbeit->add_worktime($data["start"], $data["end"], $data["location"], $data["date"], $data["username"], $data["type"], $data["pause"], $data["meta"])) {
                     echo json_encode(["note" => "Successfully saved worktime record"]);
                 } else {
                     echo json_encode(["error" => "An error occured while saving worktime"]);
                 }
-            } else {
-                echo json_encode(["error" => "No permission."]);
-            }
         }
 
         public function post($post = null)

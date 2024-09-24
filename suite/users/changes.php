@@ -2,24 +2,12 @@
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
-use Arbeitszeit\Benutzer;
-use Arbeitszeit\Auth;
-use Arbeitszeit\i18n;
-$username = $_SESSION["username"];
-$auth = new Auth;
-$calendar = new Kalender;
-$user = new Benutzer;
 $arbeit = new Arbeitszeit;
 $base_url = $ini = Arbeitszeit::get_app_ini();
-$auth->login_validation();
-
-$i18n = new i18n;
+$arbeit->auth()->login_validation();
 $locale = locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]); // Locale retrieved from Header
-$loc = $i18n->loadLanguage($locale, "users/changes");
-$data = $user->get_user($_SESSION["username"]);
-
-
+$loc = $arbeit->i18n()->loadLanguage($locale, "users/changes");
+$data = $arbeit->benutzer()->get_user($_SESSION["username"]);
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +20,7 @@ $data = $user->get_user($_SESSION["username"]);
         <meta charset="UTF-8">
     </head>
     <body>
-        <?php $calendar->get_calendar_html()  ?>
+        <?php $arbeit->kalender()->get_calendar_html()  ?>
         <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php" ?> 
         <?php echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]); ?>
         <h1><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>
