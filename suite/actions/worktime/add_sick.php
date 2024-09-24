@@ -2,9 +2,9 @@
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
 $worktime = new Arbeitszeit;
-$base_url = $arbeit->get_app_ini()["general"]["base_url"];
-$arbeit->auth()->login_validation();
-$sick = $arbeit->sickness()->add_sickness($_POST["date-start"], $_POST["date-end"]);
+$base_url = $worktime->get_app_ini()["general"]["base_url"];
+$worktime->auth()->login_validation();
+$sick = $worktime->sickness()->add_sickness(start: $_POST["date-start"], stop: $_POST["date-end"], user: $_SESSION["username"]);
 if(!$sick){
     header("Location: http://{$base_url}/suite/?info=error_sickness");
 } else {

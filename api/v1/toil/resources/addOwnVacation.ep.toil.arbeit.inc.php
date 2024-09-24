@@ -5,9 +5,9 @@ namespace Toil {
     use Arbeitszeit\Arbeitszeit;
     use Arbeitszeit\Auth;
     use Arbeitszeit\Benutzer;
-    use Arbeitszeit\Projects;
+    use Arbeitszeit\Vacation;
 
-    class addProject implements EPInterface
+    class addOwnVacation implements EPInterface
     {
         public function __construct()
         {
@@ -30,24 +30,18 @@ namespace Toil {
             $user = new Benutzer;
             $arbeit = new Arbeitszeit;
             $auth = new Auth;
-            $projects = new Projects;
+            $vac = new Vacation;
             $auth->login_validation();
-            $data = [
-                "name" => $_GET["name"],
-                "description" => $_GET["description"],
-                "note" => $_GET["note"],
-                "users" => explode(";", $_GET["users"])
-            ];
+            $start = $_GET["start"];
+            $stop = $_GET["stop"];
+            $username = $_SERVER["PHP_AUTH_USER"];
 
-            if ($user->is_admin($user->get_user($_SESSION["username"])) == true) {
-                if ($projects->addProjectE($data["name"], $data["description"], $data["note"], $data["users"])) {
-                    echo json_encode(["note" => "Successfully saved new project"]);
+            
+                if ($vac->add_vacation($start, $stop, $username)) {
+                    echo json_encode(["note" => "Successfully saved vacation record"]);
                 } else {
-                    echo json_encode(["error" => "An error occured while saving project"]);
+                    echo json_encode(["error" => "An error occured while saving vacation"]);
                 }
-            } else {
-                echo json_encode(["error" => "No permission."]);
-            }
         }
 
         public function post($post = null)

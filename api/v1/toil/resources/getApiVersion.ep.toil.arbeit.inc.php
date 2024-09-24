@@ -30,7 +30,7 @@ namespace Toil {
             echo json_encode(array("version" => $v));
         }
 
-        public function post()
+        public function post($post = null)
         {
 
         }

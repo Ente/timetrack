@@ -32,7 +32,7 @@ namespace Toil {
             echo json_encode(["result" => $result]);
         }
 
-        public function post()
+        public function post($post = null)
         {
 
         }

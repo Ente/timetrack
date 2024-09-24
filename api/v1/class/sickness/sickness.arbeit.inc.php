@@ -9,7 +9,7 @@ namespace Arbeitszeit {
     class Sickness extends Arbeitszeit
     {
 
-        public function add_sickness($start, $stop)
+        public function add_sickness($start, $stop, $user = null)
         {
             $user = $_SESSION["username"];
             $dateString = $start;
@@ -22,7 +22,7 @@ namespace Arbeitszeit {
               return false;   
             }
 
-            $data = $this->db->sendQuery("INSERT INTO sick (id, username, start, stop, status) VALUES (0, ?, ?, ?, 'pending'")->execute([$user, $start, $stop]);
+            $data = $this->db()->sendQuery("INSERT INTO sick (id, username, start, stop, status) VALUES (0, ?, ?, ?, 'pending')")->execute([$user, $start, $stop]);
             if($data == false){
                 Exceptions::error_rep("[SICK] An error occured while adding an sickness for user '$user'. See previous message for more information.");
                 return false;
@@ -33,7 +33,7 @@ namespace Arbeitszeit {
         }
 
         public function remove_sickness($id){ # admin function only
-            $data = $this->db->sendQuery("DELETE * FROM sick WHERE id = ?")->execute([$id]);
+            $data = $this->db()->sendQuery("DELETE * FROM sick WHERE id = ?")->execute([$id]);
             if($data == false){
                 Exceptions::error_rep("[SICK] An error occured while deleting a sickness with id '{$id}'. See previous message for more information.");
                 return false;
@@ -50,7 +50,7 @@ namespace Arbeitszeit {
             } else {
                 $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = ?;";
             }
-            $data = $this->db->sendQuery($sql)->execute([$id]);
+            $data = $this->db()->sendQuery($sql)->execute([$id]);
             if($data == false){
                 Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
@@ -63,7 +63,7 @@ namespace Arbeitszeit {
 
         public function display_sickness_all(){ # admin function only
             $sql = "SELECT * FROM `sick` LIMIT 100;";
-            $data = $this->db->sendQuery($sql);
+            $data = $this->db()->sendQuery($sql);
             $data->execute();
             $count = $data->rowCount();
 
@@ -113,7 +113,7 @@ namespace Arbeitszeit {
 
         public function get_sickness($id, $mode = 1){
             $sql = "SELECT * FROM `sickness` WHERE id = ?";
-            $data = $this->db->sendQuery($sql)->execute([$id]);
+            $data = $this->db()->sendQuery($sql)->execute([$id]);
             if($data == false){
                 Exceptions::error_rep("[SICKNESS] An error occured while getting sickness. id '{$id}'. See previous message for more information.");
                 return false;

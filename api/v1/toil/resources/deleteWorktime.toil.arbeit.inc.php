@@ -39,7 +39,7 @@ namespace Toil {
             echo json_encode(["error" => "could not delete worktime"]); die();
         }
 
-        public function post()
+        public function post($post = null)
         {
 
         }

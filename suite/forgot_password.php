@@ -4,7 +4,8 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_passwo
 use Arbeitszeit\Arbeitszeit;
 $arbeitszeit = new Arbeitszeit;
 $ini = $arbeitszeit->get_app_ini();
-$loc = $i18n->loadLanguage(NULL, "reset");
+$loc = $arbeitszeit->i18n()->loadLanguage(NULL, "reset");
+echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]);
 ?>
 <!DOCTYPE html>
 <html>

@@ -13,12 +13,13 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Exceptions;
 use Toil\Controller;
+use Toil\Permissions;
 
 class Routes extends Toil {
     private Arbeitszeit $arbeitszeit;
     private Benutzer $benutzer;
 
-    private $api_username;
+    private string $api_username;
 
     private $api_password;
 
@@ -26,7 +27,7 @@ class Routes extends Toil {
 
     private EventHandler $eventHandler;
 
-    private $bString = "Toil API v1.5";
+    private $bString = "Toil API";
 
     public function __construct(){
         $user = $_SERVER["PHP_AUTH_USER"];
@@ -36,7 +37,9 @@ class Routes extends Toil {
         $this->__set("api_username", $user or $this->authError("No username provided."));
         $this->__set("api_password", $pw or $this->authError($user));
 
-        $this->login($this->__get("api_username"), $this->__get("api_password"));
+        if($this->login(username: $user, password: $pw == false)){
+            $this->authError($user);
+        };
         $this->__set("eventHandler", new EventHandler());
     }
 
@@ -45,7 +48,7 @@ class Routes extends Toil {
     }
 
     public function __get($name){
-        return $this->$name ?? false;
+        return $this->$name;
     }
 
     public function authError($name = null){
@@ -70,7 +73,7 @@ class Routes extends Toil {
 
     public function routing($eventHandler){
         $base = $this->__get("basepath");
-        $user = $this->__get("api_username");
+        $user = $_SERVER["PHP_AUTH_USER"];
         $eventHandler->register(EventHandler::EVENT_ADD_ROUTE, function(EventArgument $event) use ($base){
             $route = $event->route;
             if(!$event->isSubRoute){
@@ -85,6 +88,20 @@ class Routes extends Toil {
                     break;
             }
         });
+
+
+        # Before letting user accessing the API endpoint, checking if authorized
+
+        $permissions = new Permissions;
+        preg_match("/\/([^\/?]+)(\?.*)?$/m", $_SERVER["REQUEST_URI"], $matches);
+        if(!$permissions->checkPermissions($user, $matches[1])){
+            Exceptions::error_rep("[API] Failed checking permissions for expected endpoint: " . $matches[1]);
+            header("Content-type: application/json");
+            header("HTTP/1.1 403 Forbidden");
+            echo json_encode(["error" => "forbidden"]);
+            die();
+        }
+
         Router::addEventHandler($eventHandler);
         Router::get("/api/v1/toil/getVersion", function(){
             Exceptions::error_rep("Accessing 'getVersion' endpoint. User: " . $this->__get("api_username"));
@@ -165,7 +182,10 @@ class Routes extends Toil {
             Exceptions::error_rep("[LIC] User authenticated and accessing 'addUser' endpoint");
             Controller::createview("addUser");
         });
-
+        Router::get("/api/v1/toil/getOwnWorktime", function(){
+            Exceptions::error_rep("[LIC] User authenticated and accessing 'getOwnWorktime' endpoint");
+            Controller::createview("getOwnWorktime");
+        });
 
         Router::error(function(Request $request, \Exception $e){
             switch($e->getCode()){

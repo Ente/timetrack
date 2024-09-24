@@ -5,7 +5,7 @@ use Arbeitszeit\Arbeitszeit;
 $arbeit = new Arbeitszeit;
 $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
-$loc = $arbeit->i18n()->loadLanguage($locale, "calendar/all");
+$loc = $arbeit->i18n()->loadLanguage(null, "calendar/all");
 $arbeit->auth()->login_validation();
 if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     header("Location: http://{$base_url}/suite/?info=noperms");

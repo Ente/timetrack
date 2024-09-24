@@ -40,7 +40,7 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
                     <th><?php echo $loc["t4"] ?></th>
                 </tr>
 
-                <?php echo $vacation->display_vacation_all()  ?>
+                <?php echo $arbeit->vacation()->display_vacation_all()  ?>
             </table>
         </div>
     </body>

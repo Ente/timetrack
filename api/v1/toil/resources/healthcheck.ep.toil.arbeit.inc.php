@@ -21,7 +21,7 @@ namespace Toil {
             echo json_encode(array("status" => "alive"));
         }
 
-        public function post(){
+        public function post($post = null){
 
         }
 

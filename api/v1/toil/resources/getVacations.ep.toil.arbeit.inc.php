@@ -34,7 +34,7 @@ namespace Toil {
             }
         }
 
-        public function post()
+        public function post($post = null)
         {
 
         }

@@ -17,8 +17,13 @@ $changed = new MailPasswordChanged;
 
 $ini = $arbeitszeit->get_app_ini();
 
+if(isset($_POST["email"])){
+    $reset->mail_password_reset($arbeitszeit->benutzer()->get_username_from_email($_POST["email"]), $arbeitszeit->auth()->mail_init($arbeitszeit->benutzer()->get_username_from_email($_POST["email"]), true));
+    header("Location: /suite/login.php?info=password_reset");
+}
+
 if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
-    $conn = new DB;
+    $db = new DB;
     $sql = "SELECT * FROM `users` WHERE email = ?";
     $query = $db->sendQuery($sql);
     $query->execute([$_POST["auth"]]);
@@ -30,10 +35,10 @@ if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
         $res = $db->sendQuery($sql)->execute([$pass, $_POST["auth"]]);
         if($res){
             $changed->mail_password_changed($data["username"], $auth->mail_init($data["username"], true));
-            header("Location: /suite/index.php?info=password_changed");
+            header("Location: /suite/login.php?info=password_changed");
         } else {
             Exceptions::error_rep("Could not change password as the query failed!. See previous message for more information.");
-            header("Location: /suite/index.php?info=password_change_failed");
+            header("Location: /suite/login.php?info=password_change_failed");
         }
     } else {
         Exceptions::error_rep("Could not reset password as the user could not be found! | Email: " . $_POST["auth"]);

@@ -88,7 +88,7 @@ namespace Arbeitszeit {
          */
         public function delete_worktime($id)
         {
-            $data = $this->db->sendQuery("DELETE FROM arbeitszeiten WHERE id = ?", array([$id]));
+            $data = $this->db->sendQuery("DELETE FROM arbeitszeiten WHERE id = ?")->execute([$id]);
             if ($data == false) {
                 Exceptions::error_rep("An error occured while deleting an worktime entry. See previous message for more information.");
                 return [
@@ -563,6 +563,9 @@ namespace Arbeitszeit {
             if (strpos($url, "info=vacation_added")) {
                 return "<p><span style='color:green;'>{$loc["vacation_added"]}</p>";
             }
+            if (strpos($url, "info=password_reset")) {
+                return "<p><span style='color:green;'>{$loc["password_reset"]}</p>";
+            }
             if (strpos($url, "info=sickness_added")) {
                 return "<p><span style='color:green;'>{$loc["sickness_added"]}</p>";
             }
@@ -703,6 +706,7 @@ namespace Arbeitszeit {
             $conn = new DB;
             $sql = "SELECT * FROM `arbeitszeiten` WHERE id = ?;";
             $res = $conn->sendQuery($sql);
+            $res->execute([$id]);
             if (!$res) {
                 return false;
             } else {

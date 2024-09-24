@@ -20,6 +20,14 @@ Additional functionality can be unlocked with TimeTrack Oval
 
 ## Installation
 
+### Requirements
+
+- at least PHP 8.0 (intl, pdo_mysql, curl, fileinfo, ldap, sockets extension)
+- Apache2.4 with enabled htaccess, headers mod
+- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing)
+
+This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. `php -S 0.0.0.0:80`).
+
 ### Install dependencies and TimeTrack
 
 Simply install the software by following these steps:
@@ -83,14 +91,6 @@ If done correctly, you should now be able to access the application via http://B
 **Please delete the whole `/setup/` folder after installation**
 
 After configuring, please rename the `app.ini.sample` to `app.ini` (`mv app.ini.sample app.ini`)
-
-### Requirements
-
-- at least PHP 8.0 (intl, pdo_mysql, curl, fileinfo, ldap, sockets extension)
-- Apache2.4 with enabled htaccess, headers mod
-- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing)
-
-This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. `php -S 0.0.0.0:80`).
 
 ## Maintenance Mode
 

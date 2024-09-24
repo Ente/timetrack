@@ -38,7 +38,7 @@ namespace Toil {
             echo json_encode(["result" => $result]); // only returns false or an array if the connection to the db could not be established or something similar but not if the user simply doesn't exist
         }
 
-        public function post()
+        public function post($post = null)
         {
 
         }

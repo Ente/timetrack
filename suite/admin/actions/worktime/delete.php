@@ -11,8 +11,8 @@ $base_url = $ini["general"]["base_url"];
 $id = $_GET["id"];
 $arbeit->auth()->login_validation();
 if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
-    $num->mail_worktime_deleted($_GET["u"], $id, $arbeit->auth()->mail_init($_GET["u"], true));
     if($arbeit->delete_worktime($id) == true){
+        $num->mail_worktime_deleted($_GET["u"], $id, $arbeit->auth()->mail_init($_GET["u"], true));
         header("Location: http://{$base_url}/suite/?info=worktime_deleted");
     }   
 } else {
