@@ -203,7 +203,7 @@ class Routes extends Toil {
         });
     }
 
-    public function getResourceNameFromPath($path){
+    private function getResourceNameFromPath($path){
         preg_match("/[^\/]+$/", $path, $match);
         return $match[0];
     }

@@ -15,7 +15,7 @@ namespace Arbeitszeit {
         }
 
 
-        public static function get_normal_mode_html(){
+        private static function get_normal_mode_html(){
             $i18n = new i18n;
             $loc = $i18n->loadLanguage(null, "mode/easymode");
             $data = <<< DATA
@@ -57,7 +57,7 @@ DATA;
             return $data;
         }
 
-        public static function get_easymode_html(){
+        private static function get_easymode_html(){
             $i18n = new i18n;
             $loc = $i18n->loadLanguage(null, "mode/easymode");
             $active = Arbeitszeit::check_easymode_worktime_finished($_SESSION["username"]);

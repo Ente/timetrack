@@ -681,7 +681,7 @@ namespace Arbeitszeit {
             }
         }
 
-        public static function arr2ini(array $a, array $parent = array())
+        private static function arr2ini(array $a, array $parent = array())
         {
             $out = '';
             foreach ($a as $k => $v) {
