@@ -36,7 +36,7 @@ namespace Arbeitszeit {
             }
         }
 
-        private static function logrotate(){
+        public static function logrotate(){
             $logpath = $_SERVER["DOCUMENT_ROOT"] . "/data/logs/";
             $date = date("Y-m-d");
             $lastrotate = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/data/logs/logrotate-cache.txt");
