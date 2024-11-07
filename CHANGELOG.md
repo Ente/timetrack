@@ -5,6 +5,7 @@
 * Bug and additional fixes
 
 <!-- Adjusted classes functions scopes to `private` where possible -->
+<!-- Fixed an issue making it unable to initialize plugins correctly -->
 
 ## v7.2.1
 

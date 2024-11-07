@@ -128,33 +128,37 @@ namespace Arbeitszeit{
          * 
          * @return bool|void If everything went ok, void. If an error occurs false bool.
          */
-        final public function initialize_plugins(): ?bool{
-            if($this->testing == true){
+        final public function initialize_plugins(): ?bool {
+            if ($this->testing == true) {
                 $plugins = $this->get_plugins();
-                if($plugins == false){
+                if ($plugins == false) {
                     $this->logger("{$this->la} Could not get plugins. Please verify the plugin path given in the app.ini");
                     return false;
                 }
-                foreach($plugins["plugins"] as $plugin => $keys){
-                    $this->load_class($keys["main"], $plugin . "/src");
-                    $class = $keys["namespace"] . "\\" . $keys["main"];
-                    if(!class_exists($class)){
-                        $this->logger("{$this->la} Class '{$class}' not found!");
-                        trigger_error("Fatal error: Class {$class} not found! Plugin not loading.");
-                        die();
+        
+                if (is_array($plugins["plugins"])) {  // Hier wird überprüft, ob $plugins["plugins"] ein Array ist
+                    foreach ($plugins["plugins"] as $plugin => $keys) {
+                        $this->load_class($keys["main"], $plugin . "/src");
+                        $class = $keys["namespace"] . "\\" . $keys["main"];
+                        if (!class_exists($class)) {
+                            $this->logger("{$this->la} Class '{$class}' not found!");
+                            trigger_error("Fatal error: Class {$class} not found! Plugin not loading.");
+                            die();
+                        }
+                        $this->logger("{$this->la} Plugin '{$class}' loading...");
+                        $class = new $class;
+                        $class->onLoad();
                     }
-                    $this->logger("{$this->la} Plugin '{$class}' loading...");
-                    $class = new $class;
-                    $class->onLoad();
-
                 }
+        
                 return true;
-            } elseif($this->testing == false){
-                
+            } elseif ($this->testing == false) {
+                // Keine Aktion notwendig
             } else {
                 return false;
             }
         }
+        
 
         function platformSlashes($path) {
             if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
@@ -178,7 +182,7 @@ namespace Arbeitszeit{
                     $yaml = Yaml::parseFile($this->platformSlashes($path));
                 } catch(Exception $e){
                     Exceptions::error_rep($e);
-                    throw new \Exception($e);
+                    throw new \Exception($e->getMessage());
                 }
                 return (array)$yaml;
            } else {
@@ -358,26 +362,32 @@ namespace Arbeitszeit{
             }
         }
 
-        final public function get_plugin_nav($name){
+        final public function get_plugin_nav($name) {
             $conf = $this->read_plugin_configuration($name);
-            if($conf["nav_links"] != false){
+            if (isset($conf["nav_links"]) && is_array($conf["nav_links"])) {  
                 return $conf["nav_links"];
             }
+            return [];  
         }
 
-        final public function get_plugin_nav_html($plugin_name){
+        final public function get_plugin_nav_html($plugin_name) {
             $links = $this->get_plugin_nav($plugin_name);
             $html = "";
             $conf = $this->read_plugin_configuration($plugin_name);
-            if($conf["enabled"] == false){
+            
+            if (isset($conf["enabled"]) && !$conf["enabled"]) { 
                 return null;
             }
-
-            foreach($links as $n => $v){
-                $html .= "<li><a href='/suite/plugins/index.php?pn={$plugin_name}&p_view={$v}'>[{$plugin_name}] $n</a></li>";
+        
+            if (is_array($links)) { 
+                foreach ($links as $n => $v) {
+                    $html .= "<li><a href='/suite/plugins/index.php?pn={$plugin_name}&p_view={$v}'>[{$plugin_name}] $n</a></li>";
+                }
             }
+        
             return $html;
         }
+        
 
         final public function load_plugin_view($plugin_name, $view){
             # $view shall be the nav link value
