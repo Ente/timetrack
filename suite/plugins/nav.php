@@ -19,7 +19,7 @@ $pl = new PluginBuilder();
         }
         
         foreach($plugins["plugins"] as $plugin){
-            echo $pl->get_plugin_nav_html($plugin["name"]);
+            echo @$pl->get_plugin_nav_html($plugin["name"]);
         }
     ?>
 </ul>
