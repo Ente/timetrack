@@ -2,10 +2,12 @@
 
 ## v7.2.2
 
+* Completely removed the mailbox functionality which has been deprecated with `v6.5.1`
 * Bug and additional fixes
 
 <!-- Adjusted classes functions scopes to `private` where possible -->
 <!-- Fixed an issue making it unable to initialize plugins correctly -->
+<!-- Removed `help.php` file -->
 
 ## v7.2.1
 
