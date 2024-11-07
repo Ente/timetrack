@@ -30,25 +30,6 @@ CREATE TABLE `kalender` (
   `notiz` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_german1_ci;
 
-CREATE TABLE `mailboxes` (
-  `id` int(11) NOT NULL,
-  `name` varchar(256) NOT NULL,
-  `description` text DEFAULT NULL,
-  `file` text DEFAULT NULL,
-  `user` varchar(255) NOT NULL,
-  `seen` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `mailboxes_files` (
-  `id` int(11) NOT NULL COMMENT 'attachement id',
-  `m_id` int(11) NOT NULL COMMENT 'mailbox notif id',
-  `name` varchar(255) NOT NULL,
-  `type` text NOT NULL,
-  `url` text NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `secret` int(10) NOT NULL COMMENT 'Defines if the file preview should be covered\r\n'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 CREATE TABLE `schicht` (
   `id` int(11) NOT NULL,
   `name` varchar(256) NOT NULL,
@@ -92,12 +73,6 @@ ALTER TABLE `arbeitszeiten`
 ALTER TABLE `kalender`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `mailboxes`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `mailboxes_files`
-  ADD PRIMARY KEY (`id`);
-
 ALTER TABLE `schicht`
   ADD PRIMARY KEY (`id`);
 
@@ -115,9 +90,6 @@ ALTER TABLE `arbeitszeiten`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `kalender`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `mailboxes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `schicht`

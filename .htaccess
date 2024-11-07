@@ -5,11 +5,6 @@ SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
 ErrorDocument 503 /errors/503.html
 ErrorDocument 403 /errors/403.html
 
-
-RedirectMatch 403 ^/suite/admin/actions/mailbox/.*$
-RedirectMatch 403 ^/suite/admin/mailbox/.*$
-RedirectMatch 403 ^/suite/mailbox/.*$
-
 RewriteEngine on
 RewriteBase /api/v1/toil/
 RewriteCond %{REQUEST_FILENAME} !-f
