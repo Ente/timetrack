@@ -8,6 +8,7 @@
 <!-- Adjusted classes functions scopes to `private` where possible -->
 <!-- Fixed an issue making it unable to initialize plugins correctly -->
 <!-- Removed `help.php` file -->
+<!-- Removed email notification for a deleted worktime entry -->
 
 ## v7.2.1
 
