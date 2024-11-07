@@ -29,7 +29,7 @@ namespace Arbeitszeit {
             return $this->$name;
         }
 
-        public function dsnStringBuilder($db, $host){
+        private function dsnStringBuilder($db, $host){
             return "mysql:dbname=" . $db . ";host=" . $host;
         }
 

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.2.2
+
+* Bug and additional fixes
+
+<!-- Adjusted classes functions scopes to `private` where possible -->
+
 ## v7.2.1
 
 * Bug fixes and minor changes

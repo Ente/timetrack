@@ -17,7 +17,7 @@ namespace Arbeitszeit{
             $this->$name = $value;
         }
 
-        public function request_schemev(){
+        private function request_schemev(){
             $conn = new DB;
 
             try {
@@ -36,7 +36,7 @@ namespace Arbeitszeit{
             return $data;
         }
 
-        public function get_latest_schemev(){
+        private function get_latest_schemev(){
             $dir = dirname(__DIR__) . "/updates/data/scheme.db";
             $d = file_get_contents($dir);
             return $d;
@@ -53,7 +53,7 @@ namespace Arbeitszeit{
             }
         }
 
-        public function get_upgrade_file($scheme){
+        private function get_upgrade_file($scheme){
             return __DIR__ . "/data/migrations/{$scheme}.sql";
         }
 
