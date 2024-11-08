@@ -12,7 +12,7 @@ new Toil();
 $debug = Router::startDebug();
 } catch(Exception $e){
     function non($name = null){
-        Exceptions::error_rep("[LIC] Failed authentication for Toil API for user '$name'");
+        Exceptions::error_rep("[API] Failed authentication for Toil API for user '$name'");
         header("WWW-Authenticate: Basic realm='Toil API'");
         header("HTTP/1.0 404 Not found");
         die("Not found - Toil API");

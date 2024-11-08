@@ -584,9 +584,6 @@ namespace Arbeitszeit {
             if (strpos($url, "info=worktime_added")) {
                 return "<p><span style='color:green;'>{$loc["worktime_added"]}</span></p>";
             }
-            if (strpos($url, "info=mailbox_entry_added")) {
-                return "<p><span style='color: green;'>Hinweis: Mailbox-Eintrag hinzugefügt!</span></p>";
-            }
             if (strpos($url, "info=password_changed")) {
                 return "<p><span style='color: green;'>{$loc["password_changed"]}</span></p>";
             }
@@ -681,7 +678,7 @@ namespace Arbeitszeit {
             }
         }
 
-        public static function arr2ini(array $a, array $parent = array())
+        private static function arr2ini(array $a, array $parent = array())
         {
             $out = '';
             foreach ($a as $k => $v) {

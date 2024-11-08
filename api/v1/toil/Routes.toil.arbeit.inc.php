@@ -1,7 +1,7 @@
 <?php
 namespace Toil;
 
-require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
+require_once dirname(__DIR__, 3) . "/api/v1/inc/arbeit.inc.php";
 use Pecee\SimpleRouter\SimpleRouter as Router;
 use Pecee\SimpleRouter\Handlers\EventHandler;
 use Pecee\SimpleRouter\Route\IGroupRoute;
@@ -34,12 +34,17 @@ class Routes extends Toil {
         $pw = $_SERVER["PHP_AUTH_PW"];
         $this->__set("arbeitszeit", new Arbeitszeit());
         $this->__set("benutzer", new Benutzer());
-        $this->__set("api_username", $user or $this->authError("No username provided."));
+        if (!$user) {
+            $this->authError("No username provided.");
+        } else {
+            $this->__set("api_username", $user);
+        }
+        
         $this->__set("api_password", $pw or $this->authError($user));
 
-        if($this->login(username: $user, password: $pw == false)){
+        if(!$this->login(username: $user, password: $pw)){
             $this->authError($user);
-        };
+        }
         $this->__set("eventHandler", new EventHandler());
     }
 
@@ -52,7 +57,7 @@ class Routes extends Toil {
     }
 
     public function authError($name = null){
-        Exceptions::error_rep("Failed authentication for Toil API for user '$name'");
+        Exceptions::error_rep("[API] Failed authentication for Toil API for user '{$name}'");
         header("WWW-Authenticate: Basic realm='" . $this->bString . "'");
         header("HTTP/1.0 401 Unauthorized");
         die("Not authenticated");
@@ -62,12 +67,11 @@ class Routes extends Toil {
         if($this->__get("benutzer")->get_user($username)){
             $data = $this->__get("benutzer")->get_user($username);
             if(password_verify($password, $data["password"])){
-                Exceptions::error_rep("Successfully authenticated user '$username' via API.");
+                Exceptions::error_rep("[API] Successfully authenticated user '$username' via API.");
                 return true;
-            } else {
-                Exceptions::error_rep("Failed authentication for user '$username' via API.");
-                return false;
             }
+            Exceptions::error_rep("[API] Failed authenticating user '$username' via API.");
+            return false;
         }
     }
 
@@ -108,84 +112,87 @@ class Routes extends Toil {
             Controller::createview("getVersion");
         });
         Router::get("/api/v1/toil/healthcheck", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'healthcheck' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'healthcheck' endpoint");
             Controller::createview("healthcheck");
         });
         Router::get("/api/v1/toil/getUserCount", function(){
-            Exceptions::error_rep("[LIC] User authenticated and acceessing 'getUserCount' endpoint");
+            Exceptions::error_rep("[API] User authenticated and acceessing 'getUserCount' endpoint");
             Controller::createview("getUserCount");
         });
         Router::get("/api/v1/toil/getApiVersion", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'getApiVersion' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'getApiVersion' endpoint");
             Controller::createview("getApiVersion");
         });
         Router::get("/api/v1/toil/getLog", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'getLog' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'getLog' endpoint");
             Controller::createview("getLog");
         });
         Router::get("/api/v1/toil/getWorktimes", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'getWorktimes' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'getWorktimes' endpoint");
             Controller::createview("getWorktimes");
         });
 
         Router::get("/api/v1/toil/getVacations", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'getVacations' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'getVacations' endpoint");
             Controller::createview("getVacations");
         });
 
         Router::get("/api/v1/toil/getUsers", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'getUsers' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'getUsers' endpoint");
             Controller::createview("getUsers");
         });
 
         Router::get("/api/v1/toil/getUserDetails", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'getUserDetails' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'getUserDetails' endpoint");
             Controller::createview("getUserDetails");
         });
 
         Router::get("/api/v1/toil/approveVacation", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'approveVacation' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'approveVacation' endpoint");
             Controller::createview("approveVacation");
         });
 
         Router::get("/api/v1/toil/addWorktime", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'addWorktime' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'addWorktime' endpoint");
             Controller::createview("addWorktime");
         });
 
         Router::get("/api/v1/toil/addVacation", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'addVacation' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'addVacation' endpoint");
             Controller::createview("addVacation");
         });
 
         Router::get("/api/v1/toil/addProject", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'addProject' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'addProject' endpoint");
             Controller::createview("addProject");
         });
         
         Router::get("/api/v1/toil/getUserWorktimes", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'getUserWorktimes' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'getUserWorktimes' endpoint");
             Controller::createview("getUserWorktimes");
         });
 
         Router::get("/api/v1/toil/deleteWorktime", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'deleteWorktime' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'deleteWorktime' endpoint");
             Controller::createview("deleteWorktime");
         });
 
         Router::get("/api/v1/toil/deleteUser", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'deleteUser' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'deleteUser' endpoint");
             Controller::createview("deleteUser");
         });
 
         Router::get("/api/v1/toil/addUser", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'addUser' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'addUser' endpoint");
             Controller::createview("addUser");
         });
         Router::get("/api/v1/toil/getOwnWorktime", function(){
-            Exceptions::error_rep("[LIC] User authenticated and accessing 'getOwnWorktime' endpoint");
+            Exceptions::error_rep("[API] User authenticated and accessing 'getOwnWorktime' endpoint");
             Controller::createview("getOwnWorktime");
         });
+
+        // Loading all custom routes
+        CustomRoutes::loadCustomRoutes();
 
         Router::error(function(Request $request, \Exception $e){
             switch($e->getCode()){
