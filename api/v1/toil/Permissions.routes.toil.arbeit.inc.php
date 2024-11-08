@@ -43,16 +43,18 @@ namespace Toil{
 
     
         public function checkPermissions($user, $endpoint){
-            $endpointP = $this->loadPermissionSet()[$endpoint];
-            if($endpointP === null) {Exceptions::error_rep("Failed to check for permissions on endpoint: " . $endpoint . " (req: ". $endpointP . ", for user " . $user); return false;};
+            $endpointP = @$this->loadPermissionSet()[$endpoint];
+            if($endpointP === null) {Exceptions::error_rep("[API] Failed to check for permissions on endpoint: " . $endpoint . " (req: ". $endpointP . ", for user " . $user); return false;};
 
             $perm = $this->checkUserPermission($user);
-            if($perm == 1 || $endpointP === 0){
-                return true;
-            } elseif($perm == $endpointP){
-                return true;
-            } else {
-                return false;
+            switch ($perm) {
+                case 1:
+                case $endpointP === 0:
+                    return true;
+                case $perm == $endpointP:
+                    return true;
+                default:
+                    return false;
             }
         }
         

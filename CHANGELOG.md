@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.3
+
+* Toil API release `v1.8` now supports loading custom routes. Read more about this feature in the `api/v1/toil/README.md` file.
+
+<!-- Updated Toil README.md to reflect the changes done -->
+
 ## v7.2.2
 
 * Bug and additional fixes

@@ -18,6 +18,29 @@ namespace Toil {
             }
             die("No suitable method found.");
         }
+
+        public static function createcustomview($endpoint, $classFile){
+            try {
+                @require_once $_SERVER["DOCUMENT_ROOT"] . $classFile;
+                $class = "Toil\\$endpoint";
+                $class = new $class;
+            } catch (\Throwable $e){
+                header("Content-Type: application/json");
+                echo json_encode(array("error" => "Could not load custom route."));
+                die();
+            }
+
+            $method = $_SERVER["REQUEST_METHOD"];
+            switch($method){
+                case "GET":
+                    $class->$method();
+                    die();
+                case "POST":
+                    $class->$method($_POST);
+                    die();
+            }
+            die("No suitable method found.");
+        }
     }
 }
 
