@@ -8,7 +8,10 @@ namespace Toil {
     {
         public function __construct()
         {
-
+            /**
+             * Empty, required by interface
+             *
+             */
         }
 
         public function __set($name, $value)
@@ -35,17 +38,26 @@ namespace Toil {
 
         public function post($post = null)
         {
-
+            /**
+             * Empty, required by interface
+             *
+             */
         }
 
         public function delete()
         {
-
+            /**
+             * Empty, required by interface
+             *
+             */
         }
 
         public function put()
         {
-
+            /**
+             * Empty, required by interface
+             *
+             */
         }
     }
 }
