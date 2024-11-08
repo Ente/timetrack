@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v7.3.1
+
+* Fixed being unable to toggle easymode
+
 ## v7.3
 
 * Toil API release `v1.8` now supports loading custom routes. Read more about this feature in the `api/v1/toil/README.md` file.
