@@ -201,8 +201,8 @@ namespace Arbeitszeit {
                     }
                     return true;
                 } else {
-                    $sql1 = "UPDATE `users` SET `easymode` = '0';";
-                    $res1 = $this->db->sendQuery($sql)->execute();
+                    $sql1 = "UPDATE `users` SET `easymode` = '0' WHERE username = ?;";
+                    $res1 = $this->db->sendQuery($sql1)->execute([$username]);
                     if (!$res1) {
                         Exceptions::error_rep("An error occured while toggling easymode for user '{$username}'! Could not disable mode.");
                         return false;
