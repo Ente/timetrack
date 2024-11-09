@@ -87,6 +87,8 @@ namespace Arbeitszeit {
         }
 
         public function display_vacation_all(){ # admin function only
+            $i18n = $this->i18n()->loadLanguage(null, "worktime/vacation/all", "admin");
+            
             $sql = "SELECT * FROM `vacation`";
             $data = $this->db->sendQuery($sql);
             $data->execute();
@@ -102,13 +104,13 @@ namespace Arbeitszeit {
 
                     switch($status){
                         case "pending":
-                            $status = "<span style='color:yellow;'>pending</span>";
+                            $status = "<span style='color:yellow;'>{$i18n["status"]["pending"]}</span>";
                             break;
                         case "approved":
-                            $status = "<span style='color:green;'>approved</span>";
+                            $status = "<span style='color:green;'>{$i18n["status"]["approved"]}</span>";
                             break;
                         case "rejected":
-                            $status = "<span style='color:red'>rejected</span>";
+                            $status = "<span style='color:red'>{$i18n["status"]["rejected"]}</span>";
                             break;
                     }
 
@@ -122,7 +124,7 @@ namespace Arbeitszeit {
                             <td>{$rnw}</td>
                             <td>{$start}</td>
                             <td>{$stop}</td>
-                            <td>{$status} | Set to <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=pending&u={$rnw}">Pending</a> or <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=approve&u={$rnw}">Approved</a> or <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=reject&u={$rnw}">Rejected</a></td>
+                            <td>{$status} | {$i18n["status"]["set_to"]} <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=pending&u={$rnw}">{$i18n["status"]["pending"]}</a> {$i18n["status"]["or"]} <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=approve&u={$rnw}">{$i18n["status"]["approved"]}</a> {$i18n["status"]["or"]} <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=reject&u={$rnw}">{$i18n["status"]["rejected"]}</a></td>
                         </tr>
 
 
@@ -132,7 +134,7 @@ namespace Arbeitszeit {
                 }
             } else {
                 Exceptions::error_rep("[VACATION] No vacations found. Returning.");
-                return "Keine Urlaube eingetragen.";
+                return $i18n["status"]["not_found"];
             }
         }
 
