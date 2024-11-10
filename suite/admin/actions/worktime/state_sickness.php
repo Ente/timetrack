@@ -5,7 +5,7 @@ require "../../../../api/v1/class/auth/plugins/mail_sickness_pending.auth.arbeit
 require "../../../../api/v1/class/auth/plugins/mail_sickness_approved.auth.arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\Kalender;
+use Arbeitszeit\Notifications;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Auth;
 use Arbeitszeit\MailSicknessApproved;
@@ -16,7 +16,7 @@ use Arbeitszeit\Exceptions;
 
 $username = $_SESSION["username"];
 $auth = new Auth;
-$calendar = new Kalender;
+$calendar = new Notifications;
 $user = new Benutzer;
 $avr = new MailSicknessRejected;
 $ava = new MailSicknessApproved;

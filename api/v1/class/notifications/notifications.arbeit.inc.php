@@ -1,13 +1,7 @@
 <?php
 namespace Arbeitszeit{
-    /**
-     * Diese Klasse beinhaltet alle Elemente, die für den Kalender relevant sind
-     * Erweitert die "Arbeitszeit" Klasse
-     * 
-     * @author Bryan Böhnke-Avan <bryan.boehnke04@gmail.com>
-     */
     use Arbeitszeit\Arbeitszeit;
-    class Kalender extends Arbeitszeit{
+    class Notifications extends Arbeitszeit{
 
 
         public array $i18n;
@@ -17,14 +11,14 @@ namespace Arbeitszeit{
         public function __construct(){
             $i18n = new i18n;
             $this->db = new DB;
-            $this->i18n = $i18n->loadLanguage(null, "class/kalendar");
+            $this->i18n = $i18n->loadLanguage(null, "class/notifications");
         }
 
 
         /**
-         * calender_delete() - Löscht abgelaufene Einträge aus den Kalender
+         * calender_delete() - Deletes all calendar entries that are older than the current date
          * 
-         * @return boolean|array Gibt "true" zurück, bei Fehlern ein Array
+         * @return boolean|array Returns "true" on success and an error array on failure
          * 
          */
         public function calender_delete(){
@@ -102,7 +96,7 @@ namespace Arbeitszeit{
                     $id = $row["id"];
                     
                     $html = <<< DATA
-                    <a href="http://{$base_url}/suite/calendar/view.php?id={$id}"><div>
+                    <a href="http://{$base_url}/suite/calendar/view.php?id={$id}" target="_blank"><div>
                         <h2>{$this->i18n["calendar_notify"]} $date</h2>
                         <p><b>$location</b>: $note | <span><b>$date</b></span> - $time</p>
                     </div></a>
@@ -117,10 +111,10 @@ namespace Arbeitszeit{
         }
 
         /**
-         * get_calendar_entry() - Lädt einen spezifischen Eintrag aus der Datenbank
+         * get_calendar_entry() - Loads a calendar entry by its ID
          * 
-         * @param int $id ID des Kalendereintrags
-         * @return array Gibt ein Array mit den Daten des Kalendereintrags zurück - Bei einem Fehler ein Fehler-Array
+         * @param int $id The ID of the calendar entry
+         * @return array Returns the calendar entry as an array or an error array
          * 
          */
         public function get_calendar_entry($id){
@@ -148,13 +142,13 @@ namespace Arbeitszeit{
         }
 
         /**
-         * create_calendar_entry() - Erstellt einen Kalendereintrag
+         * create_calendar_entry() - Creates a new calendar entry
          * 
-         * @param time $time Die vom Nutzer eingegebene Zeit im Format des Browsers (normalerweise HH:MM)
-         * @param date $date Das vom Nutzer eingetragene Datum im Format des Browsers (normalerweise YYYY-MM-DD)
-         * @param string $location Der vom Nutzer eingetragene Ort
-         * @param string $comment Ein Kommentar für den Kalendereintrag
-         * @param bool|array Gibt "true" bei Erfolg zurück und ein Fehler-Array bei einem Fehler
+         * @param time $time The time (usually HH:MM)
+         * @param date $date The date (usually YYYY-MM-DD)
+         * @param string $location The location
+         * @param string $comment A comment for the calendar entry
+         * @param bool|array Returns "true" on success and an error array on failure
          */
         public function create_calendar_entry($time, $date, $location, $comment){
             $sql = "INSERT INTO `kalender` (`datum`, `uhrzeit`, `ort`, `notiz`) VALUES (?, ?, ?, ?)";
@@ -173,14 +167,14 @@ namespace Arbeitszeit{
         }
 
         /**
-         * edit_calendar_entry() - Bearbeitet einen Kalendereintrag (IRREVERSIBEL)
+         * edit_calendar_entry() - Edits a calendar entry
          * 
-         * @param time $time Die vom Nutzer eingegebene Zeit im Format des Browsers (normalerweise HH:MM)
-         * @param date $date Das vom Nutzer eingetragene Datum im Format des Browsers (normalerweise YYYY-MM-DD)
-         * @param string $location Der vom Nutzer eingetragene Ort
-         * @param string $comment Ein Kommentar für den Kalendereintrag 
-         * @return bool|array Gibt "true" bei Erfolg zurück und ein Fehler-Array bei einem Fehler
-         * @Hinweis Es müssen alle Felder ausgefüllt sein, da ansonsten leere Felder den Wert NULL bekommen
+         * @param time $time The time (usually HH:MM)
+         * @param date $date The date (usually YYYY-MM-DD)
+         * @param string $location The location
+         * @param string $comment A comment for the calendar entry
+         * @return bool|array Returns "true" on success and an error array on failure
+         * @Note All parameters are required, if not set, the function will return an error array 
          */
         public function edit_calendar_entry($id, $time, $date, $location, $comment){
             $sql = "UPDATE `kalender` SET `datum` = ?, `uhrzeit` = ?, `ort` = ?, `notiz` = ? WHERE id = ?;";
@@ -199,10 +193,10 @@ namespace Arbeitszeit{
         }
 
         /**
-         * delete_calendar_entry() - Löscht einen Kalendereintrag
+         * delete_calendar_entry() - Deletes a calendar entry
          * 
-         * @param int $id Die ID des zu löschenden Kalendereintrags
-         * @return bool|array Gibt "true" bei Erfolg zurück und ein Fehler-Array bei einem Fehler
+         * @param int $id The ID of the calendar entry
+         * @return bool|array Returns "true" on success and an error array on failure
          */
         public function delete_calendar_entry($id){
             $sql = "DELETE FROM `kalender` WHERE id = ?;";

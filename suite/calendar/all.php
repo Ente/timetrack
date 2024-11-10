@@ -5,7 +5,7 @@ use Arbeitszeit\Arbeitszeit;
 $arbeit = new Arbeitszeit;
 $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
-$loc = $arbeit->i18n()->loadLanguage(null, "calendar/all");
+$loc = $arbeit->i18n()->loadLanguage(null, "notifications/all");
 $arbeit->auth()->login_validation();
 if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     header("Location: http://{$base_url}/suite/?info=noperms");
@@ -53,7 +53,7 @@ if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                     <th><?php echo $loc["label_note"] ?></th>
                 </tr>
 
-                <?php echo $arbeit->kalender()->get_calendar_edit_html(); ?>
+                <?php echo $arbeit->notifications()->get_calendar_edit_html(); ?>
             </table>
         </div>
     </body>
