@@ -5,5 +5,13 @@
     "t1": "Mitarbeiter",
     "t2": "Urlaub Beginn",
     "t3": "Urlaub Ende",
-    "t4": "Status"
+    "t4": "Status",
+    "status": {
+        "set_to": "Setzen zu",
+        "pending": "In Prüfung",
+        "or": "oder",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt",
+        "not_found": "Keine Urlaubsdatensätze gefunden."
+    }
 }

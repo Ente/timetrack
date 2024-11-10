@@ -125,6 +125,32 @@ In order to create accounts automatically if `create_user` is `true` make sure t
 At the moment you have to create a user on your own locally and then let the user login with their LDAP credentials. The credentials you have entered will become usable if you disable LDAP or rename the account on your LDAP server.
 Please run `run-patch.sh` within the `setup` folder to get LDAP working with php >8.0
 
+## Export
+
+The `ExportModule` allows you to export your data in any format as long as you have a `ExportModule` defined for it.
+TimeTrack ships the `PDFExportModule` which allows you to export your data in PDF format through your browser.
+
+You can define your own `ExporModules` by creating a new class in `api/v1/class/exports/modules/MyExportExportModule/MyExportExportModule.em.arbeit.inc.php` and implementing the `ExportModuleInterface` interface found in `api/v1/class/exports/modules/ExportModuleInterface.em.arbeit.inc.php`.
+
+You can then use your new `MyExportExportModule` the following:
+
+```php
+<?php
+require_once 'path/to/arbeitszeit.inc.php';
+use Arbeitszeit\Arbeitszeit;
+
+$arbeit = new Arbeitszeit();
+
+$data = $arbeit->get_all_user_worktime("username");
+
+$arbeit->exportModule()->export(["module" => "MyExportExportModule", "data" => $data]);
+// OR
+$arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
+
+```
+
+As there is currently no Export Area in the UI you have to create the GUI elements on your own.
+
 ## Updates
 
 TimeTrack has to be updated in two ways: database and application.

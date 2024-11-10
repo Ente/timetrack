@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v7.4
+
+* Exports are now handled differently. You can import your own modules to support more file formats. Read more about this in the `README.md` file.
+* Replaced `Arbeitszeit\PDF` with the new `Arbeitszeit\ExportModule\PDFExportModule` class
+
+## v7.3.1
+
+* Fixed being unable to toggle easymode
+
+<!-- The status row for both Sickness and Vacation reports is now translated -->
+
 ## v7.3
 
 * Toil API release `v1.8` now supports loading custom routes. Read more about this feature in the `api/v1/toil/README.md` file.
