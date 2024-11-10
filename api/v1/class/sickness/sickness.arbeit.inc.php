@@ -62,6 +62,8 @@ namespace Arbeitszeit {
         }
 
         public function display_sickness_all(){ # admin function only
+            $i18n = $this->i18n()->loadLanguage(null, "worktime/sick/all", "admin");
+            
             $sql = "SELECT * FROM `sick` LIMIT 100;";
             $data = $this->db()->sendQuery($sql);
             $data->execute();
@@ -78,10 +80,10 @@ namespace Arbeitszeit {
 
                     switch($status){
                         case "pending":
-                            $status = "<span style='color:yellow;'>pending</span>";
+                            $status = "<span style='color:yellow;'>{$i18n["status"]["pending"]}</span>";
                             break;
                         case "approved":
-                            $status = "<span style='color:green;'>approved</span>";
+                            $status = "<span style='color:green;'>{$i18n["status"]["approved"]}</span>";
                             break;
                         case "action":
                             $status = "<span style='color:red'>Action needed</span>";
@@ -98,7 +100,7 @@ namespace Arbeitszeit {
                             <td>{$rnw}</td>
                             <td>{$start}</td>
                             <td>{$stop}</td>
-                            <td>{$status} | Set to <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=pending&u={$rnw}">Pending</a> or <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=approve&u={$rnw}">Approved</a> or <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=reject&u={$rnw}">Rejected</a></td></td>
+                            <td>{$status} | {$i18n["status"]["set_to"]} <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=pending&u={$rnw}">{$i18n["status"]["pending"]}</a> {$i18n["status"]["or"]} <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=approve&u={$rnw}">{$i18n["status"]["approved"]}</a> {$i18n["status"]["or"]} <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=reject&u={$rnw}">{$i18n["status"]["rejected"]}</a></td></td>
                         </tr>
 
 
@@ -107,7 +109,7 @@ namespace Arbeitszeit {
                     echo $print;
                 }
             } else {
-                return "Keine Krankheiten eingetragen.";
+                return $i18n["status"]["not_found"];
             }
         }
 

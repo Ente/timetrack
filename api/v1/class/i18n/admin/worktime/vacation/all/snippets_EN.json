@@ -5,5 +5,12 @@
     "t1": "Employee",
     "t2": "Vacation Start",
     "t3": "Vacation End",
-    "t4": "Status"
+    "t4": "Status",
+    "status": {
+        "set_to": "Set to",
+        "pending": "Pending",
+        "or": "or",
+        "approved": "Approved",
+        "rejected": "Rejected"
+    }
 }

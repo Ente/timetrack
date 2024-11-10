@@ -4,6 +4,8 @@
 
 * Fixed being unable to toggle easymode
 
+<!-- The status row for both Sickness and Vacation reports is now translated -->
+
 ## v7.3
 
 * Toil API release `v1.8` now supports loading custom routes. Read more about this feature in the `api/v1/toil/README.md` file.
