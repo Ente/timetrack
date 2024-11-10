@@ -1,7 +1,7 @@
 <?php
 namespace Arbeitszeit {
     use Arbeitszeit\DB;
-    use Arbeitszeit\Kalender;
+    use Arbeitszeit\Notifications;
     use Arbeitszeit\i18n;
     use Arbeitszeit\Benutzer;
     use Arbeitszeit\Auth;
@@ -20,7 +20,7 @@ namespace Arbeitszeit {
     {
 
         private $db;
-        private $kalender;
+        private $notifications;
         private $i18nC;
         private $i18n;
         private $benutzer;
@@ -712,9 +712,9 @@ namespace Arbeitszeit {
             }
         }
 
-        public function kalender(): Kalender{
-            if(!$this->kalender) $this->kalender = new Kalender;
-            return $this->kalender;
+        public function notifications(): Notifications{
+            if(!$this->notifications) $this->notifications = new Notifications;
+            return $this->notifications;
         }
 
         public function db(): DB{

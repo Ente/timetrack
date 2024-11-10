@@ -21,7 +21,7 @@ $language = $arbeit->i18n()->loadLanguage(NULL, "index");
         <meta charset="UTF-8">
     </head>
     <body>
-        <?php $arbeit->kalender()->get_calendar_html();  ?>
+        <?php $arbeit->notifications()->get_calendar_html();  ?>
         <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php" ?> 
         <?php echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]); ?>
         <h1><?php echo $language["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>

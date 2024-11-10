@@ -7,7 +7,7 @@ It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more 
 
 - Time recording for your employees (as well as Vacation and Sickness reporting)
 - Email notifications
-- Platform-wide calendar
+- Platform-wide notifications
 - customizable API
 - Logging
 - English and German supported

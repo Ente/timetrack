@@ -5,8 +5,8 @@ use Arbeitszeit\Arbeitszeit;
 $arbeit = new Arbeitszeit;
 $arbeit->auth()->login_validation();
 $id = $_GET["id"];
-$data = $arbeit->kalender()->get_calendar_entry($id);
-$loc = $arbeit->i18n()->loadLanguage(null, "calendar/view");
+$data = $arbeit->notifications()->get_calendar_entry($id);
+$loc = $arbeit->i18n()->loadLanguage(null, "notifications/view");
 ?>
 <!DOCTYPE html>
 <html>
