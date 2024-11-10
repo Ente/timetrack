@@ -11,7 +11,7 @@ $loc = $arbeit->i18n()->loadLanguage(null, "notifications/view");
 <!DOCTYPE html>
 <html>
     <head>
-        <title><?php echo $loc["title"] ?> | <?php echo $ini["general"]["name"]; ?></title>
+        <title><?php echo $loc["title"] ?> | <?php echo $arbeit->get_app_ini()["general"]["app_name"]; ?></title>
         <link rel="stylesheet" type="text/css" href="../../assets/css/index.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
