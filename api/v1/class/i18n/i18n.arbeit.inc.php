@@ -32,7 +32,8 @@ namespace Arbeitszeit {
             }
             $langlist = [
                 "de",
-                "en"
+                "en",
+                "nl"
             ];
             $lang_values = array_values($langlist);
             $locale = substr($locale, 0, 2);
@@ -52,7 +53,7 @@ namespace Arbeitszeit {
                 }
             }
 
-            Exceptions::failure(code: 1, error: "Could not retrieve language files for page '" . $page . "' and area '" . $area ."'.", stack: "N/A");
+            Exceptions::failure(code: 1, error: "Could not retrieve language files for page '" . $page . "' and area '" . $area ."' and locale " . $locale, stack: "N/A");
         }
     }
 }

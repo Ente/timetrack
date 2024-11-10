@@ -1,0 +1,17 @@
+{
+    "subject1": "Uw werktijden moeten worden gecontroleerd!",
+    "suject2": "De controle op uw werktijden is geannuleerd!",
+    "greetings": "Hallo",
+    "message1": "uw manager heeft uw werktijden beoordeeld. De betreffende werktijden staan ​​hieronder vermeld",
+    "message2": "Uw manager heeft de beoordeling van uw werktijden geannuleerd. De betreffende werktijden worden hieronder vermeld",
+    "id": "ID",
+    "username": "Gebruikersnaam",
+    "day": "dag",
+    "begin": "begin",
+    "send": "einde",
+    "notes": "Opmerkingen",
+    "end": "Met vriendelijke groeten",
+    "noreply": "automatische afzender",
+    "confidential": "Vertrouwelijke informatie!",
+    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. <br> De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
+   }
