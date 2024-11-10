@@ -1,0 +1,14 @@
+{
+    "subject": "Uw ziekte is goedgekeurd!",
+    "greetings": "Hallo",
+    "message": "uw manager heeft <span style='color:green;'>uw ziekte goedgekeurd</span>",
+    "id": "ID",
+    "username": "Gebruikersnaam",
+    "day": "dag",
+    "begin": "begin",
+    "send": "einde",
+    "end": "Met vriendelijke groeten",
+    "noreply": "automatische afzender",
+    "confidential": "Vertrouwelijke informatie!",
+    "gdpr": "U ontvangt de e-mail omdat u akkoord bent gegaan met de Algemene Voorwaarden. Uw e-mailadres, inlognaam en wachtwoord zijn uit het systeem verwijderd. <br> De actuele Algemene Verordening Gegevensbescherming kunt u hier bekijken "
+   }
