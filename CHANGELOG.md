@@ -3,7 +3,6 @@
 ## v7.4
 
 * Exports are now handled differently. You can import your own modules to support more file formats. Read more about this in the `README.md` file.
-* Added CSV Export module
 * Replaced `Arbeitszeit\PDF` with the new `Arbeitszeit\ExportModule\PDFExportModule` class
 
 ## v7.3.1

@@ -5,20 +5,24 @@ use Arbeitszeit\i18n;
 use Arbeitszeit\Exceptions;
 use Arbeitszeit\Benutzer;
 
+/**
+ * PDFExportModule - Allows you to export worktime sheets
+ */
 class PDFExportModule implements ExportModuleInterface {
     public function export($args) {
             $i18n = new i18n;
+            $arbeit = new Arbeitszeit;
             $user = $args["user"];
             $month = $args["month"];
             $year = $args["year"];
             $i18nn = $i18n->loadLanguage(null, "class/pdf");
             $ini = Arbeitszeit::get_app_ini();
-            $hours = $this->calculate_hours_specific_time($user, $month, $year);
+            $hours = $arbeit->calculate_hours_specific_time($user, $month, $year);
             if(is_string($year) != true){
                 $year = date("Y");
             }
             $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? AND username = ? ORDER BY schicht_tag DESC;";
-            $statement = $this->db()->sendQuery($sql);
+            $statement = $arbeit->db()->sendQuery($sql);
             $userdata = $statement->execute([$year, $month, $user]);
             if($userdata == false){
                 Exceptions::error_rep("An error occured while generating worktime pdf. See previous message for more information");

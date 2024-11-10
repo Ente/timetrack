@@ -5,5 +5,5 @@ use Arbeitszeit\Arbeitszeit;
 $arbeit = new Arbeitszeit;
 
 $arbeit->auth()->login_validation();
-echo $arbeit->pdf()->get_specific_worktime_pdf($_GET["mitarbeiter"], $_GET["monat"], $_GET["jahr"]);
+echo $arbeit->exportModule()->export(array("module" => "PDFExportModule", "user" => $_GET["mitarbeiter"], "month" => $_GET["monat"], "year" => $_GET["jahr"]));
 ?>
