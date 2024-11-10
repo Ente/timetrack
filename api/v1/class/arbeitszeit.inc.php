@@ -5,12 +5,12 @@ namespace Arbeitszeit {
     use Arbeitszeit\i18n;
     use Arbeitszeit\Benutzer;
     use Arbeitszeit\Auth;
-    use Arbeitszeit\pdf;
     use Arbeitszeit\Mode;
     use Arbeitszeit\Autodelete;
     use Arbeitszeit\Exceptions;
     use Arbeitszeit\Vacation;
     use Arbeitszeit\Sickness;
+    use Arbeitszeit\ExportModule;
     /**
      * Beinhaltet wesentliche Inhalte, wie Einstellungen, Arbeitszeiten erstellen, etc.
      * 
@@ -25,11 +25,11 @@ namespace Arbeitszeit {
         private $i18n;
         private $benutzer;
         private $auth;
-        private $pdf;
         private $mode;
         private $autodelete;
         private $sickness;
         private $vacation;
+        private $exportModule;
 
         #public function __construct($db, $db_username, $db_password, $db_host){
         #    $conn = mysqli_connect($db_host, $db_username, $db_password, $db);
@@ -737,11 +737,6 @@ namespace Arbeitszeit {
             return $this->auth;
         }
 
-        public function pdf(): pdf{
-            if(!$this->pdf) $this->pdf = new pdf;
-            return $this->pdf;
-        }
-
         public function mode(): Mode{
             if(!$this->mode) $this->mode = new Mode;
             return $this->mode;
@@ -760,6 +755,11 @@ namespace Arbeitszeit {
         public function vacation(): Vacation{
             if(!$this->vacation) $this->vacation = new Vacation;
             return $this->vacation;
+        }
+
+        public function exportModule(): ExportModule{
+            if(!$this->exportModule) $this->exportModule = new ExportModule;
+            return $this->exportModule;
         }
     }
 }

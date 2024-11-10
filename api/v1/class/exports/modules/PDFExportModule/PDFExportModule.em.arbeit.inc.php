@@ -1,16 +1,28 @@
 <?php
-namespace Arbeitszeit{
-    class pdf extends Arbeitszeit{
-        public function get_specific_worktime_pdf($user, $month, $year){
+namespace Arbeitszeit\ExportModule;
+use Arbeitszeit\Arbeitszeit;
+use Arbeitszeit\i18n;
+use Arbeitszeit\Exceptions;
+use Arbeitszeit\Benutzer;
+
+/**
+ * PDFExportModule - Allows you to export worktime sheets
+ */
+class PDFExportModule implements ExportModuleInterface {
+    public function export($args) {
             $i18n = new i18n;
+            $arbeit = new Arbeitszeit;
+            $user = $args["user"];
+            $month = $args["month"];
+            $year = $args["year"];
             $i18nn = $i18n->loadLanguage(null, "class/pdf");
             $ini = Arbeitszeit::get_app_ini();
-            $hours = $this->calculate_hours_specific_time($user, $month, $year);
+            $hours = $arbeit->calculate_hours_specific_time($user, $month, $year);
             if(is_string($year) != true){
                 $year = date("Y");
             }
             $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? AND username = ? ORDER BY schicht_tag DESC;";
-            $statement = $this->db()->sendQuery($sql);
+            $statement = $arbeit->db()->sendQuery($sql);
             $userdata = $statement->execute([$year, $month, $user]);
             if($userdata == false){
                 Exceptions::error_rep("An error occured while generating worktime pdf. See previous message for more information");
@@ -109,10 +121,23 @@ namespace Arbeitszeit{
             DATA;
 
             return $data;
-        }
     }
+    public function getName() {
+        return "PDFExportModule";
+    }
+    public function getExtension() {
+        return "pdf";
+    }
+    public function getMimeType() {
+        return "application/pdf";
+    }
+    public function getVersion() {
+        return "1.0";
+    }
+    public function geti18n() {}
+    public function __set($name, $value) {}
+    public function __get($name) {}
+    public function __isset($name) {}
+    public function __unset($name) {}
+    public function __call($name, $arguments) {}
 }
-
-
-
-?>
