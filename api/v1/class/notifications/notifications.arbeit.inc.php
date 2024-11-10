@@ -96,7 +96,7 @@ namespace Arbeitszeit{
                     $id = $row["id"];
                     
                     $html = <<< DATA
-                    <a href="http://{$base_url}/suite/calendar/view.php?id={$id}"><div>
+                    <a href="http://{$base_url}/suite/calendar/view.php?id={$id}" target="_blank"><div>
                         <h2>{$this->i18n["calendar_notify"]} $date</h2>
                         <p><b>$location</b>: $note | <span><b>$date</b></span> - $time</p>
                     </div></a>
