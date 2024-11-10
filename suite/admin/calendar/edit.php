@@ -6,14 +6,14 @@ $username = $_SESSION["username"];
 $arbeit = new Arbeitszeit;
 $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
-$language = $arbeit->i18n()->loadLanguage(null, "calendar/edit", "admin");
+$language = $arbeit->i18n()->loadLanguage(null, "notifications/edit", "admin");
 
 $arbeit->auth()->login_validation();
 if(!@$arbeit->benutzer()->is_admin($_SESSION["username"])){
     header("Location: http://{$base_url}/suite/?info=noperms");
 }
 $id = $_GET["id"];
-$data = $arbeit->kalender()->get_calendar_entry($id);
+$data = $arbeit->notifications()->get_calendar_entry($id);
 ?>
 <!DOCTYPE html>
 <html>

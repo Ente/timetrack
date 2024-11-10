@@ -1,15 +1,15 @@
 <?php
 namespace Arbeitszeit{
     /**
-     * Autodelete - Erweitert die Kalender-Klasse um das automatische Löschen von Kalendereinträgen
+     * Autodelete - Extends the Notifications class to provide autodelete functionality
      */
-    class Autodelete extends Kalender {
+    class Autodelete extends Notifications {
 
         /**
-         * autodelete_obsolete_calendar_entries() - Löscht abgelaufene Kalendereinträge
+         * autodelete_obsolete_calendar_entries() - Deletes obsolete calendar entries
          * 
-         * @return void|array Gibt nichts bei Erfolg zurück - Bei einem Fehler ein Fehler-Array
-         * @author Bryan Böhnke-Avan <bryan.boehnke04@gmail.com>
+         * @return void|array Returns nothing on success, an array with an error message on failure
+         * @author Bryan Böhnke-Avan <github@openducks.org>
          */
         public function autodelete_obsolete_calendar_entries(){
             $db = new DB;

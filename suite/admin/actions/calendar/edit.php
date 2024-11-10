@@ -7,7 +7,7 @@ $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
 $arbeit->auth()->login_validation();
 if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
-    if($arbeit->kalender()->edit_calendar_entry($_GET["id"], $_POST["uhrzeit"], $_POST["datum"], $_POST["ort"], $_POST["notiz"]) == true){
+    if($arbeit->notifications()->edit_calendar_entry($_GET["id"], $_POST["uhrzeit"], $_POST["datum"], $_POST["ort"], $_POST["notiz"]) == true){
         header("Location: http://{$base_url}/suite/?info=calendar_entry_edited");
     }   
 } else {

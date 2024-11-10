@@ -4,6 +4,10 @@
 
 * Exports are now handled differently. You can import your own modules to support more file formats. Read more about this in the `README.md` file.
 * Replaced `Arbeitszeit\PDF` with the new `Arbeitszeit\ExportModule\PDFExportModule` class
+* Added Dutch (Nederlands) translation (locale `nl_NL`)
+
+<!-- Renamed `Kalender` class to `Notifications` to make space for the name for future use -->
+<!-- Updated docs for `Notifications` class' functions -->
 
 ## v7.3.1
 
