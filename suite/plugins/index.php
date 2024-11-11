@@ -10,6 +10,7 @@ $pl = new PluginBuilder();
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Plugin Hub | <?php echo $arbeit->get_app_ini()["general"]["app_name"]; ?></title>
         <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
