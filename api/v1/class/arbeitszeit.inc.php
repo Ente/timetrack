@@ -441,7 +441,7 @@ namespace Arbeitszeit {
                     $data = <<< DATA
 
                         <tr>
-                            <td><a href="http://{$base_url}/suite/worktime/view_pdf.php?mitarbeiter={$rnw2}&{$rrr2}" target="_blank">{$this->i18n["print"]} $rnw</a>, <a href="http://{$base_url}/suite/admin/actions/worktime/delete.php?id={$rqw}&u={$rbn}">{$this->i18n["delete_entry"]}</a> {$this->i18n["or"]} $rmm</td>
+                            <td><a href="http://{$base_url}/suite/worktime/view_csv.php?mitarbeiter={$rnw2}&{$rrr2}">{$this->i18n["csv"]}</a> {$this->i18n["or"]} <a href="http://{$base_url}/suite/worktime/view_pdf.php?mitarbeiter={$rnw2}&{$rrr2}" target="_blank">{$this->i18n["print"]} $rnw</a>, <a href="http://{$base_url}/suite/admin/actions/worktime/delete.php?id={$rqw}&u={$rbn}">{$this->i18n["delete_entry"]}</a> {$this->i18n["or"]} $rmm</td>
                             <td>$raw</td>
                             <td>$rew</td>
                             <td>$rol</td>

@@ -2,6 +2,8 @@
 
 ## v7.5
 
+* Added CSV export module class `Arbeitszeit\ExportModule\CSVExportModule` which can be used by clicking on `(CSV)` within All Worktimes
+
 <!-- Fixed title not set for Plugin Hub -->
 
 ## v7.4
