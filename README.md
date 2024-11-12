@@ -101,8 +101,8 @@ Disabling is done by renaming the file again.
 
 TimeTrack only differenciates between two user groups:
 
-- `Admin`: This group allows to change application settings, add calendar entries, manage users, manage worktime, sickness and vacation reports
-- `User`: If in this group, you only have access to the elemental functions, like viewing calendar entries, add worktime/vacation/sickness
+- `Admin`: This group allows to change application settings, add notifications entries, manage users, manage worktime, sickness and vacation reports
+- `User`: If in this group, you only have access to the elemental functions, like viewing notifications entries, add worktime/vacation/sickness
 
 ## Logging
 

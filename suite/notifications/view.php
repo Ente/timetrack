@@ -5,7 +5,7 @@ use Arbeitszeit\Arbeitszeit;
 $arbeit = new Arbeitszeit;
 $arbeit->auth()->login_validation();
 $id = $_GET["id"];
-$data = $arbeit->notifications()->get_calendar_entry($id);
+$data = $arbeit->notifications()->get_notifications_entry($id);
 $loc = $arbeit->i18n()->loadLanguage(null, "notifications/view");
 ?>
 <!DOCTYPE html>
@@ -31,7 +31,7 @@ $loc = $arbeit->i18n()->loadLanguage(null, "notifications/view");
         # Bug 13
         if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
             echo <<< DATA
-            <a href="../admin/actions/calendar/delete.php?id={$_GET["id"]}">{$loc["a_delete"]}</a> | <span style="color:red">{$loc["a_delete_note"]}</span>
+            <a href="../admin/actions/notifications/delete.php?id={$_GET["id"]}">{$loc["a_delete"]}</a> | <span style="color:red">{$loc["a_delete_note"]}</span>
             DATA;   
         }
         ?>

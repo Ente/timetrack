@@ -3,6 +3,7 @@
 ## v7.5
 
 * Added CSV export module class `Arbeitszeit\ExportModule\CSVExportModule` which can be used by clicking on `(CSV)` within All Worktimes
+* Renamed all GUI elements from `Calendar` to `Notifications`
 
 <!-- Fixed title not set for Plugin Hub -->
 
