@@ -10,7 +10,6 @@ use Arbeitszeit\Benutzer;
  */
 class PDFExportModule implements ExportModuleInterface {
     public function export($args) {
-            $this->saveAsPdf($args);
             $i18n = new i18n;
             $arbeit = new Arbeitszeit;
             $user = $args["user"];
@@ -120,7 +119,6 @@ class PDFExportModule implements ExportModuleInterface {
 
 
             DATA;
-
             return $data;
     }
 
