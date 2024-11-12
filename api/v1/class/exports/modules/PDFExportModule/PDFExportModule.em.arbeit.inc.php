@@ -119,9 +119,36 @@ class PDFExportModule implements ExportModuleInterface {
 
 
             DATA;
-
             return $data;
     }
+
+    public function saveAsPdf($args) {
+        $html = $this->export($args);  
+        $user = $args['user'] ?? "dummy";
+        $month = $args['month'] ?? "00";
+        $year = $args['year'] ?? "0000";
+    
+        
+        $directory = $_SERVER["DOCUMENT_ROOT"] . "/data/exports/" . $this->getName() . "/$user";
+        $filename = "$directory/worktimes_{$year}-{$month}.pdf";
+    
+        
+        if (!is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
+    
+        
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+    
+        
+        file_put_contents($filename, $dompdf->output());
+    
+        return $filename;
+    }
+
     public function getName() {
         return "PDFExportModule";
     }
