@@ -5,7 +5,7 @@
     "error_vacation": "Error: Your vacation could not be saved. Please contact your administrator!",
     "vacation_added": "Note: Your vacation has been successfully saved!",
     "sickness_added": "Note: Your illness has been saved successfully!",
-    "calendar_entry_deleted": "Note: Calendar entry deleted!",
+    "notifications_entry_deleted": "Note: Calendar entry deleted!",
     "noperms": "Note: Missing permissions",
     "user_deleted": "Note: User deleted successfully!",
     "created_user": "Note: User created successfully!",

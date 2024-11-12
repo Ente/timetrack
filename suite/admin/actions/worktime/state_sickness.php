@@ -16,7 +16,7 @@ use Arbeitszeit\Exceptions;
 
 $username = $_SESSION["username"];
 $auth = new Auth;
-$calendar = new Notifications;
+$notifications = new Notifications;
 $user = new Benutzer;
 $avr = new MailSicknessRejected;
 $ava = new MailSicknessApproved;
