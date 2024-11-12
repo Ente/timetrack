@@ -4,8 +4,10 @@
 
 * Added CSV export module class `Arbeitszeit\ExportModule\CSVExportModule` which can be used by clicking on `(CSV)` within All Worktimes
 * Renamed all GUI elements from `Calendar` to `Notifications`
+* Fixed being unable to edit notifications entries
 
 <!-- Fixed title not set for Plugin Hub -->
+<!-- Fixed missing i18n files for `suite/admin/notifications/edit.php` -->
 
 ## v7.4
 
