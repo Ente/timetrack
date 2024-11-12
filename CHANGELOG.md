@@ -3,6 +3,7 @@
 ## v7.5
 
 * Added CSV export module class `Arbeitszeit\ExportModule\CSVExportModule` which can be used by clicking on `(CSV)` within All Worktimes
+* PDF and CSV exports are now directly saved onto the server. This is done automatically. Exports are saved within `data/exports/{ExportModuleName}/{username}/`
 
 <!-- Fixed title not set for Plugin Hub -->
 

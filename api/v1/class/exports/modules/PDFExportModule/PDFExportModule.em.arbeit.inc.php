@@ -10,6 +10,7 @@ use Arbeitszeit\Benutzer;
  */
 class PDFExportModule implements ExportModuleInterface {
     public function export($args) {
+            $this->saveAsPdf($args);
             $i18n = new i18n;
             $arbeit = new Arbeitszeit;
             $user = $args["user"];
@@ -122,6 +123,34 @@ class PDFExportModule implements ExportModuleInterface {
 
             return $data;
     }
+
+    public function saveAsPdf($args) {
+        $html = $this->export($args);  
+        $user = $args['user'] ?? "dummy";
+        $month = $args['month'] ?? "00";
+        $year = $args['year'] ?? "0000";
+    
+        
+        $directory = $_SERVER["DOCUMENT_ROOT"] . "/data/exports/" . $this->getName() . "/$user";
+        $filename = "$directory/worktimes_{$year}-{$month}.pdf";
+    
+        
+        if (!is_dir($directory)) {
+            mkdir($directory, 0777, true);
+        }
+    
+        
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+    
+        
+        file_put_contents($filename, $dompdf->output());
+    
+        return $filename;
+    }
+
     public function getName() {
         return "PDFExportModule";
     }
