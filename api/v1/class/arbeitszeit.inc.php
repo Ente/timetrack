@@ -569,8 +569,8 @@ namespace Arbeitszeit {
             if (strpos($url, "info=sickness_added")) {
                 return "<p><span style='color:green;'>{$loc["sickness_added"]}</p>";
             }
-            if (strpos($url, "info=calendar_entry_deleted")) {
-                return "<p><span style='color:blue;'>{$loc["calendar_entry_deleted"]}</p>";
+            if (strpos($url, "info=notifications_entry_deleted")) {
+                return "<p><span style='color:blue;'>{$loc["notifications_entry_deleted"]}</p>";
             }
             if (strpos($url, "info=noperms")) {
                 return "<p><span style='color:red;'>{$loc["noperms"]}</p>";

@@ -29,7 +29,7 @@ if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
         </div>
 
         <div class="box">
-            <form method="POST" action="../admin/actions/calendar/add.php">
+            <form method="POST" action="../admin/actions/notifications/add.php">
                 <label><?php echo $loc["label_date"] ?>: </label><input type="date" name="datum" required>
                 <br>
                 <label><?php echo $loc["label_time"] ?>: </label><input type="time" name="uhrzeit" required>
@@ -53,7 +53,7 @@ if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                     <th><?php echo $loc["label_note"] ?></th>
                 </tr>
 
-                <?php echo $arbeit->notifications()->get_calendar_edit_html(); ?>
+                <?php echo $arbeit->notifications()->get_notifications_edit_html(); ?>
             </table>
         </div>
     </body>

@@ -20,7 +20,7 @@ $lang = $i18n->loadLanguage($locale, "nav");
     <li><a href="http://<?php echo $base_url ?>/suite"><?php echo $lang["menu"] ?></a></li>
     <li><a href="http://<?php echo $base_url ?>/suite/users/settings.php"><?php echo $lang["settings"] ?></a></li>
     <li><a href="http://<?php echo $base_url ?>/suite/worktime/all.php"><?php echo $lang["own_worktime"] ?></a></li>
-    <li><a href="http://<?php echo $base_url ?>/suite/calendar/all.php"><?php echo $lang["calendar"] ?></a></li>
+    <li><a href="http://<?php echo $base_url ?>/suite/notifications/all.php"><?php echo $lang["notifications"] ?></a></li>
     <li class="b"><a><?php echo $name; ?></a></li>
     <li class="b"><a href="http://<?php echo $base_url ?>/suite/actions/auth/logout.php"><?php echo $lang["logout"] ?></a></li>
     <?php

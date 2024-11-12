@@ -12,8 +12,8 @@ if(!isset($_POST["datum"], $_POST["uhrzeit"], $_POST["ort"])){
 }
 
 if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
-    if($arbeit->notifications()->create_calendar_entry($_POST["uhrzeit"], $_POST["datum"], $_POST["ort"], $_POST["notiz"]) == true){
-        header("Location: http://{$base_url}/suite/?info=calendar_entry_added");
+    if($arbeit->notifications()->create_notifications_entry($_POST["uhrzeit"], $_POST["datum"], $_POST["ort"], $_POST["notiz"]) == true){
+        header("Location: http://{$base_url}/suite/?info=notifications_entry_added");
     }   
 } else {
     header("Location: http://{$base_url}/suite/?info=noperms");
