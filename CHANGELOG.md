@@ -7,6 +7,7 @@
 * Fixed being unable to edit notifications entries
 
 <!-- Fixed title not set for Plugin Hub -->
+<!-- Fixed missing i18n files for `suite/admin/notifications/edit.php` -->
 
 ## v7.4
 
