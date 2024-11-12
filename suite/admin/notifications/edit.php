@@ -9,7 +9,7 @@ $base_url = $ini["general"]["base_url"];
 $language = $arbeit->i18n()->loadLanguage(null, "notifications/edit", "admin");
 
 $arbeit->auth()->login_validation();
-if(!@$arbeit->benutzer()->is_admin($_SESSION["username"])){
+if(!@$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($username))){
     header("Location: http://{$base_url}/suite/?info=noperms");
 }
 $id = $_GET["id"];
