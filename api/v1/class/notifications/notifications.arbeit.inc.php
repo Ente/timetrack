@@ -37,22 +37,6 @@ namespace Arbeitszeit{
             }
         }
 
-        public function get_notifications(){
-            $sql = "SELECT * FROM `kalender`;";
-            $res = $this->db->sendQuery($sql);
-            $res->execute();
-            $count = $res->rowCount();
-            if($count >=1){
-                $data = $res->fetch(\PDO::FETCH_ASSOC);
-                $date = @strftime("%d.%m.%Y", strtotime($data["datum"]));
-                $data["datum_new"] = $date;
-
-                return $data;
-            } else {
-                return "{$this->i18n["no_data"]}";
-            }
-        }
-
         public function get_notifications_edit_html(){
             $sql = "SELECT * FROM `kalender` ORDER BY id DESC;";
             $res = $this->db->sendQuery($sql);
