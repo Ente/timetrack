@@ -26,7 +26,7 @@ $lang = $i18n->loadLanguage($locale, "nav");
     <?php
     if(@$user->is_Admin($user->get_user(@$_SESSION["username"]))){
         $v = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/VERSION");
-        echo "<li><a href='http://{$base_url}/suite/admin/worktime/all.php'>{$lang["a_allworktime"]}</li>";
+        echo "<li><a href='http://{$base_url}/suite/admin/worktime/all.php'>{$lang["a_allworktime"]}</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/users/edit.php'>{$lang["a_useredit"]}</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/sick/all.php'>{$lang["a_sickness"]}</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/vacation/all.php'>{$lang["a_vacation"]}</a></li>";
