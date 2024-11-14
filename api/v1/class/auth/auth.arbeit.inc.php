@@ -1,6 +1,5 @@
 <?php
 namespace Arbeitszeit{
-    require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
