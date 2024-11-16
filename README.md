@@ -10,7 +10,7 @@ It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more 
 - Platform-wide notifications
 - customizable API
 - Logging
-- English and German supported
+- EN/DE/NL language support
 - Maintenance mode
 - Easy and fast installation
 - LDAP Authentication
