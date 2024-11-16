@@ -11,12 +11,12 @@ namespace Arbeitszeit {
             $conn = new DB;
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $res = $conn->sendQuery($sql);
-            $res->execute();
+            $res->execute([$username]);
             $count = $res->rowCount();
             $ii = Arbeitszeit::get_app_ini()["general"]["app_name"];
 
             if ($count == 1) {
-                $data = mysqli_fetch_assoc($res);
+                $data = $res->fetch(\PDO::FETCH_ASSOC);
             } else {
                 Exceptions::error_rep("An error occured while fetching user data from database for user '$username'. See previous message for more information.");
                 return [
@@ -27,10 +27,10 @@ namespace Arbeitszeit {
                 ];
             }
 
-            $sql1 = "SELECT * FROM `sickness` WHERE id = ?;";
+            $sql1 = "SELECT * FROM `sick` WHERE id = ?;";
             $res1 = $conn->sendQuery($sql1);
-            $res1->execute();
-            if ($res1 != false) {
+            $res1->execute([$id]);
+            if ($res1) {
                 $worktime_data = $res1->fetch(\PDO::FETCH_ASSOC);
             } else {
                 Exceptions::error_rep("An error occured while fetching sickness data from database for id '{$id}'. See previous message for more information.");
