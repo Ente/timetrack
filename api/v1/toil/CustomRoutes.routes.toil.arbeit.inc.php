@@ -15,7 +15,7 @@ namespace Toil {
         }
 
         public static function loadCustomRoute($endpoint, $classFile, $method = "GET"){
-            Router::get("/api/v1/toil/" . "myCheck", function() use ($endpoint, $classFile){
+            Router::get("/api/v1/toil/" . $endpoint, function() use ($endpoint, $classFile){
                 Exceptions::error_rep("[API] User authenticated and accessing custom API endpoint '{$endpoint}'");
                 Controller::createcustomview($endpoint, $classFile);
             });
