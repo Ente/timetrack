@@ -9,6 +9,7 @@
 
 <!-- Fixed title not set for Plugin Hub -->
 <!-- Fixed missing i18n files for `suite/admin/notifications/edit.php` -->
+<!-- Fixed being unable to approve or reject vacation entries -->
 
 ## v7.4
 

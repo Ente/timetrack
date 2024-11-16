@@ -60,7 +60,7 @@ namespace Arbeitszeit {
             } else {
                 $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = ?;";
             }
-            $data = $this->db->sendQuery($sql)->execute(array([$id]));
+            $data = $this->db->sendQuery($sql)->execute([$id]);
             if($data == false){
                 Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
