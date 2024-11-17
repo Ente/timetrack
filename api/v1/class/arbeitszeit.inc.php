@@ -329,6 +329,11 @@ namespace Arbeitszeit {
         public static function get_app_ini()
         {
             $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", true);
+            // Run once migrator to app.json
+            if(!file_exists($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json")){
+                $json = json_encode($ini, JSON_PRETTY_PRINT);
+                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json", $json);
+            }
             return $ini;
         }
 

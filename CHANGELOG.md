@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v7.6
+
+* **Replaced `app.ini` with `app.json`**. The `app.ini` has been deprecated and will be removed within the `8.0` release. Your settings will be automatically migrated to the new `app.json` file.
+
 ## v7.5
 
 * Added CSV export module class `Arbeitszeit\ExportModule\CSVExportModule` which can be used by clicking on `(CSV)` within All Worktimes
