@@ -30,25 +30,17 @@ class PDFExportModule implements ExportModuleInterface {
             }
             $user_data = Benutzer::get_user($user);
             $user_data["name"] ?? $statement->fetch(\PDO::FETCH_ASSOC)[0]["name"]; # Bug 14 Fix -> http://bugzilla.openducks.org/show_bug.cgi?id=14
-
+            try {
+                $css = @file_get_contents($ini["exports"]["pdf"]["css"]);
+            } catch (\ValueError $e) {
+                $css = file_get_contents(__DIR__ . "/css/index.css");
+            }
             $data = <<< DATA
             <html>
                 <body style="text-align:center; font-family: Arial;">
                     <h1>{$i18nn["worktime_note"]} <b>{$user_data["name"]}</b></h1>
                     <style>
-                        .box {
-                            width: auto;
-                            max-width: 900px;
-                            height: auto;
-                            border: 5px solid;
-                            padding: auto;
-                            margin: auto;
-                            border-radius: 5px;
-                            margin-left: auto;
-                            margin-right: auto;
-                            opacity: 1;
-                            border-color: rgba(255,255,255,0.64);
-                            transition: all 0.5s;
+                        $css
                     </style>
                     <div class="box">
                         <table style="width:100%;border:solid;">

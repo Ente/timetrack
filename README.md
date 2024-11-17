@@ -150,6 +150,7 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 ```
 
 As there is currently no Export Area in the UI you have to create the GUI elements on your own.
+You can specify your own CSS file within the `app.ini` `[exports][pdf][css]` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
 
 ## Updates
 
