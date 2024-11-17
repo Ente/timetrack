@@ -40,9 +40,9 @@ Simply install the software by following these steps:
 - Run the statement printed by the `usercreate.php` inside your database.
 - Please run the `run-patch.sh` file located in the `setup` folder to apply a patch regarding LDAP authentication. If you do not want to use LDAP you can ignore this step.
 
-### Configure app.ini
+### Configure app.ini/app.json
 
-In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` folder:
+In step 2, you need to configure the `app.ini.sample`/`app.json.sample` within the `api/v1/inc` folder:
 
 - `app_name`: The name of your application, e.g. `ACME Inc. TimeRecording`
 - `base_url`: The Base URL (can also be an IP) of your application, without ending trailing slash and the protocol, e.g. `acme.inc` or `10.10.10.2` (URLs will be built with the http:// protocol, we recommend adding a redirect to https:// if you use an certificate.)
@@ -90,7 +90,7 @@ If done correctly, you should now be able to access the application via http://B
 
 **Please delete the whole `/setup/` folder after installation**
 
-After configuring, please rename the `app.ini.sample` to `app.ini` (`mv app.ini.sample app.ini`)
+After configuring, please rename the `app.ini.sample`/`app.json.sample` to `app.ini`/`app.json` (`mv app.ini.sample app.ini`)
 
 ## Maintenance Mode
 

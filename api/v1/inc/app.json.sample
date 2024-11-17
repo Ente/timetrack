@@ -1,0 +1,48 @@
+{
+    "general": {
+        "app_name": "Your App",
+        "base_url": "timetrack.your-website.de",
+        "support_email": "support@your-website.com",
+        "debug": "false",
+        "auto_update": "false",
+        "app": "false"
+    },
+    "mysql": {
+        "db_host": "localhost",
+        "db_user": "root",
+        "db_password": "",
+        "db": "ab"
+    },
+    "smtp": {
+        "host": "smtp.host.com",
+        "username": "user",
+        "password": "pass",
+        "port": "587",
+        "usessl": "true"
+    },
+    "plugins": {
+        "plugins": "true",
+        "path": "/api/v1/class/plugins/plugins",
+        "data": "data",
+        "testing": "true"
+    },
+    "ldap": {
+        "ldap": "false",
+        "ldap_user": "USER",
+        "ldap_password": "BASE64-ENCODED-PASSWORD",
+        "ldap_host": "HOST",
+        "ldap_ip": "IP",
+        "ldap_domain": "DOMAIN",
+        "ldap_basedn": "BASEDN",
+        "ldap_group": "GROUP",
+        "saf": "true",
+        "saf_user": "USER",
+        "saf_password": "BASE64-ENCODED-PASSWORD",
+        "saf_host": "HOST,",
+        "saf_ip": "IP,",
+        "saf_basedn": "BASEDN",
+        "saf_group": "GROUP",
+        "saf_domain": "DOMAIN",
+        "create_user": "true"
+    }
+}
