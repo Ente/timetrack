@@ -6,6 +6,7 @@
 * Renamed all GUI elements from `Calendar` to `Notifications`
 * Fixed being unable to edit notifications entries
 * PDF and CSV exports are now directly saved onto the server. This is done automatically. Exports are saved within `data/exports/{ExportModuleName}/{username}/`
+* CSS for PDF exports can now be customized. You can specify your own CSS file within the `app.ini` `[exports][pdf][css]` setting (full path)
 
 <!-- Fixed title not set for Plugin Hub -->
 <!-- Fixed missing i18n files for `suite/admin/notifications/edit.php` -->
