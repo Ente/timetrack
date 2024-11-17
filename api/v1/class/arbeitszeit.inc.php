@@ -329,6 +329,11 @@ namespace Arbeitszeit {
         public static function get_app_ini()
         {
             $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", true);
+            // Run once migrator to app.json
+            if(!file_exists($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json")){
+                $json = json_encode($ini, JSON_PRETTY_PRINT);
+                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json", $json);
+            }
             return $ini;
         }
 
@@ -441,7 +446,7 @@ namespace Arbeitszeit {
                     $data = <<< DATA
 
                         <tr>
-                            <td><a href="http://{$base_url}/suite/worktime/view_pdf.php?mitarbeiter={$rnw2}&{$rrr2}" target="_blank">{$this->i18n["print"]} $rnw</a>, <a href="http://{$base_url}/suite/admin/actions/worktime/delete.php?id={$rqw}&u={$rbn}">{$this->i18n["delete_entry"]}</a> {$this->i18n["or"]} $rmm</td>
+                            <td><a href="http://{$base_url}/suite/worktime/view_csv.php?mitarbeiter={$rnw2}&{$rrr2}">{$this->i18n["csv"]}</a> {$this->i18n["or"]} <a href="http://{$base_url}/suite/worktime/view_pdf.php?mitarbeiter={$rnw2}&{$rrr2}" target="_blank">{$this->i18n["print"]} $rnw</a>, <a href="http://{$base_url}/suite/admin/actions/worktime/delete.php?id={$rqw}&u={$rbn}">{$this->i18n["delete_entry"]}</a> {$this->i18n["or"]} $rmm</td>
                             <td>$raw</td>
                             <td>$rew</td>
                             <td>$rol</td>
@@ -569,8 +574,8 @@ namespace Arbeitszeit {
             if (strpos($url, "info=sickness_added")) {
                 return "<p><span style='color:green;'>{$loc["sickness_added"]}</p>";
             }
-            if (strpos($url, "info=calendar_entry_deleted")) {
-                return "<p><span style='color:blue;'>{$loc["calendar_entry_deleted"]}</p>";
+            if (strpos($url, "info=notifications_entry_deleted")) {
+                return "<p><span style='color:blue;'>{$loc["notifications_entry_deleted"]}</p>";
             }
             if (strpos($url, "info=noperms")) {
                 return "<p><span style='color:red;'>{$loc["noperms"]}</p>";

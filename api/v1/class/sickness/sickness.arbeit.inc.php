@@ -19,7 +19,7 @@ namespace Arbeitszeit {
 
             if ($dateObj == false) {
               Exceptions::error_rep("[SICK] An error occured while adding an sickness for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
-              return false;   
+              return false;
             }
 
             $data = $this->db()->sendQuery("INSERT INTO sick (id, username, start, stop, status) VALUES (0, ?, ?, ?, 'pending')")->execute([$user, $start, $stop]);
@@ -44,18 +44,18 @@ namespace Arbeitszeit {
         public function change_status($id, $new_state = 3) # admin function only
         {
             if($new_state == 1 /* approve */){
-                $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = ?;";
+                $sql = "UPDATE `sick` SET `status` = 'approved' WHERE `id` = ?;";
             } elseif($new_state == 2 /* rejected */) {
-                $sql = "UPDATE `vacation` SET `status` = 'rejected' WHERE `id` = ?;";
+                $sql = "UPDATE `sick` SET `status` = 'rejected' WHERE `id` = ?;";
             } else {
-                $sql = "UPDATE `vacation` SET `status` = 'pending' WHERE `id` = ?;";
+                $sql = "UPDATE `sick` SET `status` = 'pending' WHERE `id` = ?;";
             }
             $data = $this->db()->sendQuery($sql)->execute([$id]);
             if($data == false){
-                Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
+                Exceptions::error_rep("[SICK] An error occured while setting status for sickness. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
             } else {
-                Exceptions::error_rep("[VACATION] Successfully changed status for vacation id '{$id}', new state: '{$new_state}'.");
+                Exceptions::error_rep("[SICK] Successfully changed status for sickness id '{$id}', new state: '{$new_state}'.");
                 return true;
             }
 
@@ -114,13 +114,13 @@ namespace Arbeitszeit {
         }
 
         public function get_sickness($id, $mode = 1){
-            $sql = "SELECT * FROM `sickness` WHERE id = ?";
+            $sql = "SELECT * FROM `sick` WHERE id = ?";
             $data = $this->db()->sendQuery($sql)->execute([$id]);
             if($data == false){
-                Exceptions::error_rep("[SICKNESS] An error occured while getting sickness. id '{$id}'. See previous message for more information.");
+                Exceptions::error_rep("[SICK] An error occured while getting sickness. id '{$id}'. See previous message for more information.");
                 return false;
             } else {
-                Exceptions::error_rep("[SICKNESS] Successfully found sickness id '{$id}' inside database.");
+                Exceptions::error_rep("[SICK] Successfully found sickness id '{$id}' inside database.");
                 if($mode == 2){
                     return true;
                 } else {

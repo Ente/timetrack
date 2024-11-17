@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v7.6
+
+* **Replaced `app.ini` with `app.json`**. The `app.ini` has been deprecated and will be removed within the `8.0` release. Your settings will be automatically migrated to the new `app.json` file.
+
+## v7.5
+
+* Added CSV export module class `Arbeitszeit\ExportModule\CSVExportModule` which can be used by clicking on `(CSV)` within All Worktimes
+* Renamed all GUI elements from `Calendar` to `Notifications`
+* Fixed being unable to edit notifications entries
+* PDF and CSV exports are now directly saved onto the server. This is done automatically. Exports are saved within `data/exports/{ExportModuleName}/{username}/`
+* CSS for PDF exports can now be customized. You can specify your own CSS file within the `app.ini` `[exports][pdf][css]` setting (full path)
+
+<!-- Fixed title not set for Plugin Hub -->
+<!-- Fixed missing i18n files for `suite/admin/notifications/edit.php` -->
+<!-- Fixed being unable to approve or reject vacation entries -->
+
 ## v7.4
 
 * Exports are now handled differently. You can import your own modules to support more file formats. Read more about this in the `README.md` file.

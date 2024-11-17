@@ -18,6 +18,7 @@ $base_url = $ini["general"]["base_url"];
 $id = $_GET["id"];
 $vacation = $arbeit->vacation();
 $arbeit->auth()->login_validation();
+$auth = $arbeit->auth();
 if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))) {
     if (isset($_GET["id"], $_GET["new"])) {
         if (!$vacation->get_vacation($id, 2)) {

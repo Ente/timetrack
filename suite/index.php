@@ -3,7 +3,7 @@ require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
 session_start();
 $arbeit = new Arbeitszeit;
-$arbeit->autodelete()->autodelete_obsolete_calendar_entries();
+$arbeit->autodelete()->autodelete_obsolete_notifications_entries();
 $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
 $arbeit->auth()->login_validation();
@@ -21,7 +21,7 @@ $language = $arbeit->i18n()->loadLanguage(NULL, "index");
         <meta charset="UTF-8">
     </head>
     <body>
-        <?php $arbeit->notifications()->get_calendar_html();  ?>
+        <?php $arbeit->notifications()->get_notifications_html();  ?>
         <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php" ?> 
         <?php echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]); ?>
         <h1><?php echo $language["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>

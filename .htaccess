@@ -25,6 +25,10 @@ RewriteRule ^(.*)$ index.php/$1
   Require all denied
 </FilesMatch>
 
+<FilesMatch "app.json">
+  Require all denied
+</FilesMatch>
+
 <FilesMatch "README.md">
   Require all denied
 </FilesMatch>

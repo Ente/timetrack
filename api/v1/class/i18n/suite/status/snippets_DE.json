@@ -5,7 +5,7 @@
     "error_vacation": "Fehler: Deine Urlaub konnte nicht gespeichert werden. Bitte kontaktiere deinen Administrator!",
     "vacation_added": "Hinweis: Dein Urlaub wurde erfolgreich gespeichert!",
     "sickness_added": "Hinweis: Deine Krankheit wurde erfolgreich gespeichert!",
-    "calendar_entry_deleted": "Hinweis: Kalendereintrag gelöscht!",
+    "notifications_entry_deleted": "Hinweis: Benachrichtigungeneintrag gelöscht!",
     "noperms": "Hinweis: Fehlende Berechtigungen",
     "user_deleted": "Hinweis: Benutzer erfolgreich gelöscht!",
     "created_user": "Hinweis: Benutzer erfolgreich erstellt!",

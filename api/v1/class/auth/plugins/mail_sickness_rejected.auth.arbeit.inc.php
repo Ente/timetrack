@@ -27,13 +27,13 @@ namespace Arbeitszeit {
                 ];
             }
 
-            $sql1 = "SELECT * FROM `vacation` WHERE id = ?;";
+            $sql1 = "SELECT * FROM `sick` WHERE id = ?;";
             $res1 = $conn->sendQuery($sql1);
             $res1->execute([$id]);
             if ($res1 != false) {
                 $worktime_data = $res1->fetch(\PDO::FETCH_ASSOC);
             } else {
-                Exceptions::error_rep("An error occured while fetching vacation data from database for id '{$id}'. See previous message for more information.");
+                Exceptions::error_rep("An error occured while fetching sickness data from database for id '{$id}'. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 11,

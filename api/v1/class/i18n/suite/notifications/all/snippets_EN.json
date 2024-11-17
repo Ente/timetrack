@@ -1,7 +1,7 @@
 {
     "title": "Calender",
     "note1": "Please enter something here!",
-    "p1": "The information you enter will be displayed on the start page and here in the calendar.",
+    "p1": "The information you enter will be displayed on the start page and here in the notifications.",
     "p2": "To delete an entry or mark it as completed, please press 'Delete'.",
     "note2": "Too many entries make the start page unclear!",
     "label_date": "Date",

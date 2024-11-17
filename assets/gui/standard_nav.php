@@ -20,13 +20,13 @@ $lang = $i18n->loadLanguage($locale, "nav");
     <li><a href="http://<?php echo $base_url ?>/suite"><?php echo $lang["menu"] ?></a></li>
     <li><a href="http://<?php echo $base_url ?>/suite/users/settings.php"><?php echo $lang["settings"] ?></a></li>
     <li><a href="http://<?php echo $base_url ?>/suite/worktime/all.php"><?php echo $lang["own_worktime"] ?></a></li>
-    <li><a href="http://<?php echo $base_url ?>/suite/calendar/all.php"><?php echo $lang["calendar"] ?></a></li>
+    <li><a href="http://<?php echo $base_url ?>/suite/notifications/all.php"><?php echo $lang["notifications"] ?></a></li>
     <li class="b"><a><?php echo $name; ?></a></li>
     <li class="b"><a href="http://<?php echo $base_url ?>/suite/actions/auth/logout.php"><?php echo $lang["logout"] ?></a></li>
     <?php
     if(@$user->is_Admin($user->get_user(@$_SESSION["username"]))){
         $v = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/VERSION");
-        echo "<li><a href='http://{$base_url}/suite/admin/worktime/all.php'>{$lang["a_allworktime"]}</li>";
+        echo "<li><a href='http://{$base_url}/suite/admin/worktime/all.php'>{$lang["a_allworktime"]}</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/users/edit.php'>{$lang["a_useredit"]}</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/sick/all.php'>{$lang["a_sickness"]}</a></li>";
         echo "<li><a href='http://{$base_url}/suite/admin/worktime/vacation/all.php'>{$lang["a_vacation"]}</a></li>";

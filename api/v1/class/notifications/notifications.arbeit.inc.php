@@ -16,16 +16,16 @@ namespace Arbeitszeit{
 
 
         /**
-         * calender_delete() - Deletes all calendar entries that are older than the current date
+         * calender_delete() - Deletes all notifications entries that are older than the current date
          * 
          * @return boolean|array Returns "true" on success and an error array on failure
          * 
          */
-        public function calender_delete(){
+        public function notifications_delete(){
             $sql = "DELETE FROM `kalender` WHERE `datum` < NOW();";
             $data = $this->db->sendQuery($sql)->execute();
             if($data == false){
-                Exceptions::error_rep("An error occured while deleting expired calendar entries. See previous message for more information.");
+                Exceptions::error_rep("An error occured while deleting expired notifications entries. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 1,
@@ -37,23 +37,7 @@ namespace Arbeitszeit{
             }
         }
 
-        public function get_calendar(){
-            $sql = "SELECT * FROM `kalender`;";
-            $res = $this->db->sendQuery($sql);
-            $res->execute();
-            $count = $res->rowCount();
-            if($count >=1){
-                $data = $res->fetch(\PDO::FETCH_ASSOC);
-                $date = @strftime("%d.%m.%Y", strtotime($data["datum"]));
-                $data["datum_new"] = $date;
-
-                return $data;
-            } else {
-                return "{$this->i18n["no_data"]}";
-            }
-        }
-
-        public function get_calendar_edit_html(){
+        public function get_notifications_edit_html(){
             $sql = "SELECT * FROM `kalender` ORDER BY id DESC;";
             $res = $this->db->sendQuery($sql);
             $res->execute();
@@ -67,7 +51,7 @@ namespace Arbeitszeit{
 
                     $data = <<< DATA
                     <tr>
-                        <td><a href="../admin/calendar/delete.php?id={$id}">{$this->i18n["delete"]}</a> | <a href="../admin/calendar/edit.php?id={$id}">{$this->i18n["edit"]}</a></td>
+                        <td><a href="../admin/notifications/delete.php?id={$id}">{$this->i18n["delete"]}</a> | <a href="../admin/notifications/edit.php?id={$id}">{$this->i18n["edit"]}</a></td>
                         <td>$date</td>
                         <td>$time</td>
                         <td>$location</td>
@@ -81,7 +65,7 @@ namespace Arbeitszeit{
             }
         }
 
-        public function get_calendar_html(){
+        public function get_notifications_html(){
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `kalender` ORDER BY id DESC;";
             $res = $this->db->sendQuery($sql);
@@ -96,8 +80,8 @@ namespace Arbeitszeit{
                     $id = $row["id"];
                     
                     $html = <<< DATA
-                    <a href="http://{$base_url}/suite/calendar/view.php?id={$id}" target="_blank"><div>
-                        <h2>{$this->i18n["calendar_notify"]} $date</h2>
+                    <a href="http://{$base_url}/suite/notifications/view.php?id={$id}" target="_blank"><div>
+                        <h2>{$this->i18n["notifications_notify"]} $date</h2>
                         <p><b>$location</b>: $note | <span><b>$date</b></span> - $time</p>
                     </div></a>
                     DATA;
@@ -111,13 +95,13 @@ namespace Arbeitszeit{
         }
 
         /**
-         * get_calendar_entry() - Loads a calendar entry by its ID
+         * get_notifications_entry() - Loads a notifications entry by its ID
          * 
-         * @param int $id The ID of the calendar entry
-         * @return array Returns the calendar entry as an array or an error array
+         * @param int $id The ID of the notifications entry
+         * @return array Returns the notifications entry as an array or an error array
          * 
          */
-        public function get_calendar_entry($id){
+        public function get_notifications_entry($id){
             $sql = "SELECT * FROM `kalender` WHERE id = ?";
             $res = $this->db->sendQuery($sql);
             $res->execute([$id]);
@@ -131,34 +115,34 @@ namespace Arbeitszeit{
 
                 return $data;
             } else {
-                Exceptions::error_rep("An error occured while getting an calendar entry. Entry could not be found for id '$id'.");
+                Exceptions::error_rep("An error occured while getting an notifications entry. Entry could not be found for id '$id'.");
                 return [
                     "error" => [
                         "error_code" => 5,
-                        "error_message" => "Error while fetching calendar entry!"
+                        "error_message" => "Error while fetching notifications entry!"
                     ]
                 ];
             }
         }
 
         /**
-         * create_calendar_entry() - Creates a new calendar entry
+         * create_notifications_entry() - Creates a new notifications entry
          * 
          * @param time $time The time (usually HH:MM)
          * @param date $date The date (usually YYYY-MM-DD)
          * @param string $location The location
-         * @param string $comment A comment for the calendar entry
+         * @param string $comment A comment for the notifications entry
          * @param bool|array Returns "true" on success and an error array on failure
          */
-        public function create_calendar_entry($time, $date, $location, $comment){
+        public function create_notifications_entry($time, $date, $location, $comment){
             $sql = "INSERT INTO `kalender` (`datum`, `uhrzeit`, `ort`, `notiz`) VALUES (?, ?, ?, ?)";
             $res = $this->db->sendQuery($sql)->execute([$date, $time, $location, $comment]);
             if(!$res){
-                Exceptions::error_rep("An error occured while creating an calendar entry. See previous message for more information.");
+                Exceptions::error_rep("An error occured while creating an notifications entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 6,
-                        "error_message" => "Error while creating calendar entry!"
+                        "error_message" => "Error while creating notifications entry!"
                     ]
                 ];
             } else {
@@ -167,24 +151,24 @@ namespace Arbeitszeit{
         }
 
         /**
-         * edit_calendar_entry() - Edits a calendar entry
+         * edit_notifications_entry() - Edits a notifications entry
          * 
          * @param time $time The time (usually HH:MM)
          * @param date $date The date (usually YYYY-MM-DD)
          * @param string $location The location
-         * @param string $comment A comment for the calendar entry
+         * @param string $comment A comment for the notifications entry
          * @return bool|array Returns "true" on success and an error array on failure
          * @Note All parameters are required, if not set, the function will return an error array 
          */
-        public function edit_calendar_entry($id, $time, $date, $location, $comment){
+        public function edit_notifications_entry($id, $time, $date, $location, $comment){
             $sql = "UPDATE `kalender` SET `datum` = ?, `uhrzeit` = ?, `ort` = ?, `notiz` = ? WHERE id = ?;";
             $res = $this->db->sendQuery($sql)->execute([$date, $time, $location, $comment, $id]);
             if(!$res){
-                Exceptions::error_rep("An error occured while editing an calendar entry. See previous message for more information.");
+                Exceptions::error_rep("An error occured while editing an notifications entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 8,
-                        "error_message" => "Error while editing calendar entry!"
+                        "error_message" => "Error while editing notifications entry!"
                     ]
                 ];
             } else {
@@ -193,20 +177,20 @@ namespace Arbeitszeit{
         }
 
         /**
-         * delete_calendar_entry() - Deletes a calendar entry
+         * delete_notifications_entry() - Deletes a notifications entry
          * 
-         * @param int $id The ID of the calendar entry
+         * @param int $id The ID of the notifications entry
          * @return bool|array Returns "true" on success and an error array on failure
          */
-        public function delete_calendar_entry($id){
+        public function delete_notifications_entry($id){
             $sql = "DELETE FROM `kalender` WHERE id = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
             if(!$res){
-                Exceptions::error_rep("An error occured while deleting an calendar entry. See previous message for more information.");
+                Exceptions::error_rep("An error occured while deleting an notifications entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 9,
-                        "error_message" => "Error while deleting calendar entry!"
+                        "error_message" => "Error while deleting notifications entry!"
                     ]
                 ];
             } else {

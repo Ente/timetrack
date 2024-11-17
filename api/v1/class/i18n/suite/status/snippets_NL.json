@@ -5,7 +5,7 @@
     "error_vacation": "Fout: uw vakantie kon niet worden opgeslagen. Neem contact op met uw beheerder!",
     "vacation_added": "Opmerking: uw vakantie is succesvol opgeslagen!",
     "sickness_added": "Opmerking: uw ziekte is met succes opgeslagen!",
-    "calendar_entry_deleted": "Opmerking: agenda-item verwijderd!",
+    "notifications_entry_deleted": "Opmerking: agenda-item verwijderd!",
     "noperms": "Opmerking: ontbrekende machtigingen",
     "user_deleted": "Opmerking: gebruiker is succesvol verwijderd!",
     "created_user": "Opmerking: gebruiker is succesvol aangemaakt!",

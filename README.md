@@ -10,7 +10,7 @@ It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more 
 - Platform-wide notifications
 - customizable API
 - Logging
-- English and German supported
+- EN/DE/NL language support
 - Maintenance mode
 - Easy and fast installation
 - LDAP Authentication
@@ -40,9 +40,9 @@ Simply install the software by following these steps:
 - Run the statement printed by the `usercreate.php` inside your database.
 - Please run the `run-patch.sh` file located in the `setup` folder to apply a patch regarding LDAP authentication. If you do not want to use LDAP you can ignore this step.
 
-### Configure app.ini
+### Configure app.ini/app.json
 
-In step 2, you need to configure the `app.ini.sample` within the `api/v1/inc` folder:
+In step 2, you need to configure the `app.ini.sample`/`app.json.sample` within the `api/v1/inc` folder:
 
 - `app_name`: The name of your application, e.g. `ACME Inc. TimeRecording`
 - `base_url`: The Base URL (can also be an IP) of your application, without ending trailing slash and the protocol, e.g. `acme.inc` or `10.10.10.2` (URLs will be built with the http:// protocol, we recommend adding a redirect to https:// if you use an certificate.)
@@ -90,7 +90,7 @@ If done correctly, you should now be able to access the application via http://B
 
 **Please delete the whole `/setup/` folder after installation**
 
-After configuring, please rename the `app.ini.sample` to `app.ini` (`mv app.ini.sample app.ini`)
+After configuring, please rename the `app.ini.sample`/`app.json.sample` to `app.ini`/`app.json` (`mv app.ini.sample app.ini`)
 
 ## Maintenance Mode
 
@@ -101,8 +101,8 @@ Disabling is done by renaming the file again.
 
 TimeTrack only differenciates between two user groups:
 
-- `Admin`: This group allows to change application settings, add calendar entries, manage users, manage worktime, sickness and vacation reports
-- `User`: If in this group, you only have access to the elemental functions, like viewing calendar entries, add worktime/vacation/sickness
+- `Admin`: This group allows to change application settings, add notifications entries, manage users, manage worktime, sickness and vacation reports
+- `User`: If in this group, you only have access to the elemental functions, like viewing notifications entries, add worktime/vacation/sickness
 
 ## Logging
 
@@ -150,6 +150,7 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 ```
 
 As there is currently no Export Area in the UI you have to create the GUI elements on your own.
+You can specify your own CSS file within the `app.ini` `[exports][pdf][css]` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
 
 ## Updates
 
