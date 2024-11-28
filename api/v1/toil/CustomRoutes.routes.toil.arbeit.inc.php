@@ -53,7 +53,6 @@ namespace Toil {
                     if($route == "_comment"){continue;}
                     Exceptions::error_rep("[API] Loading custom API route '{$route}'");
                     self::loadCustomRoute($route, $class);
-                    echo var_dump($route, $class);
                 } catch (\Throwable $e){
                     Exceptions::error_rep("[API] Could not load custom API route. Message: " . $e->getMessage() . " | Code: " . $e->getCode() . " | Trace (if available): " . $e->getTraceAsString());
                 }
