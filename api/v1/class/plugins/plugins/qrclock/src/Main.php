@@ -62,7 +62,6 @@ class qrclock extends PluginBuilder implements PluginInterface {
         return base64_encode($dynamicToken . "|" . $time);
     }
 
-    //TODO: Rewrite function to use qrcode.lib
     public function generateQRCodeContents(string $userid): string {
         $arbeit = new Arbeitszeit();
         $dynamicToken = $this->generateDynamicToken($this->mastertoken, $userid);

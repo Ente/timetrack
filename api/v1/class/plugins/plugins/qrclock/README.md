@@ -11,6 +11,8 @@ Before you can use this feature, you have to download the `phpqrcode` library fr
 
 After you've downloaded the library, extract it and copy the `phpqrcode` folder to the plugins `src` folder. (so there should be a `src/phpqrcode` folder).
 
+**The plugins creates a master token and saves it into `/data/token`. Please make sure that the access is restricted to this file**
+
 ## Configuration
 
 You are currently not able to configure this plugin.
