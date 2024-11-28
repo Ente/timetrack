@@ -197,7 +197,7 @@ namespace Arbeitszeit{
 
         public function remove_state($user){
             $sql = "UPDATE `users` SET `state` = '' WHERE `username` = ?;";
-            $res = $this->db->sendQuery($sql)->sendQuery([$user]);
+            $res = $this->db->sendQuery($sql)->execute([$user]);
             if($res == false){
                 return false;
             } else {

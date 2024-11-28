@@ -1,0 +1,14 @@
+name: qrclock
+src: /src
+main: Main
+namespace: qrclock
+author: Ente
+description: Clock in to work with QR codes
+version: "1.0"
+api: 0.1
+permissions: none
+enabled: false
+custom.values: 
+  license: "LIC"
+nav_links:
+  Generate QR code: views/index.php
