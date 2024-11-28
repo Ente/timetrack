@@ -151,6 +151,16 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 
 As there is currently no Export Area in the UI you have to create the GUI elements on your own.
 
+## QR codes
+
+You can use the plugin `QRClock` to generate QR codes for yourself to either clock in or out. The QR code is generated can be used for later use, e.g. print it out.
+Currently you do have to login before you can use the QR code. This will be reworked to bypass current authentication flow as there is a token embedded in the QR code. Therefore you should be careful with the QR code.
+
+To use this feature, please download and place the `phpqrcode` folder into the `api/v1/class/plugins/plugins/qrclock/src` folder. You can download the `phpqrcode` library from <https://sourceforge.net/projects/phpqrcode/>.
+When you have done this, you just have to enable the plugin by setting `enabled` within the `plugin.yml` to `true`.
+
+The link to `phpqrcode` also contains a wiki if you want to modify the plugin.
+
 ## Updates
 
 TimeTrack has to be updated in two ways: database and application.
