@@ -22,9 +22,9 @@ Additional functionality can be unlocked with TimeTrack Oval
 
 ### Requirements
 
-- at least PHP 8.0 (intl, pdo_mysql, curl, fileinfo, ldap, sockets extension)
-- Apache2.4 with enabled htaccess, headers mod
-- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing)
+- at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|pgsql|xsl|gettext|dom|ldap`)
+- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation)
+- Apache2.4 with enabled rewrite mod (optional)
 
 This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. `php -S 0.0.0.0:80`).
 
@@ -32,9 +32,10 @@ This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. 
 
 Simply install the software by following these steps:
 
-- Install php and requirements: `apt update && apt install php8.0 php8.0-curl php8.0-mysqli apache2 mariadb-server -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`
-- Install requirements for composer `cd /path/to/timetrack && composer install`
-- Create a new database, e.g. with the name `ab` and create a dedicated user, e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
+- Install php and requirements: `sudo apt update && sudo apt install php8.2 php8.2-curl php8.2-gd php8.2-gmp php8.2-intl php8.2-mbstring php8.2-mysqli php8.2-openssl php8.2-pgsql php8.2-xsl php8.2-gettext php8.2-dom php8.2-ldap git mariadb-server apache2 -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`. If you do not want to use apache2 you can skip this step.
+- Git clone timetrack to e.g. `/var/www`: `cd /var/www && git clone https://github.com/Ente/timetrack.git && cd timetrack`
+- Install requirements for composer `composer install`
+- Create a new database, e.g. with the name `ab` and create a dedicated user, login (`mysql -u root -p`) then e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
 - Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
 - Run the statement printed by the `usercreate.php` inside your database.
@@ -128,7 +129,7 @@ Please run `run-patch.sh` within the `setup` folder to get LDAP working with php
 ## Export
 
 The `ExportModule` allows you to export your data in any format as long as you have a `ExportModule` defined for it.
-TimeTrack ships the `PDFExportModule` which allows you to export your data in PDF format through your browser.
+TimeTrack ships the `PDFExportModule` and `CSVExportModule` which allows you to export your data in PDF/CSV format through your browser/file.
 
 You can define your own `ExporModules` by creating a new class in `api/v1/class/exports/modules/MyExportExportModule/MyExportExportModule.em.arbeit.inc.php` and implementing the `ExportModuleInterface` interface found in `api/v1/class/exports/modules/ExportModuleInterface.em.arbeit.inc.php`.
 
