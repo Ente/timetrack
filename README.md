@@ -162,6 +162,13 @@ When you have done this, you just have to enable the plugin by setting `enabled`
 
 The link to `phpqrcode` also contains a wiki if you want to modify the plugin.
 
+## CodeClock Plugin
+
+This plugin allows you to clock in or out using a PIN to authenticate. The plugin is disabled by default and must be enabled in the `plugin.yml`.
+You can access the plugin by navigating to `Plugins` -> `[codeclock] View PIN`. Admins can reset PINs through the `Plugins` -> `[codeclock] Admin View` page. You must have once accessed the plugin to let it generate the PINs.
+
+To login with the PIN navigate to http://BASE_URL/api/v1/toil/code and enter your PIN.
+
 ## Updates
 
 TimeTrack has to be updated in two ways: database and application.
