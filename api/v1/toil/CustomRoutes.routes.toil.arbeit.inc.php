@@ -14,6 +14,30 @@ namespace Toil {
 
         }
 
+        public static function registerCustomRoute($endpoint, $classFile, $permissions = 0){
+            $file = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/data/routes/routes.json"), true);
+            $file[$endpoint] = $classFile;
+            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/data/routes/routes.json", json_encode($file, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+            $permissionsFile = json_decode(file_get_contents(__DIR__ . "/permissions.json"), true);
+            $permissionsFile[$endpoint] = $permissions;
+            file_put_contents(__DIR__ . "/permissions.json", json_encode($permissionsFile, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            
+            return true;
+        }
+
+        public static function removeCustomRoute($endpoint){
+            $file = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/data/routes/routes.json"), true);
+            unset($file->$endpoint);
+            file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/data/routes/routes.json", json_encode($file, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+            $permissionsFile = json_decode(file_get_contents(__DIR__ . "/permissions.json"), true);
+            unset($permissionsFile->$endpoint);
+            file_put_contents(__DIR__ . "/permissions.json", json_encode($permissionsFile, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+            
+            return true;
+        }
+
         public static function loadCustomRoute($endpoint, $classFile, $method = "GET"){
             Router::get("/api/v1/toil/" . $endpoint, function() use ($endpoint, $classFile){
                 Exceptions::error_rep("[API] User authenticated and accessing custom API endpoint '{$endpoint}'");
@@ -36,6 +60,4 @@ namespace Toil {
         }
     }
 }
-
-
 ?>
