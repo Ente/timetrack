@@ -152,6 +152,23 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 As there is currently no Export Area in the UI you have to create the GUI elements on your own.
 You can specify your own CSS file within the `app.ini` `[exports][pdf][css]` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
 
+## QR codes
+
+You can use the plugin `QRClock` to generate QR codes for yourself to either clock in or out. The QR code is generated can be used for later use, e.g. print it out.
+Currently you do have to login before you can use the QR code. This will be reworked to bypass current authentication flow as there is a token embedded in the QR code. Therefore you should be careful with the QR code.
+
+To use this feature, please download and place the `phpqrcode` folder into the `api/v1/class/plugins/plugins/qrclock/src` folder. You can download the `phpqrcode` library from <https://sourceforge.net/projects/phpqrcode/>.
+When you have done this, you just have to enable the plugin by setting `enabled` within the `plugin.yml` to `true`.
+
+The link to `phpqrcode` also contains a wiki if you want to modify the plugin.
+
+## CodeClock Plugin
+
+This plugin allows you to clock in or out using a PIN to authenticate. The plugin is disabled by default and must be enabled in the `plugin.yml`.
+You can access the plugin by navigating to `Plugins` -> `[codeclock] View PIN`. Admins can reset PINs through the `Plugins` -> `[codeclock] Admin View` page. You must have once accessed the plugin to let it generate the PINs.
+
+To login with the PIN navigate to http://BASE_URL/api/v1/toil/code and enter your PIN.
+
 ## Updates
 
 TimeTrack has to be updated in two ways: database and application.

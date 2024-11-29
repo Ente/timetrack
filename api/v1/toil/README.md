@@ -64,3 +64,12 @@ class EP extends Toil {
 }
 
 ```
+
+## Registering a route via function
+
+You can use the `CustomRoutes::registerCustomRoute("myRoute", "/api/v1/toil/resources/myRoute.ep.toil.arbeit.inc.php", 1)` - `CustomRoutes::registerCustomRoute(string $endpoint, string $classFile, int $permissions)` function to register a custom route. If `$permissions = 1` only admins can access the endpoint.
+
+## Removing a route via function
+
+You can use the `CustomRoutes::removeCustomRoute("myRoute")` function to deregister a custom route.
+This also removes the permissions from the `permissions.json` file.

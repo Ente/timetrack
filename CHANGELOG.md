@@ -3,6 +3,9 @@
 ## v7.6
 
 * **Replaced `app.ini` with `app.json`**. The `app.ini` has been deprecated and will be removed within the `8.0` release. Your settings will be automatically migrated to the new `app.json` file.
+* Added plugin to clock in with QR codes. This plugin is disabled by default and can be enabled within the `plugins.yml`. More information can be found inside the `README.md`.
+* You can now register or remove a custom API route via the `CustomRoutes::registerCustomRoute(...)` or `CustomRoutes::removeCustomRoute(...)` functions. More information can be found inside the Toil API `/api/v1/toil/README.md`.
+* Added a plugin to clock in with a code. This plugin is disabled by default and can be enabled within the `plugins.yml`. More information can be found inside the `README.md`.
 
 ## v7.5
 

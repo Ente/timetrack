@@ -1,0 +1,15 @@
+name: codeclock
+src: /src
+main: Main
+namespace: CodeClock
+author: Ente
+description: Clock in to work with a PIN
+version: "1.0"
+api: 0.1
+permissions: none
+enabled: true
+custom.values:
+  license: "LIC"
+nav_links:
+  View PIN: views/index.php
+  Admin View: views/admin.php

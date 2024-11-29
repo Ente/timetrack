@@ -71,7 +71,7 @@ class Userdetail extends PluginBuilder implements PluginInterface {
             $user = $benutzer->get_user($name);
             return $user;
         } catch (\Exception $e){
-            throw new \Exception($e);
+            throw new \Exception($e->getMessage());
         }
     }
 
