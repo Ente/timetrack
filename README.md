@@ -40,6 +40,8 @@ Simply install the software by following these steps:
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
 - Run the statement printed by the `usercreate.php` inside your database.
 - Please run the `run-patch.sh` file located in the `setup` folder to apply a patch regarding LDAP authentication. If you do not want to use LDAP you can ignore this step.
+- Configure `app.ini` (see below - required changes: `base_url`, `db_user`, `db_password`, `[smtp]` section and any other if you're installation is different) then `mv api/v1/inc/app.ini.sample app.ini && cd /var/www/timetrack`
+- Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
 
 ### Configure app.ini/app.json
 
