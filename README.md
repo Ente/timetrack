@@ -32,7 +32,7 @@ This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. 
 
 Simply install the software by following these steps:
 
-- Install php and requirements: `sudo apt update && sudo apt install php8.2 php8.2-curl php8.2-gd php8.2-gmp php8.2-intl php8.2-mbstring php8.2-mysqli php8.2-openssl php8.2-pgsql php8.2-xsl php8.2-gettext php8.2-dom php8.2-ldap composer git mariadb-server apache2 -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`. If you do not want to use apache2 you can skip this step.
+- Install php and requirements: `sudo apt update && sudo apt install php8.2 php8.2-curl php8.2-gd php8.2-gmp php8.2-intl php8.2-mbstring php8.2-mysqli php8.2-pgsql php8.2-xsl php8.2-gettext php8.2-dom php8.2-ldap composer git mariadb-server apache2 -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`. If you do not want to use apache2 you can skip this step.
 - Git clone timetrack to e.g. `/var/www`: `cd /var/www && git clone https://github.com/Ente/timetrack.git && cd timetrack`
 - Install requirements for composer `composer install`
 - Create a new database, e.g. with the name `ab` and create a dedicated user, login (`mysql -u root -p`) then e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
