@@ -38,8 +38,8 @@ Simply install the software by following these steps:
 - Create a new database, e.g. with the name `ab` and create a dedicated user, login (`mysql -u root -p`) then e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
 - Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
-- Run the statement printed by the `usercreate.php` inside your database.
-- Please run the `run-patch.sh` file located in the `setup` folder to apply a patch regarding LDAP authentication. If you do not want to use LDAP you can ignore this step.
+- Run the statement printed by the `usercreate.php` inside your database (`mysql -u root -p` and `use ab;` then the statement).
+- Please run the `run-patch.sh` file located in the `setup` folder to apply a patch regarding LDAP authentication. If you do not want to use LDAP you can ignore this step. (`cd setup && bash run-patch.sh && cd ..`)
 - Configure `app.ini` (see below - required changes: `base_url`, `db_user`, `db_password`, `[smtp]` section and any other if you're installation is different) then `mv api/v1/inc/app.ini.sample app.ini && cd /var/www/timetrack`
 - Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
 
