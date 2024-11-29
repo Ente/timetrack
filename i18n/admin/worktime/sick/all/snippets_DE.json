@@ -1,0 +1,17 @@
+{
+    "title": "Alle Krankheiten",
+    "note1": "Unten siehst du eine Liste aller Krankheiten deiner Mitarbeiter.",
+    "note2": "Geordnet: Neu zu alt, die letzten 100 Einträge",
+    "t1": "Mitarbeiter",
+    "t2": "Krankheit Beginn",
+    "t3": "Krankheit Ende",
+    "t4": "Status",
+    "status": {
+        "set_to": "Setzen zu",
+        "pending": "In Prüfung",
+        "or": "oder",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt",
+        "not_found": "Keine Krankheiten vorhanden."
+    }
+}

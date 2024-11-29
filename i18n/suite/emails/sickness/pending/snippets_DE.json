@@ -1,0 +1,15 @@
+{
+    "subject": "Deine Krankheit ist in Prüfung",
+    "greetings": "Hallo",
+    "message": "dein Vorgesetzter hat deine Krankheit auf <span style='color:blue;''>in Prüfung</span> gesetzt",
+    "note": "Dieser Vorgang kann automatisch nach dem Erstellen einer Krankheit verursacht werden",
+    "id": "ID",
+    "username": "Benutzername",
+    "day": "Tag",
+    "begin": "Beginn",
+    "send": "Ende",
+    "end": "Mit freundlichen Grüßen",
+    "noreply": "automatischer Absender",
+    "confidential": "Vertrauliche Informationen!",
+    "gdpr": "Sie erhalten diese E-Mail da sie den Bestimmungen zugestimmt haben. <br> Die aktuelle Datenschutzgrundverordnung kann hier eingesehen werden"
+    }

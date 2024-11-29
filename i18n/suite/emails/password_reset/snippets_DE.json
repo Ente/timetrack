@@ -1,0 +1,10 @@
+{
+    "subject": "Deine Anfrage zum Zurücksetzen deines Passwortes",
+    "greetings": "Hallo",
+    "message": "wir haben deine Anfrage, zum Zurücksetzen deines Passwortes erhalten.<br><p>Unten findest du den Link um dein Passwort zurückzusetzen.</p>",
+    "note": "Solltest du das nicht veranlasst haben, informiere deinen Vorgesetzeten sofort.",
+    "security_note": "Hinweis: Aus sicherheitstechnischen Gründen ist der Link nur 10 Minuten gültig. Nach Ablauf musst du dein Passwort erneut zurücksetzen.",
+    "end": "Mit freundlichen Grüßen",
+    "noreply": "automatischer Absender",
+    "gdpr": "Sie erhalten die E-Mail, weil Sie den Allgemeinen Geschäftsbedingungen zugestimmt haben. <br> Die aktuelle Datenschutz-Grundverordnung können Sie hier einsehen"
+}

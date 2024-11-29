@@ -1,0 +1,13 @@
+{
+    "worktime_note": "Werktijden vanaf ",
+    "dag": "dag",
+    "tbegin": "Starttijd",
+    "tend": "eindtijd",
+    "pbegin": "Breekstart",
+    "pend": "einde einde",
+    "loc": "locatie",
+    "no_data": "Geen gegevens gevonden!",
+    "worktime_all": "Totale werktijd (afgerond)",
+    "worktime_date": "Begindatum van gegevens",
+    "end_date": "Einddatum"
+   }

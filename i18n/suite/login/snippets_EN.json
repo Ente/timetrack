@@ -1,0 +1,11 @@
+{
+    "title": "Login",
+    "h1": "Please login now!",
+    "label_username": "Username",
+    "placeholder_username": "JDoe",
+    "label_password": "Password",
+    "placeholder_password": "Your Password",
+    "button_text": "Login",
+    "checkbox_30days": "Remember login for 30 days.",
+    "forgot_pw": "Forgot your password? Click here!"
+}

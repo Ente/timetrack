@@ -1,0 +1,17 @@
+{
+  "subject1": "Your working hours need to be reviewed!",
+  "suject2": "Your working hours have been unchecked!",
+  "greetings": "Hello",
+  "message1": "Your supervisor has put your working hours under review. The affected working hours are listed below",
+  "message2": "Your supervisor has unchecked your working hours. The affected working hours are listed below",
+  "id": "ID",
+  "username": "Username",
+  "day": "Day",
+  "begin": "Begin",
+  "send": "End",
+  "notes": "Notes",
+  "end": "Best regards",
+  "noreply": "automatic sender",
+  "confidential": "Confidential information!",
+  "gdpr": "You are receiving this email because you have agreed to the terms. <br> The current General Data Protection Regulation can be viewed here"
+}

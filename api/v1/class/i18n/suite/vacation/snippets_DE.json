@@ -1,8 +1,0 @@
-{
-    "title": "Urlaub eintragen",
-    "h2": "Trage hier deinen Urlaub ein",
-    "note1": "Bitte gib hier das Start-Datum deines Urlaubs an. Solltest du nur einen Tag Urlaub nehmen wollen, dann fülle das 'End-Datum' bitte <span style='color:red;'>nicht</span> aus.",
-    "note2": "End-Datum deines Urlaubs*",
-    "button_submit": "Urlaub einreichen.",
-    "note3": "Nach dem Absenden wird dein Arbeitgeber deinen Urlaub prüfen und sich bei dir, bei Bedarf, melden."
-}

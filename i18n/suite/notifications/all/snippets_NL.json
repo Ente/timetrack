@@ -1,0 +1,14 @@
+{
+    "title": "Benachrichtigungen",
+    "note1": "Voer alstublieft iets in!",
+    "p1": "Wat u invoert, wordt weergegeven op de startpagina en hier in de kalender.",
+    "p2": "Om een ​​invoer te verwijderen of deze als voltooid te markeren, drukt u op 'Verwijderen'.",
+    "note2": "Te veel vermeldingen maken de startpagina verwarrend!",
+    "label_date": "Datum",
+    "label_time": "Tijd",
+    "label_location": "Locatie",
+    "label_note": "Opmerking",
+    "pl_note": "Voer hier een notitie in.",
+    "button_send": "Verzenden",
+    "a_entries": "Alle vermeldingen"
+   }

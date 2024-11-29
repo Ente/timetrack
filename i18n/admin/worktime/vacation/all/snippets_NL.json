@@ -1,0 +1,17 @@
+{
+    "title": "Alle vakanties",
+    "note1": "Hieronder ziet u een lijst met de vakanties van al uw werknemers.",
+    "note2": "Besteld: nieuw naar oud, laatste 100 inzendingen",
+    "t1": "Werknemer",
+    "t2": "Vakantiebegin",
+    "t3": "Einde van de vakantie",
+    "t4": "Status",
+    "status": {
+        "set_to": "Instellen op",
+        "pending": "Wordt beoordeeld",
+        "or": "of",
+        "approved": "Goedgekeurd",
+        "rejected": "Afgewezen",
+        "not_found": "Geen vakantiegegevens gevonden."
+    }
+}

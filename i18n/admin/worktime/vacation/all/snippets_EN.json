@@ -1,0 +1,16 @@
+{
+    "title": "All vacation reports",
+    "note1": "Below you can see a list with all vacation reports from your employees.",
+    "note2": "Ordered: New to old, last 100 entries",
+    "t1": "Employee",
+    "t2": "Vacation Start",
+    "t3": "Vacation End",
+    "t4": "Status",
+    "status": {
+        "set_to": "Set to",
+        "pending": "Pending",
+        "or": "or",
+        "approved": "Approved",
+        "rejected": "Rejected"
+    }
+}

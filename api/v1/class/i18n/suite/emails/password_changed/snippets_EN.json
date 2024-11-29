@@ -1,8 +1,0 @@
-{
-    "subject": "Your password has been reset!",
-    "greetings": "Hello",
-    "message": "your password has just been changed. If you haven't done so, you can reset your password using the following link",
-    "end": "Kind regards",
-    "noreply": "automatic sender",
-    "gdpr": "You are receiving the email because you have agreed to the general terms and conditions. <br> You can view the current General Data Protection Regulation here"
-    }

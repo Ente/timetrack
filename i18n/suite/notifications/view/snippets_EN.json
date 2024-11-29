@@ -1,0 +1,10 @@
+{
+    "title": "Calendar entry",
+    "h2": "Calendar entry from ",
+    "label_location": "Location",
+    "label_date": "Date",
+    "label_time": "Time",
+    "label_note": "Note",
+    "a_delete": "Delete",
+    "a_delete_note": "This action is irreversible!"
+}

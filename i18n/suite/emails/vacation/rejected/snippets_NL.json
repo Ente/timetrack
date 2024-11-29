@@ -1,0 +1,14 @@
+{
+    "subject": "Uw vakantieaanvraag is afgewezen!",
+    "greetings": "Hallo",
+    "message": "Uw manager heeft uw vakantieaanvraag afgewezen <span style='color:red;'>afgewezen</span>",
+    "id": "ID",
+    "username": "Gebruikersnaam",
+    "day": "dag",
+    "begin": "begin",
+    "send": "einde",
+    "end": "Met vriendelijke groeten",
+    "noreply": "automatische afzender",
+    "confidential": "Vertrouwelijke informatie!",
+    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. <br> De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
+   }

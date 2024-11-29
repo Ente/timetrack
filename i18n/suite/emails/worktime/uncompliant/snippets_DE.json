@@ -1,0 +1,17 @@
+{
+    "subject1": "Deine Arbeitszeit muss geprüft werden!",
+    "suject2": "Die Prüfung deiner Arbeitszeit wurde aufgehoben!",
+    "greetings": "Hallo",
+    "message1": "dein Vorgesetzter hat deine Arbeitszeit auf Prüfung gesetzt. Die betroffene Arbeitszeit ist unten aufgelistet",
+    "message2": "dein Vorgesetzter hat die Prüfung deiner Arbeitszeit aufgehoben. Die betroffene Arbeitszeit ist unten aufgelistet",
+    "id": "ID",
+    "username": "Benutzername",
+    "day": "Tag",
+    "begin": "Beginn",
+    "send": "Ende",
+    "notes": "Notizen",
+    "end": "Mit freundlichen Grüßen",
+    "noreply": "automatischer Absender",
+    "confidential": "Vertrauliche Informationen!",
+    "gdpr": "Sie erhalten diese E-Mail da sie den Bestimmungen zugestimmt haben. <br> Die aktuelle Datenschutzgrundverordnung kann hier eingesehen werden"
+}

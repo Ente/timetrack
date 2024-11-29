@@ -1,8 +1,0 @@
-{
-    "title": "Voer ziekte in",
-    "h2": "Vul hier uw ziekte in",
-    "note1": "Vul hier de startdatum van uw storing in. Bent u maar één dag afwezig, vul dan <span style='color:red;'>niet</span> 'Einddatum' in." ,
-    "note2": "Einddatum van uw mislukking*",
-    "button_submit": "Ziekte indienen",
-    "note3": "Na het indienen zal uw werkgever de ziekte controleren en indien nodig contact met u opnemen."
-   }

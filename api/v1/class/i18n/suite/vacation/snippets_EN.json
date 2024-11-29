@@ -1,8 +1,0 @@
-{
-    "title": "Vacation",
-    "h2": "Please request your vacation here",
-    "note1": "Please enter the start date of your vacation. If you plan to just use one day, do <span style='color:red;'>not</span> fill out the 'End-Date' field.",
-    "note2": "End-Date of your vacation*",
-    "button_submit": "Request Vacation.",
-    "note3": "After submitting the responsible person will check and if required contact you."
-}

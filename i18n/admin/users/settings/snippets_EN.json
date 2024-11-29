@@ -1,0 +1,11 @@
+{
+    "qtitle": "administrative Settings",
+    "p1": "This menu allows you to update a few of the application's settings.",
+    "label_sitename": "Site name",
+    "placeholder_sitename": "The name of this application",
+    "label_base_url": "Base URL",
+    "placeholder_base_url": "sub.domain.tld:<port>",
+    "button_text": "Submit",
+    "log_title": "Log file",
+    "log_p1": "See the contents of the log file from today below..."
+}

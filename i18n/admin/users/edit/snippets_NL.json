@@ -1,0 +1,14 @@
+{
+    "title": "Gebruiker bewerken",
+    "add_user": "Gebruiker toevoegen",
+    "p1": "Hier kunt u alle gebruikers bewerken of nieuwe toevoegen of verwijderen",
+    "th1": "Actie",
+    "th2": "Naam",
+    "th3": "Gebruikersnaam",
+    "th4": "E-mail",
+    "label_firstname": "Voornaam",
+    "label_email": "E-mail",
+    "label_password": "Wachtwoord",
+    "label_grant_admin": "Beheerdersrechten verlenen?",
+    "button_text": "Verzenden"
+}

@@ -1,0 +1,8 @@
+{
+    "title": "Vakantie invoeren",
+    "h2": "Vul hier uw vakantie in",
+    "note1": "Vul hier de startdatum van uw vakantie in. Als u slechts één vakantiedag wilt opnemen, <span style='color:red;'>vul dan niet</span> de 'einddatum' in 'uit'",
+    "note2": "Einddatum van uw vakantie*",
+    "button_submit": "Vakantie indienen.",
+    "note3": "Na verzending zal uw werkgever uw vakantie controleren en indien nodig contact met u opnemen."
+}

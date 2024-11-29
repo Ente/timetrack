@@ -1,0 +1,15 @@
+{
+    "subject": "Je werkuren zijn verwijderd!",
+    "greetings": "Hallo",
+    "message": "uw manager heeft uw werktijden verwijderd. De betreffende werktijden staan ​​hieronder vermeld",
+    "id": "ID",
+    "username": "Gebruikersnaam",
+    "dag": "dag",
+    "begin": "begin",
+    "send": "einde",
+    "notes": "Opmerkingen",
+    "end": "Met vriendelijke groeten",
+    "noreply": "automatische afzender",
+    "confidential": "Vertrouwelijke informatie!",
+    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. <br> De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
+   }

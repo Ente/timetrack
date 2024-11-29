@@ -1,0 +1,11 @@
+{
+    "title": "Inloggen",
+    "h1": "Log in!",
+    "label_username": "Gebruikersnaam",
+    "placeholder_username": "M Mustermann",
+    "label_password": "Wachtwoord",
+    "placeholder_password": "Uw wachtwoord",
+    "button_text": "Inloggen",
+    "checkbox_30days": "Onthoud 30 dagen op dit apparaat.",
+    "forgot_pw": "Uw wachtwoord vergeten? Druk hier!"
+   }
