@@ -1,6 +1,0 @@
-projectKey=Ente_timetrack_62765cad-b838-4b31-ac94-2fa49dff59ca
-serverUrl=http://192.168.1.125:9000
-serverVersion=10.6.0.92116
-dashboardUrl=http://192.168.1.125:9000/dashboard?id=Ente_timetrack_62765cad-b838-4b31-ac94-2fa49dff59ca
-ceTaskId=e9bb9535-c586-4d03-a8bd-03bad374db60
-ceTaskUrl=http://192.168.1.125:9000/api/ce/task?id=e9bb9535-c586-4d03-a8bd-03bad374db60

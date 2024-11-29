@@ -1,0 +1,45 @@
+[[paths]]
+  reference = "en"
+  sources = [
+    "/i18n/admin/notifications/edit/*.json",
+    "/i18n/admin/users/edit/*.json",
+    "/i18n/admin/users/settings/*.json",
+    "/i18n/admin/worktime/all/*.json",
+    "/i18n/admin/worktime/sick/all/*.json",
+    "/i18n/admin/worktime/vacation/all/*.json",
+    "/i18n/suite/class/arbeitszeit/*.json",
+    "/i18n/suite/class/benutzer/*.json",
+    "/i18n/suite/class/notifications/*.json",
+    "/i18n/suite/class/pdf/*.json",
+    "/i18n/suite/emails/delete_user/*.json",
+    "/i18n/suite/emails/new_user/*.json",
+    "/i18n/suite/emails/password_changed/*.json",
+    "/i18n/suite/emails/password_reset/*.json",
+    "/i18n/suite/emails/password_send/*.json",
+    "/i18n/suite/emails/sickness/approved/*.json",
+    "/i18n/suite/emails/sickness/pending/*.json",
+    "/i18n/suite/emails/sickness/rejected/*.json",
+    "/i18n/suite/emails/vacation/approved/*.json",
+    "/i18n/suite/emails/vacation/pending/*.json",
+    "/i18n/suite/emails/vacation/rejected/*.json",
+    "/i18n/suite/emails/worktime/deleted/*.json",
+    "/i18n/suite/emails/worktime/uncompliant/*.json",
+    "/i18n/suite/index/*.json",
+    "/i18n/suite/login/*.json",
+    "/i18n/suite/mode/easymode/*.json",
+    "/i18n/suite/nav/*.json",
+    "/i18n/suite/notifications/all/*.json",
+    "/i18n/suite/notifications/view/*.json",
+    "/i18n/suite/reset/*.json",
+    "/i18n/suite/sickness/*.json",
+    "/i18n/suite/status/*.json",
+    "/i18n/suite/users/changes/*.json",
+    "/i18n/suite/users/settings/*.json",
+    "/i18n/suite/vacation/*.json",
+    "/i18n/suite/worktime/all/*.json"
+  ]
+
+[locales]
+  de = "de"
+  en = "en"
+  nl = "nl"
