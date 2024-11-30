@@ -42,7 +42,7 @@ class ExportModule extends Arbeitszeit {
      */
     public function getExportModules() {
         $modules = array();
-        $basePath = __DIR__ . '/exports/modules/';
+        $basePath = __DIR__ . '/modules/';
         $directories = glob($basePath . '*ExportModule', GLOB_ONLYDIR);
 
         foreach ($directories as $dir) {

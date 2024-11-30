@@ -6,6 +6,7 @@
 * Added plugin to clock in with QR codes. This plugin is disabled by default and can be enabled within the `plugins.yml`. More information can be found inside the `README.md`.
 * You can now register or remove a custom API route via the `CustomRoutes::registerCustomRoute(...)` or `CustomRoutes::removeCustomRoute(...)` functions. More information can be found inside the Toil API `/api/v1/toil/README.md`.
 * Added a plugin to clock in with a code. This plugin is disabled by default and can be enabled within the `plugins.yml`. More information can be found inside the `README.md`.
+* Added a export manager plugin. This plugin is disabled by default and can be enabled within the `plugins.yml`.
 
 ## v7.5
 
