@@ -62,7 +62,12 @@ DATA;
             $loc = $i18n->loadLanguage(null, "mode/easymode");
             $active = Arbeitszeit::check_easymode_worktime_finished($_SESSION["username"]);
             $worktime = Arbeitszeit::get_worktime_by_id($active);
+
+
             if($active === false){
+                if(Arbeitszeit::fix_easymode_worktime($_SESSION["username"])){
+                    self::get_easymode_html();
+                }
                 $data = <<< DATA
                 <p>An error occured while checking for active easymode entries. Either a connection error to the database or you have multiple entries marked as active. If the problem persists, contact the system administrator!</p>
                 <p style="font-family:monospace;">Error-Code: DEM-CHK_FAIL_EM_ENY_AC</p>

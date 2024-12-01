@@ -54,7 +54,8 @@ namespace Arbeitszeit {
             $this->init_lang() ?? null;
         }
 
-        public function init_lang(){
+        public function init_lang()
+        {
             $n = new i18n;
             $this->i18n = $n->loadLanguage(null, "class/arbeitszeit");
         }
@@ -330,7 +331,7 @@ namespace Arbeitszeit {
         {
             $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", true);
             // Run once migrator to app.json
-            if(!file_exists($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json")){
+            if (!file_exists($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json")) {
                 $json = json_encode($ini, JSON_PRETTY_PRINT);
                 file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json", $json);
             }
@@ -375,10 +376,10 @@ namespace Arbeitszeit {
             $res = $this->db->sendQuery($sql);
             $res->execute();
             $arr = [];
-            if($res->rowCount() == 0){
+            if ($res->rowCount() == 0) {
                 return false;
             }
-            while($row = $res->fetch(\PDO::FETCH_ASSOC)){
+            while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
                 $arr[$row["id"]] = $row;
             }
             return $arr;
@@ -390,10 +391,10 @@ namespace Arbeitszeit {
             $res = $this->db->sendQuery($sql);
             $res->execute([$username]);
             $arr = [];
-            if($res->rowCount() == 0){
+            if ($res->rowCount() == 0) {
                 return false;
             }
-            while($row = $res->fetch(\PDO::FETCH_ASSOC)){
+            while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
                 $arr[$row["id"]] = $row;
             }
             return $arr;
@@ -443,7 +444,7 @@ namespace Arbeitszeit {
                         $rmm = "<a href=\"http://{$base_url}/suite/admin/actions/worktime/unlock.php?id={$rqw}&u={$rbn}\">{$this->i18n["remove_review"]}</a>";
                     }
 
-                    $data = <<< DATA
+                    $data = <<<DATA
 
                         <tr>
                             <td><a href="http://{$base_url}/suite/worktime/view_csv.php?mitarbeiter={$rnw2}&{$rrr2}">{$this->i18n["csv"]}</a> {$this->i18n["or"]} <a href="http://{$base_url}/suite/worktime/view_pdf.php?mitarbeiter={$rnw2}&{$rrr2}" target="_blank">{$this->i18n["print"]} $rnw</a>, <a href="http://{$base_url}/suite/admin/actions/worktime/delete.php?id={$rqw}&u={$rbn}">{$this->i18n["delete_entry"]}</a> {$this->i18n["or"]} $rmm</td>
@@ -717,53 +718,110 @@ namespace Arbeitszeit {
             }
         }
 
-        public function notifications(): Notifications{
-            if(!$this->notifications) $this->notifications = new Notifications;
+        public static function fix_easymode_worktime($username)
+        {
+            $db = new DB(); // Erstellen der DB-Instanz
+
+            // Alle aktiven Arbeitszeiten des Nutzers abrufen, sortiert nach ID (neueste zuerst)
+            $query = "SELECT id FROM worktimes WHERE username = :username AND active = 1 ORDER BY id DESC";
+            $statement = $db->sendQuery($query);
+            $statement->bindValue(':username', $username);
+            $statement->execute();
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+            if (count($result) > 1) {
+                // Neueste ID ermitteln
+                $latestId = $result[0]['id'];
+
+                // IDs der älteren Einträge sammeln
+                $idsToDisable = array_column(array_slice($result, 1), 'id');
+
+                // Alle älteren Arbeitszeiten deaktivieren
+                $placeholder = implode(',', array_fill(0, count($idsToDisable), '?'));
+                $disableQuery = "UPDATE worktimes SET active = 0 WHERE id IN ($placeholder)";
+                $disableStatement = $db->sendQuery($disableQuery);
+                foreach ($idsToDisable as $index => $id) {
+                    $disableStatement->bindValue($index + 1, $id);
+                }
+                $disableStatement->execute();
+
+                // Sicherstellen, dass die neueste ID aktiv bleibt
+                $activateQuery = "UPDATE worktimes SET active = 1 WHERE id = :latestId";
+                $activateStatement = $db->sendQuery($activateQuery);
+                $activateStatement->bindValue(':latestId', $latestId);
+                $activateStatement->execute();
+            }
+        }
+
+
+
+        public function notifications(): Notifications
+        {
+            if (!$this->notifications)
+                $this->notifications = new Notifications;
             return $this->notifications;
         }
 
-        public function db(): DB{
-            if(!$this->db) $this->db = new DB;
+        public function db(): DB
+        {
+            if (!$this->db)
+                $this->db = new DB;
             return $this->db;
         }
 
-        public function i18n(): i18n{
-            if(!$this->i18nC) $this->i18nC = new i18n;
+        public function i18n(): i18n
+        {
+            if (!$this->i18nC)
+                $this->i18nC = new i18n;
             return $this->i18nC;
         }
 
-        public function benutzer(): Benutzer{
-            if(!$this->benutzer) $this->benutzer = new Benutzer;
+        public function benutzer(): Benutzer
+        {
+            if (!$this->benutzer)
+                $this->benutzer = new Benutzer;
             return $this->benutzer;
         }
 
-        public function auth(): Auth{
-            if(!$this->auth) $this->auth = new Auth;
+        public function auth(): Auth
+        {
+            if (!$this->auth)
+                $this->auth = new Auth;
             return $this->auth;
         }
 
-        public function mode(): Mode{
-            if(!$this->mode) $this->mode = new Mode;
+        public function mode(): Mode
+        {
+            if (!$this->mode)
+                $this->mode = new Mode;
             return $this->mode;
         }
 
-        public function autodelete(): Autodelete{
-            if(!$this->autodelete) $this->autodelete = new Autodelete;
+        public function autodelete(): Autodelete
+        {
+            if (!$this->autodelete)
+                $this->autodelete = new Autodelete;
             return $this->autodelete;
         }
 
-        public function sickness(): Sickness{
-            if(!$this->sickness) $this->sickness = new Sickness;
+        public function sickness(): Sickness
+        {
+            if (!$this->sickness)
+                $this->sickness = new Sickness;
             return $this->sickness;
         }
 
-        public function vacation(): Vacation{
-            if(!$this->vacation) $this->vacation = new Vacation;
+        public function vacation(): Vacation
+        {
+            if (!$this->vacation)
+                $this->vacation = new Vacation;
             return $this->vacation;
         }
 
-        public function exportModule(): ExportModule{
-            if(!$this->exportModule) $this->exportModule = new ExportModule;
+        public function exportModule(): ExportModule
+        {
+            if (!$this->exportModule)
+                $this->exportModule = new ExportModule;
             return $this->exportModule;
         }
     }
