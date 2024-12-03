@@ -9,6 +9,7 @@ $main = new pluginmanager();
 $arbeit = new Arbeitszeit();
 $arbeit->auth()->login_validation();
 if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
+    \Arbeitszeit\Exceptions::error_rep("[pluginmanager] User is not authorized to view this page, username: {$_SESSION["username"]}");
     die();
 }
 

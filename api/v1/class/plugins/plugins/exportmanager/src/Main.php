@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace exportmanager;
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Benutzer;
+use Arbeitszeit\Exceptions;
 use Arbeitszeit\ExportModule;
 use Arbeitszeit\PluginBuilder;
 use Arbeitszeit\PluginInterface;
@@ -55,10 +56,12 @@ class exportmanager extends PluginBuilder implements PluginInterface {
     }
 
     public function register_routes(): void{
+        Exceptions::error_rep("{$this->log_append} Registering custom routes...");
         CustomRoutes::registerCustomRoute("exportmanager", "/api/v1/class/plugins/plugins/exportmanager/src/routes/ExportManager.ep.toil.arbeit.inc.php", 1);
     }
 
     public function getAllExportModulesHtml(): void{
+        Exceptions::error_rep("{$this->log_append} Rendering export modules html...");
         $exportModule = new ExportModule;
         foreach($exportModule->getExportModules() as $module){
             $module["classFile"] = "N/A";
@@ -67,6 +70,7 @@ class exportmanager extends PluginBuilder implements PluginInterface {
     }
 
     public function defaultExport($plugin): void{
+        Exceptions::error_rep("{$this->log_append} Starting default export for {$plugin}...");
         $exportModule = new ExportModule;
         $exportModule->export(["module" => $plugin, "year" => date("Y"), "month" => date("m"), "user" => $_SESSION["username"]]);
     }
