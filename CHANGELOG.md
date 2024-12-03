@@ -9,6 +9,7 @@
 
 <!-- Fixed missing API route for Codeclock plugin. -->
 <!-- PluginBuilder is now able to return the plugin configuration in raw YAML -->
+<!-- Added more logging messages-->
 
 ## v7.6
 

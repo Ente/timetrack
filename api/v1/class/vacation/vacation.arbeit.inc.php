@@ -17,6 +17,7 @@ namespace Arbeitszeit {
 
         public function add_vacation($start, $stop, $username = null)
         {
+            Exceptions::error_rep("[VACATION] Adding vacation for user '{$username}'...");
             if($username != null){
                 $user = $_SESSION["username"];
             }
@@ -26,21 +27,22 @@ namespace Arbeitszeit {
             $dateObj = \DateTime::createFromFormat($format, $dateString);
 
             if ($dateObj == false) {
-              Exceptions::error_rep("An error occured while adding an vacation for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
+              Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
               return false;
             }
             $sql = "INSERT INTO `vacation` (`id`, `username`, `start`, `stop`, `status`) VALUES ('0', ?, ?, ?, 'pending') ";
             $data = $this->db->sendQuery($sql)->execute([$user, $start, $stop]);
             if(!$data){
-                Exceptions::error_rep("An error occured while adding an vacation for user '$user'. See previous message for more information.");
+                Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. See previous message for more information.");
                 return false;
             } else {
-                Exceptions::error_rep("Successfully added vacation for user '$user'.");
+                Exceptions::error_rep("[VACATION] Successfully added vacation for user '$user'.");
                 return true;
             }
         }
 
         public function remove_vacation($id){ # admin function only
+            Exceptions::error_rep("[VACATION] Removing vacation with id '{$id}'...");
             $sql = "DELETE * FROM `vacation` WHERE id = ?";
             $data = $this->db->sendQuery($sql)->execute(array([$id]));
             if($data == false){
@@ -53,6 +55,7 @@ namespace Arbeitszeit {
 
         public function change_status($id, $new_state = 3) # admin function only
         {
+            Exceptions::error_rep("[VACATION] Changing status for vacation id '{$id}' to '{$new_state}'...");
             if($new_state == 1 /* approve */){
                 $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = ?;";
             } elseif($new_state == 2 /* rejected */) {
@@ -72,6 +75,7 @@ namespace Arbeitszeit {
         }
 
         public function get_vacation($id, $mode = 1){
+            Exceptions::error_rep("[VACATION] Getting vacation id '{$id}'...");
             $data = $this->db->sendQuery("SELECT * FROM `vacation` WHERE id = ?")->execute([$id]);
             if($data == false){
                 Exceptions::error_rep("[VACATION] An error occured while getting vacaction. id '{$id}'. See previous message for more information.");
@@ -79,14 +83,17 @@ namespace Arbeitszeit {
             } else {
                 Exceptions::error_rep("[VACATION] Successfully found vacation id '{$id}' inside database.");
                 if($mode == 2){
+                    Exceptions::error_rep("[VACATION] Returning 'true' for vacation id '{$id}'...");
                     return true;
                 } else {
+                    Exceptions::error_rep("[VACATION] Returning data for vacation id '{$id}'...");
                     return $data;
                 }
             }
         }
 
         public function display_vacation_all(){ # admin function only
+            Exceptions::error_rep("[VACATION] Displaying all vacations...");
             $i18n = $this->i18n()->loadLanguage(null, "worktime/vacation/all", "admin");
             
             $sql = "SELECT * FROM `vacation`";
@@ -140,11 +147,13 @@ namespace Arbeitszeit {
 
         public function get_all_vacation()
         {
+            Exceptions::error_rep("[VACATION] Getting all vacations...");
             $data = $this->db->sendQuery("SELECT * FROM `vacation`;");
             $data->execute();
             $count = $data->rowCount();
 
             if($count == 0){
+                Exceptions::error_rep("[VACATION] No vacations found. Returning.");
                 return false;
             }
             while($row = $data->fetch(\PDO::FETCH_ASSOC)){

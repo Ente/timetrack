@@ -5,6 +5,7 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\PluginBuilder;
 use Arbeitszeit\PluginInterface;
+use Exception;
 use \QRCode as QRCode;
 class qrclock extends PluginBuilder implements PluginInterface {
     private string $log_append;
@@ -40,21 +41,25 @@ class qrclock extends PluginBuilder implements PluginInterface {
     public function __construct(){
         require_once __DIR__ . "/phpqrcode/qrlib.php";
         if(!class_exists("QrCode")){
-            throw new \Exception("QRCode class not found", 1);
+            \Arbeitszeit\Exceptions::error_rep("[QRClock] QRCode class not found");
+            throw new Exception("QRCode class not found", 1);
         }
         $this->set_log_append();
         $this->set_plugin_configuration();
         if(!file_exists(dirname(__DIR__) . "/data/token")){
+            \Arbeitszeit\Exceptions::error_rep("[QRClock] Master token not found, generating...");
             $mastertoken = bin2hex(random_bytes(64));
             file_put_contents(dirname(__DIR__) . "/data/token", $mastertoken);
             // restrict rights to file
             chmod(dirname(__DIR__) . "/data/token", 0600);
         } else {
+            \Arbeitszeit\Exceptions::error_rep("[QRClock] Master token found");
             $this->mastertoken = file_get_contents(dirname(__DIR__) . "/data/token");
         }
     }
 
     public function generateDynamicToken(string $masterToken, string $userid): string{
+        \Arbeitszeit\Exceptions::error_rep("[QRClock] Generating dynamic token for {$userid}...");
         $time = time();
         $data = $userid . "|" . $time;
         $dynamicToken = hash_hmac("sha256", $data, $masterToken);
@@ -63,6 +68,7 @@ class qrclock extends PluginBuilder implements PluginInterface {
     }
 
     public function generateQRCodeContents(string $userid): string {
+        \Arbeitszeit\Exceptions::error_rep("[QRClock] Generating QRCode for {$userid}...");
         $arbeit = new Arbeitszeit();
         $dynamicToken = $this->generateDynamicToken($this->mastertoken, $userid);
         $rand = bin2hex(random_bytes(8));        
@@ -81,11 +87,13 @@ class qrclock extends PluginBuilder implements PluginInterface {
     }
 
     public function validateDynamicToken(string $token, string $masterToken, string $userId): bool{
+        \Arbeitszeit\Exceptions::error_rep("[QRClock] Validating dynamic token for {$userId}");
         $decoded = base64_decode($token);
         $masterToken = $this->mastertoken;
         [$hash, $timestamp] = explode("|", $decoded);
 
         if(time() - $timestamp > 300){
+            \Arbeitszeit\Exceptions::error_rep("[QRClock] Token expired for {$userId}");
             return false;
         }
 
@@ -95,6 +103,7 @@ class qrclock extends PluginBuilder implements PluginInterface {
 
     public function getStatus(): string{
         try{
+            \Arbeitszeit\Exceptions::error_rep("[QRClock] Checking status...");
             $arbeit = new Arbeitszeit();
             $status = $arbeit->check_easymode_worktime_finished($_SESSION["username"]);
             if($status === -1){
@@ -103,6 +112,7 @@ class qrclock extends PluginBuilder implements PluginInterface {
                 return "clockout";
             }
         } catch (\TypeError $e){
+            \Arbeitszeit\Exceptions::error_rep("[QRClock] An error occured while checking status: {$e->getMessage()}");
             return "clockin";
         }
     }
