@@ -19,6 +19,7 @@ namespace Arbeitszeit{
          */
         public function create_user($username, $name, $email, $password, $isAdmin = 0){
             #$originalFunction = function($username, $name, $email, $password, $isAdmin){
+                Exceptions::error_rep("Creating user '$username'...");
                 $password = password_hash($password, PASSWORD_DEFAULT);
                 $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES (?, ?, ?, ?, '1', ?);";
                 $data = $this->db->sendQuery($sql)->execute([$name, $username, $email, $password, $isAdmin]);
@@ -31,6 +32,7 @@ namespace Arbeitszeit{
                         ]
                     ];
                 } else {
+                    Exceptions::error_rep("User '$username' created successfully.");
                     return true;
                 }
             #};
@@ -46,6 +48,7 @@ namespace Arbeitszeit{
          * @Hinweis Funktion löscht nur den Nutzer, jedoch nicht seine Daten (Arbeitszeiten)
          */
         public function delete_user($id){
+            Exceptions::error_rep("Deleting user with id '$id'...");
             $sql = "DELETE FROM `users` WHERE id = ?;";
             $data = $this->db->sendQuery($sql)->execute([$id]);
             if($data == false){
@@ -57,11 +60,13 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                Exceptions::error_rep("User with id '$id' deleted successfully.");
                 return true;
             }
         }
 
         public static  function get_user($username){
+            Exceptions::error_rep("Getting user '$username'...");
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $db = new DB;
             $res = $db->sendQuery($sql);
@@ -69,6 +74,7 @@ namespace Arbeitszeit{
             $count = $res->rowCount();
             if($count == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
+                Exceptions::error_rep("User '$username' found.");
                 return $data;
             } else {
                 Exceptions::error_rep("Could not find user '$username'.");
@@ -77,12 +83,14 @@ namespace Arbeitszeit{
         }
 
         public static  function get_user_from_id($id){
+            Exceptions::error_rep("Getting user with id '$id'...");
             $conn = new DB();
             $sql = "SELECT * FROM `users` WHERE id = ?;";
             $res = $conn->sendQuery($sql);
             $res->execute([$id]);
             if($res->rowCount() == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
+                Exceptions::error_rep("User with id '$id' found.");
                 return $data;
             } else {
                 Exceptions::error_rep("Could not find user with id '$id'.");
@@ -91,12 +99,14 @@ namespace Arbeitszeit{
         }
 
         public static  function get_user_from_email($email){
+            Exceptions::error_rep("Getting user with email '$email'...");
             $conn = new DB();
             $sql = "SELECT * FROM `users` WHERE email = ?;";
             $res = $conn->sendQuery($sql);
             $res->execute([$email]);
             if($res->rowCount() == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
+                Exceptions::error_rep("User with email '$email' found.");
                 return $data;
             } else {
                 Exceptions::error_rep("Could not find user with email '$email'.");
@@ -105,12 +115,14 @@ namespace Arbeitszeit{
         }
 
         public function get_username_from_email($email){
+            Exceptions::error_rep("Getting username with email '$email'...");
             $conn = new DB();
             $sql = "SELECT username FROM `users` WHERE email = ?;";
             $res = $conn->sendQuery($sql);
             $res->execute([$email]);
             if($res->rowCount() == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
+                Exceptions::error_rep("Username with email '$email' found.");
                 return $data["username"];
             } else {
                 Exceptions::error_rep("Could not find user with email '$email'.");
@@ -119,6 +131,7 @@ namespace Arbeitszeit{
         }
 
         public function get_all_users(){
+            Exceptions::error_rep("Getting all users...");
             $sql = "SELECT * FROM `users`;";
             $res = $this->db->sendQuery($sql);
             $res->execute();
@@ -128,6 +141,7 @@ namespace Arbeitszeit{
                 while($data = $res->fetch(\PDO::FETCH_ASSOC)){
                     $dat[$data["id"]] = $data;
                 }
+                Exceptions::error_rep("Users found and returing data.");
                 return $dat;
             } else {
                 Exceptions::error_rep("Could not get users. Please check the database connection.");
@@ -136,6 +150,7 @@ namespace Arbeitszeit{
         }
 
         public function get_all_users_html(){
+            Exceptions::error_rep("Getting all users...");
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `users`;";
             $res = $this->db->sendQuery($sql);
@@ -143,6 +158,7 @@ namespace Arbeitszeit{
             $count = $res->rowCount();
 
             if($count == 0){
+                Exceptions::failure("ERR-NO-USERS", "No users found?", "N/A");
                 return "<p>{$this->i18n["no_users"]}</p>";
             }
             while($data = $res->fetch(\PDO::FETCH_ASSOC)){
@@ -167,11 +183,12 @@ namespace Arbeitszeit{
 
                 echo $html;
             }
-
+            Exceptions::error_rep("Users found and returing data.");
             return $html;
         }
 
         public function get_user_html($username){
+            Exceptions::error_rep("Getting user '$username'...");
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
             $data = $this->get_user($username);
             if($data == false){
@@ -198,7 +215,7 @@ namespace Arbeitszeit{
 
                 DATA;
             }
-
+            Exceptions::error_rep("User '$username' found and returning data.");
             return $html;
         }
 

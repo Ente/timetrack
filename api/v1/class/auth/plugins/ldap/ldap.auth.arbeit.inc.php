@@ -7,6 +7,7 @@ namespace Arbeitszeit {
     class LDAP extends Auth {
 
         public static function get_bind(){
+            Exceptions::error_rep("Getting LDAP bind...");
             $settings = Arbeitszeit::get_app_ini()["ldap"];
             $configuration = new Configuration();
             $domain = (new DomainConfiguration($settings["ldap_domain"]))
@@ -41,6 +42,7 @@ namespace Arbeitszeit {
         }
 
         public static function authenticate($username, $password){
+            Exceptions::error_rep("Authenticating user '{$username}' through LDAP...");
             $operation = (new AuthenticationOperation())->setUsername($username)->setPassword($password);
             $response = self::get_bind()->getConnection()->execute($operation);
 
@@ -81,10 +83,11 @@ namespace Arbeitszeit {
                         Exceptions::error_rep("Could not authenticate user '{$username}': Account locked.");
                         break;
                 }
+                Exceptions::error_rep("Could not authenticate user '{$username}': LDAP error code: {$code}");
                 die(Auth::login($username, $password, ["LOCAL" => true]));
             } else {
-                $v = null;
                 try {
+                    Exceptions::error_rep("Building LDAP query...");
                     $query = self::get_bind()->buildLdapQuery();
                     $user = $query->select()
                         ->select(["sid", "mail", "upn", "firstName", "lastName"])
@@ -100,12 +103,13 @@ namespace Arbeitszeit {
                             Exceptions::error_rep("Could not authenticate user '{$username}': User not found in DB.");
                             if(Arbeitszeit::get_app_ini()["ldap"]["create_user"] == "true"){
                                 $benutzer = new Benutzer;
-                                Exceptions::error_rep("Could not authenticate user '{$username}': Trying to create user istead...");
+                                Exceptions::error_rep("User authenticated but not existent locally '{$username}': Trying to create user istead...");
                                 if($user->get("mail") == ""){
                                     Exceptions::error_rep("Could not authenticate user '{$username}': User email in LDAP not set!");
                                     return false;
                                 }
                                 if(!$benutzer->create_user($username, "" . $user->get("firstName") . " " . $user->get("lastName"), $user->get("mail"), hash('sha256', $user->get("sid"). $user->get("upn")), 0)){
+                                    Exceptions::error_rep("Could not authenticate user '{$username}': Could not create user in DB.");
                                     return false;  
                                 } else {
                                     header("Location: http://". Arbeitszeit::get_app_ini()["general"]["base_url"]."/suite/?info=ldapcreated");
