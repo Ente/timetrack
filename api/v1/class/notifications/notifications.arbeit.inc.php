@@ -22,6 +22,7 @@ namespace Arbeitszeit{
          * 
          */
         public function notifications_delete(){
+            Exceptions::error_rep("[NOTIFICATIONS] Deleting expired notifications entries...");
             $sql = "DELETE FROM `kalender` WHERE `datum` < NOW();";
             $data = $this->db->sendQuery($sql)->execute();
             if($data == false){
@@ -33,11 +34,13 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                Exceptions::error_rep("[NOTIFICATIONS] Deleted expired notifications entries.");
                 return 1;
             }
         }
 
         public function get_notifications_edit_html(){
+            Exceptions::error_rep("[NOTIFICATIONS] Getting notifications edit html...");
             $sql = "SELECT * FROM `kalender` ORDER BY id DESC;";
             $res = $this->db->sendQuery($sql);
             $res->execute();
@@ -61,11 +64,13 @@ namespace Arbeitszeit{
                     return $data;
                 }
             } else {
+                Exceptions::error_rep("[NOTIFICATIONS] No notifications entries found.");
                 return "<p>{$this->i18n["no_entries"]}</p>";
             }
         }
 
         public function get_notifications_html(){
+            Exceptions::error_rep("[NOTIFICATIONS] Getting notifications html...");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `kalender` ORDER BY id DESC;";
             $res = $this->db->sendQuery($sql);
@@ -90,6 +95,7 @@ namespace Arbeitszeit{
                 echo $html;
               
             } else {
+                Exceptions::error_rep("[NOTIFICATIONS] No notifications entries found.");
                 return null;
             }
         }
@@ -102,6 +108,7 @@ namespace Arbeitszeit{
          * 
          */
         public function get_notifications_entry($id){
+            Exceptions::error_rep("[NOTIFICATIONS] Getting notifications entry with ID '$id'...");
             $sql = "SELECT * FROM `kalender` WHERE id = ?";
             $res = $this->db->sendQuery($sql);
             $res->execute([$id]);
@@ -112,7 +119,7 @@ namespace Arbeitszeit{
                 $datum = @strftime("%d.%m.%Y", strtotime($data["datum"]));
 
                 $data["datum_new"] = $datum;
-
+                Exceptions::error_rep("[NOTIFICATIONS] Found notifications entry with ID '$id'.");
                 return $data;
             } else {
                 Exceptions::error_rep("An error occured while getting an notifications entry. Entry could not be found for id '$id'.");
@@ -135,6 +142,7 @@ namespace Arbeitszeit{
          * @param bool|array Returns "true" on success and an error array on failure
          */
         public function create_notifications_entry($time, $date, $location, $comment){
+            Exceptions::error_rep("[NOTIFICATIONS] Creating new notifications entry...");
             $sql = "INSERT INTO `kalender` (`datum`, `uhrzeit`, `ort`, `notiz`) VALUES (?, ?, ?, ?)";
             $res = $this->db->sendQuery($sql)->execute([$date, $time, $location, $comment]);
             if(!$res){
@@ -146,6 +154,7 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                Exceptions::error_rep("[NOTIFICATIONS] Created new notifications entry.");
                 return true;
             }
         }
@@ -161,6 +170,7 @@ namespace Arbeitszeit{
          * @Note All parameters are required, if not set, the function will return an error array 
          */
         public function edit_notifications_entry($id, $time, $date, $location, $comment){
+            Exceptions::error_rep("[NOTIFICATIONS] Editing notifications entry with ID '$id'...");
             $sql = "UPDATE `kalender` SET `datum` = ?, `uhrzeit` = ?, `ort` = ?, `notiz` = ? WHERE id = ?;";
             $res = $this->db->sendQuery($sql)->execute([$date, $time, $location, $comment, $id]);
             if(!$res){
@@ -172,6 +182,7 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                Exceptions::error_rep("[NOTIFICATIONS] Edited notifications entry with ID '$id'.");
                 return true;
             }
         }
@@ -183,6 +194,7 @@ namespace Arbeitszeit{
          * @return bool|array Returns "true" on success and an error array on failure
          */
         public function delete_notifications_entry($id){
+            Exceptions::error_rep("[NOTIFICATIONS] Deleting notifications entry with ID '$id'...");
             $sql = "DELETE FROM `kalender` WHERE id = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
             if(!$res){
@@ -194,6 +206,7 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                Exceptions::error_rep("[NOTIFICATIONS] Deleted notifications entry with ID '$id'.");
                 return true;
             }
         }
