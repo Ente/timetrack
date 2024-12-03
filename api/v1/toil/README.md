@@ -73,3 +73,11 @@ You can use the `CustomRoutes::registerCustomRoute("myRoute", "/api/v1/toil/reso
 
 You can use the `CustomRoutes::removeCustomRoute("myRoute")` function to deregister a custom route.
 This also removes the permissions from the `permissions.json` file.
+
+## Checking if a route exists
+
+You can use the `CustomRoutes::getCustomRoute("myRoute", true)` function to check if a route exists. The function returns `true` if the route exists and `false` if it doesn't.
+
+If you do not set the second parameter to `true` the function will return the path to the endpoint file.
+
+You can also use the `CustomRoutes::getCustomRoutes()` function to get all custom routes and then check if the endpoint has a key in the returned array.
