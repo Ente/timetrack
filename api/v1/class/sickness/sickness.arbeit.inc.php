@@ -11,6 +11,7 @@ namespace Arbeitszeit {
 
         public function add_sickness($start, $stop, $user = null)
         {
+            Exceptions::error_rep("[SICK] Adding sickness for user '{$user}'...");
             $user = $_SESSION["username"];
             $dateString = $start;
             $format = 'Y-m-d';
@@ -33,6 +34,7 @@ namespace Arbeitszeit {
         }
 
         public function remove_sickness($id){ # admin function only
+            Exceptions::error_rep("[SICK] Removing sickness with id '{$id}'...");
             $data = $this->db()->sendQuery("DELETE * FROM sick WHERE id = ?")->execute([$id]);
             if($data == false){
                 Exceptions::error_rep("[SICK] An error occured while deleting a sickness with id '{$id}'. See previous message for more information.");
@@ -43,6 +45,7 @@ namespace Arbeitszeit {
 
         public function change_status($id, $new_state = 3) # admin function only
         {
+            Exceptions::error_rep("[SICK] Changing status for sickness id '{$id}' to '{$new_state}'...");
             if($new_state == 1 /* approve */){
                 $sql = "UPDATE `sick` SET `status` = 'approved' WHERE `id` = ?;";
             } elseif($new_state == 2 /* rejected */) {
@@ -62,6 +65,7 @@ namespace Arbeitszeit {
         }
 
         public function display_sickness_all(){ # admin function only
+            Exceptions::error_rep("[SICK] Displaying all sicknesses...");
             $i18n = $this->i18n()->loadLanguage(null, "worktime/sick/all", "admin");
             
             $sql = "SELECT * FROM `sick` LIMIT 100;";
@@ -109,11 +113,13 @@ namespace Arbeitszeit {
                     echo $print;
                 }
             } else {
+                Exceptions::error_rep("[SICK] No sicknesses found inside database. Returning 'not_found'...");
                 return $i18n["status"]["not_found"];
             }
         }
 
         public function get_sickness($id, $mode = 1){
+            Exceptions::error_rep("[SICK] Getting sickness id '{$id}'...");
             $sql = "SELECT * FROM `sick` WHERE id = ?";
             $data = $this->db()->sendQuery($sql)->execute([$id]);
             if($data == false){
