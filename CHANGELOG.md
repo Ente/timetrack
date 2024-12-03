@@ -3,6 +3,7 @@
 ## v7.7
 
 * Fixed duplicated active worktime entries by trying to fix it automatically.
+* Fixed clocking in when multiple worktimes are active with QRclock plugin.
 
 ## v7.6
 
