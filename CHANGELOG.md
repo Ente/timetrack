@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v7.7
+
+* Fixed duplicated active worktime entries by trying to fix it automatically.
+
 ## v7.6
 
 * **Replaced `app.ini` with `app.json`**. The `app.ini` has been deprecated and will be removed within the `8.0` release. Your settings will be automatically migrated to the new `app.json` file.
