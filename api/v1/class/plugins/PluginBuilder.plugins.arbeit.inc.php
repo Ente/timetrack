@@ -172,18 +172,23 @@ namespace Arbeitszeit{
          * 
          * 
          * @param string $name Class name of the plugin
-         * @return array|bool Returns an array. False on failure
+         * @param bool $raw If set to true, the raw yaml is returned
+         * @return array|bool|string Returns an array. False on failure
          */
-        final public function read_plugin_configuration($name): ?array{
+        final public function read_plugin_configuration($name, $raw = false): array|string|bool{
            $la = $this->la;
            $path = $_SERVER["DOCUMENT_ROOT"] . "". $this->basepath . "/" . $name . "/plugin.yml";
            if(file_exists($_SERVER["DOCUMENT_ROOT"] . "" . $this->basepath . "/" . $name . "/plugin.yml") == true){
                 try {
+                    if($raw == true){
+                        return file_get_contents($this->platformSlashes($path));
+                    }
                     $yaml = Yaml::parseFile($this->platformSlashes($path));
                 } catch(Exception $e){
                     Exceptions::error_rep($e);
                     throw new \Exception($e->getMessage());
                 }
+                $yaml["path"] = $path;
                 return (array)$yaml;
            } else {
                 Exceptions::error_rep("{$la} Could not read plugin configuration for plugin '{$name}' - Path: " . $_SERVER["DOCUMENT_ROOT"] . "" . $this->basepath . "/" . $name . "/plugin.yml");
