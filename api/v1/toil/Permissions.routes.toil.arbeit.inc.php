@@ -29,6 +29,7 @@ namespace Toil{
         }
 
         private function loadPermissionSet(){
+            Exceptions::error_rep("[API] Loading permissions...");
             try {
                 return json_decode(file_get_contents(dirname(__FILE__, 1) . "/permissions.json"), true);
             } catch(\Exception $e){
@@ -44,8 +45,7 @@ namespace Toil{
     
         public function checkPermissions($user, $endpoint){
             $endpointP = @$this->loadPermissionSet()[$endpoint];
-            if($endpointP === null) {Exceptions::error_rep("[API] Failed to check for permissions on endpoint: " . $endpoint . " (req: ". $endpointP . ", for user " . $user); return false;};
-
+            if($endpointP === null) {$endpointP = "?"; Exceptions::error_rep("[API] Failed to check for permissions on endpoint: " . $endpoint . " (req: ". $endpointP . ", for user " . $user . ")"); return false;}
             $perm = $this->checkUserPermission($user);
             switch ($perm) {
                 case 1:
@@ -54,6 +54,8 @@ namespace Toil{
                 case $perm == $endpointP:
                     return true;
                 default:
+                    $endpointP = "?";
+                    Exceptions::error_rep("[API] Failed to check for permissions on endpoint: " . $endpoint . " (req: ". $endpointP . ", for user " . $user . ")");
                     return false;
             }
         }

@@ -25,6 +25,7 @@ namespace Toil {
                 $class = "Toil\\$endpoint";
                 $class = new $class;
             } catch (\Throwable $e){
+                \Arbeitszeit\Exceptions::error_rep("[API] An error occured while loading custom route for endpoint {$endpoint}: " . $e->getMessage());
                 header("Content-Type: application/json");
                 echo json_encode(array("error" => "Could not load custom route."));
                 die();
@@ -39,6 +40,7 @@ namespace Toil {
                     $class->$method($_POST);
                     die();
             }
+            \Arbeitszeit\Exceptions::error_rep("[API] An API route exists, but no suitable method was found for endpoint: {$endpoint}");
             die("No suitable method found.");
         }
     }

@@ -35,6 +35,7 @@ class Routes extends Toil {
         $this->__set("arbeitszeit", new Arbeitszeit());
         $this->__set("benutzer", new Benutzer());
         if (!$user) {
+            Exceptions::error_rep("[API] No username provided.");
             $this->authError("No username provided.");
         } else {
             $this->__set("api_username", $user);
@@ -76,6 +77,7 @@ class Routes extends Toil {
     }
 
     public function routing($eventHandler){
+        Exceptions::error_rep("[API] Start API routing request and registering routes...");
         $base = $this->__get("basepath");
         $user = $_SERVER["PHP_AUTH_USER"];
         $eventHandler->register(EventHandler::EVENT_ADD_ROUTE, function(EventArgument $event) use ($base){
@@ -197,11 +199,13 @@ class Routes extends Toil {
         Router::error(function(Request $request, \Exception $e){
             switch($e->getCode()){
                 case 404:
+                    Exceptions::error_rep("[API] 404 Not found. Endpoint: " . $request->getUrl());
                     header("Content-type: application/json");
                     header("HTTP/1.1 404 Not found");
                     echo json_encode(["error" => "not found"]);
                     die();
                 case 403:
+                    Exceptions::error_rep("[API] 403 Forbidden. Endpoint: " . $request->getUrl());
                     header("Content-type: application/json");
                     header("HTTP/1.1 403 Forbidden");
                     echo json_encode(["error" => "forbidden"]);
