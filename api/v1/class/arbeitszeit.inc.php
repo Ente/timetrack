@@ -31,20 +31,6 @@ namespace Arbeitszeit {
         private $vacation;
         private $exportModule;
 
-        #public function __construct($db, $db_username, $db_password, $db_host){
-        #    $conn = mysqli_connect($db_host, $db_username, $db_password, $db);
-        #    if(mysqli_error($conn)){
-        #        return [
-        #            "error" => [
-        #                "error_code" => 0,
-        #                "error_message" => "Error while creating a connection to the database!"
-        #            ]
-        #        ];
-        #    } else {
-        #        return $conn;
-        #    }
-        #}
-
         public function __construct()
         {
             $this->db = new DB();
@@ -59,23 +45,6 @@ namespace Arbeitszeit {
             $n = new i18n;
             $this->i18n = $n->loadLanguage(null, "class/arbeitszeit");
         }
-
-
-        /**
-         * db_connect() - Verbindet zur Datenbank
-         * 
-         * @return \mysqli|bool Returns the mysqli object on success, false on otherwise
-         */
-        /*public static function db_connect(){
-            $ini = parse_ini_file("inc/app.ini", true);
-            $db = mysqli_connect($ini["mysql"]["db_host"], $ini["mysql"]["db_user"], $ini["mysql"]["db_password"], $ini["mysql"]["db"]);
-            if($db !== false){
-                return $db;
-            } else {
-                die();
-            }
-
-        }*/
 
 
         /**
@@ -299,29 +268,6 @@ namespace Arbeitszeit {
             }
         }
 
-        /**
-         * get_conn - Returns the database connection...
-         * Similar to the constructor function
-         * 
-         * 
-         */
-        public static function get_conn()
-        {
-            $ini = self::get_app_ini()["mysql"];
-            $conn = \mysqli_connect($ini["db_host"], $ini["db_user"], $ini["db_password"], $ini["db"]);
-            mysqli_set_charset($conn, "utf8");
-            if (mysqli_error($conn)) {
-                Exceptions::error_rep("An error occured while connecting to the database. | SQL-Error: " . mysqli_error($conn));
-                return [
-                    "error" => [
-                        "error_code" => 0,
-                        "error_message" => "Error while creating a connection to the database!"
-                    ]
-                ];
-            } else {
-                return $conn;
-            }
-        }
         /**
          * get_app_ini - Liest die Einstellungen aus der Datei "app.ini"
          * 
