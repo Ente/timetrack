@@ -11,6 +11,7 @@ use Toil\CustomRoutes;
 class Setup extends codeclock {
     public static function done(): bool{
         $arbeit = new Arbeitszeit();
+        CustomRoutes::registerCustomRoute("code", "/api/v1/class/plugins/plugins/codeclock/views/routes/Code.ep.toil.arbeit.inc.php", 0);
         if(!file_exists(dirname(__DIR__) . "/data/token")){
             Exceptions::error_rep(" No token file found, creating one now...");
             $masterToken = bin2hex(random_bytes(64));
