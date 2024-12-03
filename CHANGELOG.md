@@ -1,5 +1,7 @@
 # CHANGELOG
 
+<!-- Fixed missing API route for Codeclock plugin. -->
+
 ## v7.6
 
 * **Replaced `app.ini` with `app.json`**. The `app.ini` has been deprecated and will be removed within the `8.0` release. Your settings will be automatically migrated to the new `app.json` file.
