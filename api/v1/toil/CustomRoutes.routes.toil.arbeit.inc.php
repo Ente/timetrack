@@ -14,6 +14,16 @@ namespace Toil {
 
         }
 
+        public static function getCustomRoutes(){
+            return json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/data/routes/routes.json"), true);
+        }
+
+        public static function getCustomRoute($route, $check = false){
+            $routes = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/data/routes/routes.json"), true);
+            if($check){ return isset($routes[$route]); }
+            return $routes[$route];
+        }
+
         public static function registerCustomRoute($endpoint, $classFile, $permissions = 0){
             $file = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/data/routes/routes.json"), true);
             $file[$endpoint] = $classFile;
@@ -47,7 +57,7 @@ namespace Toil {
 
         public static function loadCustomRoutes($routeFile = "/data/routes/routes.json"){
             $routes = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/" . $routeFile));
-
+            self::getCustomRoutes();
             foreach($routes as $route => $class){
                 try {
                     if($route == "_comment"){continue;}
