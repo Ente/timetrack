@@ -17,6 +17,10 @@ if (isset($_GET["action"])) {
         return "An error occured while decoding payload.";
     }
     if ($_GET["action"] === "clockin") {
+        if($main->getStatus() === "clockout"){
+            echo "<h2 style='color:red'>You are already clocked in.</h2>";
+            goto eophp;
+        }
         if ($main->validateDynamicToken($payload["token"], "1234", $payload["id"])) {
             if ($arbeit->add_easymode_worktime($payload["username"])) {
                 echo "<h2 style='color:green'>Successfully clocked in.</h2>";
@@ -27,6 +31,10 @@ if (isset($_GET["action"])) {
             echo "<h2 style='color:red'>Invalid token.</h2>";
         }
     } elseif ($_GET["action"] === "clockout") { {
+            if($main->getStatus() === "clockin"){
+                echo "<h2 style='color:red'>You are already clocked out.</h2>";
+                goto eophp;
+            }
             if ($main->validateDynamicToken($payload["token"], "1234", $payload["id"])) {
                 if ($arbeit->end_easymode_worktime($payload["username"], $arbeit->check_easymode_worktime_finished($payload["username"]))) {
                     echo "<h2 style='color:green'>Successfully clocked out.</h2>";
@@ -39,7 +47,7 @@ if (isset($_GET["action"])) {
         }
     }
 }
-
+eophp:
 ?>
 <div id="plugin-qrcode">
     <h1>QR-Clock Plugin</h1>

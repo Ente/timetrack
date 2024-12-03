@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v7.7
+
+* Fixed duplicated active worktime entries by trying to fix it automatically.
+* Fixed clocking in when multiple worktimes are active with QRclock plugin.
+
 <!-- Fixed missing API route for Codeclock plugin. -->
 
 ## v7.6
