@@ -5,8 +5,10 @@
 * Fixed duplicated active worktime entries by trying to fix it automatically.
 * Fixed clocking in when multiple worktimes are active with QRclock plugin.
 * Added `CustomRoutes::getCustomRoutes()` and `CustomRoutes::getCustomRoute($route)` functions to get all custom routes/one specific route file.
+* **Added a plugin manager to manage all plugins.** This plugin is enabled by default and can be disabled within the `plugins.yml`. It allows you to enable/disable plugins.
 
 <!-- Fixed missing API route for Codeclock plugin. -->
+<!-- PluginBuilder is now able to return the plugin configuration in raw YAML -->
 
 ## v7.6
 
