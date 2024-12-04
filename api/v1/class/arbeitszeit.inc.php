@@ -54,6 +54,12 @@ namespace Arbeitszeit {
             $this->init_lang() ?? null;
         }
 
+        public function __destruct(){
+            if (self::get_app_ini()["general"]["debug"] == true || self::get_app_ini()["general"]["debug"] == "false") {
+                Exceptions::error_rep("Destroying Arbeitszeit class, dump of all loaded files: " . json_encode(get_included_files(), JSON_PRETTY_PRINT));
+            }
+        }
+
         public function init_lang()
         {
             $n = new i18n;
