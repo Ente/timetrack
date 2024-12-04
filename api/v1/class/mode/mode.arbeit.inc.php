@@ -26,21 +26,21 @@ namespace Arbeitszeit {
                 <input type="text" name="ort" placeholder="{$loc["loc"]}">
                 <br>
                 <label name="date">{$loc["date"]}</label>
-                <input type="date" name="date" data-date-format="DD.MM.YYYY" required>
+                <input class="input" type="date" name="date" data-date-format="DD.MM.YYYY" required>
                 <br>
                 <label name="schicht_beginn">{$loc["sbegin"]}</label>
-                <input type="time" name="time_start" placeholder="{$loc["sbegin"]}" required>
+                <input class="input" type="time" name="time_start" placeholder="{$loc["sbegin"]}" required>
                 <br>
                 <label name="schicht_ende">{$loc["send"]}</label>
-                <input type="time" name="time_end" placeholder="{$loc["send"]}" required>
+                <input class="input" type="time" name="time_end" placeholder="{$loc["send"]}" required>
                 <br>
                 <label name="pause_start">{$loc["pbegin"]}</label>
-                <input type="time" name="pause_start" placeholder="{$loc["pbegin"]}">
+                <input class="input" type="time" name="pause_start" placeholder="{$loc["pbegin"]}">
                 <br>
                 <label name="pause_end">{$loc["pend"]}</label>
-                <input type="time" name="pause_end" placeholder="{$loc["pend"]}">
+                <input class="input" type="time" name="pause_end" placeholder="{$loc["pend"]}">
                 <br>
-                <input type="text" name="username" value="{$_SESSION["username"]}" hidden>
+                <input class="input" type="text" name="username" value="{$_SESSION["username"]}" hidden>
                 <button type="submit" class="button">{$loc["submit"]}</button>
             </form>
 
