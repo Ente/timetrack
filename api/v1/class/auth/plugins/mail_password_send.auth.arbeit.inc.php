@@ -7,7 +7,7 @@ namespace Arbeitszeit{
             $loc = $i18n->loadLanguage(null, "emails/password_send");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $conn = new DB;
-            $sql = "SELECT * FROM `users` WHERE username = '{$username}';";
+            $sql = "SELECT * FROM `users` WHERE username = ?;";
             $res = $conn->sendQuery($sql);
             $res->execute([$username]);
             $count = $res->rowCount();
