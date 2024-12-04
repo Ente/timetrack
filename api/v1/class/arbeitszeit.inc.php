@@ -31,20 +31,6 @@ namespace Arbeitszeit {
         private $vacation;
         private $exportModule;
 
-        #public function __construct($db, $db_username, $db_password, $db_host){
-        #    $conn = mysqli_connect($db_host, $db_username, $db_password, $db);
-        #    if(mysqli_error($conn)){
-        #        return [
-        #            "error" => [
-        #                "error_code" => 0,
-        #                "error_message" => "Error while creating a connection to the database!"
-        #            ]
-        #        ];
-        #    } else {
-        #        return $conn;
-        #    }
-        #}
-
         public function __construct()
         {
             $this->db = new DB();
@@ -62,26 +48,10 @@ namespace Arbeitszeit {
 
         public function init_lang()
         {
+            Exceptions::error_rep("Initializing language for Arbeitszeit class");
             $n = new i18n;
             $this->i18n = $n->loadLanguage(null, "class/arbeitszeit");
         }
-
-
-        /**
-         * db_connect() - Verbindet zur Datenbank
-         * 
-         * @return \mysqli|bool Returns the mysqli object on success, false on otherwise
-         */
-        /*public static function db_connect(){
-            $ini = parse_ini_file("inc/app.ini", true);
-            $db = mysqli_connect($ini["mysql"]["db_host"], $ini["mysql"]["db_user"], $ini["mysql"]["db_password"], $ini["mysql"]["db"]);
-            if($db !== false){
-                return $db;
-            } else {
-                die();
-            }
-
-        }*/
 
 
         /**
@@ -105,6 +75,7 @@ namespace Arbeitszeit {
                     ]
                 ];
             } else {
+                Exceptions::error_rep("Worktime entry with ID '{$id}' deleted successfully.");
                 return 1;
             }
 
@@ -112,6 +83,7 @@ namespace Arbeitszeit {
 
         public static function add_easymode_worktime($username)
         {
+            Exceptions::error_rep("Creating easymode worktime entry for user '{$username}'...");
             $date = date("Y-m-d");
             $time = date("H:i");
             $conn = new DB;
@@ -119,14 +91,17 @@ namespace Arbeitszeit {
             $usr = $user->get_user($username);
 
             if (!$user->get_user($username)) {
+                Exceptions::error_rep("An error occured while creating easymode worktime entry for user '{$username}'. User does not exist.");
                 return false;
             } else {
+                Exceptions::error_rep("Creating easymode worktime entry for user '{$username}'...");
                 $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `active`, `review`) VALUES ( ?, '0', ?, ?, ?, ?, '00:00', '-', '1', '0');";
                 $data = $conn->sendQuery($sql)->execute([$usr["name"], $usr["email"], $username, $date, $time]);
                 if ($data == false) {
-                    Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information");
+                    Exceptions::error_rep("An error occured while creating easymode worktime entry. See previous message for more information");
                     return false;
                 } else {
+                    Exceptions::error_rep("Easymode worktime entry created for user '{$username}'");
                     return true;
                 }
             }
@@ -134,19 +109,23 @@ namespace Arbeitszeit {
 
         public static function end_easymode_worktime($username, $id)
         {
+            Exceptions::error_rep("Ending easymode worktime for user '{$username}'...");
             $time = date("H:i");
             $conn = new DB;
             $user = new Benutzer();
 
             if (!$user->get_user($username)) {
+                Exceptions::error_rep("An error occured while ending easymode worktime for user '{$username}'. User does not exist.");
                 return false;
             } else {
+                Exceptions::error_rep("Ending easymode worktime for user '{$username}'...");
                 $sql = "UPDATE `arbeitszeiten` SET `schicht_ende` = ?, `active` = '0' WHERE `id` = ?;";
                 $data = $conn->sendQuery($sql)->execute([$time, $id]);
                 if (!$data) {
-                    Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information.");
+                    Exceptions::error_rep("An error occured while ending easymode worktime. See previous message for more information.");
                     return false;
                 } else {
+                    Exceptions::error_rep("Easymode worktime ended for user '{$username}'");
                     return true;
                 }
             }
@@ -154,36 +133,44 @@ namespace Arbeitszeit {
 
         public function start_easymode_pause_worktime($username, $id)
         {
+            Exceptions::error_rep("Starting easymode pause for user '{$username}'...");
             $time = date("H:i");
             $user = new Benutzer;
 
             if (!$user->get_user($username)) {
+                Exceptions::error_rep("An error occured while starting user pause for worktime with ID '{$id}' for user '{$username}'. User does not exist.");
                 return false;
             } else {
+                Exceptions::error_rep("Starting easymode pause for user '{$username}'...");
                 $sql = "UPDATE `arbeitszeiten` SET `pause_start` = ? WHERE id = ?;";
                 $data = $this->db->sendQuery($sql)->execute([$time, $id]);
                 if (!$data) {
                     Exceptions::error_rep("An error occured while starting user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
+                    Exceptions::error_rep("Easymode pause started for user '{$username}'");
                     return true;
                 }
             }
         }
         public function end_easymode_pause_worktime($username, $id)
         {
+            Exceptions::error_rep("Ending easymode pause for user '{$username}'...");
             $time = date("H:i");
             $user = new Benutzer;
 
             if (!$user->get_user($username)) {
+                Exceptions::error_rep("An error occured while ending user pause for worktime with ID '{$id}' for user '{$username}'. User does not exist.");
                 return false;
             } else {
+                Exceptions::error_rep("Ending easymode pause for user '{$username}'...");
                 $sql = "UPDATE `arbeitszeiten` SET `pause_end` = ? WHERE id = ?;";
                 $data = $this->db->sendQuery($sql)->execute([$time, $id]);
                 if (!$data) {
                     Exceptions::error_rep("An error occured while ending user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
+                    Exceptions::error_rep("Easymode pause ended for user '{$username}'");
                     return true;
                 }
             }
@@ -191,6 +178,7 @@ namespace Arbeitszeit {
 
         public function toggle_easymode($username)
         {
+            Exceptions::error_rep("Toggling easymode for user '{$username}'...");
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $res = $this->db->sendQuery($sql);
             $res->execute([$username]);
@@ -214,6 +202,7 @@ namespace Arbeitszeit {
                         Exceptions::error_rep("An error occured while toggling easymode for user '{$username}'! Could not disable mode.");
                         return false;
                     }
+                    Exceptions::error_rep("Easymode disabled for user '{$username}'");
                     return true;
                 }
             }
@@ -221,6 +210,7 @@ namespace Arbeitszeit {
 
         public function get_easymode_status($username, $mode = 0)
         {
+            Exceptions::error_rep("Getting easymode status for user '{$username}'...");
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $res = $this->db->sendQuery($sql);
             $res->execute([$username]);
@@ -231,11 +221,13 @@ namespace Arbeitszeit {
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
                 if ($data["easymode"] == true) {
                     if ($mode == 1) {
+                        Exceptions::error_rep("Easymode is enabled for user '{$username}'");
                         return true;
                     }
                     return "{$this->i18n["easymode_enabled"]}";
                 } else {
                     if ($mode == 1) {
+                        Exceptions::error_rep("Easymode is disabled for user '{$username}'");
                         return false;
                     }
                     return "{$this->i18n["easymode_disabled"]}";
@@ -254,6 +246,7 @@ namespace Arbeitszeit {
          */
         public static function check_easymode_worktime_finished($username)
         {
+            Exceptions::error_rep("Checking easymode worktime for user '{$username}'...");
             $db = new DB;
             $sql = "SELECT * FROM `arbeitszeiten` WHERE active = '1' AND username = ?;";
             $res = $db->sendQuery($sql);
@@ -266,8 +259,10 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occured while checking user entries for easymode worktime. Duplicated easymode entry found, please fix manually.");
                     return false;
                 } elseif ($res->rowCount() < 1) {
+                    Exceptions::error_rep("No easymode worktime found for user '{$username}'");
                     return -1;
                 } else {
+                    Exceptions::error_rep("Easymode worktime found for user '{$username}'");
                     return (int) $res->fetch(\PDO::FETCH_ASSOC)["id"];
                 }
             }
@@ -288,11 +283,14 @@ namespace Arbeitszeit {
             $user = new Benutzer;
             $usr = $user->get_user($username);
             if ($date > date("y-m-d") /*|| $date < date("y-m-d")*/) {
+                Exceptions::error_rep("An error occured while creating an worktime entry. The date is in the future.");
                 return false;
             }
             if (!$user->get_user($username)) {
+                Exceptions::error_rep("An error occured while creating an worktime entry. The user does not exist.");
                 return false;
             } else {
+                Exceptions::error_rep("Creating worktime entry for user '{$username}'...");
                 $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `review`, `active`, `type`, `pause_start`, `pause_end`, `attachements`) VALUES ( ?, '0', ?, ?, ?, ?, ?, ?, '0', '0', ?, ?, ?, ?);";
                 $data = $this->db->sendQuery($sql);
                 $data->execute([$usr["name"], $usr["email"], $username, $date, $start, $end, $location, $type, $pause["start"], $pause["end"], $meta]);
@@ -300,34 +298,12 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information.");
                     return false;
                 } else {
+                    Exceptions::error_rep("Worktime entry for user '{$username}' created successfully.");
                     return true;
                 }
             }
         }
 
-        /**
-         * get_conn - Returns the database connection...
-         * Similar to the constructor function
-         * 
-         * 
-         */
-        public static function get_conn()
-        {
-            $ini = self::get_app_ini()["mysql"];
-            $conn = \mysqli_connect($ini["db_host"], $ini["db_user"], $ini["db_password"], $ini["db"]);
-            mysqli_set_charset($conn, "utf8");
-            if (mysqli_error($conn)) {
-                Exceptions::error_rep("An error occured while connecting to the database. | SQL-Error: " . mysqli_error($conn));
-                return [
-                    "error" => [
-                        "error_code" => 0,
-                        "error_message" => "Error while creating a connection to the database!"
-                    ]
-                ];
-            } else {
-                return $conn;
-            }
-        }
         /**
          * get_app_ini - Liest die Einstellungen aus der Datei "app.ini"
          * 
@@ -335,9 +311,11 @@ namespace Arbeitszeit {
          */
         public static function get_app_ini()
         {
+            Exceptions::error_rep("Getting app.ini...");
             $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", true);
             // Run once migrator to app.json
             if (!file_exists($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json")) {
+                Exceptions::error_rep("Migrating app.ini to app.json...");
                 $json = json_encode($ini, JSON_PRETTY_PRINT);
                 file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json", $json);
             }
@@ -378,11 +356,13 @@ namespace Arbeitszeit {
 
         public function get_all_worktime()
         {
+            Exceptions::error_rep("Getting all worktimes...");
             $sql = "SELECT * FROM `arbeitszeiten`;";
             $res = $this->db->sendQuery($sql);
             $res->execute();
             $arr = [];
             if ($res->rowCount() == 0) {
+                Exceptions::error_rep("No shifts found");
                 return false;
             }
             while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
@@ -393,11 +373,13 @@ namespace Arbeitszeit {
 
         public function get_all_user_worktime($username)
         {
+            Exceptions::error_rep("Getting all worktimes for user '{$username}'...");
             $sql = "SELECT * FROM `arbeitszeiten` WHERE username = ?;";
             $res = $this->db->sendQuery($sql);
             $res->execute([$username]);
             $arr = [];
             if ($res->rowCount() == 0) {
+                Exceptions::error_rep("No shifts found for user '{$username}'");
                 return false;
             }
             while ($row = $res->fetch(\PDO::FETCH_ASSOC)) {
@@ -408,6 +390,7 @@ namespace Arbeitszeit {
 
         public function get_specific_worktime_html(int $month, int $year)
         {
+            Exceptions::error_rep("Getting worktimes rendered for month '{$month}' and year '{$year}'...");
             $base_url = $ini = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? ORDER BY schicht_tag DESC;";
             $res = $this->db->sendQuery($sql);
@@ -470,13 +453,14 @@ namespace Arbeitszeit {
 
                 }
             } else {
+                Exceptions::error_rep("No shifts found for month '{$month}' and year '{$year}'");
                 return "{$this->i18n["no_shifts"]}";
             }
 
         }
         public function get_employee_worktime_html($username)
         {
-            $base_url = $ini = Arbeitszeit::get_app_ini()["general"]["base_url"];
+            Exceptions::error_rep("Getting worktimes rendered for user '{$username}'...");
             $sql = "SELECT * FROM `arbeitszeiten` WHERE username = ? ORDER BY id DESC;";
             $res = $this->db->sendQuery($sql);
             $res->execute([$username]);
@@ -528,12 +512,14 @@ namespace Arbeitszeit {
                     echo $data;
                 }
             } else {
+                Exceptions::error_rep("No shifts found for user '{$username}'");
                 return "{$this->i18n["no_shifts"]}";
             }
         }
 
         public function mark_for_review($id)
         {
+            Exceptions::error_rep("Marking worktime with ID '{$id}' for review...");
             $sql = "UPDATE `arbeitszeiten` SET `review` = '1' WHERE `id` = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
             if (!$res) {
@@ -546,6 +532,7 @@ namespace Arbeitszeit {
 
         public function unlock_for_review($id)
         {
+            Exceptions::error_rep("Unlocking worktime from review with ID '{$id}'...");
             $sql = "UPDATE `arbeitszeiten` SET `review` = '0' WHERE `id` = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
             if (!$res) {
@@ -646,6 +633,7 @@ namespace Arbeitszeit {
 
         public function calculate_hours_specific_time($username, $month, $year)
         {
+            Exceptions::error_rep("Calculating hours for user '{$username}' in month '{$month}' and year '{$year}'...");
             $sql = "SELECT * FROM `arbeitszeiten` WHERE `username` = ? AND MONTH(schicht_tag) = ? AND YEAR(schicht_tag) = ? ORDER BY `schicht_tag` DESC;";
             $res = $this->db->sendQuery($sql);
             $res->execute([$username, $month, $year]);
@@ -678,6 +666,7 @@ namespace Arbeitszeit {
                 $ini["general"][(string) $key] = $value;
 
             }
+            Exceptions::error_rep("Changing settings...");
             $file = fopen($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", "w");
             $cini = self::arr2ini($ini);
             if (fwrite($file, $cini)) {
@@ -692,6 +681,7 @@ namespace Arbeitszeit {
 
         private static function arr2ini(array $a, array $parent = array())
         {
+            Exceptions::error_rep("Writing to app.ini...");
             $out = '';
             foreach ($a as $k => $v) {
                 if (is_array($v)) {
@@ -727,7 +717,7 @@ namespace Arbeitszeit {
         public static function fix_easymode_worktime($username)
         {
             $db = new DB(); // Erstellen der DB-Instanz
-
+            Exceptions::error_rep("[ARBEITSZEIT] Trying to fix easymode worktime for user '{$username}'...");
             // Alle aktiven Arbeitszeiten des Nutzers abrufen, sortiert nach ID (neueste zuerst)
             $query = "SELECT id FROM worktimes WHERE username = :username AND active = 1 ORDER BY id DESC";
             $statement = $db->sendQuery($query);
@@ -736,26 +726,25 @@ namespace Arbeitszeit {
             $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
             if (count($result) > 1) {
-                // Neueste ID ermitteln
+                Exceptions::error_rep("[ARBEITSZEIT] Found multiple active worktimes for user '{$username}'");
                 $latestId = $result[0]['id'];
 
-                // IDs der älteren Einträge sammeln
                 $idsToDisable = array_column(array_slice($result, 1), 'id');
 
-                // Alle älteren Arbeitszeiten deaktivieren
                 $placeholder = implode(',', array_fill(0, count($idsToDisable), '?'));
                 $disableQuery = "UPDATE worktimes SET active = 0 WHERE id IN ($placeholder)";
                 $disableStatement = $db->sendQuery($disableQuery);
                 foreach ($idsToDisable as $index => $id) {
+                    Exceptions::error_rep("[ARBEITSZEIT] Disabling worktime with ID '{$id}'");
                     $disableStatement->bindValue($index + 1, $id);
                 }
                 $disableStatement->execute();
 
-                // Sicherstellen, dass die neueste ID aktiv bleibt
                 $activateQuery = "UPDATE worktimes SET active = 1 WHERE id = :latestId";
                 $activateStatement = $db->sendQuery($activateQuery);
                 $activateStatement->bindValue(':latestId', $latestId);
                 $activateStatement->execute();
+                Exceptions::error_rep("[ARBEITSZEIT] Finished fixing attempt for user '{$username}'");
             }
         }
 

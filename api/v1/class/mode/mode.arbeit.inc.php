@@ -8,8 +8,10 @@ namespace Arbeitszeit {
             $mode_value = Benutzer::get_user($username)["easymode"] ?? 0;
 
             if($mode_value == "0" || $mode_value == false){
+                Exceptions::error_rep("Returning normal mode for user {$username}");
                 return self::get_normal_mode_html();
             } else {
+                Exceptions::error_rep("Returning easymode for user {$username}");
                 return self::get_easymode_html();
             }
         }
@@ -65,6 +67,7 @@ DATA;
 
 
             if($active === false){
+                Exceptions::error_rep("No or multiple active easymode worktime entry found. Checking for multiple entries...");
                 if(Arbeitszeit::fix_easymode_worktime($_SESSION["username"])){
                     self::get_easymode_html();
                 }
@@ -74,6 +77,7 @@ DATA;
 DATA;
                 goto skip_to_output;
             } elseif(!$worktime && $active === true){
+                Exceptions::error_rep("An error occured while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry! | Active worktime: " . $worktime);
                 $data = <<< DATA
                 <p>An error occured while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry!</p>
 DATA;

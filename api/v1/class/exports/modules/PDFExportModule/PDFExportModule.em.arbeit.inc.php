@@ -115,6 +115,7 @@ class PDFExportModule implements ExportModuleInterface {
     }
 
     public function saveAsPdf($args) {
+        Exceptions::error_rep("Saving PDF file...", 1, "N/A");
         $html = $this->export($args);  
         $user = $args['user'] ?? "dummy";
         $month = $args['month'] ?? "00";
@@ -137,7 +138,7 @@ class PDFExportModule implements ExportModuleInterface {
     
         
         file_put_contents($filename, $dompdf->output());
-    
+        Exceptions::error_rep("PDF file saved: $filename", 1, "N/A");
         return $filename;
     }
 

@@ -56,6 +56,7 @@ class pluginmanager extends PluginBuilder implements PluginInterface {
     }
 
     public function getPluginsHtml(): array{
+        Exceptions::error_rep("{$this->log_append} Rendering plugins html...");
         $pl = new PluginBuilder();
         // [pluginname] => array plugin configuration
         $plugins = $pl->get_plugins();
@@ -90,6 +91,7 @@ class pluginmanager extends PluginBuilder implements PluginInterface {
     }
 
     public function getPluginYaml(string $plugin_name): string{
+        Exceptions::error_rep("{$this->log_append} Reading plugin configuration: {$plugin_name}...");
         $pl = new PluginBuilder();
         return $pl->read_plugin_configuration($plugin_name, true);
     }
@@ -99,6 +101,7 @@ class pluginmanager extends PluginBuilder implements PluginInterface {
         $pl = new PluginBuilder();
 
         if($pl->read_plugin_configuration($plugin_name)){
+            Exceptions::error_rep("{$this->log_append} Plugin: {$plugin_name} found, enabling...");
             $conf = $pl->read_plugin_configuration($plugin_name);
             $conf["enabled"] = true;
             file_put_contents($conf["path"], Yaml::dump(input: $conf, flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
@@ -110,6 +113,7 @@ class pluginmanager extends PluginBuilder implements PluginInterface {
         $pl = new PluginBuilder();
 
         if($pl->read_plugin_configuration($plugin_name)){
+            Exceptions::error_rep("{$this->log_append} Plugin: {$plugin_name} found, disabling...");
             $conf = $pl->read_plugin_configuration($plugin_name);
             $conf["enabled"] = false;
             file_put_contents($conf["path"], Yaml::dump(input: $conf, flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK));
@@ -117,6 +121,7 @@ class pluginmanager extends PluginBuilder implements PluginInterface {
     }
 
     public function pluginIsEnabledHtml(string $plugin_name){
+        Exceptions::error_rep("{$this->log_append} Checking if plugin: {$plugin_name} is enabled...");
         $pl = new PluginBuilder();
         $conf = $pl->read_plugin_configuration($plugin_name);
         if($conf["enabled"]){
@@ -127,6 +132,7 @@ class pluginmanager extends PluginBuilder implements PluginInterface {
     }
 
     public function pluginIsDisabledHtml(string $plugin_name){
+        Exceptions::error_rep("{$this->log_append} Checking if plugin: {$plugin_name} is disabled...");
         $pl = new PluginBuilder();
         $conf = $pl->read_plugin_configuration($plugin_name);
         if(!$conf["enabled"]){

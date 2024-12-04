@@ -37,6 +37,7 @@ namespace Arbeitszeit {
             try {
                 $pdo = $this->__get("connection");
                 $st = $pdo->prepare($sql);
+                Exceptions::error_rep("[DB] Query prepared successfully.");
                 return $st;
             } catch (PDOException $e){
                 Exceptions::error_rep("[DB] An error occured while performing a query. | Error message: " . $e->getMessage());
@@ -47,6 +48,7 @@ namespace Arbeitszeit {
         public function simpleQuery($sql){
             try {
                 $pdo = $this->__get("connection");
+                Exceptions::error_rep("[DB] Query prepared successfully.");
                 return $pdo->query($sql);
             } catch (PDOException $e){
                 Exceptions::error_rep("[DB] An error occured while performing a simple query. | Error message: " . $e->getMessage());

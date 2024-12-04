@@ -4,6 +4,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/PluginBuilder.pl
 require_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/class/plugins/plugins/pluginmanager/src/Main.php';
 use pluginmanager\pluginmanager;
 use Arbeitszeit\Arbeitszeit;
+use Arbeitszeit\Exceptions;
 
 $main = new pluginmanager();
 $arbeit = new Arbeitszeit();
@@ -11,6 +12,7 @@ if(@isset($_GET["edit"])){
     try {
         $yaml = $main->getPluginYaml($_GET["edit"]);
     } catch (TypeError $e){
+        Exceptions::error_rep("[pluginmanager] An error occured while trying to retrieve the YAML configuration.");
         $yaml = "An error occured while trying to retrieve the YAML configuration. Does this plugin exist?";
         $status = "<div class='alert alert-danger' role='alert'>Plugin not found!</div>";
         $submitButton = "";
@@ -27,10 +29,12 @@ if(@isset($_GET["edit"])){
         $submitButton = "<button class='btn btn-primary' type='submit'>Save</button>";
     }
     if(@isset($_GET["disabled"])){
+        Exceptions::error_rep("[pluginmanager] Disabling plugin: {$_GET["edit"]}...");
         $main->disablePlugin($_GET["edit"]);
         $status = "<div class='alert alert-success' role='alert'>Plugin disabled! You may want to reload the windows for the YAML configuration to reload if it still shows 'false'.</div>";
     }
     if(@isset($_GET["enabled"])){
+        Exceptions::error_rep("[pluginmanager] Enabling plugin: {$_GET["edit"]}...");
         $main->enablePlugin($_GET["edit"]);
         $status = "<div class='alert alert-success' role='alert'>Plugin enabled! You may want to reload the windows for the YAML configuration to reload if it still shows 'false'.</div>";
     }
