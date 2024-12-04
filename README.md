@@ -50,7 +50,7 @@ In step 2, you need to configure the `app.ini.sample`/`app.json.sample` within t
 - `app_name`: The name of your application, e.g. `ACME Inc. TimeRecording`
 - `base_url`: The Base URL (can also be an IP) of your application, without ending trailing slash and the protocol, e.g. `acme.inc` or `10.10.10.2` (URLs will be built with the http:// protocol, we recommend adding a redirect to https:// if you use an certificate.)
 - `support_email`: An email displayed to users in case of help, e.g. `support@acme.inc`
-- `debug`: (deprecated)
+- `debug`: (deprecated, but may still unlock certain functionality)
 - `auto_update`: (not yet implemented)
 - `db_*`: Set the connection details for your mysql instance
 - `app`: If set to true, users will be able to use the TimeTrack mobile application
