@@ -28,14 +28,14 @@ $data = $arbeit->notifications()->get_notifications_entry($id);
         <h1><?php echo $language["title"] ?></h1>
         <div class="box">
             <form action="/suite/admin/actions/notifications/edit.php?id=<?php echo $id; ?>" method="POST">
-                <label><?php echo $language["label_date"] ?>: </label><input type="date" name="datum" value="<?php echo $data["datum"] ?>">
-                <br>
-                <label><?php echo $language["label_time"] ?>: </label><input type="time" name="uhrzeit" value="<?php echo $data["uhrzeit"]; ?>">
-                <br>
-                <label><?php echo $language["label_location"] ?>: </label><input type="text" name="ort" value="<?php echo $data["ort"]; ?>">
-                <br>
-                <label><?php echo $language["label_note"] ?>: </label><input type="text" name="notiz" value="<?php echo $data["notiz"];  ?>">
-                <br>
+                <label><?php echo $language["label_date"] ?>: </label><input class="input" type="date" name="datum" value="<?php echo $data["datum"] ?>">
+                <br><hr>
+                <label><?php echo $language["label_time"] ?>: </label><input class="input" type="time" name="uhrzeit" value="<?php echo $data["uhrzeit"]; ?>">
+                <br><hr>
+                <label><?php echo $language["label_location"] ?>: </label><input class="input" type="text" name="ort" value="<?php echo $data["ort"]; ?>">
+                <br><hr>
+                <label><?php echo $language["label_note"] ?>: </label><input class="input" type="text" name="notiz" value="<?php echo $data["notiz"];  ?>">
+                <br><hr>
                 <button type="submit" name="submit" class="button"><?php echo $language["submit_text"] ?></button>
             </form>
         </div>

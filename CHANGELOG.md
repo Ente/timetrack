@@ -9,6 +9,7 @@
 
 <!-- Fixed missing API route for Codeclock plugin. -->
 <!-- PluginBuilder is now able to return the plugin configuration in raw YAML -->
+<!-- Adding CSS to certain pages -->
 <!-- You can now dump all included files by setting "debug" to true within the app.ini -->
 <!-- Added more logging messages-->
 
