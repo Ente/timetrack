@@ -192,6 +192,22 @@ class Routes extends Toil {
             Exceptions::error_rep("[API] User authenticated and accessing 'getOwnWorktime' endpoint");
             Controller::createview("getOwnWorktime");
         });
+        Router::get(("/api/v1/toil/addNotification"), function(){
+            Exceptions::error_rep("[API] User authenticated and accessing 'addNotification' endpoint");
+            Controller::createview("addNotification");
+        });
+        Router::get("/api/v1/toil/removeNotification", function(){
+            Exceptions::error_rep("[API] User authenticated and accessing 'removeNotification' endpoint");
+            Controller::createview("removeNotification");
+        });
+        Router::get("/api/v1/toil/getNotifications", function(){
+            Exceptions::error_rep("[API] User authenticated and accessing 'getNotifications' endpoint");
+            Controller::createview("getNotifications");
+        });
+        Router::get("/api/v1/toil/autoremoveNotifications", function(){
+            Exceptions::error_rep("[API] User authenticated and accessing 'autoremoveNotifications' endpoint");
+            Controller::createview("autoremoveNotifications");
+        });
 
         // Loading all custom routes
         CustomRoutes::loadCustomRoutes();
