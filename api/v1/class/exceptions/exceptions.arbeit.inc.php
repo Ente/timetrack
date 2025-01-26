@@ -55,6 +55,14 @@ namespace Arbeitszeit {
             $parms = http_build_query(array("code" => $code, "error" => $error, "stack" => base64_encode($stack)));
             header("Location: /errors/500.php?$parms");
         }
+
+        public function deprecated($function_name, $additional_message){
+            $message = "The function '{$function_name}' is deprecated. {$additional_message}";
+
+            trigger_error($message, E_USER_DEPRECATED);
+            Exceptions::error_rep($message);
+            return $message;
+        }
     }
 }
 
