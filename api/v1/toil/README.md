@@ -24,6 +24,10 @@ Most endpoints are using `GET` method to either change, delete, view or add data
 * `deleteUser` - Delete a desired user (admin)
 * `getUserDetails` - Get a JSON array of the user's details (admin)
 * `getVersion` - Returns the current installed TimeTrack version (user)
+* `getNotifications` - Returns JSON of all notifications (user)
+* `removeNotification` - Removes a notification (admin)
+* `addNotification` - Adds a notification (admin)
+* `autodeleteNotification` - Automatically deletes a notification after if has been expired (user)
 
 You can access the API via the base URL, e.g. `"https://{domain}.{tld}/api/v1/toil/"`. HTTP Basic is used for authentication.
 Example: `https://{ADMIN_USERNAME}:{ADMIN_USER_PASSWORD}@{domain}.{tld}/api/v1/toil/getVersion`
