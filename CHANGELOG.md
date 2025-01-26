@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v7.7.1
+
+* Added function within the `Exceptions` class to show type "deprecated" warnings.
+
 ## v7.7
 
 * Fixed duplicated active worktime entries by trying to fix it automatically.
