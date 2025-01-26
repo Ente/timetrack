@@ -72,6 +72,11 @@ class exportmanager extends PluginBuilder implements PluginInterface {
     public function defaultExport($plugin): void{
         Exceptions::error_rep("{$this->log_append} Starting default export for {$plugin}...");
         $exportModule = new ExportModule;
+        if($plugin == "PDFExportModule"){
+           echo $exportModule->export(["module" => $plugin, "year" => date("Y"), "month" => date("m"), "user" => $_SESSION["username"]]);
+           die();
+        }
         $exportModule->export(["module" => $plugin, "year" => date("Y"), "month" => date("m"), "user" => $_SESSION["username"]]);
+
     }
 }
