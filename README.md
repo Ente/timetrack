@@ -40,7 +40,7 @@ Simply install the software by following these steps:
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
 - Run the statement printed by the `usercreate.php` inside your database (`mysql -u root -p` and `use ab;` then the statement).
 - Please run the `run-patch.sh` file located in the `setup` folder to apply a patch regarding LDAP authentication. If you do not want to use LDAP you can ignore this step. (`cd setup && bash run-patch.sh && cd ..`)
-- Configure `app.ini` (see below - required changes: `base_url`, `db_user`, `db_password`, `[smtp]` section and any other if you're installation is different) then `mv api/v1/inc/app.ini.sample app.ini && cd /var/www/timetrack`
+- Configure `app.ini` (see below - required changes: `base_url`, `db_user`, `db_password`, `[smtp]` section and any other if your installation is different) then `mv api/v1/inc/app.ini.sample app.ini && cd /var/www/timetrack`
 - Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
 
 ### Configure app.ini/app.json
@@ -114,7 +114,7 @@ Another useful source, while expieriencing errors is the `/var/log/apache2/error
 
 ## Language
 
-TimeTrack supports German and English. Users currently can't actively switch between any of them, instead TimeTrack uses the locale provided by the browser.
+TimeTrack supports German, English and Dutch. Users currently can't actively switch between any of them, instead TimeTrack uses the locale provided by the browser.
 
 ## LDAP
 
@@ -125,7 +125,7 @@ Already existing local accounts will get their authentication overwritten if an 
 
 In order to create accounts automatically if `create_user` is `true` make sure to set the user's email address! Otherwise login fails.
 
-At the moment you have to create a user on your own locally and then let the user login with their LDAP credentials. The credentials you have entered will become usable if you disable LDAP or rename the account on your LDAP server.
+If above mentioned setting is set to `false` you have to create a user on your own locally and then let the user login with their LDAP credentials. The credentials you have entered will become usable if you disable LDAP or rename the account on your LDAP server.
 Please run `run-patch.sh` within the `setup` folder to get LDAP working with php >8.0
 
 ## Export
@@ -157,7 +157,7 @@ You can specify your own CSS file within the `app.ini` `[exports][pdf][css]` set
 
 ## QR codes
 
-You can use the plugin `QRClock` to generate QR codes for yourself to either clock in or out. The QR code is generated can be used for later use, e.g. print it out.
+You can use the plugin `QRClock` to generate QR codes for yourself to either clock in or out. The QR code generated can be saved for later use, e.g. print it out.
 Currently you do have to login before you can use the QR code. This will be reworked to bypass current authentication flow as there is a token embedded in the QR code. Therefore you should be careful with the QR code.
 
 To use this feature, please download and place the `phpqrcode` folder into the `api/v1/class/plugins/plugins/qrclock/src` folder. You can download the `phpqrcode` library from <https://sourceforge.net/projects/phpqrcode/>.
@@ -187,3 +187,5 @@ You can update the database by downloading the `setup/upgrade.php` file into you
 From here on just edit the `$missingUpdate` variable to the desired version as specified.
 
 Please be aware that you are not able to skip an database update. You have to update one by one, e.g. from 1 -> 2, 2 -> 3, ...
+
+
