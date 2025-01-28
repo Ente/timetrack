@@ -3,7 +3,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/loader.plugins.arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_password_reset.auth.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/src/Main.php";
-require_once dirname(__DIR__, 2) . "/mailcow/src/Main.php";
 
 use Userdetail\Userdetail;
 use Arbeitszeit\Benutzer;
@@ -55,7 +54,6 @@ if($r = $main->get_employee_data($_GET["user"])){
         <label>Notes: </label><textarea name="notes"><?php echo $notes; ?></textarea><br>
         <label>Position: </label><input type="text" name="position" value="<?php echo $pos; ?>" placeholder="CEO"><br>
         <label>Email:</label><input type="email" name="email" value="<?php echo $user["email"]; ?>" placeholder="box@mail.com"><br>
-        <label>Create Mailbox?</label><input type="checkbox" name="create-mailbox">
         <input type="text" name="id" value="<?php echo $user["id"]; ?>" hidden>
 
         <h3>HR</h3>
