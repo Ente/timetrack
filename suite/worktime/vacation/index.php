@@ -18,7 +18,7 @@ $arbeit->auth()->login_validation();
     </head>
     <body>
         <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
-        <h1><?php $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>
+        <h1><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>
         <div class="box">
             <h2><?php echo $loc["h2"] ?></h2>
                 <form action="/suite/actions/worktime/add_vacation.php" method="POST">
