@@ -2,7 +2,7 @@
 
 The class `pluginbuilder.plugin.arbeit.inc.php` is the main class for building and using plugins.
 
-The following code is run once a day, to ensure the peristance of the plugins through `.tp1` (**WIP**) files - Currently, this is not run, if you wish you're plugin to be persistant, you can run
+The following code is run once a day, to ensure the peristance of the plugins through `.tp1` (**WIP**) files - Currently, this is not run, if you wish your plugin to be persistant, you can run
 
 ```php
 <?php
