@@ -6,6 +6,7 @@ namespace Arbeitszeit{
     use Symfony\Component\Yaml\Yaml;
 
     use Exception;
+    use Arbeitszeit\Exceptions;
 
 
     interface PluginInterface {
@@ -236,6 +237,7 @@ namespace Arbeitszeit{
          * @return void|Exception Void on success, Exception on failure
          */
         final public function memorize_plugins(): void{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Memorizing all plugins...");
             $plugins = $this->get_plugins();
             foreach($plugins["plugins"] as $plugin => $data){
@@ -267,6 +269,7 @@ namespace Arbeitszeit{
          * @return bool|Exception Return true on success. Exception on failure
          */
         final public function memorize_plugin($name, $additional_payload = null): bool{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Memorizing plugin '{$name}'...");
             $plugin = $this->read_plugin_configuration($name);
             try{
@@ -297,6 +300,7 @@ namespace Arbeitszeit{
          * @return object|bool|Exception Returns the class on success and either false or an Exception on failure
          */
         final public function unmemorize_plugin($name): object{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Unmemorizing plugin '{$name}'...");
             $plugin = $this->read_plugin_configuration($name);
             try{
@@ -327,6 +331,7 @@ namespace Arbeitszeit{
          * @return bool
          */
         final public function check_persistance(): bool{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Checking persistance for all plugins...");
             $plugins = $this->get_plugins();
             foreach($plugins["plugins"] as $plugin => $data){
