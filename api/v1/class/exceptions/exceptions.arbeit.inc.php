@@ -56,7 +56,7 @@ namespace Arbeitszeit {
             header("Location: /errors/500.php?$parms");
         }
 
-        public function deprecated($function_name, $additional_message){
+        public static function deprecated($function_name, $additional_message){
             $message = "The function '{$function_name}' is deprecated. {$additional_message}";
 
             trigger_error($message, E_USER_DEPRECATED);
