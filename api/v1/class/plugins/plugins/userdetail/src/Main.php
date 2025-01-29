@@ -50,6 +50,7 @@ class Userdetail extends PluginBuilder implements PluginInterface {
         $this->set_log_append();
         $this->set_plugin_configuration();
         #Hooks::addHook("create_user", "callback", function(){echo "hi";}, "userdetail");
+        $this->check_folder();
     }
 
     public function onLoad(): void{
@@ -137,6 +138,12 @@ class Userdetail extends PluginBuilder implements PluginInterface {
 
     public function create_user_callback($username, $name, $email, $password, $isAdmin){
         echo "Successfully created user account...";
+    }
+
+    public function check_folder(){
+        if(!file_exists(dirname(__DIR__, 1) . "/data/")){
+            mkdir(dirname(__DIR__, 1) . "/data/");
+        }
     }
 }
 
