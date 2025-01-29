@@ -6,5 +6,6 @@
     "name": "Your name",
     "id": "Your ID",
     "email": "Your email",
-    "change_request": "You want your data to be changed? Please contact your manager for this."
+    "change_request": "You want your data to be changed? Please contact your manager for this.",
+    "edit_user": "Edit"
 }
