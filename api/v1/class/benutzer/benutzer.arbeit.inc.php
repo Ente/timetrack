@@ -173,7 +173,7 @@ namespace Arbeitszeit{
 
                 $html = <<< DOC
                 <tr>
-                    <td><a href='http://{$base_url}/suite/admin/actions/users/delete_user.php?id={$id}'>{$this->i18n["delete_user"]}</a></td>
+                    <td><a href='http://{$base_url}/suite/admin/actions/users/delete_user.php?id={$id}'>{$this->i18n["delete_user"]}</a> | <a href='http://{$base_url}/suite/plugins/index.php?pn=userdetail&p_view=views/user.php&user={$username}'>{$this->i18n["edit_user"]}</a></td>
                     <td>$name</td>
                     <td>$username</td>
                     <td>$email</td>
