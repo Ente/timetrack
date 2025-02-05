@@ -11,7 +11,7 @@ namespace Arbeitszeit {
             $conn = new DB;
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $res = $conn->sendQuery($sql);
-            $res->execute($username);
+            $res->execute([$username]);
             $count = $res->rowCount();
             $ii = Arbeitszeit::get_app_ini()["general"]["app_name"];
 

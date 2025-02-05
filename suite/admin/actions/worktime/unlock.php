@@ -10,6 +10,7 @@ $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
 $id = $_GET["id"];
 $arbeit->auth()->login_validation();
+$auth = $arbeit->auth();
 if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     if($arbeit->unlock_for_review($id) == true){
         $num->mail_worktime_uncompliant($_GET["u"], $id, 0, $auth->mail_init($_GET["u"], true));
