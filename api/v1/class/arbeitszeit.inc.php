@@ -11,6 +11,7 @@ namespace Arbeitszeit {
     use Arbeitszeit\Vacation;
     use Arbeitszeit\Sickness;
     use Arbeitszeit\ExportModule;
+    use Arbeitszeit\Mails;
     /**
      * Beinhaltet wesentliche Inhalte, wie Einstellungen, Arbeitszeiten erstellen, etc.
      * 
@@ -30,13 +31,11 @@ namespace Arbeitszeit {
         private $sickness;
         private $vacation;
         private $exportModule;
+        private $mails;
 
         public function __construct()
         {
             $this->db = new DB();
-            if (self::get_app_ini()["general"]["debug"] == true || self::get_app_ini()["general"]["debug"] == "false") {
-                #_errors", 1);
-            }
             $this->init_lang() ?? null;
         }
 
@@ -413,7 +412,7 @@ namespace Arbeitszeit {
                     $rew = $row["schicht_anfang"];
                     $rol = $row["schicht_ende"];
                     $rum = $row["ort"];
-                    $rqw = $row["id"]; # TODO: fix broken "delete" link
+                    $rqw = $row["id"];
                     $rbn = $row["username"];
                     $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
                     $rpe = @strftime("%H:%M", strtotime($row["pause_end"]));
@@ -818,6 +817,13 @@ namespace Arbeitszeit {
             if (!$this->exportModule)
                 $this->exportModule = new ExportModule;
             return $this->exportModule;
+        }
+
+        public function mails(): Mails
+        {
+            if (!$this->mails)
+                $this->mails = new Mails;
+            return $this->mails;
         }
     }
 }

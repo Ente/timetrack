@@ -230,7 +230,6 @@ namespace Arbeitszeit{
                 $mail->Port = $ini["smtp"]["port"];
                 $mail->setFrom($ini["smtp"]["username"], "TimeTrack");
                 $r = $mail->addAddress($userdata["email"], $userdata["name"]);
-                Exceptions::error_rep("Could not set address! | Email:" . $userdata["email"] . " - Username: " . $userdata["username"]);
                 if(!$r){
                     Exceptions::error_rep("Could not set address! | Email:" . $userdata["email"] . " - Username: " . $userdata["username"]);
                     return false;
