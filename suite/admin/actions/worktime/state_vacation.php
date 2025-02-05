@@ -1,17 +1,9 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
-require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_vacation_rejected.auth.arbeit.inc.php";
-require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_vacation_pending.auth.arbeit.inc.php";
-require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_vacation_approved.auth.arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\MailVacationApproved;
-use Arbeitszeit\MailVacationPending;
-use Arbeitszeit\MailVacationRejected;
 use Arbeitszeit\Exceptions;
-$avr = new MailVacationRejected;
-$ava = new MailVacationApproved;
-$avp = new MailVacationPending;
+use Arbeitszeit\Mails\Provider\PHPMailerMailsProvider;
 $arbeit = new Arbeitszeit;
 $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
@@ -26,10 +18,11 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
             header("Location: http://{$base_url}/suite/?info=error");
             die();
         }
+        $arbeit->mails()->init(new PHPMailerMailsProvider($arbeit, $_SESSION["username"], true));
         switch ($_GET["new"]) {
             case "approve":
                 if ($vacation->change_status($id, 1)) {
-                    $ava->mail_vacation_approved($_GET["u"], $id, $auth->mail_init($_GET["u"], true));
+                    $arbeit->mails()->sendMail("VacationApprovedTemplate", ["username" => $_GET["u"], "id" => $id]);
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
                 } else {
@@ -39,7 +32,7 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                 break;
             case "pending":
                 if ($vacation->change_status($id, 3)) {
-                    $avp->mail_vacation_pending($_GET["u"], $id, $auth->mail_init($_GET["u"], true));
+                    $arbeit->mails()->sendMail("VacationPendingTemplate", ["username" => $_GET["u"], "id" => $id]);
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
                 } else {
@@ -49,7 +42,7 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                 break;
             case "reject":
                 if ($vacation->change_status($id, 2)) {
-                    $avr->mail_vacation_rejected($_GET["u"], $id, $auth->mail_init($_GET["u"], true));
+                    $arbeit->mails()->sendMail("VacationRejectedTemplate", ["username" => $_GET["u"], "id" => $id]);
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
                 } else {
@@ -59,7 +52,7 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                 break;
             default:
                 if ($vacation->change_status($id, 3)) {
-                    $ava->mail_vacation_approved($_GET["u"], $id, $auth->mail_init($_GET["u"], true));
+                    $arbeit->mails()->sendMail("VacationApprovedTemplate", ["username" => $_GET["u"], "id" => $id]);
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
                 } else {
