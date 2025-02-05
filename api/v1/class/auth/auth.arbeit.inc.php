@@ -1,5 +1,6 @@
 <?php
 namespace Arbeitszeit{
+    use Arbeitszeit\Mails\Provider\PHPMailerMailsProvider;
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
@@ -154,7 +155,8 @@ namespace Arbeitszeit{
          * @return bool Returns true on success, false otherwise
          */
         public function reset_password($username){
-            if(MailPasswordReset::mail_password_reset($username, $this->mail_init($username, true)) == 1){
+            $this->mails()->init(new PHPMailerMailsProvider($this, $username, true));
+            if($this->mails()->sendMail("PasswordResetTemplate", ["username" => $username, "email" => $this->benutzer()->get_user($username)["email"]]) == 1){
                 return true;
             } else {
                 return false;

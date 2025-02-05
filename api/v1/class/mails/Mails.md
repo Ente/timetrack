@@ -1,6 +1,6 @@
 # Mails.php
 
-## Developer: How to send mails:
+## Developer: How to send mails
 
 Currently you do have to make sure that your custom provider is loaded before you can send mails. Simply require your custom provider and follow belows code example to send a mail. In the future you should be able to register a provider aswell and autoload it.
 
@@ -85,3 +85,7 @@ class customProvider implements \Arbeitszeit\Mails\MailsProviderInterface {
 
 
 ```
+
+## Reset to default templates
+
+To reset to the default templates, delete the `mails_registry.php` file located inside the `/api/v1/class/mails` directory.

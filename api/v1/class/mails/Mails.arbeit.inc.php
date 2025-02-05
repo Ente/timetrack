@@ -8,6 +8,21 @@ class Mails
     private static $provider;
     private static $templates = [];
     private static $configFile = __DIR__ . '/mails_registry.php';
+    private static $defaultTemplates = [
+        "DeleteUserTemplate",
+        "NewUserTemplate",
+        "PasswordChangedTemplate",
+        "PasswordResetTemplate",
+        "PasswordSendTemplate",
+        "SicknessApprovedTemplate",
+        "SicknessPendingTemplate",
+        "SicknessRejectedTemplate",
+        "VacationApprovedTemplate",
+        "VacationPendingTemplate",
+        "VacationRejectedTemplate",
+        "WorktimeUncompliantTemplate"
+
+    ];
 
     public static function init(MailsProviderInterface $provider)
     {
@@ -50,6 +65,11 @@ class Mails
     {
         if (file_exists(self::$configFile)) {
             self::$templates = include self::$configFile;
+        } else {
+            foreach(self::$defaultTemplates as $template){
+                $filePath = __DIR__ . "/templates/$template.mails.arbeit.inc.php";
+                self::registerTemplate($template, $filePath, $template);
+            }
         }
     }
 }

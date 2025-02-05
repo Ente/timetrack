@@ -5,7 +5,7 @@ use Arbeitszeit\Arbeitszeit;
 $arbeitszeit = new Arbeitszeit;
 $ini = $arbeitszeit->get_app_ini();
 $loc = $arbeitszeit->i18n()->loadLanguage(NULL, "reset");
-echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]);
+echo $arbeitszeit->check_status_code($_SERVER["REQUEST_URI"]);
 ?>
 <!DOCTYPE html>
 <html>

@@ -19,7 +19,7 @@ class SicknessPendingTemplate implements MailsTemplateInterface {
             $ii = Arbeitszeit::get_app_ini()["general"]["app_name"];
 
             if ($count == 1) {
-                $data = $res->fetch(\PDO::FETCH_ASSOC);
+                $data1 = $res->fetch(\PDO::FETCH_ASSOC);
             } else {
                 Exceptions::error_rep("An error occured while fetching user data from database for user '{$data["username"]}'. See previous message for more information.");
                 return [
@@ -66,7 +66,7 @@ class SicknessPendingTemplate implements MailsTemplateInterface {
     background-color: #f2f2f2;
   }
 </style>
-                <p>{$loc["greetings"]} {$data["name"]},</p>
+                <p>{$loc["greetings"]} {$data1["name"]},</p>
 
                 <p>{$loc["message"]}:</p>
                 <p>({$loc["note"]})</p>
@@ -76,14 +76,14 @@ class SicknessPendingTemplate implements MailsTemplateInterface {
                         <th>{$loc["id"]}</th>
                         <th>{$loc["username"]}</th>
                         <th>{$loc["day"]}</th>
-                        <th>{$loc["begin"]}</th>
                         <th>{$loc["send"]}</th>
+                        <th></th>
                     <tr>
                     <tr>
                         <td>{$worktime_data["id"]}</td>
                         <td>{$worktime_data["username"]}</td>
-                        <td>{$worktime_data["date_start"]}</td>
-                        <td>{$worktime_data["date_end"]}</td>
+                        <td>{$worktime_data["start"]}</td>
+                        <td>{$worktime_data["stop"]}</td>
                         <td>{$worktime_data["status"]}</td>
                     </tr>
                 </table>

@@ -11,6 +11,7 @@ class PasswordSendTemplate implements MailsTemplateInterface {
             $i18n = $arbeit->i18n();
             $loc = $i18n->loadLanguage(null, "emails/password_send");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
+            $password = $data["password"];
             $conn = $arbeit->db();
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $res = $conn->sendQuery($sql);

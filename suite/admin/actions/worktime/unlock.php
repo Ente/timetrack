@@ -1,10 +1,9 @@
 <?php
+
+use Arbeitszeit\Mails\Provider\PHPMailerMailsProvider;
 require $_SERVER['DOCUMENT_ROOT'] . "/api/v1/inc/arbeit.inc.php";
-require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_worktime_uncompliant.auth.arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
-use Arbeitszeit\MailWorktimeUncompliant;
-$num = new MailWorktimeUncompliant;
 $arbeit = new Arbeitszeit;
 $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
@@ -13,7 +12,8 @@ $arbeit->auth()->login_validation();
 $auth = $arbeit->auth();
 if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     if($arbeit->unlock_for_review($id) == true){
-        $num->mail_worktime_uncompliant($_GET["u"], $id, 0, $auth->mail_init($_GET["u"], true));
+        $arbeit->mails()->init(new PHPMailerMailsProvider($arbeit, $_SESSION["username"], true));
+        $arbeit->mails()->sendMail("WorktimeUncompliantTemplate", ["username" => $_GET["u"], "worktime" => $id, "type" => 0]);
         header("Location: http://{$base_url}/suite/?info=worktime_review_unlock");
     } else {
         echo "Error while processing...";
