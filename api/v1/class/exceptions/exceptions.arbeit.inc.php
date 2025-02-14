@@ -10,7 +10,7 @@ namespace Arbeitszeit {
         }
 
         public static function error_rep($message, $method = NULL){
-            $error_file = self::logrotate(); // file on your fs, e.g. /var/www/html/error.log
+            $error_file = self::getSpecificLogFilePath(); // file on your fs, e.g. /var/www/html/error.log
             $version = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/VERSION"); //optional value
             if($method == NULL){
                 $method = $_SERVER["REQUEST_METHOD"];
@@ -32,22 +32,6 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("Trying to get log file for date '$date'");
                 return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$match[0]}.log";
             }
-        }
-
-        public static function logrotate(){
-            $logpath = $_SERVER["DOCUMENT_ROOT"] . "/data/logs/";
-            $date = date("Y-m-d");
-            $lastrotate = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/data/logs/logrotate-cache.txt");
-
-            if($date != $lastrotate){
-                if(!file_exists($logpath . "log-{$date}.log")){
-                    $newlog = $logpath . "log-{$date}.log";
-                    file_put_contents($newlog, "");
-                    file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/data/logs/logrotate-cache.txt", $date);
-                }
-                return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$date}.log";
-            }
-            return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$date}.log";
         }
 
         public static function failure($code, $error, $stack){
