@@ -23,10 +23,10 @@ namespace Arbeitszeit {
        $language = loadLanguage($locale, "panel"); // Loads the language for the "panel" Page
 
         */
-        public function loadLanguage($locale = null, $page = "index", $area = "suite") {
-            if ($locale === null) {
-                $locale = @locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]);
-                if ($locale === null) {
+        public function loadLanguage($locale = null, $page = "index", $area = "suite"){
+            if($locale == null){
+                $locale = @basename(locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]));
+                if($locale == null){
                     $locale = "en_EN";
                 }
             }

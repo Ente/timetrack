@@ -7,7 +7,7 @@ $ar = new Arbeitszeit();
 $language = $arbeit->i18n()->loadLanguage(null, "users/settings", "admin");
 $ini = $ar->get_app_ini();
 if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
-    die();
+    header("Location: /suite/");
 }
 ?>
 <br>
