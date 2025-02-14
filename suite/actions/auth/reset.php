@@ -57,7 +57,7 @@ if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
             <p>Please enter your new password in the below's form.</p>
             <p>You will recieve a email after submiting your new password.</p>
             <label>Your new password: </label><input type="password" name="password" placeholder="Password">
-            <input type="text" name="auth" value="<?php echo explode(";", base64_decode($_GET["token"]))[1];  ?>" hidden>
+            <input type="text" name="auth" value="<?php echo htmlspecialchars(explode(";", base64_decode($_GET["token"]))[1]);  ?>" hidden>
             <br>
             <button type="submit" name="reset" value="true">Submit</button>
         </form>

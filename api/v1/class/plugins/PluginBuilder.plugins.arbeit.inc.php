@@ -418,7 +418,7 @@ namespace Arbeitszeit{
             # $view shall be the nav link value
             try{
                 $this->logger("{$this->la} Loading view '{$view}' for plugin '{$plugin_name}'");
-                require $_SERVER["DOCUMENT_ROOT"] . $this->get_basepath() . "/" . $plugin_name . "/" . $view;
+                require $_SERVER["DOCUMENT_ROOT"] . $this->get_basepath() . "/" . basename($plugin_name) . "/" . basename($view);
             } catch (\Error $e){
                 Exceptions::error_rep("An error occured while loading view '$view' for plugin '$plugin_name' - Message: {$e}");
                 return false;
