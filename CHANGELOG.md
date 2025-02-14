@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v7.8
+
+* Refactored the mails module. Read more about this within the `api/v1/class/mails/Mails.md`.
+* Admins can now edit users via the GUI directly.
+* Added a link to GitHub issues and to TimeTrack Roadmap within the settings.
+* Updated `composer.json` to a `ldaptools` version that supports PHP 8.0. So the patch does not need to be applied anymore.
+* Fixed `userdetail` plugin not creating the `data` directory.
+* Removed the "Create Mailbox" checkbox when editing a user.
+* Removed and deprecated most Plugin Phar functionality.
+* Fixed `Exceptions::deprecated` function being not static.
+* Rewritten some parts of the `README.md`
+* Toil API release `1.10` added routes for the notifications module: `getNotifications`, `autoremoveNotifications`, `addNotification` and `removeNotification`.
+* Fixed an issue being unable to export PDFs with the `PDFExportModule`.
+
+<!-- Fixed an bug resulting in being unable to access the "forgot password" page -->
+<!-- Fixed missing title within the "Add vacation" view -->
+<!-- Added internal function to get all notifications -->
+
 ## v7.7.1
 
 * Added function within the `Exceptions` class to show type "deprecated" warnings.
