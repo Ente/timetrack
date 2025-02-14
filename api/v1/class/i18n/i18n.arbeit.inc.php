@@ -30,34 +30,44 @@ namespace Arbeitszeit {
                     $locale = "en_EN";
                 }
             }
-            $langlist = [
-                "de",
-                "en",
-                "nl"
-            ];
-            $lang_values = array_values($langlist);
+
+            $langlist = ["de", "en", "nl"];
             $locale = substr($locale, 0, 2);
-            if (in_array($locale, $lang_values)) {
-                if ($area == "admin") {
-                    if (file_get_contents(dirname(__FILE__) . "/admin/{$page}" . "/snippets_" . strtoupper($locale) . ".json")) {
-                        Exceptions::error_rep("Suitable language files for page '" . $page . "' and area '" . $area ."' and locale " . $locale . " found", 1, "N/A");
-                        return json_decode(file_get_contents(dirname(__FILE__) . "/admin/{$page}" . "/snippets_" . strtoupper($locale) . ".json"), true);
-                    } else {
-                        Exceptions::error_rep("Could not retrieve language files for page '" . $page . "' and area '" . $area ."' and locale " . $locale . " | Using fallback language 'EN'", 1, "N/A");
-                        return json_decode(file_get_contents(dirname(__FILE__) . "/admin/{$page}" . "/snippets_EN.json"), true);
+
+            if (in_array($locale, $langlist)) {
+                $file_path = dirname(__FILE__) . "/$area/{$page}/snippets_" . strtoupper($locale) . ".json";
+                if (file_exists($file_path)) {
+                    $json_data = file_get_contents($file_path);
+                    $decoded_data = json_decode($json_data, true);
+                    
+                    if (!is_array($decoded_data)) {
+                        Exceptions::error_rep("Invalid JSON format in '$file_path'", 1, "N/A");
+                        return [];
                     }
-                } elseif ($area == "suite") {
-                    if ($e = file_get_contents(dirname(__FILE__) . "/suite/{$page}" . "/snippets_" . strtoupper($locale) . ".json")) {
-                        Exceptions::error_rep("Suitable language files for page '" . $page . "' and area '" . $area ."' and locale " . $locale . " found", 1, "N/A");
-                        return json_decode($e, true);
+
+                    Exceptions::error_rep("Language files for '$page' and '$area' with locale '$locale' loaded successfully", 1, "N/A");
+                    return $this->sanitizeOutput($decoded_data);
+                } else {
+                    Exceptions::error_rep("Could not retrieve language files for '$page' and '$area' and locale '$locale' | Using fallback language 'EN'", 1, "N/A");
+                    $fallback_path = dirname(__FILE__) . "/$area/{$page}/snippets_EN.json";
+                    
+                    if (file_exists($fallback_path)) {
+                        return $this->sanitizeOutput(json_decode(file_get_contents($fallback_path), true));
                     } else {
-                        Exceptions::error_rep("Could not retrieve language files for page '" . $page . "' and area '" . $area ."' and locale " . $locale . " | Using fallback language 'EN'", 1, "N/A");
-                        return json_decode(file_get_contents(dirname(__FILE__ . "/suite/{$page}" . "/snippets_EN.json"), true));
+                        return [];
                     }
                 }
             }
 
-            Exceptions::failure(code: 1, error: "Could not retrieve language files for page '" . $page . "' and area '" . $area ."' and locale " . $locale, stack: "N/A");
+            Exceptions::failure(1, "Could not retrieve language files for '$page' and '$area' and locale '$locale'", "N/A");
+            return [];
+        }
+
+        private function sanitizeOutput($data) {
+            if (is_array($data)) {
+                return array_map([$this, 'sanitizeOutput'], $data);
+            }
+            return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
         }
     }
 }
