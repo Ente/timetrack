@@ -304,9 +304,9 @@ namespace Arbeitszeit {
         }
 
         /**
-         * get_app_ini - Liest die Einstellungen aus der Datei "app.ini"
+         * get_app_ini - Reads the app.json file
          * 
-         * @return array Gibt ein Array mit den Einstellungen zurück
+         * @return array Returns the app.json as an array
          */
         public static function get_app_ini()
         {
@@ -319,38 +319,6 @@ namespace Arbeitszeit {
                 file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json", $json);
             }
             return $ini;
-        }
-
-        /**
-         * check_app_ini() - Überprüft app.ini Werte
-         * 
-         * @return array|bool Gibt ein Array mit Fehlern zurück, ansonsten true bei keinen Fehlern
-         */
-        public function check_app_ini()
-        {
-            $ini = $this->get_app_ini();
-            foreach ($ini as $key => $value) {
-                if (!isset($value)) {
-                    Exceptions::error_rep("An error occured while checking app.ini - One or more values are missing - $key unset!");
-                    return [
-                        "error_code" => 100,
-                        "error_message" => "One or more of the values of the app.ini file are missing.\nDetailed Error: {$key} is unset!"
-                    ];
-                }
-
-                if ($key == "language") {
-                    if ($value != "de" || $value != "en") {
-                        Exceptions::error_rep("An error occured while checking app.ini - language not defined correctly. choose either 'de' or 'en'!");
-                        return [
-                            "error_code" => 100,
-                            "error_message" => "One or more values of the app.ini are missing or incorrect.\nDetailed Error: {$key} value can only store 'de' or 'en'!"
-                        ];
-                    }
-                }
-            }
-            return true;
-
-
         }
 
         public function get_all_worktime()

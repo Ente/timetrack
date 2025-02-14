@@ -39,12 +39,12 @@ Simply install the software by following these steps:
 - Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
 - Run the statement printed by the `usercreate.php` inside your database (`mysql -u root -p` and `use ab;` then the statement).
-- Configure `app.ini` (see below - required changes: `base_url`, `db_user`, `db_password`, `[smtp]` section and any other if your installation is different) then `mv api/v1/inc/app.ini.sample app.ini && cd /var/www/timetrack`
+- Configure `app.json` (see below - required changes: `base_url`, `db_user`, `db_password`, `smtp` section and any other if your installation is different) then `mv api/v1/inc/app.json.sample app.json && cd /var/www/timetrack`
 - Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
 
-### Configure app.ini/app.json
+### Configure app.json
 
-In step 2, you need to configure the `app.ini.sample`/`app.json.sample` within the `api/v1/inc` folder:
+In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` folder:
 
 - `app_name`: The name of your application, e.g. `ACME Inc. TimeRecording`
 - `base_url`: The Base URL (can also be an IP) of your application, without ending trailing slash and the protocol, e.g. `acme.inc` or `10.10.10.2` (URLs will be built with the http:// protocol, we recommend adding a redirect to https:// if you use an certificate.)
@@ -92,7 +92,7 @@ If done correctly, you should now be able to access the application via http://B
 
 **Please delete the whole `/setup/` folder after installation**
 
-After configuring, please rename the `app.ini.sample`/`app.json.sample` to `app.ini`/`app.json` (`mv app.ini.sample app.ini`)
+After configuring, please rename the `app.json.sample` to `app.json` (`mv app.json.sample app.json`)
 
 ## Maintenance Mode
 
@@ -152,7 +152,7 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 ```
 
 As there is currently no Export Area in the UI you have to create the GUI elements on your own.
-You can specify your own CSS file within the `app.ini` `[exports][pdf][css]` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
+You can specify your own CSS file within the `app.json` `exports -> pdf -> css` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
 
 ## QR codes
 
