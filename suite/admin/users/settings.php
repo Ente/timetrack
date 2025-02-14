@@ -24,7 +24,7 @@ if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
         <button type="submit" name="submit" class="button"><?php echo $language["button_text"] ?></button>
     </form>
 <?php
-$log_contents = @file_get_contents(Exceptions::logrotate()) ?? "Error retrieving log file!";
+$log_contents = @file_get_contents(Exceptions::getSpecificLogFilePath()) ?? "Error retrieving log file!";
 echo <<< DAT
 <div class="box">
     <h2> {$language["log_title"]} </h2>

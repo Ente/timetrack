@@ -32,7 +32,7 @@ namespace Toil {
                 echo @file_get_contents(Exceptions::getSpecificLogFilePath($date));
             } else {
                 header('Content-Type: text/plain');
-                $log_contents = @file_get_contents(Exceptions::logrotate()) ?? "Error retrieving log file!";
+                $log_contents = @file_get_contents(Exceptions::getSpecificLogFilePath()) ?? "Error retrieving log file!";
                 echo $log_contents;
             }
         }
