@@ -40,7 +40,7 @@ namespace Arbeitszeit {
         }
 
         public function __destruct(){
-            if (self::get_app_ini()["general"]["debug"] == true || self::get_app_ini()["general"]["debug"] == "false") {
+            if(filter_var(self::get_app_ini()["general"]["debug"], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) == true) {
                 Exceptions::error_rep("Destroying Arbeitszeit class, dump of all loaded files: " . json_encode(get_included_files(), JSON_PRETTY_PRINT));
             }
         }
