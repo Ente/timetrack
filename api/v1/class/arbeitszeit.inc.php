@@ -39,8 +39,9 @@ namespace Arbeitszeit {
             $this->init_lang() ?? null;
         }
 
-        public function __destruct(){
-            if(filter_var(self::get_app_ini()["general"]["debug"], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) == true) {
+        public function __destruct()
+        {
+            if (filter_var(self::get_app_ini()["general"]["debug"], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) == true) {
                 Exceptions::error_rep("Destroying Arbeitszeit class, dump of all loaded files: " . json_encode(get_included_files(), JSON_PRETTY_PRINT));
             }
         }
@@ -310,15 +311,47 @@ namespace Arbeitszeit {
          */
         public static function get_app_ini()
         {
-            Exceptions::error_rep("Getting app.ini...");
-            $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", true);
-            // Run once migrator to app.json
-            if (!file_exists($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json")) {
-                Exceptions::error_rep("Migrating app.ini to app.json...");
-                $json = json_encode($ini, JSON_PRETTY_PRINT);
-                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json", $json);
+            $ini_path = $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini";
+            $json_path = $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json";
+
+            Exceptions::error_rep("Loading application configuration...");
+
+            if (file_exists($json_path)) {
+                $json_data = file_get_contents($json_path);
+                $decoded_data = json_decode($json_data, true);
+
+                if (is_array($decoded_data)) {
+                    Exceptions::error_rep("Loaded configuration from app.json");
+                    return self::sanitizeOutput($decoded_data);
+                } else {
+                    Exceptions::error_rep("Invalid JSON format in app.json, falling back to app.ini...");
+                }
             }
-            return $ini;
+
+            if (file_exists($ini_path)) {
+                $ini_data = parse_ini_file($ini_path, true);
+
+                if (!is_array($ini_data)) {
+                    Exceptions::error_rep("Error parsing app.ini", 1, "N/A");
+                    return [];
+                }
+
+                Exceptions::error_rep("Migrating app.ini to app.json...");
+                file_put_contents($json_path, json_encode($ini_data, JSON_PRETTY_PRINT));
+
+                return self::sanitizeOutput($ini_data);
+            }
+
+            Exceptions::error_rep("No valid configuration file found", 1, "N/A");
+            return [];
+        }
+
+        private static function sanitizeOutput($data)
+        {
+            if (is_array($data)) {
+                return array_map([self::class, 'sanitizeOutput'], $data);
+            }
+            return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
         }
 
         public function get_all_worktime()
