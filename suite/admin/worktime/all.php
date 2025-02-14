@@ -36,7 +36,7 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
                 <label><?php echo $loc["year"] ?>:</label><input type="number" min="2020" max="2030" name="jahr" value="<?php echo htmlspecialchars($date_year) ?>">
                 <label><?php echo $loc["month"] ?>:</label><input type="number" min="01" max="12" name="monat" value="<?php echo htmlspecialchars($date_month) ?>">
                 <br>
-                <button type="submit"><?php echo $loc["search"] ?></button>
+                <button class="button" type="submit"><?php echo $loc["search"] ?></button>
             </form>
 
             <table style="width:100%;">
