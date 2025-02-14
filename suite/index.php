@@ -8,7 +8,6 @@ $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
 $arbeit->auth()->login_validation();
 $language = $arbeit->i18n()->loadLanguage(NULL, "index");
-
 ?>
 <!DOCTYPE html>
 <html>

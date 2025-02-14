@@ -26,7 +26,7 @@ namespace Toil {
         public function get()
         {
             if(isset($_GET["date"])){
-                $date = $_GET["date"];
+                $date = basename($_GET["date"]);
                 header('Content-Type: text/plain');
                 Exceptions::error_rep("Accessing error file '$date'");
                 echo @file_get_contents(Exceptions::getSpecificLogFilePath($date));

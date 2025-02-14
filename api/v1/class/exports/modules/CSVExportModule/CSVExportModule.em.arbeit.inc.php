@@ -57,7 +57,6 @@ class CSVExportModule implements ExportModuleInterface
 
         fclose($output);
         Exceptions::error_rep("Exported data to HTTP stream", 1, "N/A");
-        exit;
     }
 
     public function saveAsCsv($args) {
