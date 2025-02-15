@@ -414,15 +414,27 @@ namespace Arbeitszeit{
         }
         
 
-        final public function load_plugin_view($plugin_name, $view){
-            # $view shall be the nav link value
-            try{
+        final public function load_plugin_view($plugin_name, $view) {
+            try {
                 $this->logger("{$this->la} Loading view '{$view}' for plugin '{$plugin_name}'");
-                require $_SERVER["DOCUMENT_ROOT"] . $this->get_basepath() . "/" . basename($plugin_name) . "/" . basename($view);
-            } catch (\Error $e){
-                Exceptions::error_rep("An error occured while loading view '$view' for plugin '$plugin_name' - Message: {$e}");
+        
+                $plugin_base_path = realpath($_SERVER["DOCUMENT_ROOT"] . $this->get_basepath() . "/" . basename($plugin_name));
+                $view_path = realpath($plugin_base_path . "/" . ltrim($view, "/"));
+        
+                $this->logger("Expected plugin base path: {$plugin_base_path}");
+                $this->logger("Computed view path: {$view_path}");
+        
+                if (!$plugin_base_path || !$view_path || !file_exists($view_path) || strpos($view_path, $plugin_base_path) !== 0) {
+                    throw new \Exception("View '{$view}' for plugin '{$plugin_name}' not found or invalid.");
+                }
+        
+                require $view_path;
+        
+            } catch (\Throwable $e) {
+                Exceptions::error_rep("An error occurred while loading view '{$view}' for plugin '{$plugin_name}' - Message: {$e->getMessage()}");
                 return false;
             }
+        
             $this->logger("{$this->la} Loaded view '{$view}' for plugin '{$plugin_name}'");
             return true;
         }
