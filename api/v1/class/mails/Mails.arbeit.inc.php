@@ -62,7 +62,7 @@ class Mails
         self::saveTemplates();
     }
 
-    private static function saveTemplates()
+        private static function saveTemplates()
     {
         file_put_contents(self::$configFile, '<?php return ' . var_export(self::$templates, true) . ';');
     }
@@ -98,7 +98,4 @@ private static function scanAndRegisterTemplates()
         }
     }
 }
-
-
-    
 }
