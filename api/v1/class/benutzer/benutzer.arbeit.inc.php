@@ -11,7 +11,7 @@ namespace Arbeitszeit{
         }
 
         /**
-         * create_user - Creates a zser
+         * create_user - Create a user
          * 
          * @param string $username Username of the employee
          * @param string $name First name of the employee
@@ -40,12 +40,12 @@ namespace Arbeitszeit{
         }
 
         /**
-         * delete_user() - Löscht einen Nutzer aus der Datenbank
+         * delete_user() - Deletes a user from the database
          * 
-         * @param int $id ID des zu löschenden Nutzers
-         * @return bool|array Gibt "true" bei Erfolg und ein Fehler-Array bei einem Fehler zurück
+         * @param int $id ID of the user
+         * @return bool|array Returns true on success and an array otherwise
          * 
-         * @Hinweis Funktion löscht nur den Nutzer, jedoch nicht seine Daten (Arbeitszeiten)
+         * @note This function only deletes the user but not their other data.
          */
         public function delete_user($id){
             Exceptions::error_rep("Deleting user with id '$id'...");
@@ -65,6 +65,11 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * delete_user() - Deletes a user from the database	
+         * @param string $username
+         * @return array|bool Returns false on failure and an array otherwise
+         */
         public static  function get_user($username){
             Exceptions::error_rep("Getting user '$username'...");
             $sql = "SELECT * FROM `users` WHERE username = ?;";
@@ -82,6 +87,11 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_user_from_id() - Gets a user from the database
+         * @param int $id
+         * @return array|bool Returns false on failure and an array otherwise
+         */
         public static  function get_user_from_id($id){
             Exceptions::error_rep("Getting user with id '$id'...");
             $conn = new DB();
@@ -98,6 +108,11 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_user_from_email() - Gets a user from the database
+         * @param string $email
+         * @return array|bool Returns false on failure and an array otherwise
+         */
         public static  function get_user_from_email($email){
             Exceptions::error_rep("Getting user with email '$email'...");
             $conn = new DB();
@@ -114,6 +129,11 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_username_from_email() - Gets a username from the database
+         * @param string $email
+         * @return string|bool Returns false on failure and a string otherwise
+         */
         public function get_username_from_email($email){
             Exceptions::error_rep("Getting username with email '$email'...");
             $conn = new DB();
@@ -130,6 +150,10 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_all_users() - Gets all users from the database
+         * @return array|bool Returns false on failure and an array otherwise
+         */
         public function get_all_users(){
             Exceptions::error_rep("Getting all users...");
             $sql = "SELECT * FROM `users`;";
@@ -149,6 +173,10 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_all_users_html() - Gets all users from the database
+         * @return string Returns a string (rendered HTML) on success
+         */
         public function get_all_users_html(){
             Exceptions::error_rep("Getting all users...");
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
@@ -187,6 +215,11 @@ namespace Arbeitszeit{
             return $html;
         }
 
+        /**
+         * get_user_html() - Gets a user from the database
+         * @param string $username
+         * @return string Returns a string (rendered HTML) on success
+         */
         public function get_user_html($username){
             Exceptions::error_rep("Getting user '$username'...");
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
@@ -219,6 +252,13 @@ namespace Arbeitszeit{
             return $html;
         }
 
+        /**
+         * is_admin() - Checks if a user is an admin
+         * 
+         * Should be accessed like this: $arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]));
+         * @param array $user
+         * @return bool Returns true if the user is an admin and false otherwise
+         */
         public function is_admin($user){
             if($user["isAdmin"] == true){
                 return true;
