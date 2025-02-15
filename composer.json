@@ -3,7 +3,7 @@
     "description": "TimeTrack is a PHP-written time recording tool for small businesses",
     "type": "software",
     "license": "GNU GPL",
-    "version": "7.7",
+    "version": "7.9",
     "authors": [
         {
             "name": "Ente",

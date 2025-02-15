@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## v7.9
+
+* Fixed being unable to access "userdetail" plugin
+* Fixed "debug" having not effect on Exceptions class
+* Removed logrotate-cache.txt
+* Sanitized various inputs like i18n files to prevent XSS attacks. Take a look into the `i18n.arbeit.inc.php` class for a ruleset and alternative "tags" to type (instead of `<br>` use `[BR]` within the snippets_*.json)
+* Security improvements
+* You can now download all your worktimes available offered by the ExportModules within the ExportManager plugin
+* Admins can now download all worktimes available offered by the ExportModules within the ExportManager plugin.
+  * To see a export in this menu, you need to create it first, e.g. via the "All Worktimes" page.
+* Removed unused plugins classes
+* Defined `MailTemplateData` class as requirement for `MailTemplate` class
+* Removed `array` as return type for `MailTemplateInterface::render()`
+* Improved autodetect for MailTemplates
+* Other small improvements
+
+<!-- Added phpdocs to Benutzer class -->
+
 ## v7.8
 
 * Refactored the mails module. Read more about this within the `api/v1/class/mails/Mails.md`.
