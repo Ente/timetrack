@@ -12,15 +12,15 @@ TimeTrack handles Plugins as a extra navigation tab being displayed in the Navba
 
 Plugins can be restricted to be used by administrators only.
 
-TimeTrack will read your plugin's `plugin.yml` and renders the `nav_links` to the `Plugins Page` - each Plugin creates for each view a new Navigation Link.
-You could design your plugin this way, that it only has one page. This page then contains all other links, this might help keeping the navigation bar clear.
+TimeTrack will read your plugin's `plugin.yml` and renders the `nav_links` to the `Plugins Page`.
+You could design your plugin this way, that it only has one `nav_links`. This page then contains all other links, this might help keeping the navigation bar clean.
 
-You can also design your plugin the way you want to. Since `PluginBuilder.plugins.arbeit.inc.php` has `Arbeitszeit` as it's parent class, it's functions are inherited aswell. So you are able to communicate with the database aswell. In the future, we are planning to resolve the issue with direct access to the instance data to a plugin through the `permissions` attribute within the `plugin.yml`.
+You can also design your plugin the way you want to. Since `PluginBuilder.plugins.arbeit.inc.php` has `Arbeitszeit` as it's parent class, its functions are inherited aswell. So you are able to communicate with the database aswell. In the future, we are planning to resolve the issue with direct access to the instance data to a plugin through the `permissions` attribute within the `plugin.yml`.
 
 A user would go this way to access your plugin: (Select from nav bar) "Plugins" > "[PluginName] View Name" > (your php file)
 
 Plugins are able to work without a navigation bar aswell, like dependencies for other plugins. Just leave the `nav_links` directive empty inside the `plugin.yml`
- 
+
 ### plugin.yml
 
 To start with your very first plugin, you should first create a `plugin.yml` into your plugin folder.
@@ -45,7 +45,7 @@ These are optional values you can add, which might make things easier:
   - `required`: An array containing relative paths to the required files, they will then get included within the archive (PHAR)
 - `nav_links`: If your plugin has a front-end, please specify this attribute. It is stored in key-value pairs, e.g. "Send Message": "views/send-message.php" - Views have to be always in the `/views` folder within your plugin folder
 
-### The .tp1 extension (WIP)
+### The .tp1 extension (deprecated)
 
 The `.tp1` extension is used to gurantee the peristence of the plugins once TimeTrack has used them.
 
@@ -62,7 +62,7 @@ Plugin data can also handled on your own way, e.g. by saving them into the `data
 
 While TimeTrack handles permissions in two different ways, plugins can only be viewed by administrators. However, everyone with a link is able to view the plugin views (not the Plugin selection screen itself)
 
-### Hooks / Callbacks
+### Hooks / Callbacks (WIP)
 
 In general you are able to interact with native functions in two ways:
 
@@ -91,7 +91,7 @@ Hooks also allow a special type `around`. This allows the callback functionality
 
 This allows you to perform some checks before a user has been created or whatever else.
 
-#### Callbacks
+#### Callbacks (WIP)
 
 Callbacks allow you to also execute a custom function after the native code, but it doesn't allows you to inject anything into it as it's just a callback. Callbacks might be also referred to as "simple Hooks".
 

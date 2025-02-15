@@ -34,6 +34,14 @@ require_once dirname(__DIR__, 1) . "/toil/CustomRoutes.routes.toil.arbeit.inc.ph
 require_once dirname(__DIR__, 1) . "/class/plugins/Hooks.plugins.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/auth/plugins/ldap/ldap.auth.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/updates/updates.arbeit.inc.php";
+
+require_once dirname(__DIR__ . 1) . "/class/mails/Mails.arbeit.inc.php";
+require_once dirname(__DIR__ . 1) . "/class/mails/MailTemplateData.mails.arbeit.inc.php";
+require_once dirname(__DIR__ . 1) . "/class/mails/interfaces/MailsProviderInterface.mails.arbeit.inc.php";
+require_once dirname(__DIR__ . 1) . "/class/mails/interfaces/MailsTemplateInterface.mails.arbeit.inc.php";
+
+require_once dirname(__DIR__ . 1) . "/class/mails/provider/PHPMailerMailsProvider.mails.arbeit.inc.php";
+require_once dirname(__DIR__ . 1) . "/class/mails/provider/DefaultMailsProvider.mails.arbeit.inc.php";
 use Arbeitszeit\Hooks;
 Hooks::initialize();
 

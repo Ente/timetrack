@@ -50,6 +50,7 @@ class Userdetail extends PluginBuilder implements PluginInterface {
         $this->set_log_append();
         $this->set_plugin_configuration();
         #Hooks::addHook("create_user", "callback", function(){echo "hi";}, "userdetail");
+        $this->check_folder();
     }
 
     public function onLoad(): void{
@@ -76,6 +77,7 @@ class Userdetail extends PluginBuilder implements PluginInterface {
     }
 
     public function compute_user_nav(){
+        $this->logger("[userdetail] Computing user navigation...");
         $benutzer = new Benutzer;
         $users = $benutzer->get_all_users();
         $html = "<ul>";
@@ -105,6 +107,7 @@ class Userdetail extends PluginBuilder implements PluginInterface {
     }
 
     public function save_employee_data($payload){
+        $this->logger("[userdetail] Saving employee data...");
         $handle = fopen(dirname(__DIR__, 1) . "/data/" . $payload["username"] . ".json", "w+");
         $toJson = json_encode($payload);
         fwrite($handle, $toJson);
@@ -113,23 +116,34 @@ class Userdetail extends PluginBuilder implements PluginInterface {
     }
 
     public function get_employee_data($username){
+        $this->logger("[userdetail] Getting employee data for employee: {$username}...");
         if(json_decode(@file_get_contents(dirname(__DIR__, 1) . "/data/" . $username . ".json"), true) != false){
             return json_decode(file_get_contents(dirname(__DIR__, 1) . "/data/" . $username . ".json"), true);
         } else {
+            $this->logger("[userdetail] No data found for employee: {$username}...");
             return false;
         }
     }
 
     public function check_employee_file($username){
+        $this->logger("[userdetail] Checking employee file for employee: {$username}...");
         if(file_exists(dirname(__DIR__, 1) . "/data/" . $username . ".json")){
+            $this->logger("[userdetail] Employee file for employee: {$username} exists...");
             return true;
         } else {
+            $this->logger("[userdetail] Employee file for employee: {$username} does not exist...");
             return false;
         }
     }
 
     public function create_user_callback($username, $name, $email, $password, $isAdmin){
         echo "Successfully created user account...";
+    }
+
+    public function check_folder(){
+        if(!file_exists(dirname(__DIR__, 1) . "/data/")){
+            mkdir(dirname(__DIR__, 1) . "/data/");
+        }
     }
 }
 

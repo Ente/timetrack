@@ -31,12 +31,12 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
         <div class="box">
             <h2><?php echo $loc["h2"] ?></h2>
             <p><?php echo $loc["order"] ?></p>
-            <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                 <p><?php echo $loc["sorted"] ?></p>
-                <label><?php echo $loc["year"] ?>:</label><input type="number" min="2020" max="2030" name="jahr" value="<?php echo $date_year ?>">
-                <label><?php echo $loc["month"] ?>:</label><input type="number" min="01" max="12" name="monat" value="<?php echo $date_month ?>">
+                <label><?php echo $loc["year"] ?>:</label><input type="number" min="2020" max="2030" name="jahr" value="<?php echo htmlspecialchars($date_year) ?>">
+                <label><?php echo $loc["month"] ?>:</label><input type="number" min="01" max="12" name="monat" value="<?php echo htmlspecialchars($date_month) ?>">
                 <br>
-                <button type="submit"><?php echo $loc["search"] ?></button>
+                <button class="button" type="submit"><?php echo $loc["search"] ?></button>
             </form>
 
             <table style="width:100%;">

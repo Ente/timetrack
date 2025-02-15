@@ -1,5 +1,6 @@
 <?php
 namespace Arbeitszeit{
+    use Arbeitszeit\Mails\Provider\PHPMailerMailsProvider;
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
@@ -12,6 +13,7 @@ namespace Arbeitszeit{
         }
         
         public static function login($username, $password, $option){ # "option"-> array [ "remember" => true/false, ... ]
+            Exceptions::error_rep("Logging in user '$username'...");
             $db = new DB;
             session_start();
             $ini = Arbeitszeit::get_app_ini();
@@ -22,6 +24,7 @@ namespace Arbeitszeit{
                     Exceptions::error_rep("Login failed for username '$username' - Could not authenticate user via LDAP. See errors from before to find issue.");
                     die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=ldapauth"));
                 } else {
+                    Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                     $ldap = true;
                 }
             }
@@ -49,6 +52,7 @@ namespace Arbeitszeit{
 
                 # check login for ldap
                 if(@$ldap == true){
+                    Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                     $ts = time();
                     $_SESSION["logged_in"] = true;
                     $_SESSION["username"] = $username;
@@ -77,6 +81,7 @@ namespace Arbeitszeit{
                 }
 
                 if(password_verify($password, $data["password"])){
+                    Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
                     $ts = time();
                     $_SESSION["logged_in"] = true;
                     $_SESSION["username"] = $username;
@@ -110,6 +115,7 @@ namespace Arbeitszeit{
         }
 
         public function login_validation(){
+            Exceptions::error_rep("Validating login...");
             $ini = Arbeitszeit::get_app_ini();
             $baseurl = $ini["general"]["base_url"];
             if($ini["general"]["app"] == "true"){
@@ -119,6 +125,7 @@ namespace Arbeitszeit{
             }
             @session_start();
             if(isset($_SESSION["logged_in"]) == false){
+                Exceptions::error_rep("User not logged in. Redirecting...");
                 header("Location: http://{$baseurl}/suite/login.php?error=notloggedin");
             }
             if($this->get_state($_SESSION["username"]) != $_COOKIE["state"]){
@@ -148,7 +155,8 @@ namespace Arbeitszeit{
          * @return bool Returns true on success, false otherwise
          */
         public function reset_password($username){
-            if(MailPasswordReset::mail_password_reset($username, $this->mail_init($username, true)) == 1){
+            $this->mails()->init(new PHPMailerMailsProvider($this, $username, true));
+            if($this->mails()->sendMail("PasswordResetTemplate", ["username" => $username, "email" => $this->benutzer()->get_user($username)["email"]]) == 1){
                 return true;
             } else {
                 return false;
@@ -224,7 +232,6 @@ namespace Arbeitszeit{
                 $mail->Port = $ini["smtp"]["port"];
                 $mail->setFrom($ini["smtp"]["username"], "TimeTrack");
                 $r = $mail->addAddress($userdata["email"], $userdata["name"]);
-                Exceptions::error_rep("Could not set address! | Email:" . $userdata["email"] . " - Username: " . $userdata["username"]);
                 if(!$r){
                     Exceptions::error_rep("Could not set address! | Email:" . $userdata["email"] . " - Username: " . $userdata["username"]);
                     return false;

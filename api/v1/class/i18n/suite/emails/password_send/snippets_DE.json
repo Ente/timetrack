@@ -1,11 +1,11 @@
 {
     "subject": "Dein Passwort wurde festgelegt",
     "greetings": "Hallo",
-    "message": "dein Passwort wurde festgelegt.<br> Du kannst dich unter folgendem Link anmelden",
+    "message": "dein Passwort wurde festgelegt.[BR] Du kannst dich unter folgendem Link anmelden",
     "note": "Dein Passwort wurde von deinem Vorgesetzten festgelegt. Falls du das Passwort nicht mehr kennst, kannst du es zurücksetzen!",
     "password": "Dein Passwort",
     "end": "Mit freundlichen Grüßen",
     "noreply": "automatischer Absender",
     "confidential": "Vertrauliche Informationen!",
-    "gdpr": "Sie erhalten die E-Mail, weil Sie den Allgemeinen Geschäftsbedingungen zugestimmt haben. <br> Die aktuelle Datenschutz-Grundverordnung können Sie hier einsehen"
+    "gdpr": "Sie erhalten die E-Mail, weil Sie den Allgemeinen Geschäftsbedingungen zugestimmt haben. [BR] Die aktuelle Datenschutz-Grundverordnung können Sie hier einsehen"
 }

@@ -64,6 +64,7 @@ class Main extends PluginBuilder {
     }
 
     public function saveDataDisk(array $payload = null){
+        $this->logger("[usercount] Saving data to disk...");
         if($payload == null){
             $payload = $this->additional_payload;
         }
@@ -75,10 +76,13 @@ class Main extends PluginBuilder {
     }
 
     public function getDataDisk(){
+        $this->logger("[usercount] Getting data from disk...");
         return json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . parent::get_basepath() . "/data/userdetail.json"), true);
     }
 
     public function get_users(){
+        $this->logger("[usercount] Getting user count...");
+        
         try {
             $sql = "SELECT COUNT(*) FROM `users`;";
             $result = $this->db->sendQuery($sql)->execute();

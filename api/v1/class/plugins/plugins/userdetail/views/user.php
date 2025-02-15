@@ -1,9 +1,7 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/loader.plugins.arbeit.inc.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_password_reset.auth.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/src/Main.php";
-require_once dirname(__DIR__, 2) . "/mailcow/src/Main.php";
 
 use Userdetail\Userdetail;
 use Arbeitszeit\Benutzer;
@@ -16,9 +14,11 @@ $main = new Userdetail;
 $nav = $main->compute_user_nav();
 $user = $benutzer->get_user($_GET["user"]);
 
-if($_POST["id"]){
+$id = filter_var($_POS["id"], FILTER_SANITIZE_NUMBER_INT);
+
+if($id){
     $payload = [
-        "id" => $_POST["id"],
+        "id" => $id,
         "username" => $_POST["username"],
         "notes" => $_POST["notes"],
         "position" => $_POST["position"],
@@ -52,15 +52,14 @@ if($r = $main->get_employee_data($_GET["user"])){
     <form action="/suite/plugins/index.php?pn=userdetail&p_view=views/user.php&user=<?php echo $user["username"];  ?>&id=<?php echo $user["id"]; ?>" method="POST">
         <label>Username: </label><input type="text" min="3" name="username" value="<?php echo $user["username"]; ?>"><br>
         <label>Reset Password? </label><input type="checkbox" name="reset-password"><br>
-        <label>Notes: </label><textarea name="notes"><?php echo $notes; ?></textarea><br>
-        <label>Position: </label><input type="text" name="position" value="<?php echo $pos; ?>" placeholder="CEO"><br>
-        <label>Email:</label><input type="email" name="email" value="<?php echo $user["email"]; ?>" placeholder="box@mail.com"><br>
-        <label>Create Mailbox?</label><input type="checkbox" name="create-mailbox">
-        <input type="text" name="id" value="<?php echo $user["id"]; ?>" hidden>
+        <label>Notes: </label><textarea name="notes"><?php echo htmlspecialchars($notes); ?></textarea><br>
+        <label>Position: </label><input type="text" name="position" value="<?php echo htmlspecialchars($pos); ?>" placeholder="CEO"><br>
+        <label>Email:</label><input type="email" name="email" value="<?php echo htmlspecialchars($user["email"]); ?>" placeholder="box@mail.com"><br>
+        <input type="text" name="id" value="<?php echo htmlspecialchars($user["id"]); ?>" hidden>
 
         <h3>HR</h3>
-        <label>Employee ID: </label><input type="text" name="employee-id" value="<?php echo $eid; ?>" placeholder="000001"><br>
-        <label>Department: </label><input type="text" name="department" value="<?php echo $department ?>"><br>
+        <label>Employee ID: </label><input type="text" name="employee-id" value="<?php echo htmlspecialchars($eid); ?>" placeholder="000001"><br>
+        <label>Department: </label><input type="text" name="department" value="<?php echo htmlspecialchars($department) ?>"><br>
         <button class="button" name="save-employee-data" type="submit">Submit</button>
     </form>
 </div>

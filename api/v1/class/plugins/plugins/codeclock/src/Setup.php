@@ -10,7 +10,10 @@ use Toil\Toil;
 use Toil\CustomRoutes;
 class Setup extends codeclock {
     public static function done(): bool{
+        Exceptions::error_rep("[CodeClock] Setting up CodeClock plugin...");
         $arbeit = new Arbeitszeit();
+        Exceptions::error_rep("[CodeClock] Registering custom routes...");
+        CustomRoutes::registerCustomRoute("code", "/api/v1/class/plugins/plugins/codeclock/views/routes/Code.ep.toil.arbeit.inc.php", 0);
         if(!file_exists(dirname(__DIR__) . "/data/token")){
             Exceptions::error_rep(" No token file found, creating one now...");
             $masterToken = bin2hex(random_bytes(64));
@@ -25,6 +28,7 @@ class Setup extends codeclock {
             // create PIN 4-numeric file for each user
             $users = $arbeit->benutzer()->get_all_users();
             foreach($users as $user){
+                Exceptions::error_rep("Creating PIN file for user {$user["username"]}");
                 $pinString = (string)random_int(1000, 9999);
                 file_put_contents(dirname(__DIR__) . "/data/pin/{$user["username"]}_c", $pinString);
                 $pin = password_hash($pinString, PASSWORD_DEFAULT);

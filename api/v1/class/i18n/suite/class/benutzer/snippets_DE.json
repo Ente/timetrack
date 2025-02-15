@@ -6,5 +6,6 @@
     "name": "Dein Name",
     "id": "Deine ID",
     "email": "Deine Email",
-    "change_request": "Du möchtest, dass deine Daten geändert werden? Bitte kontaktiere hierfür deinen Vorgesetzten."
+    "change_request": "Du möchtest, dass deine Daten geändert werden? Bitte kontaktiere hierfür deinen Vorgesetzten.",
+    "edit_user": "bearbeiten"
 }

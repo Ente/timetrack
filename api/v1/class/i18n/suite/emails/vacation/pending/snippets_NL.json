@@ -1,7 +1,7 @@
 {
     "subject": "Uw vakantieaanvraag wordt beoordeeld!",
     "greetings": "Hallo",
-    "message": "uw supervisor heeft uw vakantieaanvraag <span style='color:blue;'>onder beoordeling</span> gezet",
+    "message": "uw supervisor heeft uw vakantieaanvraag [BLUE]onder beoordeling[/BLUE] gezet",
     "note": "Dit proces kan automatisch worden uitgevoerd na het aanmaken van een vakantieaanvraag",
     "id": "ID",
     "username": "Gebruikersnaam",
@@ -11,5 +11,5 @@
     "end": "Met vriendelijke groeten",
     "noreply": "automatische afzender",
     "confidential": "Vertrouwelijke informatie!",
-    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. <br> De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
+    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. [BR] De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
    }

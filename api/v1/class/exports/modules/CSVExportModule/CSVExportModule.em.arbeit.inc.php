@@ -34,6 +34,7 @@ class CSVExportModule implements ExportModuleInterface
 
         // empty data
         if (empty($data)) {
+            Exceptions::error_rep("No data found for export", 1, "N/A");
             return false;
         }
 
@@ -55,7 +56,7 @@ class CSVExportModule implements ExportModuleInterface
         }
 
         fclose($output);
-        exit;
+        Exceptions::error_rep("Exported data to HTTP stream", 1, "N/A");
     }
 
     public function saveAsCsv($args) {
@@ -75,35 +76,30 @@ class CSVExportModule implements ExportModuleInterface
         $statement = $arbeit->db()->sendQuery($sql);
         $statement->execute([$year, $month, $user]);
         $data = $statement->fetchAll(\PDO::FETCH_ASSOC);
-    
-        // Falls keine Daten vorhanden sind
+
         if (empty($data)) {
+            Exceptions::error_rep("No data found for export", 1, "N/A");
             return false;
         }
     
-        // Erstelle den Dateipfad basierend auf den Argumenten
         $directory = $_SERVER["DOCUMENT_ROOT"] . "/data/exports/" . $this->getName() . "/$user";
         $filename = "$directory/worktimes_{$year}-{$month}.csv";
     
-        // Verzeichnis erstellen, falls es nicht existiert
         if (!is_dir($directory)) {
             mkdir($directory, 0777, true);
         }
     
-        // Datei öffnen
         $output = fopen($filename, 'w');
-    
-        // Setze die Spaltennamen in die CSV-Datei
+
         $columns = ["ID", "Username", "Shift Date", "Shift Start", "Shift End", "Location/Notes", "Pause Start", "Pause End"];
         fputcsv($output, $columns, ';');
     
-        // Datenzeilen in CSV schreiben
         foreach ($data as $row) {
             fputcsv($output, $row, ';');
         }
     
         fclose($output);
-    
+        Exceptions::error_rep("Exported data to file: $filename", 1, "N/A");
         return $filename;
     }
     

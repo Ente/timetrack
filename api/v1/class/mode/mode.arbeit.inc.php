@@ -8,8 +8,10 @@ namespace Arbeitszeit {
             $mode_value = Benutzer::get_user($username)["easymode"] ?? 0;
 
             if($mode_value == "0" || $mode_value == false){
+                Exceptions::error_rep("Returning normal mode for user {$username}");
                 return self::get_normal_mode_html();
             } else {
+                Exceptions::error_rep("Returning easymode for user {$username}");
                 return self::get_easymode_html();
             }
         }
@@ -24,21 +26,21 @@ namespace Arbeitszeit {
                 <input type="text" name="ort" placeholder="{$loc["loc"]}">
                 <br>
                 <label name="date">{$loc["date"]}</label>
-                <input type="date" name="date" data-date-format="DD.MM.YYYY" required>
+                <input class="input" type="date" name="date" data-date-format="DD.MM.YYYY" required>
                 <br>
                 <label name="schicht_beginn">{$loc["sbegin"]}</label>
-                <input type="time" name="time_start" placeholder="{$loc["sbegin"]}" required>
+                <input class="input" type="time" name="time_start" placeholder="{$loc["sbegin"]}" required>
                 <br>
                 <label name="schicht_ende">{$loc["send"]}</label>
-                <input type="time" name="time_end" placeholder="{$loc["send"]}" required>
+                <input class="input" type="time" name="time_end" placeholder="{$loc["send"]}" required>
                 <br>
                 <label name="pause_start">{$loc["pbegin"]}</label>
-                <input type="time" name="pause_start" placeholder="{$loc["pbegin"]}">
+                <input class="input" type="time" name="pause_start" placeholder="{$loc["pbegin"]}">
                 <br>
                 <label name="pause_end">{$loc["pend"]}</label>
-                <input type="time" name="pause_end" placeholder="{$loc["pend"]}">
+                <input class="input" type="time" name="pause_end" placeholder="{$loc["pend"]}">
                 <br>
-                <input type="text" name="username" value="{$_SESSION["username"]}" hidden>
+                <input class="input" type="text" name="username" value="{$_SESSION["username"]}" hidden>
                 <button type="submit" class="button">{$loc["submit"]}</button>
             </form>
 
@@ -62,13 +64,20 @@ DATA;
             $loc = $i18n->loadLanguage(null, "mode/easymode");
             $active = Arbeitszeit::check_easymode_worktime_finished($_SESSION["username"]);
             $worktime = Arbeitszeit::get_worktime_by_id($active);
+
+
             if($active === false){
+                Exceptions::error_rep("No or multiple active easymode worktime entry found. Checking for multiple entries...");
+                if(Arbeitszeit::fix_easymode_worktime($_SESSION["username"])){
+                    self::get_easymode_html();
+                }
                 $data = <<< DATA
                 <p>An error occured while checking for active easymode entries. Either a connection error to the database or you have multiple entries marked as active. If the problem persists, contact the system administrator!</p>
                 <p style="font-family:monospace;">Error-Code: DEM-CHK_FAIL_EM_ENY_AC</p>
 DATA;
                 goto skip_to_output;
             } elseif(!$worktime && $active === true){
+                Exceptions::error_rep("An error occured while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry! | Active worktime: " . $worktime);
                 $data = <<< DATA
                 <p>An error occured while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry!</p>
 DATA;

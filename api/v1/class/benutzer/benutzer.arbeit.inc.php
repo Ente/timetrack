@@ -11,7 +11,7 @@ namespace Arbeitszeit{
         }
 
         /**
-         * create_user - Creates a zser
+         * create_user - Create a user
          * 
          * @param string $username Username of the employee
          * @param string $name First name of the employee
@@ -19,6 +19,7 @@ namespace Arbeitszeit{
          */
         public function create_user($username, $name, $email, $password, $isAdmin = 0){
             #$originalFunction = function($username, $name, $email, $password, $isAdmin){
+                Exceptions::error_rep("Creating user '$username'...");
                 $password = password_hash($password, PASSWORD_DEFAULT);
                 $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES (?, ?, ?, ?, '1', ?);";
                 $data = $this->db->sendQuery($sql)->execute([$name, $username, $email, $password, $isAdmin]);
@@ -31,6 +32,7 @@ namespace Arbeitszeit{
                         ]
                     ];
                 } else {
+                    Exceptions::error_rep("User '$username' created successfully.");
                     return true;
                 }
             #};
@@ -38,14 +40,15 @@ namespace Arbeitszeit{
         }
 
         /**
-         * delete_user() - Löscht einen Nutzer aus der Datenbank
+         * delete_user() - Deletes a user from the database
          * 
-         * @param int $id ID des zu löschenden Nutzers
-         * @return bool|array Gibt "true" bei Erfolg und ein Fehler-Array bei einem Fehler zurück
+         * @param int $id ID of the user
+         * @return bool|array Returns true on success and an array otherwise
          * 
-         * @Hinweis Funktion löscht nur den Nutzer, jedoch nicht seine Daten (Arbeitszeiten)
+         * @note This function only deletes the user but not their other data.
          */
         public function delete_user($id){
+            Exceptions::error_rep("Deleting user with id '$id'...");
             $sql = "DELETE FROM `users` WHERE id = ?;";
             $data = $this->db->sendQuery($sql)->execute([$id]);
             if($data == false){
@@ -57,11 +60,18 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                Exceptions::error_rep("User with id '$id' deleted successfully.");
                 return true;
             }
         }
 
+        /**
+         * delete_user() - Deletes a user from the database	
+         * @param string $username
+         * @return array|bool Returns false on failure and an array otherwise
+         */
         public static  function get_user($username){
+            Exceptions::error_rep("Getting user '$username'...");
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $db = new DB;
             $res = $db->sendQuery($sql);
@@ -69,6 +79,7 @@ namespace Arbeitszeit{
             $count = $res->rowCount();
             if($count == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
+                Exceptions::error_rep("User '$username' found.");
                 return $data;
             } else {
                 Exceptions::error_rep("Could not find user '$username'.");
@@ -76,13 +87,20 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_user_from_id() - Gets a user from the database
+         * @param int $id
+         * @return array|bool Returns false on failure and an array otherwise
+         */
         public static  function get_user_from_id($id){
+            Exceptions::error_rep("Getting user with id '$id'...");
             $conn = new DB();
             $sql = "SELECT * FROM `users` WHERE id = ?;";
             $res = $conn->sendQuery($sql);
             $res->execute([$id]);
             if($res->rowCount() == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
+                Exceptions::error_rep("User with id '$id' found.");
                 return $data;
             } else {
                 Exceptions::error_rep("Could not find user with id '$id'.");
@@ -90,13 +108,20 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_user_from_email() - Gets a user from the database
+         * @param string $email
+         * @return array|bool Returns false on failure and an array otherwise
+         */
         public static  function get_user_from_email($email){
+            Exceptions::error_rep("Getting user with email '$email'...");
             $conn = new DB();
             $sql = "SELECT * FROM `users` WHERE email = ?;";
             $res = $conn->sendQuery($sql);
             $res->execute([$email]);
             if($res->rowCount() == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
+                Exceptions::error_rep("User with email '$email' found.");
                 return $data;
             } else {
                 Exceptions::error_rep("Could not find user with email '$email'.");
@@ -104,13 +129,20 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_username_from_email() - Gets a username from the database
+         * @param string $email
+         * @return string|bool Returns false on failure and a string otherwise
+         */
         public function get_username_from_email($email){
+            Exceptions::error_rep("Getting username with email '$email'...");
             $conn = new DB();
             $sql = "SELECT username FROM `users` WHERE email = ?;";
             $res = $conn->sendQuery($sql);
             $res->execute([$email]);
             if($res->rowCount() == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
+                Exceptions::error_rep("Username with email '$email' found.");
                 return $data["username"];
             } else {
                 Exceptions::error_rep("Could not find user with email '$email'.");
@@ -118,7 +150,12 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_all_users() - Gets all users from the database
+         * @return array|bool Returns false on failure and an array otherwise
+         */
         public function get_all_users(){
+            Exceptions::error_rep("Getting all users...");
             $sql = "SELECT * FROM `users`;";
             $res = $this->db->sendQuery($sql);
             $res->execute();
@@ -128,6 +165,7 @@ namespace Arbeitszeit{
                 while($data = $res->fetch(\PDO::FETCH_ASSOC)){
                     $dat[$data["id"]] = $data;
                 }
+                Exceptions::error_rep("Users found and returing data.");
                 return $dat;
             } else {
                 Exceptions::error_rep("Could not get users. Please check the database connection.");
@@ -135,7 +173,12 @@ namespace Arbeitszeit{
             }
         }
 
+        /**
+         * get_all_users_html() - Gets all users from the database
+         * @return string Returns a string (rendered HTML) on success
+         */
         public function get_all_users_html(){
+            Exceptions::error_rep("Getting all users...");
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `users`;";
             $res = $this->db->sendQuery($sql);
@@ -143,6 +186,7 @@ namespace Arbeitszeit{
             $count = $res->rowCount();
 
             if($count == 0){
+                Exceptions::failure("ERR-NO-USERS", "No users found?", "N/A");
                 return "<p>{$this->i18n["no_users"]}</p>";
             }
             while($data = $res->fetch(\PDO::FETCH_ASSOC)){
@@ -157,7 +201,7 @@ namespace Arbeitszeit{
 
                 $html = <<< DOC
                 <tr>
-                    <td><a href='http://{$base_url}/suite/admin/actions/users/delete_user.php?id={$id}'>{$this->i18n["delete_user"]}</a></td>
+                    <td><a href='http://{$base_url}/suite/admin/actions/users/delete_user.php?id={$id}'>{$this->i18n["delete_user"]}</a> | <a href='http://{$base_url}/suite/plugins/index.php?pn=userdetail&p_view=views/user.php&user={$username}'>{$this->i18n["edit_user"]}</a></td>
                     <td>$name</td>
                     <td>$username</td>
                     <td>$email</td>
@@ -167,11 +211,17 @@ namespace Arbeitszeit{
 
                 echo $html;
             }
-
+            Exceptions::error_rep("Users found and returing data.");
             return $html;
         }
 
+        /**
+         * get_user_html() - Gets a user from the database
+         * @param string $username
+         * @return string Returns a string (rendered HTML) on success
+         */
         public function get_user_html($username){
+            Exceptions::error_rep("Getting user '$username'...");
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
             $data = $this->get_user($username);
             if($data == false){
@@ -198,10 +248,17 @@ namespace Arbeitszeit{
 
                 DATA;
             }
-
+            Exceptions::error_rep("User '$username' found and returning data.");
             return $html;
         }
 
+        /**
+         * is_admin() - Checks if a user is an admin
+         * 
+         * Should be accessed like this: $arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]));
+         * @param array $user
+         * @return bool Returns true if the user is an admin and false otherwise
+         */
         public function is_admin($user){
             if($user["isAdmin"] == true){
                 return true;

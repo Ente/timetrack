@@ -12,6 +12,7 @@ namespace Arbeitszeit{
          * @author Bryan Böhnke-Avan <github@openducks.org>
          */
         public function autodelete_obsolete_notifications_entries(){
+            Exceptions::error_rep("[AUTODELETE] Deleting obsolete notifications entries...");
             $db = new DB;
             $sql = "DELETE FROM `kalender` WHERE `datum` < NOW();";
             $data = $db->sendQuery($sql)->execute();
@@ -24,6 +25,7 @@ namespace Arbeitszeit{
                     ]
                 ];
             } 
+            Exceptions::error_rep("[AUTODELETE] Deleted obsolete notifications entries.");
         }
     }
 }

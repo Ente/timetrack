@@ -16,6 +16,7 @@ namespace Arbeitszeit{
          * @param string $stub The file being used when using the phar archive from the cli
          */
         public function create_plugin($name, $stub){
+            Exceptions::error_rep("[PluginDevTool] Creating plugin '$name'...");
             $plugins = $this->get_plugins();
             foreach($plugins["plugins"] as $plugin => $keys){
                 if($plugin == $name){
@@ -23,6 +24,7 @@ namespace Arbeitszeit{
                     $phar = new Phar($_SERVER["DOCUMENT_ROOT"] . $p->get_basepath() . "/" . $name . ".phar");
                     $phar->buildFromDirectory($_SERVER["DOCUMENT_ROOT"] . $p->get_basepath() . "/" . $name);
                     $phar->setDefaultStub($stub);
+                    $this->logger(parent::$la . " Plugin '$name' has been created successfully!");
                     return $_SERVER["DOCUMENT_ROOT"] . $p->get_basepath() . "/". $name;
                 } else {
                     $this->logger(parent::$la . " Plugin files for '$name' could not be found. Perhaps misspelled the name?");
@@ -34,6 +36,7 @@ namespace Arbeitszeit{
         }
 
         public function extract_plugin($name){
+            $this->logger(parent::$la . " Extracting plugin '$name'...");
             $plugins = $this->get_plugins();
             if(file_exists($name)){
                 

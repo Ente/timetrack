@@ -1,7 +1,7 @@
 {
     "subject": "Your vacation request has been rejected!",
     "greetings": "Hello",
-    "message": "your supervisor has <span style='color:red;'>rejected</span> your vacation request",
+    "message": "your supervisor has [RED] rejected [/RED] your vacation request",
     "id": "ID",
     "username": "Username",
     "day": "Day",
@@ -10,5 +10,5 @@
     "end": "Best regards",
     "noreply": "automatic sender",
     "confidential": "Confidential information!",
-    "gdpr": "You are receiving this email because you have agreed to the terms and conditions. <br> The current General Data Protection Regulation can be viewed here"
+    "gdpr": "You are receiving this email because you have agreed to the terms and conditions. [BR] The current General Data Protection Regulation can be viewed here"
     }

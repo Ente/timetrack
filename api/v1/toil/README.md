@@ -24,6 +24,10 @@ Most endpoints are using `GET` method to either change, delete, view or add data
 * `deleteUser` - Delete a desired user (admin)
 * `getUserDetails` - Get a JSON array of the user's details (admin)
 * `getVersion` - Returns the current installed TimeTrack version (user)
+* `getNotifications` - Returns JSON of all notifications (user)
+* `removeNotification` - Removes a notification (admin)
+* `addNotification` - Adds a notification (admin)
+* `autodeleteNotification` - Automatically deletes a notification after if has been expired (user)
 
 You can access the API via the base URL, e.g. `"https://{domain}.{tld}/api/v1/toil/"`. HTTP Basic is used for authentication.
 Example: `https://{ADMIN_USERNAME}:{ADMIN_USER_PASSWORD}@{domain}.{tld}/api/v1/toil/getVersion`
@@ -73,3 +77,11 @@ You can use the `CustomRoutes::registerCustomRoute("myRoute", "/api/v1/toil/reso
 
 You can use the `CustomRoutes::removeCustomRoute("myRoute")` function to deregister a custom route.
 This also removes the permissions from the `permissions.json` file.
+
+## Checking if a route exists
+
+You can use the `CustomRoutes::getCustomRoute("myRoute", true)` function to check if a route exists. The function returns `true` if the route exists and `false` if it doesn't.
+
+If you do not set the second parameter to `true` the function will return the path to the endpoint file.
+
+You can also use the `CustomRoutes::getCustomRoutes()` function to get all custom routes and then check if the endpoint has a key in the returned array.

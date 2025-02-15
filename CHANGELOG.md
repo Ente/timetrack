@@ -1,11 +1,66 @@
 # CHANGELOG
 
+## v7.9
+
+* Fixed being unable to access "userdetail" plugin
+* Fixed "debug" having not effect on Exceptions class
+* Removed logrotate-cache.txt
+* Sanitized various inputs like i18n files to prevent XSS attacks. Take a look into the `i18n.arbeit.inc.php` class for a ruleset and alternative "tags" to type (instead of `<br>` use `[BR]` within the snippets_*.json)
+* Security improvements
+* You can now download all your worktimes available offered by the ExportModules within the ExportManager plugin
+* Admins can now download all worktimes available offered by the ExportModules within the ExportManager plugin.
+  * To see a export in this menu, you need to create it first, e.g. via the "All Worktimes" page.
+* Removed unused plugins classes
+* Defined `MailTemplateData` class as requirement for `MailTemplate` class
+* Removed `array` as return type for `MailTemplateInterface::render()`
+* Improved autodetect for MailTemplates
+* Other small improvements
+
+<!-- Added phpdocs to Benutzer class -->
+
+## v7.8
+
+* Refactored the mails module. Read more about this within the `api/v1/class/mails/Mails.md`.
+* Admins can now edit users via the GUI directly.
+* Added a link to GitHub issues and to TimeTrack Roadmap within the settings.
+* Updated `composer.json` to a `ldaptools` version that supports PHP 8.0. So the patch does not need to be applied anymore.
+* Fixed `userdetail` plugin not creating the `data` directory.
+* Removed the "Create Mailbox" checkbox when editing a user.
+* Removed and deprecated most Plugin Phar functionality.
+* Fixed `Exceptions::deprecated` function being not static.
+* Rewritten some parts of the `README.md`
+* Toil API release `1.10` added routes for the notifications module: `getNotifications`, `autoremoveNotifications`, `addNotification` and `removeNotification`.
+* Fixed an issue being unable to export PDFs with the `PDFExportModule`.
+
+<!-- Fixed an bug resulting in being unable to access the "forgot password" page -->
+<!-- Fixed missing title within the "Add vacation" view -->
+<!-- Added internal function to get all notifications -->
+
+## v7.7.1
+
+* Added function within the `Exceptions` class to show type "deprecated" warnings.
+
+## v7.7
+
+* Fixed duplicated active worktime entries by trying to fix it automatically.
+* Fixed clocking in when multiple worktimes are active with QRclock plugin.
+* Added `CustomRoutes::getCustomRoutes()` and `CustomRoutes::getCustomRoute($route)` functions to get all custom routes/one specific route file.
+* **Added a plugin manager to manage all plugins.** This plugin is enabled by default and can be disabled within the `plugins.yml`. It allows you to enable/disable plugins.
+* Fixed a bug while creating a new user.
+
+<!-- Fixed missing API route for Codeclock plugin. -->
+<!-- PluginBuilder is now able to return the plugin configuration in raw YAML -->
+<!-- Adding CSS to certain pages -->
+<!-- You can now dump all included files by setting "debug" to true within the app.ini -->
+<!-- Added more logging messages-->
+
 ## v7.6
 
 * **Replaced `app.ini` with `app.json`**. The `app.ini` has been deprecated and will be removed within the `8.0` release. Your settings will be automatically migrated to the new `app.json` file.
 * Added plugin to clock in with QR codes. This plugin is disabled by default and can be enabled within the `plugins.yml`. More information can be found inside the `README.md`.
 * You can now register or remove a custom API route via the `CustomRoutes::registerCustomRoute(...)` or `CustomRoutes::removeCustomRoute(...)` functions. More information can be found inside the Toil API `/api/v1/toil/README.md`.
 * Added a plugin to clock in with a code. This plugin is disabled by default and can be enabled within the `plugins.yml`. More information can be found inside the `README.md`.
+* Added a export manager plugin. This plugin is disabled by default and can be enabled within the `plugins.yml`.
 
 ## v7.5
 

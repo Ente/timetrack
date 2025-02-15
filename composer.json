@@ -3,7 +3,7 @@
     "description": "TimeTrack is a PHP-written time recording tool for small businesses",
     "type": "software",
     "license": "GNU GPL",
-    "version": "7.6",
+    "version": "7.9",
     "authors": [
         {
             "name": "Ente",
@@ -17,11 +17,17 @@
         "pecee/simple-router": "4.3.7.2",
         "symfony/yaml": "^7.1",
         "cweagans/composer-patches": "^1.7",
-        "ldaptools/ldaptools": "dev-master",
+        "ldaptools/ldaptools": "dev-master#69d086b137ece33a7b4e182bc90bb65dc0454630",
 
         "php": ">=8.0",
         "dompdf/dompdf": "^3.0"
     },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "https://github.com/ldaptools/ldaptools"
+      }
+    ],
     "config": {
         "allow-plugins": {
             "cweagans/composer-patches": true

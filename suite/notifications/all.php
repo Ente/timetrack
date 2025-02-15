@@ -30,15 +30,15 @@ if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
 
         <div class="box">
             <form method="POST" action="../admin/actions/notifications/add.php">
-                <label><?php echo $loc["label_date"] ?>: </label><input type="date" name="datum" required>
+                <label><?php echo $loc["label_date"] ?>: </label><input class="input" type="date" value="<?php echo date("Y-m-d"); ?>" name="datum" required>
                 <br>
-                <label><?php echo $loc["label_time"] ?>: </label><input type="time" name="uhrzeit" required>
+                <label><?php echo $loc["label_time"] ?>: </label><input class="input" type="time" value="<?php echo date("H:i"); ?>" name="uhrzeit" required>
                 <br>
-                <label><?php echo $loc["label_location"] ?>: </label><input type="text" name="ort" placeholder="Ort">
+                <label><?php echo $loc["label_location"] ?>: </label><input class="input" type="text" name="ort" placeholder="Ort">
                 <br>
-                <label><?php echo $loc["label_note"] ?>: </label><textarea type="text" name="notiz" placeholder="<?php echo $loc["pl_note"] ?>"></textarea>
+                <label><?php echo $loc["label_note"] ?>: </label><textarea class="input" type="text" name="notiz" placeholder="<?php echo $loc["pl_note"] ?>"></textarea>
                 <br>
-                <button type="submit"><?php echo $loc["button_send"] ?></button>
+                <button class="button" type="submit"><?php echo $loc["button_send"] ?></button>
             </form>
         </div>
 

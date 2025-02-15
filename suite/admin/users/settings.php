@@ -7,7 +7,7 @@ $ar = new Arbeitszeit();
 $language = $arbeit->i18n()->loadLanguage(null, "users/settings", "admin");
 $ini = $ar->get_app_ini();
 if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
-    die();
+    header("Location: /suite/");
 }
 ?>
 <br>
@@ -17,14 +17,14 @@ if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
     <p><?php echo $language["p1"] ?></p>
 
     <form  method="POST" action="/suite/admin/actions/users/edit_settings.php">
-        <label><?php echo $language["label_sitename"] ?>: </label><input type="text" name="app_name" placeholder="<?php echo $language["placeholder_sitename"] ?>" value="<?php echo $ini["general"]["app_name"];  ?>">
+        <label><?php echo $language["label_sitename"] ?>: </label><input class="input" type="text" name="app_name" placeholder="<?php echo $language["placeholder_sitename"] ?>" value="<?php echo $ini["general"]["app_name"];  ?>">
         <br>
-        <label><?php echo $language["label_base_url"] ?>: </label><input type="text" name="base_url" placeholder="<?php echo $language["placeholder_base_url"] ?>" value="<?php echo $ini["general"]["base_url"];  ?>">
+        <label><?php echo $language["label_base_url"] ?>: </label><input class="input" type="text" name="base_url" placeholder="<?php echo $language["placeholder_base_url"] ?>" value="<?php echo $ini["general"]["base_url"];  ?>">
         <br>
-        <button type="submit" name="submit"><?php echo $language["button_text"] ?></button>
+        <button type="submit" name="submit" class="button"><?php echo $language["button_text"] ?></button>
     </form>
 <?php
-$log_contents = @file_get_contents(Exceptions::logrotate()) ?? "Error retrieving log file!";
+$log_contents = @file_get_contents(Exceptions::getSpecificLogFilePath()) ?? "Error retrieving log file!";
 echo <<< DAT
 <div class="box">
     <h2> {$language["log_title"]} </h2>

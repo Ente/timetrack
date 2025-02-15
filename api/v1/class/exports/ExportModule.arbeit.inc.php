@@ -12,6 +12,7 @@ class ExportModule extends Arbeitszeit {
      * @return mixed
      */
     public function export($args) {
+        Exceptions::error_rep("Exporting data using module: {$args['module']}", 1, "N/A");
         $module = $this->getExportModule($args['module']);
         if ($module) {
             return $module->export($args);
@@ -25,14 +26,17 @@ class ExportModule extends Arbeitszeit {
      * @return bool|object
      */
     public function getExportModule($moduleName) {
+        Exceptions::error_rep("Loading export module: {$moduleName}", 1, "N/A");
         $moduleClass = 'Arbeitszeit\\ExportModule\\' . $moduleName;
         $classFilePath = __DIR__ . "/modules/{$moduleName}/{$moduleName}.em.arbeit.inc.php";
         if (file_exists($classFilePath)) {
             require_once $classFilePath;
             if (class_exists($moduleClass)) {
+                Exceptions::error_rep("Export module loaded: {$moduleName}", 1, "N/A");
                 return new $moduleClass();
             }
         }
+        Exceptions::error_rep("Could not load export module: {$moduleName}", 1, "N/A");
         return false;
     }
 
@@ -41,8 +45,9 @@ class ExportModule extends Arbeitszeit {
      * @return array
      */
     public function getExportModules() {
+        Exceptions::error_rep("Loading export modules...", 1, "N/A");
         $modules = array();
-        $basePath = __DIR__ . '/exports/modules/';
+        $basePath = __DIR__ . '/modules/';
         $directories = glob($basePath . '*ExportModule', GLOB_ONLYDIR);
 
         foreach ($directories as $dir) {

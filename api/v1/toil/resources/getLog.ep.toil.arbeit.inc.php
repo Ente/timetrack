@@ -26,13 +26,13 @@ namespace Toil {
         public function get()
         {
             if(isset($_GET["date"])){
-                $date = $_GET["date"];
+                $date = basename($_GET["date"]);
                 header('Content-Type: text/plain');
                 Exceptions::error_rep("Accessing error file '$date'");
                 echo @file_get_contents(Exceptions::getSpecificLogFilePath($date));
             } else {
                 header('Content-Type: text/plain');
-                $log_contents = @file_get_contents(Exceptions::logrotate()) ?? "Error retrieving log file!";
+                $log_contents = @file_get_contents(Exceptions::getSpecificLogFilePath()) ?? "Error retrieving log file!";
                 echo $log_contents;
             }
         }

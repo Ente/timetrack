@@ -6,6 +6,7 @@ namespace Arbeitszeit{
     use Symfony\Component\Yaml\Yaml;
 
     use Exception;
+    use Arbeitszeit\Exceptions;
 
 
     interface PluginInterface {
@@ -172,18 +173,25 @@ namespace Arbeitszeit{
          * 
          * 
          * @param string $name Class name of the plugin
-         * @return array|bool Returns an array. False on failure
+         * @param bool $raw If set to true, the raw yaml is returned
+         * @return array|bool|string Returns an array. False on failure
          */
-        final public function read_plugin_configuration($name): ?array{
+        final public function read_plugin_configuration($name, $raw = false): array|string|bool{
            $la = $this->la;
            $path = $_SERVER["DOCUMENT_ROOT"] . "". $this->basepath . "/" . $name . "/plugin.yml";
            if(file_exists($_SERVER["DOCUMENT_ROOT"] . "" . $this->basepath . "/" . $name . "/plugin.yml") == true){
                 try {
+                    if($raw == true){
+                        $this->logger("{$la} Reading raw plugin configuration for plugin '{$name}'...");
+                        return file_get_contents($this->platformSlashes($path));
+                    }
+                    $this->logger("{$la} Reading plugin configuration for plugin '{$name}'...");
                     $yaml = Yaml::parseFile($this->platformSlashes($path));
                 } catch(Exception $e){
                     Exceptions::error_rep($e);
                     throw new \Exception($e->getMessage());
                 }
+                $yaml["path"] = $path;
                 return (array)$yaml;
            } else {
                 Exceptions::error_rep("{$la} Could not read plugin configuration for plugin '{$name}' - Path: " . $_SERVER["DOCUMENT_ROOT"] . "" . $this->basepath . "/" . $name . "/plugin.yml");
@@ -198,6 +206,7 @@ namespace Arbeitszeit{
          * @return array|void Returns and array on success. Nothing otherwise
          */
         final public function get_plugins(): array{
+            $this->logger("{$this->la} Getting all plugins...");
             $dir = array_diff(scandir($_SERVER["DOCUMENT_ROOT"]. "" . $this->get_basepath()), array(".", "..", "data"));
             if($dir == false){
                 $this->logger("{$this->la} Could not scan directory for plugins!");
@@ -211,6 +220,7 @@ namespace Arbeitszeit{
 
                 $data_json = json_encode($data);
                 if($data_json != false){
+                    $this->logger("{$this->la} Returning all plugins...");
                     return $data;
                 }
             }
@@ -227,6 +237,8 @@ namespace Arbeitszeit{
          * @return void|Exception Void on success, Exception on failure
          */
         final public function memorize_plugins(): void{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
+            $this->logger("{$this->la} Memorizing all plugins...");
             $plugins = $this->get_plugins();
             foreach($plugins["plugins"] as $plugin => $data){
                 try{
@@ -257,6 +269,8 @@ namespace Arbeitszeit{
          * @return bool|Exception Return true on success. Exception on failure
          */
         final public function memorize_plugin($name, $additional_payload = null): bool{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
+            $this->logger("{$this->la} Memorizing plugin '{$name}'...");
             $plugin = $this->read_plugin_configuration($name);
             try{
                 $this->load_class($plugin["main"], $plugin["namespace"] . "/src");
@@ -286,6 +300,8 @@ namespace Arbeitszeit{
          * @return object|bool|Exception Returns the class on success and either false or an Exception on failure
          */
         final public function unmemorize_plugin($name): object{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
+            $this->logger("{$this->la} Unmemorizing plugin '{$name}'...");
             $plugin = $this->read_plugin_configuration($name);
             try{
                 $this->load_class($plugin["main"], $plugin["namespace"] . "/src");
@@ -297,6 +313,7 @@ namespace Arbeitszeit{
                 if($cl instanceof $c1){
                     return $cl;
                 } else {
+                    $this->logger("{$this->la} Could not unmemorize plugin '{$name}'");
                     return false;
                 }
             } catch(Exception $e){
@@ -314,14 +331,18 @@ namespace Arbeitszeit{
          * @return bool
          */
         final public function check_persistance(): bool{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
+            $this->logger("{$this->la} Checking persistance for all plugins...");
             $plugins = $this->get_plugins();
             foreach($plugins["plugins"] as $plugin => $data){
                 $dir = array_diff(scandir($_SERVER["DOCUMENT_ROOT"] . "" . $this->basepath . "/"), array(".", "..", "_data"));
                 if(!in_array($plugin, $dir)){
                     if(!$this->memorize_plugin($data["main"])){
+                        $this->logger("{$this->la} Could not create persistance for plugin '{$plugin}'");
                         return false;
                     }
                 } else {
+                    $this->logger("{$this->la} Persistance for plugin '{$plugin}' already exists");
                     return false;
                 }
             }
@@ -335,6 +356,7 @@ namespace Arbeitszeit{
          * @param string $name
          */
         final static public function create_skeletton($name){
+            self::logger("[PluginBuilder] Creating plugin skeletton '{$name}'");
             $path = $_SERVER["DOCUMENT_ROOT"] . "/" . self::$basepath . "/" . $name;
             mkdir($path);
             $yml = fopen($path . "/plugin.yml", "w+");
@@ -363,10 +385,12 @@ namespace Arbeitszeit{
         }
 
         final public function get_plugin_nav($name) {
+            $this->logger("{$this->la} Getting nav links for plugin '{$name}'");
             $conf = $this->read_plugin_configuration($name);
             if (isset($conf["nav_links"]) && is_array($conf["nav_links"])) {  
                 return $conf["nav_links"];
             }
+            $this->logger("{$this->la} Plugin '{$name}' has no nav links");
             return [];  
         }
 
@@ -376,6 +400,7 @@ namespace Arbeitszeit{
             $conf = $this->read_plugin_configuration($plugin_name);
             
             if (isset($conf["enabled"]) && !$conf["enabled"]) { 
+                $this->logger("{$this->la} Plugin '{$plugin_name}' is disabled");
                 return null;
             }
         
@@ -384,29 +409,45 @@ namespace Arbeitszeit{
                     $html .= "<li><a href='/suite/plugins/index.php?pn={$plugin_name}&p_view={$v}'>[{$plugin_name}] $n</a></li>";
                 }
             }
-        
+            $this->logger("{$this->la} Plugin '{$plugin_name}' has no nav links");
             return $html;
         }
         
 
-        final public function load_plugin_view($plugin_name, $view){
-            # $view shall be the nav link value
-            try{
-                require $_SERVER["DOCUMENT_ROOT"] . $this->get_basepath() . "/" . $plugin_name . "/" . $view;
-            } catch (\Error $e){
-                Exceptions::error_rep("An error occured while loading view '$view' for plugin '$plugin_name' - Message: {$e}");
+        final public function load_plugin_view($plugin_name, $view) {
+            try {
+                $this->logger("{$this->la} Loading view '{$view}' for plugin '{$plugin_name}'");
+        
+                $plugin_base_path = realpath($_SERVER["DOCUMENT_ROOT"] . $this->get_basepath() . "/" . basename($plugin_name));
+                $view_path = realpath($plugin_base_path . "/" . ltrim($view, "/"));
+        
+                $this->logger("Expected plugin base path: {$plugin_base_path}");
+                $this->logger("Computed view path: {$view_path}");
+        
+                if (!$plugin_base_path || !$view_path || !file_exists($view_path) || strpos($view_path, $plugin_base_path) !== 0) {
+                    throw new \Exception("View '{$view}' for plugin '{$plugin_name}' not found or invalid.");
+                }
+        
+                require $view_path;
+        
+            } catch (\Throwable $e) {
+                Exceptions::error_rep("An error occurred while loading view '{$view}' for plugin '{$plugin_name}' - Message: {$e->getMessage()}");
                 return false;
             }
+        
+            $this->logger("{$this->la} Loaded view '{$view}' for plugin '{$plugin_name}'");
             return true;
         }
 
         public function getPluginClassPath($pluginName) {
+            $this->logger("{$this->la} Getting plugin class path for '{$pluginName}'...");
             $config = $this->read_plugin_configuration($pluginName);
             $srcDir = $config['src'] ?? 'src';
             $mainClass = $config['main'] ?? '';
             if ($mainClass && $srcDir) {
                 return $_SERVER["DOCUMENT_ROOT"] . $this->basepath . "/" . $pluginName . "/" . $srcDir . "/" . $mainClass . ".php";
             }
+            $this->logger("{$this->la} Main class not found in plugin configuration for '{$pluginName}'");
             return '';
         }
     
@@ -417,10 +458,12 @@ namespace Arbeitszeit{
          * @return void
          */
         public function loadPluginClass($pluginName) {
+            $this->logger("{$this->la} Loading plugin class for '{$pluginName}'...");
             $classPath = $this->getPluginClassPath($pluginName);
             if (file_exists($classPath)) {
                 require_once $classPath;
             } else {
+                $this->logger("{$this->la} Class file not found: {$classPath}");
                 throw new Exception("Class file not found: " . $classPath);
             }
         }
