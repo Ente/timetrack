@@ -68,14 +68,33 @@ class Mails
     }
 
     private static function loadTemplates()
-    {
-        if (file_exists(self::$configFile)) {
-            self::$templates = include self::$configFile;
-        } else {
-            foreach(self::$defaultTemplates as $template){
-                $filePath = __DIR__ . "/templates/$template.mails.arbeit.inc.php";
-                self::registerTemplate($template, $filePath, $template);
-            }
+{
+    if (file_exists(self::$configFile)) {
+        self::$templates = include self::$configFile;
+    } else {
+        foreach (self::$defaultTemplates as $template) {
+            $filePath = __DIR__ . "/templates/$template.mails.arbeit.inc.php";
+            self::registerTemplate($template, $filePath, $template);
+        }
+        self::saveTemplates();
+    }
+
+    self::scanAndRegisterTemplates();
+}
+
+private static function scanAndRegisterTemplates()
+{
+    $templateDir = __DIR__ . '/templates/';
+    if (!is_dir($templateDir)) {
+        return;
+    }
+
+    foreach (glob($templateDir . '*.mails.arbeit.inc.php') as $filePath) {
+        $fileName = basename($filePath, '.mails.arbeit.inc.php');
+
+        if (!isset(self::$templates[$fileName])) {
+            self::registerTemplate($fileName, $filePath, $fileName);
         }
     }
+}
 }

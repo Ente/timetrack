@@ -1,7 +1,7 @@
 {
     "subject": "Uw ziekte wordt getest",
     "greetings": "Hallo",
-    "message": "uw manager heeft uw ziekte ingesteld op <span style='color:blue;''>wordt beoordeeld</span>",
+    "message": "uw manager heeft uw ziekte ingesteld op [BLUE]wordt beoordeeld[/BLUE]",
     "note": "Dit proces kan automatisch worden veroorzaakt na het creëren van een ziekte",
     "id": "ID",
     "username": "Gebruikersnaam",
@@ -11,5 +11,5 @@
     "end": "Met vriendelijke groeten",
     "noreply": "automatische afzender",
     "confidential": "Vertrouwelijke informatie!",
-    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. <br> De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
+    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. [BR] De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
     }

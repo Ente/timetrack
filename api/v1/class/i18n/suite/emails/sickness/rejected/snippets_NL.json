@@ -1,7 +1,7 @@
 {
     "subject": "Uw ziekte is afgewezen!",
     "greetings": "Hallo",
-    "message": "uw manager heeft uw ziekte afgewezen <span style='color:red;'></span>",
+    "message": "uw manager heeft [RED]uw ziekte[/RED] afgewezen",
     "note": "Neem contact op met uw beheerder om dit probleem op te lossen.",
     "id": "ID",
     "username": "Gebruikersnaam",
@@ -11,5 +11,5 @@
     "end": "Met vriendelijke groeten",
     "noreply": "automatische afzender",
     "confidential": "Vertrouwelijke informatie!",
-    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. <br> De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
+    "gdpr": "U ontvangt deze e-mail omdat u akkoord bent gegaan met de algemene voorwaarden. [BR] De huidige Algemene Verordening Gegevensbescherming kunt u hier raadplegen"
     }
