@@ -35,20 +35,17 @@ You can implement your own MailTemplate like this:
 <?php
 namespace Arbeitszeit\Mails\Templates;
 use Arbeitszeit\Mails\MailTemplateInterface;
+use Arbeitszeit\Mails\MailTemplateData;
 use Arbeitszeit\Arbeitszeit;
 
 class TemplateName implements MailTemplateInterface {
-    public function render(array $data) { 
+    public function render(array $data): MailTemplateData { 
         // do stuff and compute plain text or HTML message
 
         
 
         // you MUST return array with keys: subject, body and username
-        return [
-            "subject" => "Subject of the mail",
-            "body" => "Body of the mail",
-            "username" => "Username"
-        ]
+        return new MailTemplateData($data["subject"], $data["body"], $data["username"]);
     }
 }
 
