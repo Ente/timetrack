@@ -5,9 +5,11 @@ namespace Arbeitszeit\Mails\Templates;
 use Arbeitszeit\Mails\MailsTemplateInterface;
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Exceptions;
+use Arbeitszeit\Mails\MailTemplateData;
+
 class SicknessApprovedTemplate implements MailsTemplateInterface
 {
-    public function render(array $data): array
+    public function render(array $data): MailTemplateData
     {
         $arbeit = new Arbeitszeit();
         $i18n = $arbeit->i18n();
@@ -99,10 +101,6 @@ class SicknessApprovedTemplate implements MailsTemplateInterface
 
             <span style="color:red"><b>{$loc["confidential"]}</b></span>
 DATA;
-        return [
-            "subject" => "{$loc["subject"]} | {$ii}",
-            "body" => $text,
-            "username" => $data["username"]
-        ];
+        return new MailTemplateData($loc["subject"], $text, $data1["username"]);
     }
 }

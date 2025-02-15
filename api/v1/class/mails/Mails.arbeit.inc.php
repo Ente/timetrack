@@ -2,6 +2,7 @@
 
 namespace Arbeitszeit;
 use Arbeitszeit\Mails\MailsProviderInterface;
+use Arbeitszeit\Mails\MailTemplateData;
 class Mails
 {
 
@@ -31,24 +32,29 @@ class Mails
     }
 
     public static function sendMail(string $templateName, array $data)
-    {
-        if (!isset(self::$templates[$templateName])) {
-            throw new Exceptions("Mail-Template '$templateName' nicht gefunden.");
-        }
-
-        [$filePath, $className] = self::$templates[$templateName];
-        require $filePath;
-
-        if (strpos($className, "\\") === false) {
-            $className = "Arbeitszeit\\Mails\\Templates\\$className";
-        }
-        $template = new $className();
-
-
-        $mailContent = $template->render($data);
-
-        return self::$provider->send($mailContent);
+{
+    if (!isset(self::$templates[$templateName])) {
+        throw new \Exception("Mail-Template '$templateName' not found.");
     }
+
+    [$filePath, $className] = self::$templates[$templateName];
+    require_once $filePath;
+
+    if (strpos($className, "\\") === false) {
+        $className = "Arbeitszeit\\Mails\\Templates\\$className";
+    }
+
+    $template = new $className();
+
+    if (!$template instanceof Mails\MailsTemplateInterface) {
+        throw new \Exception("Mail-Template '$templateName' not implemented into MailsTemplateInterface.");
+    }
+
+    $mailContent = $template->render($data);
+
+    return self::$provider->send($mailContent->toArray());
+}
+
 
     public static function registerTemplate(string $name, string $filePath, string $className)
     {

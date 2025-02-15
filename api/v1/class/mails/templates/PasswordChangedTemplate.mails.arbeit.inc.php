@@ -5,8 +5,9 @@ namespace Arbeitszeit\Mails\Templates;
 use Arbeitszeit\Mails\MailsTemplateInterface;
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Exceptions;
+use Arbeitszeit\Mails\MailTemplateData;
 class PasswordChangedTemplate implements MailsTemplateInterface {
-    public function render(array $data): array {
+    public function render(array $data): MailTemplateData {
             $arbeit = new Arbeitszeit();
             $i18n = $arbeit->i18n();
             $loc = $i18n->loadLanguage(null, "emails/password_changed");
@@ -46,10 +47,6 @@ class PasswordChangedTemplate implements MailsTemplateInterface {
             <i>{$loc["gdpr"]}: https://{$base_url}/privacy_policy</i>
 
         DATA;
-        return [
-            "subject" => $subject,
-            "body" => $text,
-            "username" => $data["username"]
-        ];
+        return new MailTemplateData($subject, $text, $data["username"]);
     }
 }

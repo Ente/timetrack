@@ -5,8 +5,10 @@ namespace Arbeitszeit\Mails\Templates;
 use Arbeitszeit\Mails\MailsTemplateInterface;
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Exceptions;
+use Arbeitszeit\Mails\MailTemplateData;
+
 class VacationRejectedTemplate implements MailsTemplateInterface {
-    public function render(array $data): array {
+    public function render(array $data): MailTemplateData {
             $arbeit = new Arbeitszeit();
             $i18n = $arbeit->i18n();
             $loc = $i18n->loadLanguage(null, "emails/vacation/rejected");
@@ -97,10 +99,6 @@ class VacationRejectedTemplate implements MailsTemplateInterface {
 
             <span style="color:red"><b>{$loc["confidential"]}</b></span>
 DATA;
-        return [
-            "subject" => "{$loc["subject"]} | {$ii}",
-            "body" => $text,
-            "username" => $data["username"]
-        ];
+        return new MailTemplateData($loc["subject"] . "| {$ii}", $text, $data["username"]);
     }
 }
