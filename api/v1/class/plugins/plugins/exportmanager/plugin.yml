@@ -4,7 +4,7 @@ main: Main
 namespace: exportmanager
 author: Ente
 description: Easily manage all your export modules
-version: "1.1"
+version: "1.2"
 api: 0.1
 permissions: none
 enabled: false

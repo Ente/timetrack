@@ -79,4 +79,115 @@ class exportmanager extends PluginBuilder implements PluginInterface {
         $exportModule->export(["module" => $plugin, "year" => date("Y"), "month" => date("m"), "user" => $_SESSION["username"]]);
 
     }
+
+    function scan_worktime_sheets() {
+        $search_path = $_SERVER["DOCUMENT_ROOT"] . "/data/exports";
+        $allowed_extensions = [
+            "csv" => "Spreadsheet (CSV)",
+            "pdf" => "PDF Document",
+            "docx" => "Word-Document",
+            "png" => "Picture (PNG)",
+            "jpg" => "Picture (JPG)",
+            "jpeg" => "Picture (JPEG)"
+        ];
+    
+        $files = [];
+
+        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($search_path, \FilesystemIterator::SKIP_DOTS));
+    
+        foreach ($rii as $file) {
+            if ($file->isFile()) {
+                $ext = strtolower($file->getExtension());
+    
+                if (isset($allowed_extensions[$ext])) {
+                    $relative_path = str_replace($_SERVER["DOCUMENT_ROOT"], '', $file->getPathname());
+                    
+                    $path_parts = explode(DIRECTORY_SEPARATOR, str_replace($search_path . DIRECTORY_SEPARATOR, '', $file->getPathname()));
+                    
+                    if (count($path_parts) >= 2) {
+                        $username = $path_parts[1];
+                    } else {
+                        $username = "Unknown";
+                    }
+    
+                    $files[] = [
+                        "filename" => $file->getFilename() . " - " . $username,
+                        "extension" => $allowed_extensions[$ext],
+                        "download_url" => "http://" . Arbeitszeit::get_app_ini()["general"]["base_url"] . $relative_path
+                    ];
+                }
+            }
+        }
+    
+        return $files;
+    }
+
+    public static function get_user_worktime_sheets() {
+        $search_path = $_SERVER["DOCUMENT_ROOT"] . "/data/exports";
+        $allowed_extensions = [
+            "csv" => "Spreadsheet (CSV)",
+            "pdf" => "PDF Document",
+            "docx" => "Word-Document",
+            "png" => "Picture (PNG)",
+            "jpg" => "Picture (JPG)",
+            "jpeg" => "Picture (JPEG)"
+        ];
+    
+        $files = [];
+        $current_user = $_SESSION["username"] ?? null;
+    
+        if (!$current_user) {
+            Exceptions::error_rep("No user logged in?");
+            return [];
+        }
+    
+        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($search_path, \FilesystemIterator::SKIP_DOTS));
+    
+        foreach ($rii as $file) {
+            if ($file->isFile()) {
+                $ext = strtolower($file->getExtension());
+    
+                if (isset($allowed_extensions[$ext])) {
+                    $relative_path = str_replace($_SERVER["DOCUMENT_ROOT"], '', $file->getPathname());
+                        $path_parts = explode(DIRECTORY_SEPARATOR, str_replace($search_path . DIRECTORY_SEPARATOR, '', $file->getPathname()));
+    
+                    if (count($path_parts) >= 2) {
+                        $username = $path_parts[1];
+                    } else {
+                        $username = "Unknown";
+                    }
+                        if ($username === $current_user) {
+                        $files[] = [
+                            "filename" => $file->getFilename() . " - " . $username,
+                            "extension" => $allowed_extensions[$ext],
+                            "download_url" => "http://" . Arbeitszeit::get_app_ini()["general"]["base_url"] . $relative_path
+                        ];
+                    }
+                }
+            }
+        }
+    
+        return $files;
+    }
+    
+
+    function generate_worktime_table($files) {
+        if (empty($files)) {
+            return "<tr><td colspan='3'>No Files found</td></tr>";
+        }
+    
+        $html = "";
+    
+        foreach ($files as $file) {
+            $html .= "<tr>
+                        <td>{$file['filename']}</td>
+                        <td>{$file['extension']}</td>
+                        <td><a class='btn btn-primary' role='button' href='{$file['download_url']}' target='_blank'>Download</a></td>
+                      </tr>";
+        }
+    
+        return $html;
+    }
+    
+    
 }

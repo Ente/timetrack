@@ -17,6 +17,16 @@ if(isset($_GET["help"])){
     die();
 }
 
+if(isset($_GET["all"])){
+    require_once __DIR__ . "/all.php";
+    die();
+}
+
+if(isset($_GET["userall"])){
+    require_once __DIR__ . "/userall.php";
+    die();
+}
+
 if(isset($_GET["export"])){
     if(isset($_GET["plugin"])){
         if($_GET["action"] == "default"){
@@ -76,6 +86,12 @@ if(isset($_GET["export"])){
                         </div>
                     </div>
                     <p class="text-muted">Export Manager Plugin - <?php echo Arbeitszeit::get_app_ini()["general"]["app_name"]; ?> -&nbsp;<a href="?help=true">Help</a></p>
+                    <p class="text-muted"><a href="?userall=true">View all my exports</a></p>
+                    <?php
+                    if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
+                        echo '<p class="text-muted">Admin: <a href="?all=true">All Exports</a></p>';
+                    } ?>
+                    <p class="text-muted">Logged in as: <?php echo $_SESSION["username"]; ?></p>
                 </div>
             </div>
         </div>
