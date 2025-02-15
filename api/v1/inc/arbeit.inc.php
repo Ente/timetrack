@@ -36,6 +36,7 @@ require_once dirname(__DIR__, 1) . "/class/auth/plugins/ldap/ldap.auth.arbeit.in
 require_once dirname(__DIR__, 1) . "/class/updates/updates.arbeit.inc.php";
 
 require_once dirname(__DIR__ . 1) . "/class/mails/Mails.arbeit.inc.php";
+require_once dirname(__DIR__ . 1) . "/class/mails/MailTemplateData.mails.arbeit.inc.php";
 require_once dirname(__DIR__ . 1) . "/class/mails/interfaces/MailsProviderInterface.mails.arbeit.inc.php";
 require_once dirname(__DIR__ . 1) . "/class/mails/interfaces/MailsTemplateInterface.mails.arbeit.inc.php";
 
