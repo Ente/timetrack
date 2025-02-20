@@ -628,6 +628,9 @@ namespace Arbeitszeit {
             if (strpos($url, "info=error")) {
                 return "<p><span style='color:red;'>{$loc["error"]}</span></p>";
             }
+            if (strpos($url, "info=notification_not_found")) {
+                return "<p><span style='color:red;'>{$loc["notification_not_found"]}</span></p>";
+            }
 
         }
 

@@ -25,5 +25,6 @@
     "error": "Hinweis: Ein Fehler ist aufgetreten. Bitte überprüfe den Log, falls möglich.",
     "statemismatch": "Fehler: Sicherheitsfehler",
     "ldapauth": "Fehler: Die Authentifizierung über LDAP ist fehlgeschlagen.",
-    "ldapcreated": "Hinweis: Bitte melde dich erneut an. Dein Benutzerkonto wurde nun erstellt. (LDAP allowed self-login)"
+    "ldapcreated": "Hinweis: Bitte melde dich erneut an. Dein Benutzerkonto wurde nun erstellt. (LDAP allowed self-login)",
+    "notification_not_found": "Fehler: Benachrichtigung nicht gefunden."
 }
