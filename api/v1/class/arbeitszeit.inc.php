@@ -655,54 +655,6 @@ namespace Arbeitszeit {
             }
         }
 
-        /**
-         * change_settings() - Allows you to change specific settings in the app.ini
-         * 
-         * @param array $array Contains the array with changing values
-         * @return bool Returns true o success and false otherwise
-         */
-        public static function change_settings($array)
-        {
-            $ini = self::get_app_ini();
-            foreach ($array as $key => $value) {
-                unset($ini["general"][(string) $key]);
-                $ini["general"][(string) $key] = $value;
-
-            }
-            Exceptions::error_rep("Changing settings...");
-            $file = fopen($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", "w");
-            $cini = self::arr2ini($ini);
-            if (fwrite($file, $cini)) {
-                fclose($file);
-                return true;
-            } else {
-                Exceptions::error_rep("An error occured while chaning settings");
-                fclose($file);
-                return false;
-            }
-        }
-
-        private static function arr2ini(array $a, array $parent = array())
-        {
-            Exceptions::error_rep("Writing to app.ini...");
-            $out = '';
-            foreach ($a as $k => $v) {
-                if (is_array($v)) {
-                    //subsection case
-                    //merge all the sections into one array...
-                    $sec = array_merge((array) $parent, (array) $k);
-                    //add section information to the output
-                    $out .= '[' . join('.', $sec) . ']' . PHP_EOL;
-                    //recursively traverse deeper
-                    $out .= self::arr2ini($v, $sec);
-                } else {
-                    //plain key->value case
-                    $out .= "$k=\"$v\"" . PHP_EOL;
-                }
-            }
-            return $out;
-        }
-
         public static function get_worktime_by_id($id)
         {
             $conn = new DB;
