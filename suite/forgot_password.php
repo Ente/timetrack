@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_password_reset.auth.arbeit.inc.php";
 use Arbeitszeit\Arbeitszeit;
 $arbeitszeit = new Arbeitszeit;
 $ini = $arbeitszeit->get_app_ini();
