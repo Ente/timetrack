@@ -14,7 +14,7 @@ $main = new Userdetail;
 $nav = $main->compute_user_nav();
 $user = $benutzer->get_user($_GET["user"]);
 
-$id = filter_var($_POS["id"], FILTER_SANITIZE_NUMBER_INT);
+$id = filter_var($_POST["id"], FILTER_SANITIZE_NUMBER_INT);
 
 if($id){
     $payload = [
