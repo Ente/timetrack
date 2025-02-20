@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v7.10
+
+* Reflected changes from v7.9 release into Mails.md
+* You now get redirected when calendar ID is not found
+* Fixed being unable to access the "Forgot password" page
+* Fixed typo in userdetail plugin preventing save
+* Remove usercount plugin entirely
+* Removed webedit for app.json
+* A warning is now displayed when an admin changes user information within the userdetail plugin
+* Fixed an bug causing userdetail plugin to crash when the selected user could not be found
+
 ## v7.9
 
 * Fixed being unable to access "userdetail" plugin
