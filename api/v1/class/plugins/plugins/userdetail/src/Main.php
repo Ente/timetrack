@@ -117,7 +117,11 @@ class Userdetail extends PluginBuilder implements PluginInterface {
 
     public function get_employee_data($username){
         $this->logger("[userdetail] Getting employee data for employee: {$username}...");
-        if(json_decode(@file_get_contents(dirname(__DIR__, 1) . "/data/" . $username . ".json"), true) != false){
+        $path = @file_get_contents(dirname(__DIR__, 1) . "/data/" . $username . ".json");
+        if($path == null || $path == false){
+            header("Location: /suite/plugins/index.php?pn=userdetail&p_view=views/user.php&user={$username}&nuser=true");
+        }
+        if(json_decode($path, true) != false){
             return json_decode(file_get_contents(dirname(__DIR__, 1) . "/data/" . $username . ".json"), true);
         } else {
             $this->logger("[userdetail] No data found for employee: {$username}...");

@@ -16,6 +16,11 @@ $user = $benutzer->get_user($_GET["user"]);
 
 $id = filter_var($_POST["id"], FILTER_SANITIZE_NUMBER_INT);
 
+if(isset($_GET["nuser"])){
+    echo "<p>User not found.</p>";
+    die();
+}
+
 if($id){
     $payload = [
         "id" => $id,
@@ -49,7 +54,7 @@ if($r = $main->get_employee_data($_GET["user"])){
 
 <h2><?php echo $user["username"];  ?> | Userdetail</h2>
 <div class="box">
-    <form action="/suite/plugins/index.php?pn=userdetail&p_view=views/user.php&user=<?php echo $user["username"];  ?>&id=<?php echo $user["id"]; ?>" method="POST">
+    <form id="userForm" action="/suite/plugins/index.php?pn=userdetail&p_view=views/user.php&user=<?php echo $user["username"];  ?>&id=<?php echo $user["id"]; ?>" method="POST">
         <label>Username: </label><input type="text" min="3" name="username" value="<?php echo $user["username"]; ?>"><br>
         <label>Reset Password? </label><input type="checkbox" name="reset-password"><br>
         <label>Notes: </label><textarea name="notes"><?php echo htmlspecialchars($notes); ?></textarea><br>
@@ -63,3 +68,14 @@ if($r = $main->get_employee_data($_GET["user"])){
         <button class="button" name="save-employee-data" type="submit">Submit</button>
     </form>
 </div>
+
+<script>
+    document.getElementById("userForm").addEventListener("submit", function(event){
+        event.preventDefault();
+
+        let confirmation = confirm("If you have changed the username, please be aware that this can cause unexpected consequences. Are you sure you want to continue?");
+        if(confirmation){
+            this.submit();
+        }
+    })
+</script>
