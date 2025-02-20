@@ -16,6 +16,11 @@ $user = $benutzer->get_user($_GET["user"]);
 
 $id = filter_var($_POST["id"], FILTER_SANITIZE_NUMBER_INT);
 
+if(isset($_GET["nuser"])){
+    echo "<p>User not found.</p>";
+    die();
+}
+
 if($id){
     $payload = [
         "id" => $id,
