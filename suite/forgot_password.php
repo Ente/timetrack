@@ -18,7 +18,7 @@ echo $arbeitszeit->check_status_code($_SERVER["REQUEST_URI"]);
         <form class="box" action="actions/auth/reset.php" method="POST">
             <h2><?php echo $loc["title_q"] ?></h2>
             <p><?php echo $loc["request_mail"] ?></p>
-            <label><?php echo $loc["label_email"] ?>: </label><input type="email" name="email" placeholder="you@mail.com">
+            <label><?php echo $loc["label_email"] ?>: </label><input class="input" type="email" name="email" placeholder="you@mail.com">
             <br>
             <button class="button" type="submit" name="reset" value="true"><?php echo $loc["label_button"] ?></button>
         </form>

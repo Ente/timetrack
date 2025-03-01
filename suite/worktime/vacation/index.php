@@ -23,10 +23,10 @@ $arbeit->auth()->login_validation();
             <h2><?php echo $loc["h2"] ?></h2>
                 <form action="/suite/actions/worktime/add_vacation.php" method="POST">
                     <p><?php echo $loc["note1"] ?></p>
-                    <input type="date" data-date-format="DD.MM.YYYY" name="date-start" required>
+                    <input class="input" type="date" data-date-format="DD.MM.YYYY" name="date-start" required>
                     <br>
                     <p><?php echo $loc["note2"] ?>:</p>
-                    <input type="date" data-date-format="DD.MM.YYYY" name="date-end">
+                    <input class="input" type="date" data-date-format="DD.MM.YYYY" name="date-end">
                     <br>
                     <button type="submit" class="button"><?php echo $loc["button_submit"] ?></button>
                 </form>
