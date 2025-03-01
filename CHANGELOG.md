@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v7.10.1
+
+* Added some CSS to certain elements which were missing it
+
 ## v7.10
 
 * Reflected changes from v7.9 release into Mails.md
