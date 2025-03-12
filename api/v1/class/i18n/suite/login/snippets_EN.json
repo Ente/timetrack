@@ -2,7 +2,7 @@
     "title": "Login",
     "h1": "Please login now!",
     "label_username": "Username",
-    "placeholder_username": "JDoe",
+    "placeholder_username": "Your Username",
     "label_password": "Password",
     "placeholder_password": "Your Password",
     "button_text": "Login",

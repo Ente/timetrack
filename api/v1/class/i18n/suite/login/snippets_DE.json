@@ -2,7 +2,7 @@
     "title": "Login",
     "h1": "Bitte melde dich an!",
     "label_username": "Benutzername",
-    "placeholder_username": "MMustermann",
+    "placeholder_username": "Dein Benutzername",
     "label_password": "Passwort",
     "placeholder_password": "Dein Passwort",
     "button_text": "Anmelden",
