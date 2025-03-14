@@ -22,7 +22,7 @@ Additional functionality can be unlocked with TimeTrack Oval
 
 ### Requirements
 
-- at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|pgsql|xsl|gettext|dom|ldap`)
+- at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`)
 - composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation)
 - Apache2.4 with enabled rewrite mod (optional)
 
@@ -83,10 +83,16 @@ LDAP authentication works with OpenLDAP and Active Directory.
 - `ldap_ip`: IP address of your LDAP server (e.g. `1.1.1.1`)
 - `ldap_domain`: The domain your LDAP server controls (e.g. `example.local`)
 - `ldap_basedn`: Base DN for your domain (e.g. `dc=example,dc=local`)
-- `ldap_group`: Group membership required by LDAP users to be able to authenticate
+- `ldap_group`: Group membership required by LDAP users to be able to authenticate (e.g. `Domain Users`, (new group) `TimeTrack Users`)
 - `saf`: Specify if you only have one LDAP server (true) or another one as fallback (false)
 - `saf_*`: If `saf` is set to `false`, please specify the corresponding values to the `saf_*` configuration
-- `create_user`: If set to `true` it creates an user account automatically if the desired account is authenticated and within specified group. If set to `false` login simply fails, even if authenticated
+- `create_user`: If set to `true` it creates an user account automatically if the desired account is authenticated and within specified group. If set to `false` login simply fails, even if authenticated.
+
+#### **Export**
+
+##### **PDF**
+
+- `css`: Full path to the CSS file used for the PDF export (default: `api/v1/class/exports/modules/PDFExportModule/css/index.css`) - **optional value**
 
 If done correctly, you should now be able to access the application via http://BASE_URL/ - redirects to http://BASE_URL/suite/
 
@@ -125,7 +131,6 @@ Already existing local accounts will get their authentication overwritten if an 
 In order to create accounts automatically if `create_user` is `true` make sure to set the user's email address! Otherwise login fails.
 
 If above mentioned setting is set to `false` you have to create a user on your own locally and then let the user login with their LDAP credentials. The credentials you have entered will become usable if you disable LDAP or rename the account on your LDAP server.
-Please run `run-patch.sh` within the `setup` folder to get LDAP working with php >8.0
 
 ## Export
 
@@ -186,5 +191,3 @@ You can update the database by downloading the `setup/upgrade.php` file into you
 From here on just edit the `$missingUpdate` variable to the desired version as specified.
 
 Please be aware that you are not able to skip an database update. You have to update one by one, e.g. from 1 -> 2, 2 -> 3, ...
-
-
