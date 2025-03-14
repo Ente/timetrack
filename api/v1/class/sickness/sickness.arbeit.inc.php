@@ -89,8 +89,8 @@ namespace Arbeitszeit {
                         case "approved":
                             $status = "<span style='color:green;'>{$i18n["status"]["approved"]}</span>";
                             break;
-                        case "action":
-                            $status = "<span style='color:red'>Action needed</span>";
+                        case "rejected":
+                            $status = "<span style='color:red;'>{$i18n["status"]["rejected"]}</span>";
                             break;
                     }
 
