@@ -18,7 +18,7 @@ class WorktimeUncompliantTemplate implements MailsTemplateInterface
         $conn = $arbeit->db();
         $sql = "SELECT * FROM `users` WHERE username = ?;";
         $res = $conn->sendQuery($sql);
-        $res->execute($data["username"]);
+        $res->execute([$data["username"]]);
         $count = $res->rowCount();
         $ii = Arbeitszeit::get_app_ini()["general"]["app_name"];
 
