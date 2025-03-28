@@ -3,6 +3,7 @@
 ## v7.10.2
 
 * Added native function to `Benutzer` class to update user proprties which not lets the `userdetail` plugin actually update user properties
+* Fixed bug
 
 ## v7.10.1.1
 
