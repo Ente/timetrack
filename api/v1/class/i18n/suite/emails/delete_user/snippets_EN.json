@@ -4,5 +4,5 @@
     "message": "Your account has been disabled by an administrator.",
     "end": "Kind Regards,",
     "noreply": "automatic Sender",
-    "gdpr": "You are receiving the email because you have agreed to the terms and conditions. Your email address, login name and password have been removed from the system. <br> You can view the current General Data Protection Regulation at the following link"
+    "gdpr": "You are receiving the email because you have agreed to the terms and conditions. Your email address, login name and password have been removed from the system. [BR] You can view the current General Data Protection Regulation at the following link"
 }

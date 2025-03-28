@@ -1,5 +1,69 @@
 # CHANGELOG
 
+## v7.10.2
+
+* Added native function to `Benutzer` class to update user proprties which not lets the `userdetail` plugin actually update user properties
+* Fixed bug
+
+## v7.10.1.1
+
+* Hotfix preventing to add a worktime in normal mode
+
+## v7.10.1
+
+* Added some CSS to certain elements which were missing it
+
+## v7.10
+
+* Reflected changes from v7.9 release into Mails.md
+* You now get redirected when calendar ID is not found
+* Fixed being unable to access the "Forgot password" page
+* Fixed typo in userdetail plugin preventing save
+* Remove usercount plugin entirely
+* Removed webedit for app.json
+* A warning is now displayed when an admin changes user information within the userdetail plugin
+* Fixed an bug causing userdetail plugin to crash when the selected user could not be found
+
+## v7.9
+
+* Fixed being unable to access "userdetail" plugin
+* Fixed "debug" having not effect on Exceptions class
+* Removed logrotate-cache.txt
+* Sanitized various inputs like i18n files to prevent XSS attacks. Take a look into the `i18n.arbeit.inc.php` class for a ruleset and alternative "tags" to type (instead of `<br>` use `[BR]` within the snippets_*.json)
+* Security improvements
+* You can now download all your worktimes available offered by the ExportModules within the ExportManager plugin
+* Admins can now download all worktimes available offered by the ExportModules within the ExportManager plugin.
+  * To see a export in this menu, you need to create it first, e.g. via the "All Worktimes" page.
+* Removed unused plugins classes
+* Defined `MailTemplateData` class as requirement for `MailTemplate` class
+* Removed `array` as return type for `MailTemplateInterface::render()`
+* Improved autodetect for MailTemplates
+* Other small improvements
+
+<!-- Added phpdocs to Benutzer class -->
+
+## v7.8
+
+* Refactored the mails module. Read more about this within the `api/v1/class/mails/Mails.md`.
+* Admins can now edit users via the GUI directly.
+* Added a link to GitHub issues and to TimeTrack Roadmap within the settings.
+* Updated `composer.json` to a `ldaptools` version that supports PHP 8.0. So the patch does not need to be applied anymore.
+* Fixed `userdetail` plugin not creating the `data` directory.
+* Removed the "Create Mailbox" checkbox when editing a user.
+* Removed and deprecated most Plugin Phar functionality.
+* Fixed `Exceptions::deprecated` function being not static.
+* Rewritten some parts of the `README.md`
+* Toil API release `1.10` added routes for the notifications module: `getNotifications`, `autoremoveNotifications`, `addNotification` and `removeNotification`.
+* Fixed an issue being unable to export PDFs with the `PDFExportModule`.
+
+<!-- Fixed an bug resulting in being unable to access the "forgot password" page -->
+<!-- Fixed missing title within the "Add vacation" view -->
+<!-- Added internal function to get all notifications -->
+
+## v7.7.1
+
+* Added function within the `Exceptions` class to show type "deprecated" warnings.
+
 ## v7.7
 
 * Fixed duplicated active worktime entries by trying to fix it automatically.

@@ -1,7 +1,7 @@
 {
     "title": "Sickness report",
     "h2": "Report your sickness now",
-    "note1": "Please enter the Start-Date of your sickness. If you do not know or you are just leaving for one day. Please do <span='color:red;'>not</span> fill out the 'End-Date field.",
+    "note1": "Please enter the Start-Date of your sickness. If you do not know or you are just leaving for one day. Please do [RED]not[/RED] fill out the 'End-Date field.",
     "note2": "End-Date of your sickness*",
     "button_submit": "Submit sickness report",
     "note3": "After submitting your report the responsible person will check and if required reach out to you"

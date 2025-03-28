@@ -22,7 +22,7 @@ Additional functionality can be unlocked with TimeTrack Oval
 
 ### Requirements
 
-- at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|pgsql|xsl|gettext|dom|ldap`)
+- at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`)
 - composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation)
 - Apache2.4 with enabled rewrite mod (optional)
 
@@ -39,13 +39,12 @@ Simply install the software by following these steps:
 - Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
 - To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
 - Run the statement printed by the `usercreate.php` inside your database (`mysql -u root -p` and `use ab;` then the statement).
-- Please run the `run-patch.sh` file located in the `setup` folder to apply a patch regarding LDAP authentication. If you do not want to use LDAP you can ignore this step. (`cd setup && bash run-patch.sh && cd ..`)
-- Configure `app.ini` (see below - required changes: `base_url`, `db_user`, `db_password`, `[smtp]` section and any other if you're installation is different) then `mv api/v1/inc/app.ini.sample app.ini && cd /var/www/timetrack`
+- Configure `app.json` (see below - required changes: `base_url`, `db_user`, `db_password`, `smtp` section and any other if your installation is different) then `mv api/v1/inc/app.json.sample app.json && cd /var/www/timetrack`
 - Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
 
-### Configure app.ini/app.json
+### Configure app.json
 
-In step 2, you need to configure the `app.ini.sample`/`app.json.sample` within the `api/v1/inc` folder:
+In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` folder:
 
 - `app_name`: The name of your application, e.g. `ACME Inc. TimeRecording`
 - `base_url`: The Base URL (can also be an IP) of your application, without ending trailing slash and the protocol, e.g. `acme.inc` or `10.10.10.2` (URLs will be built with the http:// protocol, we recommend adding a redirect to https:// if you use an certificate.)
@@ -84,16 +83,22 @@ LDAP authentication works with OpenLDAP and Active Directory.
 - `ldap_ip`: IP address of your LDAP server (e.g. `1.1.1.1`)
 - `ldap_domain`: The domain your LDAP server controls (e.g. `example.local`)
 - `ldap_basedn`: Base DN for your domain (e.g. `dc=example,dc=local`)
-- `ldap_group`: Group membership required by LDAP users to be able to authenticate
+- `ldap_group`: Group membership required by LDAP users to be able to authenticate (e.g. `Domain Users`, (new group) `TimeTrack Users`)
 - `saf`: Specify if you only have one LDAP server (true) or another one as fallback (false)
 - `saf_*`: If `saf` is set to `false`, please specify the corresponding values to the `saf_*` configuration
-- `create_user`: If set to `true` it creates an user account automatically if the desired account is authenticated and within specified group. If set to `false` login simply fails, even if authenticated
+- `create_user`: If set to `true` it creates an user account automatically if the desired account is authenticated and within specified group. If set to `false` login simply fails, even if authenticated.
+
+#### **Export**
+
+##### **PDF**
+
+- `css`: Full path to the CSS file used for the PDF export (default: `api/v1/class/exports/modules/PDFExportModule/css/index.css`) - **optional value**
 
 If done correctly, you should now be able to access the application via http://BASE_URL/ - redirects to http://BASE_URL/suite/
 
 **Please delete the whole `/setup/` folder after installation**
 
-After configuring, please rename the `app.ini.sample`/`app.json.sample` to `app.ini`/`app.json` (`mv app.ini.sample app.ini`)
+After configuring, please rename the `app.json.sample` to `app.json` (`mv app.json.sample app.json`)
 
 ## Maintenance Mode
 
@@ -114,7 +119,7 @@ Another useful source, while expieriencing errors is the `/var/log/apache2/error
 
 ## Language
 
-TimeTrack supports German and English. Users currently can't actively switch between any of them, instead TimeTrack uses the locale provided by the browser.
+TimeTrack supports German, English and Dutch. Users currently can't actively switch between any of them, instead TimeTrack uses the locale provided by the browser.
 
 ## LDAP
 
@@ -125,8 +130,7 @@ Already existing local accounts will get their authentication overwritten if an 
 
 In order to create accounts automatically if `create_user` is `true` make sure to set the user's email address! Otherwise login fails.
 
-At the moment you have to create a user on your own locally and then let the user login with their LDAP credentials. The credentials you have entered will become usable if you disable LDAP or rename the account on your LDAP server.
-Please run `run-patch.sh` within the `setup` folder to get LDAP working with php >8.0
+If above mentioned setting is set to `false` you have to create a user on your own locally and then let the user login with their LDAP credentials. The credentials you have entered will become usable if you disable LDAP or rename the account on your LDAP server.
 
 ## Export
 
@@ -153,11 +157,11 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 ```
 
 As there is currently no Export Area in the UI you have to create the GUI elements on your own.
-You can specify your own CSS file within the `app.ini` `[exports][pdf][css]` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
+You can specify your own CSS file within the `app.json` `exports -> pdf -> css` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
 
 ## QR codes
 
-You can use the plugin `QRClock` to generate QR codes for yourself to either clock in or out. The QR code is generated can be used for later use, e.g. print it out.
+You can use the plugin `QRClock` to generate QR codes for yourself to either clock in or out. The QR code generated can be saved for later use, e.g. print it out.
 Currently you do have to login before you can use the QR code. This will be reworked to bypass current authentication flow as there is a token embedded in the QR code. Therefore you should be careful with the QR code.
 
 To use this feature, please download and place the `phpqrcode` folder into the `api/v1/class/plugins/plugins/qrclock/src` folder. You can download the `phpqrcode` library from <https://sourceforge.net/projects/phpqrcode/>.

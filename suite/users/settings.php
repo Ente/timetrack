@@ -44,6 +44,7 @@ $data = $arbeit->benutzer()->get_user($_SESSION["username"]);
 
             <h2><?php echo $loc["support"] ?></h2>
             <p><?php echo $loc["support_note"] ?>: <a href="mailto:<?php echo $ini["general"]["support_email"]; ?>"><?php echo $ini["general"]["support_email"]; ?></a></p>
+            <p><a href="https://tracking.isx.openducks.org/articles/TT-A-5/Roadmap-TimeTrack" target="_blank"><?php echo $loc["roadmap_note"] ?></a> | <a href="https://github.com/ente/timetrack/issues"><?php echo $loc["github_note"]; ?></a></p>
                 <?php if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){ require_once "../admin/users/settings.php"; }   ?>
         </div>
     </body>

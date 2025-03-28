@@ -42,16 +42,16 @@ $add_style = "";
 
                 <h2><?php echo $language["add_user"] ?></h2>
                 <form action="../../admin/actions/users/add_user.php" method="POST">
-                    <label title="Der Username besteht aus Anfangsbuchstabe des Vornamens großgeschrieben und voller Nachname, mit großem Anfangsbuchstaben. Beispiel: MMueller">Username: </label><input type="text" name="username" placeholder="MMustermann">
+                    <label title="Der Username besteht aus Anfangsbuchstabe des Vornamens großgeschrieben und voller Nachname, mit großem Anfangsbuchstaben. Beispiel: MMueller">Username: </label><input class="input" type="text" name="username" placeholder="MMustermann">
                     <br>
-                    <label><?php echo $language["label_firstname"] ?>:</label><input type="text" name="name" placeholder="Vorname des Angestellten">
+                    <label><?php echo $language["label_firstname"] ?>:</label><input class="input" type="text" name="name" placeholder="Name">
                     <br>
-                    <label><?php echo $language["label_email"] ?>:</label><input type="email" name="email" required placeholder="Email des Angestellten">
+                    <label><?php echo $language["label_email"] ?>:</label><input class="input" type="email" name="email" required placeholder="Email">
                     <br>
-                    <label><?php echo $language["label_password"] ?>:</label><input type="password" name="password">
+                    <label><?php echo $language["label_password"] ?>:</label><input class="input" type="password" name="password" placeholder="Your Password">
                     <br>
                     <label><?php echo $language["label_grant_admin"] ?></label><input type="checkbox" value="true" name="admin">
-                    <button type="submit" name="submit" class="button" <?php echo $add_style;  ?>><?php echo $language["button_text"] ?></button>
+                    <button class="button" type="submit" name="submit" class="button" <?php echo $add_style;  ?>><?php echo $language["button_text"] ?></button>
                 </form>
         </div>
     </body>

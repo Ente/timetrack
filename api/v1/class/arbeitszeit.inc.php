@@ -11,6 +11,7 @@ namespace Arbeitszeit {
     use Arbeitszeit\Vacation;
     use Arbeitszeit\Sickness;
     use Arbeitszeit\ExportModule;
+    use Arbeitszeit\Mails;
     /**
      * Beinhaltet wesentliche Inhalte, wie Einstellungen, Arbeitszeiten erstellen, etc.
      * 
@@ -30,18 +31,17 @@ namespace Arbeitszeit {
         private $sickness;
         private $vacation;
         private $exportModule;
+        private $mails;
 
         public function __construct()
         {
             $this->db = new DB();
-            if (self::get_app_ini()["general"]["debug"] == true || self::get_app_ini()["general"]["debug"] == "false") {
-                #_errors", 1);
-            }
             $this->init_lang() ?? null;
         }
 
-        public function __destruct(){
-            if (self::get_app_ini()["general"]["debug"] == true || self::get_app_ini()["general"]["debug"] == "false") {
+        public function __destruct()
+        {
+            if (filter_var(self::get_app_ini()["general"]["debug"], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) == true) {
                 Exceptions::error_rep("Destroying Arbeitszeit class, dump of all loaded files: " . json_encode(get_included_files(), JSON_PRETTY_PRINT));
             }
         }
@@ -305,53 +305,53 @@ namespace Arbeitszeit {
         }
 
         /**
-         * get_app_ini - Liest die Einstellungen aus der Datei "app.ini"
+         * get_app_ini - Reads the app.json file
          * 
-         * @return array Gibt ein Array mit den Einstellungen zurück
+         * @return array Returns the app.json as an array
          */
         public static function get_app_ini()
         {
-            Exceptions::error_rep("Getting app.ini...");
-            $ini = parse_ini_file($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", true);
-            // Run once migrator to app.json
-            if (!file_exists($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json")) {
-                Exceptions::error_rep("Migrating app.ini to app.json...");
-                $json = json_encode($ini, JSON_PRETTY_PRINT);
-                file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json", $json);
+            $ini_path = $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini";
+            $json_path = $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json";
+
+            Exceptions::error_rep("Loading application configuration...");
+
+            if (file_exists($json_path)) {
+                $json_data = file_get_contents($json_path);
+                $decoded_data = json_decode($json_data, true);
+
+                if (is_array($decoded_data)) {
+                    Exceptions::error_rep("Loaded configuration from app.json");
+                    return self::sanitizeOutput($decoded_data);
+                } else {
+                    Exceptions::error_rep("Invalid JSON format in app.json, falling back to app.ini...");
+                }
             }
-            return $ini;
+
+            if (file_exists($ini_path)) {
+                $ini_data = parse_ini_file($ini_path, true);
+
+                if (!is_array($ini_data)) {
+                    Exceptions::error_rep("Error parsing app.ini", 1, "N/A");
+                    return [];
+                }
+
+                Exceptions::error_rep("Migrating app.ini to app.json...");
+                file_put_contents($json_path, json_encode($ini_data, JSON_PRETTY_PRINT));
+
+                return self::sanitizeOutput($ini_data);
+            }
+
+            Exceptions::error_rep("No valid configuration file found", 1, "N/A");
+            return [];
         }
 
-        /**
-         * check_app_ini() - Überprüft app.ini Werte
-         * 
-         * @return array|bool Gibt ein Array mit Fehlern zurück, ansonsten true bei keinen Fehlern
-         */
-        public function check_app_ini()
+        private static function sanitizeOutput($data)
         {
-            $ini = $this->get_app_ini();
-            foreach ($ini as $key => $value) {
-                if (!isset($value)) {
-                    Exceptions::error_rep("An error occured while checking app.ini - One or more values are missing - $key unset!");
-                    return [
-                        "error_code" => 100,
-                        "error_message" => "One or more of the values of the app.ini file are missing.\nDetailed Error: {$key} is unset!"
-                    ];
-                }
-
-                if ($key == "language") {
-                    if ($value != "de" || $value != "en") {
-                        Exceptions::error_rep("An error occured while checking app.ini - language not defined correctly. choose either 'de' or 'en'!");
-                        return [
-                            "error_code" => 100,
-                            "error_message" => "One or more values of the app.ini are missing or incorrect.\nDetailed Error: {$key} value can only store 'de' or 'en'!"
-                        ];
-                    }
-                }
+            if (is_array($data)) {
+                return array_map([self::class, 'sanitizeOutput'], $data);
             }
-            return true;
-
-
+            return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
         }
 
         public function get_all_worktime()
@@ -413,7 +413,7 @@ namespace Arbeitszeit {
                     $rew = $row["schicht_anfang"];
                     $rol = $row["schicht_ende"];
                     $rum = $row["ort"];
-                    $rqw = $row["id"]; # TODO: fix broken "delete" link
+                    $rqw = $row["id"];
                     $rbn = $row["username"];
                     $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
                     $rpe = @strftime("%H:%M", strtotime($row["pause_end"]));
@@ -628,6 +628,9 @@ namespace Arbeitszeit {
             if (strpos($url, "info=error")) {
                 return "<p><span style='color:red;'>{$loc["error"]}</span></p>";
             }
+            if (strpos($url, "info=notification_not_found")) {
+                return "<p><span style='color:red;'>{$loc["notification_not_found"]}</span></p>";
+            }
 
         }
 
@@ -650,54 +653,6 @@ namespace Arbeitszeit {
                 ];
 
             }
-        }
-
-        /**
-         * change_settings() - Allows you to change specific settings in the app.ini
-         * 
-         * @param array $array Contains the array with changing values
-         * @return bool Returns true o success and false otherwise
-         */
-        public static function change_settings($array)
-        {
-            $ini = self::get_app_ini();
-            foreach ($array as $key => $value) {
-                unset($ini["general"][(string) $key]);
-                $ini["general"][(string) $key] = $value;
-
-            }
-            Exceptions::error_rep("Changing settings...");
-            $file = fopen($_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini", "w");
-            $cini = self::arr2ini($ini);
-            if (fwrite($file, $cini)) {
-                fclose($file);
-                return true;
-            } else {
-                Exceptions::error_rep("An error occured while chaning settings");
-                fclose($file);
-                return false;
-            }
-        }
-
-        private static function arr2ini(array $a, array $parent = array())
-        {
-            Exceptions::error_rep("Writing to app.ini...");
-            $out = '';
-            foreach ($a as $k => $v) {
-                if (is_array($v)) {
-                    //subsection case
-                    //merge all the sections into one array...
-                    $sec = array_merge((array) $parent, (array) $k);
-                    //add section information to the output
-                    $out .= '[' . join('.', $sec) . ']' . PHP_EOL;
-                    //recursively traverse deeper
-                    $out .= self::arr2ini($v, $sec);
-                } else {
-                    //plain key->value case
-                    $out .= "$k=\"$v\"" . PHP_EOL;
-                }
-            }
-            return $out;
         }
 
         public static function get_worktime_by_id($id)
@@ -818,6 +773,13 @@ namespace Arbeitszeit {
             if (!$this->exportModule)
                 $this->exportModule = new ExportModule;
             return $this->exportModule;
+        }
+
+        public function mails(): Mails
+        {
+            if (!$this->mails)
+                $this->mails = new Mails;
+            return $this->mails;
         }
     }
 }

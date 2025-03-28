@@ -50,6 +50,7 @@ class Userdetail extends PluginBuilder implements PluginInterface {
         $this->set_log_append();
         $this->set_plugin_configuration();
         #Hooks::addHook("create_user", "callback", function(){echo "hi";}, "userdetail");
+        $this->check_folder();
     }
 
     public function onLoad(): void{
@@ -116,7 +117,11 @@ class Userdetail extends PluginBuilder implements PluginInterface {
 
     public function get_employee_data($username){
         $this->logger("[userdetail] Getting employee data for employee: {$username}...");
-        if(json_decode(@file_get_contents(dirname(__DIR__, 1) . "/data/" . $username . ".json"), true) != false){
+        $path = @file_get_contents(dirname(__DIR__, 1) . "/data/" . $username . ".json");
+        if($path == null || $path == false){
+            header("Location: /suite/plugins/index.php?pn=userdetail&p_view=views/user.php&user={$username}&nuser=true");
+        }
+        if(json_decode($path, true) != false){
             return json_decode(file_get_contents(dirname(__DIR__, 1) . "/data/" . $username . ".json"), true);
         } else {
             $this->logger("[userdetail] No data found for employee: {$username}...");
@@ -137,6 +142,12 @@ class Userdetail extends PluginBuilder implements PluginInterface {
 
     public function create_user_callback($username, $name, $email, $password, $isAdmin){
         echo "Successfully created user account...";
+    }
+
+    public function check_folder(){
+        if(!file_exists(dirname(__DIR__, 1) . "/data/")){
+            mkdir(dirname(__DIR__, 1) . "/data/");
+        }
     }
 }
 

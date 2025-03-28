@@ -6,6 +6,7 @@ namespace Arbeitszeit{
     use Symfony\Component\Yaml\Yaml;
 
     use Exception;
+    use Arbeitszeit\Exceptions;
 
 
     interface PluginInterface {
@@ -236,6 +237,7 @@ namespace Arbeitszeit{
          * @return void|Exception Void on success, Exception on failure
          */
         final public function memorize_plugins(): void{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Memorizing all plugins...");
             $plugins = $this->get_plugins();
             foreach($plugins["plugins"] as $plugin => $data){
@@ -267,6 +269,7 @@ namespace Arbeitszeit{
          * @return bool|Exception Return true on success. Exception on failure
          */
         final public function memorize_plugin($name, $additional_payload = null): bool{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Memorizing plugin '{$name}'...");
             $plugin = $this->read_plugin_configuration($name);
             try{
@@ -297,6 +300,7 @@ namespace Arbeitszeit{
          * @return object|bool|Exception Returns the class on success and either false or an Exception on failure
          */
         final public function unmemorize_plugin($name): object{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Unmemorizing plugin '{$name}'...");
             $plugin = $this->read_plugin_configuration($name);
             try{
@@ -327,6 +331,7 @@ namespace Arbeitszeit{
          * @return bool
          */
         final public function check_persistance(): bool{
+            Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Checking persistance for all plugins...");
             $plugins = $this->get_plugins();
             foreach($plugins["plugins"] as $plugin => $data){
@@ -409,15 +414,27 @@ namespace Arbeitszeit{
         }
         
 
-        final public function load_plugin_view($plugin_name, $view){
-            # $view shall be the nav link value
-            try{
+        final public function load_plugin_view($plugin_name, $view) {
+            try {
                 $this->logger("{$this->la} Loading view '{$view}' for plugin '{$plugin_name}'");
-                require $_SERVER["DOCUMENT_ROOT"] . $this->get_basepath() . "/" . $plugin_name . "/" . $view;
-            } catch (\Error $e){
-                Exceptions::error_rep("An error occured while loading view '$view' for plugin '$plugin_name' - Message: {$e}");
+        
+                $plugin_base_path = realpath($_SERVER["DOCUMENT_ROOT"] . $this->get_basepath() . "/" . basename($plugin_name));
+                $view_path = realpath($plugin_base_path . "/" . ltrim($view, "/"));
+        
+                $this->logger("Expected plugin base path: {$plugin_base_path}");
+                $this->logger("Computed view path: {$view_path}");
+        
+                if (!$plugin_base_path || !$view_path || !file_exists($view_path) || strpos($view_path, $plugin_base_path) !== 0) {
+                    throw new \Exception("View '{$view}' for plugin '{$plugin_name}' not found or invalid.");
+                }
+        
+                require $view_path;
+        
+            } catch (\Throwable $e) {
+                Exceptions::error_rep("An error occurred while loading view '{$view}' for plugin '{$plugin_name}' - Message: {$e->getMessage()}");
                 return false;
             }
+        
             $this->logger("{$this->la} Loaded view '{$view}' for plugin '{$plugin_name}'");
             return true;
         }

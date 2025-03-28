@@ -1,24 +1,20 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_password_reset.auth.arbeit.inc.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/auth/plugins/mail_password_changed.auth.arbeit.inc.php";
 
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Auth;
-use Arbeitszeit\MailPasswordReset;
-use Arbeitszeit\MailPasswordChanged;
 use Arbeitszeit\Exceptions;
 use Arbeitszeit\DB;
+use Arbeitszeit\Mails\Provider\PHPMailerMailsProvider;
 
 $arbeitszeit = new Arbeitszeit;
 $auth = new Auth;
-$reset = new MailPasswordReset;
-$changed = new MailPasswordChanged;
 
 $ini = $arbeitszeit->get_app_ini();
 
 if(isset($_POST["email"])){
-    $reset->mail_password_reset($arbeitszeit->benutzer()->get_username_from_email($_POST["email"]), $arbeitszeit->auth()->mail_init($arbeitszeit->benutzer()->get_username_from_email($_POST["email"]), true));
+    $arbeitszeit->mails()->init(new PHPMailerMailsProvider($arbeitszeit, $arbeitszeit->benutzer()->get_username_from_email($_POST["email"])));
+    $arbeitszeit->mails()->sendMail("PasswordResetTemplate", ["username" => $arbeitszeit->benutzer()->get_username_from_email($_POST["email"]), "email" => $_POST["email"]]);
     header("Location: /suite/login.php?info=password_reset");
 }
 
@@ -34,7 +30,8 @@ if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
         $sql = "UPDATE users SET password = ? WHERE email = ?;";
         $res = $db->sendQuery($sql)->execute([$pass, $_POST["auth"]]);
         if($res){
-            $changed->mail_password_changed($data["username"], $auth->mail_init($data["username"], true));
+            $arbeitszeit->mails()->init(new PHPMailerMailsProvider($arbeitszeit, $data["username"]));
+            $arbeitszeit->mails()->sendMail("PasswordChangedTemplate", ["username" => $data["username"], "email" => $_POST["auth"]]);
             header("Location: /suite/login.php?info=password_changed");
         } else {
             Exceptions::error_rep("Could not change password as the query failed!. See previous message for more information.");
@@ -59,10 +56,10 @@ if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
             <h2>Password forgot?</h2>
             <p>Please enter your new password in the below's form.</p>
             <p>You will recieve a email after submiting your new password.</p>
-            <label>Your new password: </label><input type="password" name="password" placeholder="Password">
-            <input type="text" name="auth" value="<?php echo explode(";", base64_decode($_GET["token"]))[1];  ?>" hidden>
+            <label>Your new password: </label><input class="input" type="password" name="password" placeholder="Password">
+            <input type="text" name="auth" value="<?php echo htmlspecialchars(explode(";", base64_decode($_GET["token"]))[1]);  ?>" hidden>
             <br>
-            <button type="submit" name="reset" value="true">Submit</button>
+            <button class="input" type="submit" name="reset" value="true">Submit</button>
         </form>
     </body>
 </html>

@@ -23,7 +23,7 @@ namespace Arbeitszeit {
             $data = <<< DATA
             <form action="actions/worktime/add.php" method="POST">
             <label name="ort">{$loc["loc"]}</label>
-                <input type="text" name="ort" placeholder="{$loc["loc"]}">
+                <input class="input" type="text" name="ort" placeholder="{$loc["loc"]}">
                 <br>
                 <label name="date">{$loc["date"]}</label>
                 <input class="input" type="date" name="date" data-date-format="DD.MM.YYYY" required>

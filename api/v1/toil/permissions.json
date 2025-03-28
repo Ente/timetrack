@@ -18,5 +18,9 @@
     "getVacations": 1,
     "getVersion": 2,
     "getWorktimes": 1,
-    "healthcheck": 2
+    "healthcheck": 2,
+    "autoremoveNotifications": 0,
+    "removeNotification": 1,
+    "addNotification": 1,
+    "getNotifications": 0
 }

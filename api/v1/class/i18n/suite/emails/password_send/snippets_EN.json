@@ -1,11 +1,11 @@
 {
     "subject": "Your password has been set",
     "greetings": "Hello",
-    "message": "Your password has been set.<br> You can log in using the following link",
+    "message": "Your password has been set.[BR] You can log in using the following link",
     "note": "Your password has been set by your supervisor. If you no longer know the password, you can reset it!",
     "password": "Your password",
     "end": "Best regards",
     "noreply": "automatic sender",
     "confidential": "Confidential information!",
-    "gdpr": "You are receiving the email because you have agreed to the general terms and conditions. <br> You can view the current General Data Protection Regulation here"
+    "gdpr": "You are receiving the email because you have agreed to the general terms and conditions. [BR] You can view the current General Data Protection Regulation here"
     }

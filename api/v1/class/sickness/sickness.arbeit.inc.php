@@ -75,7 +75,7 @@ namespace Arbeitszeit {
 
             if($count > 0){
                 # compute and return data
-                while($row = $data->fetch(\PDO::FETCH_ASSOC)){
+                foreach($data->fetchAll(\PDO::FETCH_ASSOC) as $row){
                     $rnw = $row["username"];
                     $start = @strftime("%d.%m.%Y", strtotime($row["start"]));
                     $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
@@ -89,12 +89,12 @@ namespace Arbeitszeit {
                         case "approved":
                             $status = "<span style='color:green;'>{$i18n["status"]["approved"]}</span>";
                             break;
-                        case "action":
-                            $status = "<span style='color:red'>Action needed</span>";
+                        case "rejected":
+                            $status = "<span style='color:red;'>{$i18n["status"]["rejected"]}</span>";
                             break;
                     }
 
-                    if($stop = "01.01.1970"){
+                    if($stop == "01.01.1970"){
                         $stop = "-";
                     }
 

@@ -6,5 +6,6 @@
     "naam": "Jouw naam",
     "id": "Uw identiteitsbewijs",
     "email": "Uw e-mailadres",
-    "change_request": "Wilt u dat uw gegevens worden gewijzigd? Neem contact op met uw manager."
+    "change_request": "Wilt u dat uw gegevens worden gewijzigd? Neem contact op met uw manager.",
+    "edit_user": "bewerken"
    }

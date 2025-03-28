@@ -25,5 +25,6 @@
     "error": "Opmerking: er is een fout opgetreden. Controleer indien mogelijk het logboek.",
     "statemismatch": "Fout: beveiligingsfout",
     "ldapauth": "Fout: Authenticatie via LDAP mislukt.",
-    "ldapcreated": "Opmerking: log opnieuw in. Uw gebruikersaccount is nu aangemaakt. (LDAP staat zelfinloggen toe)"
+    "ldapcreated": "Opmerking: log opnieuw in. Uw gebruikersaccount is nu aangemaakt. (LDAP staat zelfinloggen toe)",
+    "notification_not_found": "Fout: melding niet gevonden."
    }

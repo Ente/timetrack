@@ -10,7 +10,7 @@ namespace Arbeitszeit {
         }
 
         public static function error_rep($message, $method = NULL){
-            $error_file = self::logrotate(); // file on your fs, e.g. /var/www/html/error.log
+            $error_file = self::getSpecificLogFilePath(); // file on your fs, e.g. /var/www/html/error.log
             $version = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/VERSION"); //optional value
             if($method == NULL){
                 $method = $_SERVER["REQUEST_METHOD"];
@@ -34,26 +34,18 @@ namespace Arbeitszeit {
             }
         }
 
-        public static function logrotate(){
-            $logpath = $_SERVER["DOCUMENT_ROOT"] . "/data/logs/";
-            $date = date("Y-m-d");
-            $lastrotate = @file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/data/logs/logrotate-cache.txt");
-
-            if($date != $lastrotate){
-                if(!file_exists($logpath . "log-{$date}.log")){
-                    $newlog = $logpath . "log-{$date}.log";
-                    file_put_contents($newlog, "");
-                    file_put_contents($_SERVER["DOCUMENT_ROOT"] . "/data/logs/logrotate-cache.txt", $date);
-                }
-                return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$date}.log";
-            }
-            return $_SERVER["DOCUMENT_ROOT"] . "/data/logs/log-{$date}.log";
-        }
-
         public static function failure($code, $error, $stack){
             Exceptions::error_rep("[EXCEPTIONS] A critical error occured. | Message: " . $error);
             $parms = http_build_query(array("code" => $code, "error" => $error, "stack" => base64_encode($stack)));
             header("Location: /errors/500.php?$parms");
+        }
+
+        public static function deprecated($function_name, $additional_message){
+            $message = "The function '{$function_name}' is deprecated. {$additional_message}";
+
+            trigger_error($message, E_USER_DEPRECATED);
+            Exceptions::error_rep($message);
+            return $message;
         }
     }
 }

@@ -6,7 +6,14 @@ $arbeit = new Arbeitszeit;
 $arbeit->auth()->login_validation();
 $id = $_GET["id"];
 $data = $arbeit->notifications()->get_notifications_entry($id);
+
+if(isset($data["error"])){
+    header("Location: /suite/?info=notification_not_found");
+    exit;
+}
+
 $loc = $arbeit->i18n()->loadLanguage(null, "notifications/view");
+$iid = htmlspecialchars($id);
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,17 +28,17 @@ $loc = $arbeit->i18n()->loadLanguage(null, "notifications/view");
     <body>
         <h2><?php echo $loc["h2"] ?> <?php echo @strftime("%d.%m.%Y", strtotime($data["datum"])); ?></h2>
         <div class="box">
-            <p><b><?php echo $loc["label_location"] ?>:</b> <?php  echo $data["ort"];  ?></p>
+            <p><b><?php echo $loc["label_location"] ?>:</b> <?php  echo htmlspecialchars($data["ort"]);  ?></p>
             <p><b><?php echo $loc["label_date"] ?>:</b> <?php echo $datum = @strftime("%d.%m.%Y", strtotime($data["datum"])); ?></p>
-            <p><b><?php echo $loc["label_time"] ?>:</b> <?php echo $data["uhrzeit"]; ?></p>
-            <p><b><?php echo $loc["label_note"] ?>:</b><br> <?php echo $data["notiz"]; ?></p>
+            <p><b><?php echo $loc["label_time"] ?>:</b> <?php echo htmlspecialchars($data["uhrzeit"]); ?></p>
+            <p><b><?php echo $loc["label_note"] ?>:</b><br> <?php echo htmlspecialchars($data["notiz"]); ?></p>
         </div>
 
         <?php
         # Bug 13
         if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
             echo <<< DATA
-            <a href="../admin/actions/notifications/delete.php?id={$_GET["id"]}">{$loc["a_delete"]}</a> | <span style="color:red">{$loc["a_delete_note"]}</span>
+            <a href="../admin/actions/notifications/delete.php?id={$iid}">{$loc["a_delete"]}</a> | <span style="color:red">{$loc["a_delete_note"]}</span>
             DATA;   
         }
         ?>

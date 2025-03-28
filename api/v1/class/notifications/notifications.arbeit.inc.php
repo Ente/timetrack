@@ -69,6 +69,35 @@ namespace Arbeitszeit{
             }
         }
 
+        public function get_all_notifications(){
+            Exceptions::error_rep("[NOTIFICATIONS] Getting all notifications...");
+            $sql = "SELECT * FROM `kalender` ORDER BY id DESC;";
+            $res = $this->db->sendQuery($sql);
+            $res->execute();
+            $data = [];
+            if($res->rowCount() > 0){
+                while($row = $res->fetch(\PDO::FETCH_ASSOC)){
+                    $time = $row["uhrzeit"];
+                    $date = @strftime("%d.%m.%Y", strtotime($row["datum"]));
+                    $location = $row["ort"];
+                    $note = $row["notiz"];
+                    $id = $row["id"];
+
+                    $data[] = [
+                        "id" => $id,
+                        "date" => $date,
+                        "time" => $time,
+                        "location" => $location,
+                        "note" => $note
+                    ];
+                }
+                return $data;
+            } else {
+                Exceptions::error_rep("[NOTIFICATIONS] No notifications entries found.");
+                return null;
+            }
+        }
+
         public function get_notifications_html(){
             Exceptions::error_rep("[NOTIFICATIONS] Getting notifications html...");
             $base_url = Arbeitszeit::get_app_ini()["general"]["base_url"];
