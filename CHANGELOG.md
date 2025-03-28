@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v7.10.2
+
+* Added native function to `Benutzer` class to update user proprties which not lets the `userdetail` plugin actually update user properties
+
+## v7.10.1.1
+
+* Hotfix preventing to add a worktime in normal mode
+
 ## v7.10.1
 
 * Added some CSS to certain elements which were missing it
