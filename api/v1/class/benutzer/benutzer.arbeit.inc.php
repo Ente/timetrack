@@ -21,6 +21,9 @@ namespace Arbeitszeit {
          */
         public function create_user($username, $name, $email, $password, $isAdmin = 0)
         {
+            if($this->nodes()->checkNode("benutzer.inc", "create_user") == false){
+                return false;
+            }
             #$originalFunction = function($username, $name, $email, $password, $isAdmin){
             Exceptions::error_rep("Creating user '$username'...");
             $password = password_hash($password, PASSWORD_DEFAULT);
@@ -52,6 +55,9 @@ namespace Arbeitszeit {
          */
         public function delete_user($id)
         {
+            if($this->nodes()->checkNode("benutzer.inc", "delete_user") == false){
+                return false;
+            }
             Exceptions::error_rep("Deleting user with id '$id'...");
             $sql = "DELETE FROM `users` WHERE id = ?;";
             $data = $this->db->sendQuery($sql)->execute([$id]);
@@ -188,6 +194,9 @@ namespace Arbeitszeit {
          */
         public function get_all_users_html()
         {
+            if($this->nodes()->checkNode("benutzer.inc", "get_all_users_html") == false){
+                return false;
+            }
             Exceptions::error_rep("Getting all users...");
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `users`;";
@@ -232,6 +241,9 @@ namespace Arbeitszeit {
          */
         public function get_user_html($username)
         {
+            if($this->nodes()->checkNode("benutzer.inc", "get_user_html") == false){
+                return false;
+            }
             Exceptions::error_rep("Getting user '$username'...");
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
             $data = $this->get_user($username);
@@ -281,6 +293,9 @@ namespace Arbeitszeit {
 
         public function editUserProperties(mixed $username_or_id, string $name, mixed $value): bool
         {
+            if($this->nodes()->checkNode("benutzer.inc", "editUserProperties") == false){
+                return false;
+            }
             if (
                 !isset($_SESSION["username"]) ||
                 !$this->is_admin($this->get_user($_SESSION["username"]))

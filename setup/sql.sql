@@ -67,6 +67,10 @@ CREATE TABLE `vacation` (
   `status` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE `scheme` (
+	`v` INT(11) NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 ALTER TABLE `arbeitszeiten`
   ADD PRIMARY KEY (`id`);
 

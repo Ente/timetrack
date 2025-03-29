@@ -1,0 +1,126 @@
+{
+  "nodes": {
+    "functions": {
+      "notifications.inc": {
+        "create_notifications_entry": true,
+        "create_notifications_entry_P": 1,
+
+        "notifications_delete": true,
+        "notifications_delete_P": 1,
+
+        "get_notifications_edit_html": true,
+        "get_notifications_edit_html_P": 1,
+
+        "get_all_notifications": true,
+        "get_all_notifications_P": 0,
+
+        "get_notifications_html": true,
+        "get_notifications_html_P": 0,
+
+        "get_notifications_entry": true,
+        "get_notifications_entry_P": 0,
+
+        "edit_notifications_entry": true,
+        "edit_notifications_entry_P": 1,
+
+        "delete_notifications_entry": true,
+        "delete_notifications_entry_P": 1
+      },
+      "benutzer.inc": {
+        "editUserProperties": true,
+        "editUserProperties_P": 1,
+
+        "get_user_html": true,
+        "get_user_html_P": 0,
+
+        "get_all_users_html": true,
+        "get_all_users_html_P": 1,
+
+        "delete_user": true,
+        "delete_user_P": 1,
+
+        "create_user": true,
+        "create_user_P": 1
+      },
+      "mode.inc": {
+        "get_normal_mode_html": true,
+        "get_normal_mode_html_P": 0,
+
+        "get_easymode_html": true,
+        "get_easymode_html_P": 0
+      },
+      "sickness.inc": {
+        "add_sickness": true,
+        "add_sickness_P": 0,
+
+        "remove_sickness": true,
+        "remove_sickness_P": 1,
+
+        "change_status": true,
+        "change_status_P": 1,
+
+        "display_sickness_all": true,
+        "display_sickness_all_P": 1
+      },
+      "vacation.inc": {
+        "add_vacation": true,
+        "add_vacation_P": 0,
+
+        "remove_vacation": true,
+        "remove_vacation_P": 1,
+
+        "change_status": true,
+        "change_status_P": 1,
+
+        "display_vacation_all": true,
+        "display_vacation_all_P": 1
+      },
+      "arbeitszeit.inc": {
+        "delete_worktime": true,
+        "delete_worktime_P": 1,
+
+        "add_easymode_worktime": true,
+        "add_easymode_worktime_P": 0,
+
+        "end_easymode_worktime": true,
+        "end_easymode_worktime_P": 0,
+
+        "start_easymode_pause_worktime": true,
+        "start_easymode_pause_worktime_P": 0,
+
+        "end_easymode_pause_worktime": true,
+        "end_easymode_pause_worktime_P": 0,
+
+        "toggle_easymode": true,
+        "toggle_easymode_P": 0,
+
+        "get_easymode_status": true,
+        "get_easymode_status_P": 0,
+
+        "check_easymode_worktime_finished": true,
+        "check_easymode_worktime_finished_P": 0,
+
+        "add_worktime": true,
+        "add_worktime_P": 0,
+
+        "get_all_worktime": true,
+        "get_all_worktime_P": 1,
+
+        "get_all_user_worktime": true,
+        "get_all_user_worktime_P": 0,
+
+        "get_specific_worktime_html": true,
+        "get_specific_worktime_html_P": 1,
+
+        "get_employee_worktime_html": true,
+        "get_employee_worktime_html_P": 0,
+
+        "mark_for_review": true,
+        "mark_for_review_P": 1,
+
+        "unlock_for_review": true,
+        "unlock_for_review_P": 1
+      }
+    }
+  }
+}

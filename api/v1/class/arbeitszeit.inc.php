@@ -12,6 +12,7 @@ namespace Arbeitszeit {
     use Arbeitszeit\Sickness;
     use Arbeitszeit\ExportModule;
     use Arbeitszeit\Mails;
+    use Arbeitszeit\Nodes;
     /**
      * Beinhaltet wesentliche Inhalte, wie Einstellungen, Arbeitszeiten erstellen, etc.
      * 
@@ -32,6 +33,7 @@ namespace Arbeitszeit {
         private $vacation;
         private $exportModule;
         private $mails;
+        private $nodes;
 
         public function __construct()
         {
@@ -65,6 +67,9 @@ namespace Arbeitszeit {
          */
         public function delete_worktime($id)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "delete_worktime")){
+                return false;
+            }
             $data = $this->db->sendQuery("DELETE FROM arbeitszeiten WHERE id = ?")->execute([$id]);
             if ($data == false) {
                 Exceptions::error_rep("An error occured while deleting an worktime entry. See previous message for more information.");
@@ -83,6 +88,10 @@ namespace Arbeitszeit {
 
         public static function add_easymode_worktime($username)
         {
+            $nodes = new Nodes;
+            if(!$nodes->checkNode("arbeitszeit.inc", "add_easymode_worktime")) {
+                return false;
+            }
             Exceptions::error_rep("Creating easymode worktime entry for user '{$username}'...");
             $date = date("Y-m-d");
             $time = date("H:i");
@@ -109,6 +118,10 @@ namespace Arbeitszeit {
 
         public static function end_easymode_worktime($username, $id)
         {
+            $nodes = new Nodes;
+            if(!$nodes->checkNode("arbeitszeit.inc", "end_easymode_worktime")) {
+                return false;
+            }
             Exceptions::error_rep("Ending easymode worktime for user '{$username}'...");
             $time = date("H:i");
             $conn = new DB;
@@ -133,6 +146,9 @@ namespace Arbeitszeit {
 
         public function start_easymode_pause_worktime($username, $id)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "start_easymode_pause_worktime")) {
+                return false;
+            }
             Exceptions::error_rep("Starting easymode pause for user '{$username}'...");
             $time = date("H:i");
             $user = new Benutzer;
@@ -155,6 +171,9 @@ namespace Arbeitszeit {
         }
         public function end_easymode_pause_worktime($username, $id)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "end_easymode_pause_worktime")) {
+                return false;
+            }
             Exceptions::error_rep("Ending easymode pause for user '{$username}'...");
             $time = date("H:i");
             $user = new Benutzer;
@@ -178,6 +197,9 @@ namespace Arbeitszeit {
 
         public function toggle_easymode($username)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "toggle_easymode")) {
+                return false;
+            }
             Exceptions::error_rep("Toggling easymode for user '{$username}'...");
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $res = $this->db->sendQuery($sql);
@@ -210,6 +232,9 @@ namespace Arbeitszeit {
 
         public function get_easymode_status($username, $mode = 0)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_easymode_status")) {
+                return false;
+            }
             Exceptions::error_rep("Getting easymode status for user '{$username}'...");
             $sql = "SELECT * FROM `users` WHERE username = ?;";
             $res = $this->db->sendQuery($sql);
@@ -246,6 +271,10 @@ namespace Arbeitszeit {
          */
         public static function check_easymode_worktime_finished($username)
         {
+            $nodes = new Nodes;
+            if(!$nodes->checkNode("arbeitszeit.inc", "check_easymode_worktime_finished")) {
+                return false;
+            }
             Exceptions::error_rep("Checking easymode worktime for user '{$username}'...");
             $db = new DB;
             $sql = "SELECT * FROM `arbeitszeiten` WHERE active = '1' AND username = ?;";
@@ -280,6 +309,9 @@ namespace Arbeitszeit {
          */
         public function add_worktime($start, $end, $location, $date, $username, $type, $pause = null, $meta = null)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "add_worktime")) {
+                return false;
+            }
             $user = new Benutzer;
             $usr = $user->get_user($username);
             if ($date > date("y-m-d") /*|| $date < date("y-m-d")*/) {
@@ -356,6 +388,9 @@ namespace Arbeitszeit {
 
         public function get_all_worktime()
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_all_worktime")) {
+                return false;
+            }
             Exceptions::error_rep("Getting all worktimes...");
             $sql = "SELECT * FROM `arbeitszeiten`;";
             $res = $this->db->sendQuery($sql);
@@ -373,6 +408,9 @@ namespace Arbeitszeit {
 
         public function get_all_user_worktime($username)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_all_user_worktime")) {
+                return false;
+            }
             Exceptions::error_rep("Getting all worktimes for user '{$username}'...");
             $sql = "SELECT * FROM `arbeitszeiten` WHERE username = ?;";
             $res = $this->db->sendQuery($sql);
@@ -390,6 +428,9 @@ namespace Arbeitszeit {
 
         public function get_specific_worktime_html(int $month, int $year)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_specific_worktime_html")) {
+                return false;
+            }
             Exceptions::error_rep("Getting worktimes rendered for month '{$month}' and year '{$year}'...");
             $base_url = $ini = Arbeitszeit::get_app_ini()["general"]["base_url"];
             $sql = "SELECT * FROM `arbeitszeiten` WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? ORDER BY schicht_tag DESC;";
@@ -460,6 +501,9 @@ namespace Arbeitszeit {
         }
         public function get_employee_worktime_html($username)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_employee_worktime_html")) {
+                return false;
+            }
             Exceptions::error_rep("Getting worktimes rendered for user '{$username}'...");
             $sql = "SELECT * FROM `arbeitszeiten` WHERE username = ? ORDER BY id DESC;";
             $res = $this->db->sendQuery($sql);
@@ -519,6 +563,9 @@ namespace Arbeitszeit {
 
         public function mark_for_review($id)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "mark_for_review")) {
+                return false;
+            }
             Exceptions::error_rep("Marking worktime with ID '{$id}' for review...");
             $sql = "UPDATE `arbeitszeiten` SET `review` = '1' WHERE `id` = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
@@ -532,6 +579,9 @@ namespace Arbeitszeit {
 
         public function unlock_for_review($id)
         {
+            if(!$this->nodes()->checkNode("arbeitszeit.inc", "unlock_for_review")) {
+                return false;
+            }
             Exceptions::error_rep("Unlocking worktime from review with ID '{$id}'...");
             $sql = "UPDATE `arbeitszeiten` SET `review` = '0' WHERE `id` = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
@@ -780,6 +830,13 @@ namespace Arbeitszeit {
             if (!$this->mails)
                 $this->mails = new Mails;
             return $this->mails;
+        }
+
+        public function nodes(): Nodes
+        {
+            if (!$this->nodes)
+                $this->nodes = new Nodes;
+            return $this->nodes;
         }
     }
 }

@@ -11,6 +11,9 @@ namespace Arbeitszeit {
 
         public function add_sickness($start, $stop, $user = null)
         {
+            if($this->nodes()->checkNode("sickness.inc", "add_sickness") == false){
+                return false;
+            }
             Exceptions::error_rep("[SICK] Adding sickness for user '{$user}'...");
             $user = $_SESSION["username"];
             $dateString = $start;
@@ -34,6 +37,9 @@ namespace Arbeitszeit {
         }
 
         public function remove_sickness($id){ # admin function only
+            if($this->nodes()->checkNode("sickness.inc", "remove_sickness") == false){
+                return false;
+            }
             Exceptions::error_rep("[SICK] Removing sickness with id '{$id}'...");
             $data = $this->db()->sendQuery("DELETE * FROM sick WHERE id = ?")->execute([$id]);
             if($data == false){
@@ -45,6 +51,9 @@ namespace Arbeitszeit {
 
         public function change_status($id, $new_state = 3) # admin function only
         {
+            if($this->nodes()->checkNode("sickness.inc", "change_status") == false){
+                return false;
+            }
             Exceptions::error_rep("[SICK] Changing status for sickness id '{$id}' to '{$new_state}'...");
             if($new_state == 1 /* approve */){
                 $sql = "UPDATE `sick` SET `status` = 'approved' WHERE `id` = ?;";
@@ -65,6 +74,9 @@ namespace Arbeitszeit {
         }
 
         public function display_sickness_all(){ # admin function only
+            if($this->nodes()->checkNode("sickness.inc", "display_sickness_all") == false){
+                return false;
+            }
             Exceptions::error_rep("[SICK] Displaying all sicknesses...");
             $i18n = $this->i18n()->loadLanguage(null, "worktime/sick/all", "admin");
             
