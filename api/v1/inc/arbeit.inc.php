@@ -9,6 +9,7 @@ if(file_exists(__DIR__ . "/MAINTENANCE") == true){
 }
 
 require_once dirname(__DIR__, 1) . "/class/arbeitszeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/nodes/nodes.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/db/db.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/notifications/notifications.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/i18n/i18n.arbeit.inc.php";
