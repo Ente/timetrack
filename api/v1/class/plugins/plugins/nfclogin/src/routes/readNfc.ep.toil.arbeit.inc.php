@@ -9,7 +9,7 @@ namespace Toil {
     use Arbeitszeit\Arbeitszeit;
     use NFClogin\NFClogin;
 
-    class getWorktimes implements EPInterface
+    class readNfc implements EPInterface
     {
         public function __construct()
         {
