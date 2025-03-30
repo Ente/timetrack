@@ -2,6 +2,7 @@
 namespace Toil {
     require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
     require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
+    require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/loader.plugins.arbeit.inc.php";
     require_once dirname(__DIR__, 2) . "/src/Main.php";
 
     use Toil\EP;
