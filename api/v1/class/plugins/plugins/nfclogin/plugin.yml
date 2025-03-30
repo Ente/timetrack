@@ -1,0 +1,15 @@
+name: nfclogin
+src: /src
+main: Main
+namespace: NFClogin
+author: Ente
+description: 'Allow the use of NFC cards to login.'
+version: '1.0'
+api: 0.1
+permissions: none
+enabled: true
+custom.values:
+    license: LIC
+nav_links:
+    'Manage Cards': views/cards.php
+    'Manage Card Settings': views/admin.php
