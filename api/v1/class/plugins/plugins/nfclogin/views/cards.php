@@ -74,7 +74,7 @@ function startNFC() {
                 document.getElementById('nfc-status').textContent = "Card detected: " + data.uid;
                 setTimeout(() => location.reload(), 1000);
             } else {
-                document.getElementById('nfc-status').textContent = "No card detected.";
+                document.getElementById('nfc-status').textContent = data.error || "No card detected.";
                 hideModal();
             }
         })
@@ -97,11 +97,11 @@ function writeNFC() {
     })
     .then(res => res.json())
     .then(data => {
-        if (data.success || data.uid) {
-            document.getElementById('nfc-status').textContent = "Successfully written to card.";
-            setTimeout(() => location.reload(), 10000);
+        if (data.success) {
+            document.getElementById('nfc-status').textContent = "Successfully block: " + (data.block || username);
+            setTimeout(() => location.reload(), 2000);
         } else {
-            document.getElementById('nfc-status').textContent = "Error while writing to card.";
+            document.getElementById('nfc-status').textContent = data.error || "Write failed.";
             hideModal();
         }
     })
@@ -119,17 +119,18 @@ function readBlock4() {
     fetch('/api/v1/toil/readBlock4')
         .then(res => res.json())
         .then(data => {
-            if (data.block) {
-                document.getElementById('nfc-status').textContent = "Block 4: " + data.block;
+            if (data.value) {
+                document.getElementById('nfc-status').textContent = "Block 4: " + data.value;
             } else {
-                document.getElementById('nfc-status').textContent = "Error while reading block 4.";
+                document.getElementById('nfc-status').textContent = data.error || "Read failed.";
             }
             hideModal(3000);
         })
         .catch(err => {
             console.error(err);
-            document.getElementById('nfc-status').textContent = "Error while reading.";
+            document.getElementById('nfc-status').textContent = "Error while reading block.";
             hideModal();
         });
 }
+
 </script>

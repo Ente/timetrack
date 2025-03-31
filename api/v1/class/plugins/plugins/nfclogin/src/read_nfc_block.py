@@ -16,6 +16,6 @@ data, sw1, sw2 = connection.transmit([0xFF, 0xB0, 0x00, BLOCK, 0x10])
 
 if sw1 == 0x90 and sw2 == 0x00:
     value = bytearray(data).decode('utf-8', errors='ignore').rstrip('\x00')
-    print(f'{{"block": {BLOCK}, "value": "{value}"}}')
+    print('{"value": "' + value + '"}')
 else:
     print('{"error": "Read failed", "sw1": %d, "sw2": %d}' % (sw1, sw2))
