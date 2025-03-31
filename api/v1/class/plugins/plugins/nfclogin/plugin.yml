@@ -12,4 +12,3 @@ custom.values:
     license: LIC
 nav_links:
     'Manage Cards': views/cards.php
-    'Manage Card Settings': views/admin.php

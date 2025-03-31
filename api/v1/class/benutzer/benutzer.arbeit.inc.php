@@ -259,7 +259,7 @@ namespace Arbeitszeit{
          * @param array $user
          * @return bool Returns true if the user is an admin and false otherwise
          */
-        public function is_admin($user){
+        public static function is_admin($user){
             if($user["isAdmin"] == true){
                 return true;
             } else {

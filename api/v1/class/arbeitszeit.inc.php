@@ -704,6 +704,14 @@ namespace Arbeitszeit {
         }
 
 
+        public function blockIfNotAdmin(){
+            if(!Benutzer::is_admin(Benutzer::get_user($_SESSION["username"]))){
+                header("Location: /");
+            }
+            return false;
+        }
+
+
 
         public function notifications(): Notifications
         {
