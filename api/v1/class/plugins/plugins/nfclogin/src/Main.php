@@ -92,9 +92,9 @@ class NFClogin extends PluginBuilder implements PluginInterface {
         return $data;
     }
 
-    public function assignCard($username){
+    public function assignCard(int $id){
         $scriptPath = __DIR__ . "/write_nfc.py";
-        exec("python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg($username) . " 2>&1", $output, $status);
+        exec("python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg((string)$id) . " 2>&1", $output, $status);
         if ($status !== 0) {
             return [
                 "error" => "Helper script execution failed",

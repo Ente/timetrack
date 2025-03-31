@@ -90,10 +90,8 @@ function writeNFC() {
     if (!username) return false;
 
     showModal("Writing to card...");
-    fetch('/api/v1/toil/writeNfc', {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ username: username })
+    fetch('/api/v1/toil/writeNfc?username=' + username, {
+        method: "GET"
     })
     .then(res => res.json())
     .then(data => {

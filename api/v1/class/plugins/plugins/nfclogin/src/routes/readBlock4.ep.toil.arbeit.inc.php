@@ -7,6 +7,7 @@ namespace Toil {
 
     use Toil\EP;
     use Arbeitszeit\Arbeitszeit;
+    use Arbeitszeit\Benutzer;
     use NFClogin\NFClogin;
 
     class readBlock4 implements EPInterface
@@ -33,6 +34,9 @@ namespace Toil {
             try {
                 $nfc = new NFClogin;
                 $data = $nfc->readBlock4();
+                if(isset($data["value"])) {
+                    $data["username"] = Benutzer::get_user_from_id($data["value"])["username"] ?? null;
+                }
                 echo json_encode($data);
             } catch (\Exception $e) {
                 echo json_encode(["error" => true, "message" => $e->getMessage()]);
