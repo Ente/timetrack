@@ -13,16 +13,15 @@ namespace Arbeitszeit{
         }
         
         public static function login($username, $password, $option){ # "option"-> array [ "remember" => true/false, ... ]
-            if($option["nfclogin"] == true){
-                goto nfclogin;
-            }
+
             Exceptions::error_rep("Logging in user '$username'...");
             $db = new DB;
             session_start();
             $ini = Arbeitszeit::get_app_ini();
             $base_url = $ini["general"]["base_url"];
+            $username = preg_replace("/\s+/", "", $username);
 
-            if($ini["ldap"]["ldap"] == "true" && !isset($option["LOCAL"])){
+            if($ini["ldap"]["ldap"] == "true" && !isset($option["LOCAL"]) && !isset($option["nfclogin"])){
                 if(LDAP::authenticate($username, $password) != true){
                     Exceptions::error_rep("Login failed for username '$username' - Could not authenticate user via LDAP. See errors from before to find issue.");
                     die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=ldapauth"));
@@ -31,7 +30,6 @@ namespace Arbeitszeit{
                     $ldap = true;
                 }
             }
-            $username = preg_replace("/\s+/", "", $username);
             if(!isset($username, $password)){
                 Exceptions::error_rep("Login failed for username '$username' - no data supplied. Redirecting...");
                 die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
@@ -82,7 +80,9 @@ namespace Arbeitszeit{
                     }
                     die();
                 }
-
+                if(isset($option["nfclogin"])){
+                    goto nfclogin;
+                }
                 if(password_verify($password, $data["password"])){
                     if($option["nfclogin"]){
                         nfclogin:
