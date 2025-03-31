@@ -9,6 +9,7 @@ if(file_exists(__DIR__ . "/MAINTENANCE") == true){
 }
 
 require_once dirname(__DIR__, 1) . "/class/arbeitszeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/nodes/nodes.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/db/db.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/notifications/notifications.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/i18n/i18n.arbeit.inc.php";
@@ -19,7 +20,7 @@ require_once dirname(__DIR__, 1) . "/class/notifications/plugins/autodelete.noti
 require_once dirname(__DIR__, 1) . "/class/exceptions/exceptions.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/vacation/vacation.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/sickness/sickness.arbeit.inc.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
+require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 
 require_once dirname(__DIR__, 1) . "/class/exports/ExportModule.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/exports/modules/ExportModuleInterface.em.arbeit.inc.php";
@@ -33,7 +34,6 @@ require_once dirname(__DIR__, 1) . "/toil/CustomRoutes.routes.toil.arbeit.inc.ph
 
 require_once dirname(__DIR__, 1) . "/class/plugins/Hooks.plugins.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/auth/plugins/ldap/ldap.auth.arbeit.inc.php";
-require_once dirname(__DIR__, 1) . "/class/updates/updates.arbeit.inc.php";
 
 require_once dirname(__DIR__ . 1) . "/class/mails/Mails.arbeit.inc.php";
 require_once dirname(__DIR__ . 1) . "/class/mails/MailTemplateData.mails.arbeit.inc.php";
@@ -44,8 +44,4 @@ require_once dirname(__DIR__ . 1) . "/class/mails/provider/PHPMailerMailsProvide
 require_once dirname(__DIR__ . 1) . "/class/mails/provider/DefaultMailsProvider.mails.arbeit.inc.php";
 use Arbeitszeit\Hooks;
 Hooks::initialize();
-
-use Arbeitszeit\Updates;
-$updates = new Updates;
-$updates->compare_scheme();
 ?>

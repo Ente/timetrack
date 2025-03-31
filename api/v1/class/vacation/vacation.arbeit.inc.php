@@ -17,6 +17,9 @@ namespace Arbeitszeit {
 
         public function add_vacation($start, $stop, $username = null)
         {
+            if($this->nodes()->checkNode("vacation.inc", "add_vacation") == false){
+                return false;
+            }
             Exceptions::error_rep("[VACATION] Adding vacation for user '{$username}'...");
             if($username != null){
                 $user = $_SESSION["username"];
@@ -42,6 +45,9 @@ namespace Arbeitszeit {
         }
 
         public function remove_vacation($id){ # admin function only
+            if($this->nodes()->checkNode("vacation.inc", "remove_vacation") == false){
+                return false;
+            }
             Exceptions::error_rep("[VACATION] Removing vacation with id '{$id}'...");
             $sql = "DELETE * FROM `vacation` WHERE id = ?";
             $data = $this->db->sendQuery($sql)->execute(array([$id]));
@@ -55,6 +61,9 @@ namespace Arbeitszeit {
 
         public function change_status($id, $new_state = 3) # admin function only
         {
+            if($this->nodes()->checkNode("vacation.inc", "change_status") == false){
+                return false;
+            }
             Exceptions::error_rep("[VACATION] Changing status for vacation id '{$id}' to '{$new_state}'...");
             if($new_state == 1 /* approve */){
                 $sql = "UPDATE `vacation` SET `status` = 'approved' WHERE `id` = ?;";
@@ -93,6 +102,9 @@ namespace Arbeitszeit {
         }
 
         public function display_vacation_all(){ # admin function only
+            if($this->nodes()->checkNode("vacation.inc", "display_vacation_all") == false){
+                return false;
+            }
             Exceptions::error_rep("[VACATION] Displaying all vacations...");
             $i18n = $this->i18n()->loadLanguage(null, "worktime/vacation/all", "admin");
             
@@ -117,7 +129,7 @@ namespace Arbeitszeit {
                             $status = "<span style='color:green;'>{$i18n["status"]["approved"]}</span>";
                             break;
                         case "rejected":
-                            $status = "<span style='color:red'>{$i18n["status"]["rejected"]}</span>";
+                            $status = "<span style='color:red;'>{$i18n["status"]["rejected"]}</span>";
                             break;
                     }
 

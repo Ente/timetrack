@@ -43,22 +43,33 @@ namespace Toil{
         }
 
     
-        public function checkPermissions($user, $endpoint){
-            $endpointP = @$this->loadPermissionSet()[$endpoint];
-            if($endpointP === null) {$endpointP = "?"; Exceptions::error_rep("[API] Failed to check for permissions on endpoint: " . $endpoint . " (req: ". $endpointP . ", for user " . $user . ")"); return false;}
-            $perm = $this->checkUserPermission($user);
-            switch ($perm) {
-                case 1:
-                case $endpointP === 0:
-                    return true;
-                case $perm == $endpointP:
-                    return true;
-                default:
-                    $endpointP = "?";
-                    Exceptions::error_rep("[API] Failed to check for permissions on endpoint: " . $endpoint . " (req: ". $endpointP . ", for user " . $user . ")");
-                    return false;
+        public function checkPermissions($user, $endpoint) {
+            $permissionsSet = $this->__get("permissions");
+            $endpointPermission = $permissionsSet[$endpoint] ?? null;
+        
+            if ($endpointPermission === null) {
+                Exceptions::error_rep("[API] No permissions defined for endpoint: '$endpoint'");
+                return false;
             }
+        
+            if ($endpointPermission === 2) {
+                Exceptions::error_rep("[API] Public access granted for endpoint '$endpoint'");
+                return true;
+            }
+            $userIsAdmin = $this->checkUserPermission($user);
+        
+            if ($endpointPermission === 1 && $userIsAdmin) {
+                return true;
+            }
+        
+            if ($endpointPermission === 0 && !$userIsAdmin) {
+                return true;
+            }
+        
+            Exceptions::error_rep("[API] Permission denied for user '$user' on endpoint '$endpoint' (required: $endpointPermission, isAdmin: $userIsAdmin)");
+            return false;
         }
+        
         
     }
 }
