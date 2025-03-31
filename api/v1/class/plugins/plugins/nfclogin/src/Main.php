@@ -93,6 +93,20 @@ class NFClogin extends PluginBuilder implements PluginInterface {
         return $data;
     }
 
+    public function removeCard($id){
+        $data = json_decode(file_get_contents(__DIR__ . "/data/map.json"), true);
+        if ($data === null) {
+            return null;
+        }
+        if (isset($data[$id])) {
+            unset($data[$id]);
+            file_put_contents(__DIR__ . "/data/map.json", json_encode($data, JSON_PRETTY_PRINT));
+            return $data;
+        } else {
+            return null;
+        }
+    }
+
     public function memorize($id, $user){
         $data = json_decode(file_get_contents(__DIR__ . "/data/map.json"), true);
         if ($data === null) {
