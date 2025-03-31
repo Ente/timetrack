@@ -34,7 +34,11 @@ namespace Toil {
             try {
                 $nfc = new NFClogin;
                 $user = Benutzer::get_user($_GET["username"]);
-                $data = $nfc->assignCard($user["id"]);
+                if(!$user){
+                    echo json_encode(["error" => true, "message" => "User not found"]);
+                    return;
+                }
+                $data = $nfc->assignCard((int)$user["id"]);
                 echo json_encode($data);
             } catch (\Exception $e) {
                 echo json_encode(["error" => true, "message" => $e->getMessage()]);
