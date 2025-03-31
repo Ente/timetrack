@@ -119,6 +119,9 @@ function readBlock4() {
         .then(data => {
             if (data.value) {
                 document.getElementById('nfc-status').textContent = "Block 4: " + data.value;
+                if (data.username) {
+                    document.getElementById('nfc-status').innerHTML = "<strong style='color:green;'>USER VERIFICATION OK</strong> " + data.username;
+                }
             } else {
                 document.getElementById('nfc-status').textContent = data.error || "Read failed.";
             }

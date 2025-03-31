@@ -41,6 +41,7 @@ class NFClogin extends PluginBuilder implements PluginInterface {
         CustomRoutes::registerCustomRoute("readNfc", "/api/v1/class/plugins/plugins/nfclogin/src/routes/readNfc.ep.toil.arbeit.inc.php", 1);
         CustomRoutes::registerCustomRoute("writeNfc", "/api/v1/class/plugins/plugins/nfclogin/src/routes/writeNfc.ep.toil.arbeit.inc.php", 1);
         CustomRoutes::registerCustomRoute("readBlock4", "/api/v1/class/plugins/plugins/nfclogin/src/routes/readBlock4.ep.toil.arbeit.inc.php", 1);
+        CustomRoutes::registerCustomRoute("nfcclogin", "/api/v1/class/plugins/plugins/nfclogin/src/routes/nfcclogin.ep.toil.arbeit.inc.php", 1);
     }
 
     public function set_log_append(): void {
@@ -92,6 +93,29 @@ class NFClogin extends PluginBuilder implements PluginInterface {
         return $data;
     }
 
+    public function memorize($id, $user){
+        $data = json_decode(file_get_contents(__DIR__ . "/data/map.json"), true);
+        if ($data === null) {
+            $data = [];
+        }
+        $data[$id] = $user;
+        file_put_contents(__DIR__ . "/data/map.json", json_encode($data, JSON_PRETTY_PRINT));
+        return $data;
+    }
+
+    public function getUser($id){
+        $data = json_decode(file_get_contents(__DIR__ . "/data/map.json"), true);
+        if ($data === null) {
+            return null;
+        }
+        // return array("id" => $user);
+        if (isset($data[$id])) {
+            return $data[$id];
+        } else {
+            return null;
+        }
+    }
+
     public function assignCard(int $id){
         $scriptPath = __DIR__ . "/write_nfc.py";
         exec("python3 " . escapeshellarg($scriptPath) . " " . escapeshellarg((string)$id) . " 2>&1", $output, $status);
@@ -101,6 +125,7 @@ class NFClogin extends PluginBuilder implements PluginInterface {
                 "output" => $output
             ];
         }
+        $this->memorize($this->readCard()["uid"], Benutzer::get_user_from_id($id));
         $json = implode("", $output);
         $data = json_decode($json, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -130,5 +155,10 @@ class NFClogin extends PluginBuilder implements PluginInterface {
             ];
         }
         return $data;
+    }
+
+    public function nfcloginHtml(){
+        $html = "<a class='button' href='/api/v1/toil/nfcclogin'>Login with NFC</a>";
+        return $html;
     }
 }

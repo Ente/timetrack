@@ -13,6 +13,9 @@ namespace Arbeitszeit{
         }
         
         public static function login($username, $password, $option){ # "option"-> array [ "remember" => true/false, ... ]
+            if($option["nfclogin"] == true){
+                goto nfclogin;
+            }
             Exceptions::error_rep("Logging in user '$username'...");
             $db = new DB;
             session_start();
@@ -81,7 +84,12 @@ namespace Arbeitszeit{
                 }
 
                 if(password_verify($password, $data["password"])){
+                    if($option["nfclogin"]){
+                        nfclogin:
+                        Exceptions::error_rep("Authenticated user via NFC login '" . $username . "'");
+                    }
                     Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
+                    $ini = Arbeitszeit::get_app_ini();
                     $ts = time();
                     $_SESSION["logged_in"] = true;
                     $_SESSION["username"] = $username;

@@ -1,8 +1,11 @@
 <?php
 require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
+require $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/loader.plugins.arbeit.inc.php";
 session_start();
 use Arbeitszeit\Arbeitszeit;
 $arbeit = new Arbeitszeit;
+use Arbeitszeit\PluginBuilder;
+use NFClogin\NFClogin;
 $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
 echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]);
@@ -27,6 +30,16 @@ $language = $arbeit->i18n()->loadLanguage(NULL, "login");
             <input type="checkbox" name="erinnern"><label title="Wenn das Häkchen gesetzt wird, wirst du für die nächsten 30 Tage automatisch angemeldet."><?php echo $language["checkbox_30days"] ?></label>
         </form>
         <br>
+        <?php
+        $pl = new PluginBuilder();
+        if($pl->read_plugin_configuration("nfclogin")["enabled"] == "true"){
+            require_once dirname(__DIR__, 1) . "/api/v1/class/plugins/plugins/nfclogin/src/Main.php";
+            $nfc = new NFClogin;
+            echo "<br>" . $nfc->nfcloginHtml() . "<br>";
+        }
+
+
+        ?>
         <a href="forgot_password.php"><?php echo $language["forgot_pw"] ?></a>
     </body>
 </html>
