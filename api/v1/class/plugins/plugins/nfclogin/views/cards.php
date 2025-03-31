@@ -48,7 +48,11 @@ $arbeit->blockIfNotAdmin();
         echo "Error: " . $e->getMessage();
     }
     ?>
-    </p>
+    </p><hr width="75%">
+    <div id="allcards">
+        <h2>All Cards</h2>
+        <?php echo $main->allCardAssignmentsHtml(); ?>
+    </div>
 </div>
 
 <script>

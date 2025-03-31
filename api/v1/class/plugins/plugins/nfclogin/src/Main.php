@@ -161,4 +161,18 @@ class NFClogin extends PluginBuilder implements PluginInterface {
         $html = "<a class='button' href='/api/v1/toil/nfcclogin'>Login with NFC</a>";
         return $html;
     }
+
+    public function allCardAssignmentsHtml(){
+        $data = json_decode(file_get_contents(__DIR__ . "/data/map.json"), true);
+        if ($data === null) {
+            return "No cards.";
+        }
+        $html = "<table>";
+        $html .= "<tr><th>Card ID</th><th>Username</th></tr>";
+        foreach ($data as $id => $user) {
+            $html .= "<tr><td>{$id}</td><td>{$user}</td></tr>";
+        }
+        $html .= "</table>";
+        return $html;
+    }
 }
