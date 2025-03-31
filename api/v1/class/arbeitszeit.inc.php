@@ -343,8 +343,8 @@ namespace Arbeitszeit {
          */
         public static function get_app_ini()
         {
-            $ini_path = $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.ini";
-            $json_path = $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/app.json";
+            $ini_path = dirname(__DIR__, 3) . "/api/v1/inc/app.ini";
+            $json_path = dirname(__DIR__, 3) . "/api/v1/inc/app.json";
 
             Exceptions::error_rep("Loading application configuration...");
 

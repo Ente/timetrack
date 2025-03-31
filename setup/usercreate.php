@@ -4,6 +4,8 @@
      * This script allows 3 input variables:
      * username, desired password and email
      * and returns an SQL statement to be run in the database
+     * 
+     * @deprecated This script should not be used, the default user is created via phinx now
      */
 
 if(isset($argv[1], $argv[2], $argv[3])){
