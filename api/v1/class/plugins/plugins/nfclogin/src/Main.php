@@ -98,7 +98,7 @@ class NFClogin extends PluginBuilder implements PluginInterface {
         if ($data === null) {
             $data = [];
         }
-        $data[$id] = $user;
+        $data[$id] = $user["username"];
         file_put_contents(__DIR__ . "/data/map.json", json_encode($data, JSON_PRETTY_PRINT));
         return $data;
     }
