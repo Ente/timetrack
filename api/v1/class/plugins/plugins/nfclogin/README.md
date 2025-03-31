@@ -1,10 +1,10 @@
 # NFClogin plugin
 
-This pluin allows you to interact with a PC/SC device (e.g. NFC-card reader/writer) to login to the system.
+This plugin allows you to interact with a PC/SC device (e.g. NFC-card reader/writer) to login to the system.
 
 ## Requirements
 
-Please make sure your PHP instance does not block `exec()` function.
+Please make sure your PHP instance does not block `exec()` function. Tested with ACR122U NFC reader.
 This plugin requires the `pcscd` service to be running on the system. You can install it using the following command:
 
 ```bash

@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v7.11
+
+* Added plugin to allow NFC PC/SC login (see `api/v1/class/plugins/plugins/nfclogin/README.md`)
+* Added db migrations with phinx to update the database schema
+* improved overall security with function node system
+* API can now handle public endpoints
+
 ## v7.10.2
 
 * Added native function to `Benutzer` class to update user proprties which not lets the `userdetail` plugin actually update user properties
