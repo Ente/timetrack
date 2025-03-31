@@ -49,7 +49,7 @@ $arbeit->blockIfNotAdmin();
     }
     ?>
     </p><hr width="75%">
-    <div id="allcards">
+    <div id="allcards" style="text-align: center;">
         <h2>All Cards</h2>
         <?php echo $main->allCardAssignmentsHtml(); ?>
     </div>
