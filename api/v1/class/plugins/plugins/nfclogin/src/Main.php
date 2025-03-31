@@ -181,7 +181,7 @@ class NFClogin extends PluginBuilder implements PluginInterface {
         if ($data === null) {
             return "No cards.";
         }
-        $html = "<table>";
+        $html = "<table style='margin: 0px auto;'>";
         $html .= "<tr><th>Card ID</th><th>Username</th></tr>";
         foreach ($data as $id => $user) {
             $html .= "<tr><td>{$id}</td><td>{$user}</td></tr>";
