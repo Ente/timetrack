@@ -23,7 +23,7 @@ Additional functionality can be unlocked with TimeTrack Oval
 ### Requirements
 
 - at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`)
-- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation)
+- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation, phinx: for database migrations)
 - Apache2.4 with enabled rewrite mod (optional)
 
 This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. `php -S 0.0.0.0:80`).
@@ -36,11 +36,10 @@ Simply install the software by following these steps:
 - Git clone timetrack to e.g. `/var/www`: `cd /var/www && git clone https://github.com/Ente/timetrack.git && cd timetrack`
 - Install requirements for composer `composer install`
 - Create a new database, e.g. with the name `ab` and create a dedicated user, login (`mysql -u root -p`) then e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
-- Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
-- To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
-- Run the statement printed by the `usercreate.php` inside your database (`mysql -u root -p` and `use ab;` then the statement).
 - Configure `app.json` (see below - required changes: `base_url`, `db_user`, `db_password`, `smtp` section and any other if your installation is different) then `mv api/v1/inc/app.json.sample app.json && cd /var/www/timetrack`
+- Run DB migrations: `vendor/bin/phinx migrate`
 - Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
+- You can then access TimeTrack in your browser at `http://localhost`, default login is `admin` with password `admin`. Create yourself a new admin account, login and delete the default account afterwards.
 
 ### Configure app.json
 
@@ -187,7 +186,4 @@ If downloaded any other way, just make sure to copy and paste the new files into
 
 ### Database
 
-You can update the database by downloading the `setup/upgrade.php` file into your local `setup` directory.
-From here on just edit the `$missingUpdate` variable to the desired version as specified.
-
-Please be aware that you are not able to skip an database update. You have to update one by one, e.g. from 1 -> 2, 2 -> 3, ...
+You can update the database by using `vendor/bin/phinx migrate` to migrate to latest release or `vendor/bin/phinx rollback` to rollback.
