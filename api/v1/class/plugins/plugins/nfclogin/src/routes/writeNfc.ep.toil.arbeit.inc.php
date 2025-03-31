@@ -8,6 +8,7 @@ namespace Toil {
     use Toil\EP;
     use Arbeitszeit\Arbeitszeit;
     use NFClogin\NFClogin;
+    use Arbeitszeit\Benutzer;
 
     class writeNfc implements EPInterface
     {
@@ -32,7 +33,8 @@ namespace Toil {
 
             try {
                 $nfc = new NFClogin;
-                $data = $nfc->assignCard($_GET["username"]);
+                $user = Benutzer::get_user($_GET["username"]);
+                $data = $nfc->assignCard($user["id"]);
                 echo json_encode($data);
             } catch (\Exception $e) {
                 echo json_encode(["error" => true, "message" => $e->getMessage()]);
