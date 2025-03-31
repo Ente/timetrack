@@ -4,7 +4,7 @@ main: Main
 namespace: NFClogin
 author: Ente
 description: 'Allow the use of NFC cards to login.'
-version: '1.0'
+version: '1.1'
 api: 0.1
 permissions: none
 enabled: true
