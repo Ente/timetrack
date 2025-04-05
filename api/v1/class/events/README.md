@@ -1,8 +1,7 @@
 # Events
 
 You can use events to trigger certain stuff after the event has been done, like sending custom mails or processing some data.
-To register events or listen to them, see belows example:
-
+To register events or listen to them, see the example below:
 ## Register listener (for any event)
 
 Add somewhere in your plugin:
