@@ -55,6 +55,7 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 
 #### **SMTP section**
 
+- `smtp`: Set to `true` to enable SMTP functionality (default: false)
 - `host`: FQDN of your mail server
 - `username`: Username for the mailbox you want to send emails from
 - `password`: Self explaining
