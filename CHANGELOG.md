@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## v7.12
+
+* Added a simple Favicon
+* TimeTrack and API version are now displayed in the settings menu
+* Added Events which can be listened to by plugins (see `api/v1/class/events/README.md`) / Developers can now create their own events
+* Mails can now be disabled by setting the `smtp` setting to `false` within the `smtp` section of the `app.json`
+* Fixed `composer.json` contents for LDAPTools plugin again
+* Removed unused `Hooks` plugin class file
+
 ## v7.11
 
 * Added plugin to allow NFC PC/SC login (see `api/v1/class/plugins/plugins/nfclogin/README.md`)
