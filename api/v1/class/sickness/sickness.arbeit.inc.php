@@ -6,6 +6,10 @@ namespace Arbeitszeit {
      * v1
      * - Added function to add sickness
      */
+    use Arbeitszeit\Events\EventDispatcherService;
+    use Arbeitszeit\Events\SicknessCreatedEvent;
+    use Arbeitszeit\Events\SicknessDeletedEvent;
+    use Arbeitszeit\Events\SicknessUpdatedEvent;
     class Sickness extends Arbeitszeit
     {
 
@@ -31,6 +35,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[SICK] An error occured while adding an sickness for user '$user'. See previous message for more information.");
                 return false;
             } else {
+                EventDispatcherService::get()->dispatch(new SicknessCreatedEvent($user, $start, $stop), SicknessCreatedEvent::NAME);
                 Exceptions::error_rep("[SICK] Successfully added sickness for user '$user'.");
                 return true;
             }
@@ -46,6 +51,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[SICK] An error occured while deleting a sickness with id '{$id}'. See previous message for more information.");
                 return false;
             }
+            EventDispatcherService::get()->dispatch(new SicknessDeletedEvent($_SESSION["username"], $id), SicknessDeletedEvent::NAME);
             return true;
         }
 
@@ -67,6 +73,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[SICK] An error occured while setting status for sickness. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
             } else {
+                EventDispatcherService::get()->dispatch(new SicknessUpdatedEvent($_SESSION["username"], $id, $new_state), SicknessUpdatedEvent::NAME);
                 Exceptions::error_rep("[SICK] Successfully changed status for sickness id '{$id}', new state: '{$new_state}'.");
                 return true;
             }

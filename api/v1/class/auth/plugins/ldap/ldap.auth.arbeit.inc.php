@@ -4,6 +4,8 @@ namespace Arbeitszeit {
     use LdapTools\LdapManager;
     use LdapTools\DomainConfiguration;
     use LdapTools\Operation\AuthenticationOperation;
+    use Arbeitszeit\Events\LDAPAuthenticationEvent;
+    use Arbeitszeit\Events\EventDispatcherService;
     class LDAP extends Auth {
 
         public static function get_bind(){
@@ -45,9 +47,10 @@ namespace Arbeitszeit {
             Exceptions::error_rep("Authenticating user '{$username}' through LDAP...");
             $operation = (new AuthenticationOperation())->setUsername($username)->setPassword($password);
             $response = self::get_bind()->getConnection()->execute($operation);
-
+            $code1 = null;
             if(!$response->isAuthenticated()){
                 $code = $response->getErrorCode();
+                $code = $code1;
                 switch($code){
                     case "1317":
                         Exceptions::error_rep("Could not authenticate user '{$username}': Account does not exist.");
@@ -126,6 +129,7 @@ namespace Arbeitszeit {
                 $_SESSION["provider"] = "LDAP";
                 $_SESSION["provider"] .= "." . $user->get("upn") . "+" . $user->get("sid");
                 Exceptions::error_rep("Successfully authenticated user '{$username}' through LDAP.");
+                EventDispatcherService::get()->dispatch(new LDAPAuthenticationEvent($username, $user->get("mail"), "LDAP" . $code1), LDAPAuthenticationEvent::NAME);
                 return true;
             }
         }

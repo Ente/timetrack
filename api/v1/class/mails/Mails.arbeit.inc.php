@@ -2,7 +2,12 @@
 
 namespace Arbeitszeit;
 use Arbeitszeit\Mails\MailsProviderInterface;
+use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Mails\MailTemplateData;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Arbeitszeit\Events\EventDispatcherService;
+use Arbeitszeit\Events\SentMailEvent;
+
 class Mails
 {
 
@@ -52,7 +57,14 @@ class Mails
 
     $mailContent = $template->render($data);
 
-    return self::$provider->send($mailContent->toArray());
+    $ini = Arbeitszeit::get_app_ini()["smtp"];
+    if(!$ini["smtp"]){
+        Exceptions::error_rep("SMTP disabled, not sending mail.");
+        return true;
+    } else {
+        EventDispatcherService::get()->dispatch(new SentMailEvent($mailContent->toArray()["to"], $mailContent->toArray()["subject"], $mailContent->toArray()["body"]), SentMailEvent::NAME);
+        return self::$provider->send($mailContent->toArray());
+    }
 }
 
 

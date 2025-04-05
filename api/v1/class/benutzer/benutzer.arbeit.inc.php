@@ -1,6 +1,10 @@
 <?php
 namespace Arbeitszeit {
-    use Arbeitszeit\Hooks;
+
+    use Arbeitszeit\Events\EventDispatcherService;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Arbeitszeit\Events\UserCreatedEvent;
+    use Arbeitszeit\Events\UserDeletedEvent;
     class Benutzer extends Arbeitszeit
     {
 
@@ -24,7 +28,6 @@ namespace Arbeitszeit {
             if($this->nodes()->checkNode("benutzer.inc", "create_user") == false){
                 return false;
             }
-            #$originalFunction = function($username, $name, $email, $password, $isAdmin){
             Exceptions::error_rep("Creating user '$username'...");
             $password = password_hash($password, PASSWORD_DEFAULT);
             $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES (?, ?, ?, ?, '1', ?);";
@@ -39,10 +42,9 @@ namespace Arbeitszeit {
                 ];
             } else {
                 Exceptions::error_rep("User '$username' created successfully.");
+                EventDispatcherService::get()->dispatch(new UserCreatedEvent($username, $email, $isAdmin), UserCreatedEvent::NAME);
                 return true;
             }
-            #};
-            #return Hooks::executeWithHooks('create_user', $originalFunction, $username, $name, $email, $password, $isAdmin);
         }
 
         /**
@@ -58,6 +60,9 @@ namespace Arbeitszeit {
             if($this->nodes()->checkNode("benutzer.inc", "delete_user") == false){
                 return false;
             }
+            $user = $this->get_user_from_id($id);	
+            $username = $user["username"];
+            $email = $user["email"];
             Exceptions::error_rep("Deleting user with id '$id'...");
             $sql = "DELETE FROM `users` WHERE id = ?;";
             $data = $this->db->sendQuery($sql)->execute([$id]);
@@ -71,6 +76,7 @@ namespace Arbeitszeit {
                 ];
             } else {
                 Exceptions::error_rep("User with id '$id' deleted successfully.");
+                EventDispatcherService::get()->dispatch(new UserDeletedEvent($username, $email), UserDeletedEvent::NAME);
                 return true;
             }
         }

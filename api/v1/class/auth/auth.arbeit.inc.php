@@ -4,6 +4,13 @@ namespace Arbeitszeit{
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
+    use Arbeitszeit\Events\EventDispatcherService;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Arbeitszeit\Events\LoggedInUserEvent;
+    use Arbeitszeit\Events\LoggedOutUserEvent;
+    use Arbeitszeit\Events\ValidatedLoginEvent;
+    use LdapTools\Event\Event;
+
     class Auth extends Arbeitszeit{
 
         public $db;
@@ -23,6 +30,7 @@ namespace Arbeitszeit{
 
             if($ini["ldap"]["ldap"] == "true" && !isset($option["LOCAL"]) && !isset($option["nfclogin"])){
                 if(LDAP::authenticate($username, $password) != true){
+                    EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
                     Exceptions::error_rep("Login failed for username '$username' - Could not authenticate user via LDAP. See errors from before to find issue.");
                     die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=ldapauth"));
                 } else {
@@ -31,6 +39,7 @@ namespace Arbeitszeit{
                 }
             }
             if(!isset($username, $password)){
+                EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username ?? "N/A", "failed"));
                 Exceptions::error_rep("Login failed for username '$username' - no data supplied. Redirecting...");
                 die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
             } else {
@@ -39,12 +48,14 @@ namespace Arbeitszeit{
                 $res->execute([$username]);
 
                 if($res == false){
+                   EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
                    Exceptions::error_rep("Login failed for username '$username' - Database connection error. Redirecting...");
                    die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
                 }
 
                 $count = $res->rowCount();
                 if($count != 1){
+                    EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
                     Exceptions::error_rep("Login failed for username '$username' - User not found. Redirecting...");
                     die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
                 }
@@ -62,6 +73,7 @@ namespace Arbeitszeit{
 
                     if(@isset($option["remember"])){
                         if($ini["general"]["app"] == "true"){
+                            EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
                             Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                             @ini_set("session.cookie_samesite", "None");
                             @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
@@ -69,12 +81,14 @@ namespace Arbeitszeit{
                             setcookie("username", $username, ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                         } else {
+                            EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
                             Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                             setcookie("erinnern", "true", $ts+(60*60*24*30), "/");
                             setcookie("username", $username, $ts + (60*60*24*30), "/");
                             header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                         }
                     } else {
+                        EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
                         Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                         header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                     }
@@ -99,6 +113,7 @@ namespace Arbeitszeit{
 
                     if(@isset($option["remember"])){
                         if($ini["general"]["app"] == "true"){
+                            EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
                             Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
                             @ini_set("session.cookie_samesite", "None");
                             @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
@@ -106,16 +121,19 @@ namespace Arbeitszeit{
                             setcookie("username", $username, ["samesite" => "None", "secure" => true, "domain" => $ini["general"]["base_url"], "expires" => $ts + (60*60*24*30), "path" => "/"]);
                             header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                         } else {
+                            EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
                             Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
                             setcookie("erinnern", "true", $ts+(60*60*24*30), "/");
                             setcookie("username", $username, $ts + (60*60*24*30), "/");
                             header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                         }
                     } else {
+                        EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
                         Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
                         header("Refresh: 1; url=http://{$ini["general"]["base_url"]}/suite");
                     }
                 } else {
+                    EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
                     Exceptions::error_rep("Login failed for username '$username' - Incorrect credentials. Redirecting...");
                     die(header("Location: http://{$base_url}/suite/login.php?error=wrongdata"));
                 }
@@ -133,26 +151,28 @@ namespace Arbeitszeit{
             }
             @session_start();
             if(isset($_SESSION["logged_in"]) == false){
+                EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"] ?? "N/A", "failed"));
                 Exceptions::error_rep("User not logged in. Redirecting...");
                 header("Location: http://{$baseurl}/suite/login.php?error=notloggedin");
             }
             if($this->get_state($_SESSION["username"]) != $_COOKIE["state"]){
+                EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"] ?? "N/A", "failed"));
                 $this->remove_state($_SESSION["username"]);
                 Exceptions::error_rep("State mismatch on user {$_SESSION["username"]}. Removing state and redirecting...");
                 header("Location: http://{$baseurl}/suite/login.php?error=statemismatch");
-            }# temp removed this as it causes errors
+            }
         }
 
         /**
-         * logout() - Loggt den Nutzer aus seiner aktuellen Sitzung aus
+         * logout() - Logs out user
          * 
-         * @return bool Gibt true bei Erfolg zurück
+         * @return bool Returns true on success
          */
         public function logout(){
+            EventDispatcherService::get()->dispatch(new LoggedOutUserEvent($_SESSION["username"]));
             session_start();
             session_unset();
             session_destroy();
-
             return true;
         }
 
@@ -256,7 +276,6 @@ namespace Arbeitszeit{
                 return false;
 
             }
-
             return $mail;
         }
 
