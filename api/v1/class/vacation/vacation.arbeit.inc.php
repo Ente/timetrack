@@ -6,6 +6,10 @@ namespace Arbeitszeit {
      * v1
      * - Added function to add vacation
      */
+    use Arbeitszeit\Events\EventDispatcherService;
+    use Arbeitszeit\Events\VacationCreatedEvent;
+    use Arbeitszeit\Events\VacationUpdatedEvent;
+    use Arbeitszeit\Events\VacationDeletedEvent;
     class Vacation extends Arbeitszeit
     {
 
@@ -39,6 +43,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. See previous message for more information.");
                 return false;
             } else {
+                EventDispatcherService::get()->dispatch(new VacationCreatedEvent($user, $start, $stop), VacationCreatedEvent::NAME);
                 Exceptions::error_rep("[VACATION] Successfully added vacation for user '$user'.");
                 return true;
             }
@@ -55,6 +60,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[VACATION] An error occured while deleting a vacation with id '{$id}'. See previous message for more information");
                 return false;
             }
+            EventDispatcherService::get()->dispatch(new VacationDeletedEvent($_SESSION["username"], (int)$id), VacationDeletedEvent::NAME);
             Exceptions::error_rep("[VACATION] Successfully removed vacation with id '{$id}'.");
             return true;
         }
@@ -77,6 +83,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
             } else {
+                EventDispatcherService::get()->dispatch(new VacationUpdatedEvent($_SESSION["username"], (int)$id, $new_state), VacationUpdatedEvent::NAME);
                 Exceptions::error_rep("[VACATION] Successfully changed status for vacation id '{$id}', new state: '{$new_state}'.");
                 return true;
             }

@@ -13,6 +13,16 @@ namespace Arbeitszeit {
     use Arbeitszeit\ExportModule;
     use Arbeitszeit\Mails;
     use Arbeitszeit\Nodes;
+    use Arbeitszeit\Events\EventDispatcherService;
+    use Arbeitszeit\Events\EasymodeWorktimeAddedEvent; // "EasymodeWorktimeSTARTED" Event, actually.
+    use Arbeitszeit\Events\EasymodeWorktimeEndedEvent;
+    use Arbeitszeit\Events\EasymodeWorktimePauseEndEvent;
+    use Arbeitszeit\Events\EasymodeWorktimePauseStartEvent;
+    use Arbeitszeit\Events\WorktimeAddedEvent;
+    use Arbeitszeit\Events\WorktimeDeletedEvent;
+    use Arbeitszeit\Events\WorktimeMarkedForReviewEvent;
+    use Arbeitszeit\Events\WorktimeUnlockedFromReviewEvent;
+    use Arbeitszeit\Events\FixEasymodeWorktimeEvent;
     /**
      * Beinhaltet wesentliche Inhalte, wie Einstellungen, Arbeitszeiten erstellen, etc.
      * 
@@ -80,6 +90,7 @@ namespace Arbeitszeit {
                     ]
                 ];
             } else {
+                EventDispatcherService::get()->dispatch(new WorktimeDeletedEvent($_SESSION["username"], (int)$id), WorktimeDeletedEvent::NAME);
                 Exceptions::error_rep("Worktime entry with ID '{$id}' deleted successfully.");
                 return 1;
             }
@@ -110,6 +121,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occured while creating easymode worktime entry. See previous message for more information");
                     return false;
                 } else {
+                    EventDispatcherService::get()->dispatch(new EasymodeWorktimeAddedEvent($username), EasymodeWorktimeAddedEvent::NAME);
                     Exceptions::error_rep("Easymode worktime entry created for user '{$username}'");
                     return true;
                 }
@@ -138,6 +150,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occured while ending easymode worktime. See previous message for more information.");
                     return false;
                 } else {
+                    EventDispatcherService::get()->dispatch(new EasymodeWorktimeEndedEvent($username, (int)$id), EasymodeWorktimeEndedEvent::NAME);
                     Exceptions::error_rep("Easymode worktime ended for user '{$username}'");
                     return true;
                 }
@@ -164,6 +177,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occured while starting user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
+                    EventDispatcherService::get()->dispatch(new EasymodeWorktimePauseStartEvent($username, (int)$id), EasymodeWorktimePauseStartEvent::NAME);
                     Exceptions::error_rep("Easymode pause started for user '{$username}'");
                     return true;
                 }
@@ -189,6 +203,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occured while ending user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
+                    EventDispatcherService::get()->dispatch(new EasymodeWorktimePauseEndEvent($username, (int)$id), EasymodeWorktimePauseEndEvent::NAME);
                     Exceptions::error_rep("Easymode pause ended for user '{$username}'");
                     return true;
                 }
@@ -330,6 +345,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information.");
                     return false;
                 } else {
+                    EventDispatcherService::get()->dispatch(new WorktimeAddedEvent($username, ["start" => $start, "end" => $end]), WorktimeAddedEvent::NAME);
                     Exceptions::error_rep("Worktime entry for user '{$username}' created successfully.");
                     return true;
                 }
@@ -573,6 +589,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("An error occured while marking an worktime as under review, id '{$id}'. See previous message for more information.");
                 return false;
             } else {
+                EventDispatcherService::get()->dispatch(new WorktimeMarkedForReviewEvent($_SESSION["username"], (int)$id), WorktimeMarkedForReviewEvent::NAME);
                 return true;
             }
         }
@@ -589,6 +606,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("An error occured while unlocking an worktime from review, id '{$id}'. See previous message for more information.");
                 return false;
             } else {
+                EventDispatcherService::get()->dispatch(new WorktimeUnlockedFromReviewEvent($_SESSION["username"], (int)$id), WorktimeUnlockedFromReviewEvent::NAME);
                 return true;
             }
         }
@@ -749,6 +767,7 @@ namespace Arbeitszeit {
                 $activateStatement = $db->sendQuery($activateQuery);
                 $activateStatement->bindValue(':latestId', $latestId);
                 $activateStatement->execute();
+                EventDispatcherService::get()->dispatch(new FixEasymodeWorktimeEvent($username), FixEasymodeWorktimeEvent::NAME);
                 Exceptions::error_rep("[ARBEITSZEIT] Finished fixing attempt for user '{$username}'");
             }
         }
@@ -761,7 +780,17 @@ namespace Arbeitszeit {
             return false;
         }
 
+        public function global_dispatcher(): \Symfony\Component\EventDispatcher\EventDispatcher {
+            return \Arbeitszeit\Events\EventDispatcherService::get();
+        }
 
+        public function getTimeTrackVersion(){
+            return file_get_contents(dirname(__DIR__, 3) . "/VERSION");
+        }
+
+        public function getToilVersion(){
+            return file_get_contents(dirname(__DIR__, 1) . "/toil/VERSION");
+        }
 
         public function notifications(): Notifications
         {

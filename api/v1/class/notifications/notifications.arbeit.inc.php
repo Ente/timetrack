@@ -1,6 +1,13 @@
 <?php
 namespace Arbeitszeit{
     use Arbeitszeit\Arbeitszeit;
+    use Arbeitszeit\Events\EventDispatcherService;
+    use Arbeitszeit\Events\CreatedNotificationEvent;
+    use Arbeitszeit\Events\DeletedNotificationEvent;
+    use Arbeitszeit\Events\EditedNotificationEvent;
+    use Arbeitszeit\Events\DeletedObsoleteNotificationsEvent;
+    use LdapTools\Event\Event;
+
     class Notifications extends Arbeitszeit{
 
 
@@ -34,6 +41,7 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                EventDispatcherService::get()->dispatch(new DeletedObsoleteNotificationsEvent(), DeletedObsoleteNotificationsEvent::NAME);
                 Exceptions::error_rep("[NOTIFICATIONS] Deleted expired notifications entries.");
                 return 1;
             }
@@ -188,6 +196,7 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                EventDispatcherService::get()->dispatch(new CreatedNotificationEvent($_SESSION["username"], "N/A", $location, 0), CreatedNotificationEvent::NAME);
                 Exceptions::error_rep("[NOTIFICATIONS] Created new notifications entry.");
                 return true;
             }
@@ -217,6 +226,7 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                EventDispatcherService::get()->dispatch(new EditedNotificationEvent($_SESSION["username"], (int)$id == 0), EditedNotificationEvent::NAME);
                 Exceptions::error_rep("[NOTIFICATIONS] Edited notifications entry with ID '$id'.");
                 return true;
             }
@@ -242,6 +252,7 @@ namespace Arbeitszeit{
                     ]
                 ];
             } else {
+                EventDispatcherService::get()->dispatch(new DeletedNotificationEvent($_SESSION["username"], (int)$id ?? 0), DeletedNotificationEvent::NAME);
                 Exceptions::error_rep("[NOTIFICATIONS] Deleted notifications entry with ID '$id'.");
                 return true;
             }
