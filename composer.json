@@ -17,7 +17,7 @@
     "pecee/simple-router": "4.3.7.2",
     "symfony/yaml": "^7.1",
     "cweagans/composer-patches": "^1.7",
-    "ldaptools/ldaptools": "dev-master#69d086b137ece33a7b4e182bc90bb65dc0454630",
+    "ldaptools/ldaptools": "dev-master",
     "php": ">=8.0",
     "dompdf/dompdf": "^3.0",
     "robmorgan/phinx": "^0.16.6",
@@ -37,5 +37,13 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5"
-  }
+  },
+  "extra": {
+    "patches": {
+        "ldaptools/ldaptools": {
+            "Fix PHP 8 paged result handling": "patches/ldaptools-php8.patch"
+        }
+    }
+}
+
 }
