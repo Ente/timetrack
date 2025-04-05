@@ -15,7 +15,7 @@ use Arbeitszeit\Events\UserCreatedEvent; // or any other you want to listen to
 EventDispatcherService::get()->addListener(UserCreatedEvent::class, function (UserCreatedEvent $event){
     // do something
     $user = $event->getUsername();
-})
+});
 ```
 
 ## Register own event
