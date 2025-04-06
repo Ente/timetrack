@@ -5,7 +5,8 @@
         "support_email": "support@your-website.com",
         "debug": "false",
         "auto_update": "false",
-        "app": "false"
+        "app": "false",
+        "timezone": "UTC"
     },
     "mysql": {
         "db_host": "localhost",
@@ -14,6 +15,7 @@
         "db": "ab"
     },
     "smtp": {
+        "smtp": false,
         "host": "smtp.host.com",
         "username": "user",
         "password": "pass",

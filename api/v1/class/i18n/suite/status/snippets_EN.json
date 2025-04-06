@@ -25,6 +25,7 @@
     "error": "Note: An error has occurred. Please check the log if possible.",
     "statemismatch": "Error: Security error",
     "ldapauth": "Error: The authentication via LDAP failed!",
-    "ldapcreated": "Note: Please login again. Your account has just been created. (LDAP allowed self-login)"
+    "ldapcreated": "Note: Please login again. Your account has just been created. (LDAP allowed self-login)",
+    "notification_not_found": "Error: Notification not found."
 
 }

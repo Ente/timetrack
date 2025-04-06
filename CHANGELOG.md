@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## v7.12
+
+* Added a simple Favicon
+* TimeTrack and API version are now displayed in the settings menu
+* Added Events which can be listened to by plugins (see `api/v1/class/events/README.md`) / Developers can now create their own events
+* Mails can now be disabled by setting the `smtp` setting to `false` within the `smtp` section of the `app.json`
+* Fixed `composer.json` contents for LDAPTools plugin again
+* Removed unused `Hooks` plugin class file
+
+## v7.11
+
+* Added plugin to allow NFC PC/SC login (see `api/v1/class/plugins/plugins/nfclogin/README.md`)
+* Added db migrations with phinx to update the database schema
+* improved overall security with function node system
+* API can now handle public endpoints
+
+## v7.10.2
+
+* Added native function to `Benutzer` class to update user proprties which not lets the `userdetail` plugin actually update user properties
+* Fixed bug
+
+## v7.10.1.1
+
+* Hotfix preventing to add a worktime in normal mode
+
+## v7.10.1
+
+* Added some CSS to certain elements which were missing it
+
+## v7.10
+
+* Reflected changes from v7.9 release into Mails.md
+* You now get redirected when calendar ID is not found
+* Fixed being unable to access the "Forgot password" page
+* Fixed typo in userdetail plugin preventing save
+* Remove usercount plugin entirely
+* Removed webedit for app.json
+* A warning is now displayed when an admin changes user information within the userdetail plugin
+* Fixed an bug causing userdetail plugin to crash when the selected user could not be found
+
 ## v7.9
 
 * Fixed being unable to access "userdetail" plugin

@@ -22,8 +22,8 @@ Additional functionality can be unlocked with TimeTrack Oval
 
 ### Requirements
 
-- at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|pgsql|xsl|gettext|dom|ldap`)
-- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation)
+- at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`)
+- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation, phinx: for database migrations)
 - Apache2.4 with enabled rewrite mod (optional)
 
 This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. `php -S 0.0.0.0:80`).
@@ -36,11 +36,10 @@ Simply install the software by following these steps:
 - Git clone timetrack to e.g. `/var/www`: `cd /var/www && git clone https://github.com/Ente/timetrack.git && cd timetrack`
 - Install requirements for composer `composer install`
 - Create a new database, e.g. with the name `ab` and create a dedicated user, login (`mysql -u root -p`) then e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
-- Import the `setup/sql.sql` into your database, e.g. `mysql -u timetool -p ab < /full/path/to/sql.sql`
-- To create your first user, run the `setup/usercreate.php` file, e.g. `php ./usercreate.php admin yourpassword email@admin.com` - `usercreate.php [USERNAME] [PASSWORD] [EMAIL]`
-- Run the statement printed by the `usercreate.php` inside your database (`mysql -u root -p` and `use ab;` then the statement).
 - Configure `app.json` (see below - required changes: `base_url`, `db_user`, `db_password`, `smtp` section and any other if your installation is different) then `mv api/v1/inc/app.json.sample app.json && cd /var/www/timetrack`
+- Run DB migrations: `vendor/bin/phinx migrate`
 - Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
+- You can then access TimeTrack in your browser at `http://localhost`, default login is `admin` with password `admin`. Create yourself a new admin account, login and delete the default account afterwards.
 
 ### Configure app.json
 
@@ -53,9 +52,11 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 - `auto_update`: (not yet implemented)
 - `db_*`: Set the connection details for your mysql instance
 - `app`: If set to true, users will be able to use the TimeTrack mobile application
+- `timezone`: Set the timezone of your application, e.g. `Europe/Berlin` or `America/New_York` (default: `UTC`)
 
 #### **SMTP section**
 
+- `smtp`: Set to `true` to enable SMTP functionality (default: false)
 - `host`: FQDN of your mail server
 - `username`: Username for the mailbox you want to send emails from
 - `password`: Self explaining
@@ -83,10 +84,16 @@ LDAP authentication works with OpenLDAP and Active Directory.
 - `ldap_ip`: IP address of your LDAP server (e.g. `1.1.1.1`)
 - `ldap_domain`: The domain your LDAP server controls (e.g. `example.local`)
 - `ldap_basedn`: Base DN for your domain (e.g. `dc=example,dc=local`)
-- `ldap_group`: Group membership required by LDAP users to be able to authenticate
+- `ldap_group`: Group membership required by LDAP users to be able to authenticate (e.g. `Domain Users`, (new group) `TimeTrack Users`)
 - `saf`: Specify if you only have one LDAP server (true) or another one as fallback (false)
 - `saf_*`: If `saf` is set to `false`, please specify the corresponding values to the `saf_*` configuration
-- `create_user`: If set to `true` it creates an user account automatically if the desired account is authenticated and within specified group. If set to `false` login simply fails, even if authenticated
+- `create_user`: If set to `true` it creates an user account automatically if the desired account is authenticated and within specified group. If set to `false` login simply fails, even if authenticated.
+
+#### **Export**
+
+##### **PDF**
+
+- `css`: Full path to the CSS file used for the PDF export (default: `api/v1/class/exports/modules/PDFExportModule/css/index.css`) - **optional value**
 
 If done correctly, you should now be able to access the application via http://BASE_URL/ - redirects to http://BASE_URL/suite/
 
@@ -125,7 +132,6 @@ Already existing local accounts will get their authentication overwritten if an 
 In order to create accounts automatically if `create_user` is `true` make sure to set the user's email address! Otherwise login fails.
 
 If above mentioned setting is set to `false` you have to create a user on your own locally and then let the user login with their LDAP credentials. The credentials you have entered will become usable if you disable LDAP or rename the account on your LDAP server.
-Please run `run-patch.sh` within the `setup` folder to get LDAP working with php >8.0
 
 ## Export
 
@@ -182,9 +188,4 @@ If downloaded any other way, just make sure to copy and paste the new files into
 
 ### Database
 
-You can update the database by downloading the `setup/upgrade.php` file into your local `setup` directory.
-From here on just edit the `$missingUpdate` variable to the desired version as specified.
-
-Please be aware that you are not able to skip an database update. You have to update one by one, e.g. from 1 -> 2, 2 -> 3, ...
-
-
+You can update the database by using `vendor/bin/phinx migrate` to migrate to latest release or `vendor/bin/phinx rollback` to rollback.

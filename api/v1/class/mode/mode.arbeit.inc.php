@@ -18,12 +18,16 @@ namespace Arbeitszeit {
 
 
         private static function get_normal_mode_html(){
+            $nodes = new Nodes;
+            if($nodes->checkNode("mode.inc", "get_normal_mode_html") == false){
+                return;
+            }
             $i18n = new i18n;
             $loc = $i18n->loadLanguage(null, "mode/easymode");
             $data = <<< DATA
             <form action="actions/worktime/add.php" method="POST">
             <label name="ort">{$loc["loc"]}</label>
-                <input type="text" name="ort" placeholder="{$loc["loc"]}">
+                <input class="input" type="text" name="ort" placeholder="{$loc["loc"]}">
                 <br>
                 <label name="date">{$loc["date"]}</label>
                 <input class="input" type="date" name="date" data-date-format="DD.MM.YYYY" required>
@@ -60,6 +64,10 @@ DATA;
         }
 
         private static function get_easymode_html(){
+            $nodes = new Nodes;
+            if($nodes->checkNode("mode.inc", "get_easymode_html") == false){
+                return;
+            }
             $i18n = new i18n;
             $loc = $i18n->loadLanguage(null, "mode/easymode");
             $active = Arbeitszeit::check_easymode_worktime_finished($_SESSION["username"]);

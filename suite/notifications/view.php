@@ -6,6 +6,12 @@ $arbeit = new Arbeitszeit;
 $arbeit->auth()->login_validation();
 $id = $_GET["id"];
 $data = $arbeit->notifications()->get_notifications_entry($id);
+
+if(isset($data["error"])){
+    header("Location: /suite/?info=notification_not_found");
+    exit;
+}
+
 $loc = $arbeit->i18n()->loadLanguage(null, "notifications/view");
 $iid = htmlspecialchars($id);
 ?>

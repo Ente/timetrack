@@ -42,7 +42,7 @@ $add_style = "";
 
                 <h2><?php echo $language["add_user"] ?></h2>
                 <form action="../../admin/actions/users/add_user.php" method="POST">
-                    <label title="Der Username besteht aus Anfangsbuchstabe des Vornamens großgeschrieben und voller Nachname, mit großem Anfangsbuchstaben. Beispiel: MMueller">Username: </label><input type="text" name="username" placeholder="MMustermann">
+                    <label title="Der Username besteht aus Anfangsbuchstabe des Vornamens großgeschrieben und voller Nachname, mit großem Anfangsbuchstaben. Beispiel: MMueller">Username: </label><input class="input" type="text" name="username" placeholder="MMustermann">
                     <br>
                     <label><?php echo $language["label_firstname"] ?>:</label><input class="input" type="text" name="name" placeholder="Name">
                     <br>

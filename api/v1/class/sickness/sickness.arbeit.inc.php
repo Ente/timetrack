@@ -6,11 +6,18 @@ namespace Arbeitszeit {
      * v1
      * - Added function to add sickness
      */
+    use Arbeitszeit\Events\EventDispatcherService;
+    use Arbeitszeit\Events\SicknessCreatedEvent;
+    use Arbeitszeit\Events\SicknessDeletedEvent;
+    use Arbeitszeit\Events\SicknessUpdatedEvent;
     class Sickness extends Arbeitszeit
     {
 
         public function add_sickness($start, $stop, $user = null)
         {
+            if($this->nodes()->checkNode("sickness.inc", "add_sickness") == false){
+                return false;
+            }
             Exceptions::error_rep("[SICK] Adding sickness for user '{$user}'...");
             $user = $_SESSION["username"];
             $dateString = $start;
@@ -28,23 +35,31 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[SICK] An error occured while adding an sickness for user '$user'. See previous message for more information.");
                 return false;
             } else {
+                EventDispatcherService::get()->dispatch(new SicknessCreatedEvent($user, $start, $stop), SicknessCreatedEvent::NAME);
                 Exceptions::error_rep("[SICK] Successfully added sickness for user '$user'.");
                 return true;
             }
         }
 
         public function remove_sickness($id){ # admin function only
+            if($this->nodes()->checkNode("sickness.inc", "remove_sickness") == false){
+                return false;
+            }
             Exceptions::error_rep("[SICK] Removing sickness with id '{$id}'...");
             $data = $this->db()->sendQuery("DELETE * FROM sick WHERE id = ?")->execute([$id]);
             if($data == false){
                 Exceptions::error_rep("[SICK] An error occured while deleting a sickness with id '{$id}'. See previous message for more information.");
                 return false;
             }
+            EventDispatcherService::get()->dispatch(new SicknessDeletedEvent($_SESSION["username"], $id), SicknessDeletedEvent::NAME);
             return true;
         }
 
         public function change_status($id, $new_state = 3) # admin function only
         {
+            if($this->nodes()->checkNode("sickness.inc", "change_status") == false){
+                return false;
+            }
             Exceptions::error_rep("[SICK] Changing status for sickness id '{$id}' to '{$new_state}'...");
             if($new_state == 1 /* approve */){
                 $sql = "UPDATE `sick` SET `status` = 'approved' WHERE `id` = ?;";
@@ -58,6 +73,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("[SICK] An error occured while setting status for sickness. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
             } else {
+                EventDispatcherService::get()->dispatch(new SicknessUpdatedEvent($_SESSION["username"], $id, $new_state), SicknessUpdatedEvent::NAME);
                 Exceptions::error_rep("[SICK] Successfully changed status for sickness id '{$id}', new state: '{$new_state}'.");
                 return true;
             }
@@ -65,6 +81,9 @@ namespace Arbeitszeit {
         }
 
         public function display_sickness_all(){ # admin function only
+            if($this->nodes()->checkNode("sickness.inc", "display_sickness_all") == false){
+                return false;
+            }
             Exceptions::error_rep("[SICK] Displaying all sicknesses...");
             $i18n = $this->i18n()->loadLanguage(null, "worktime/sick/all", "admin");
             
@@ -75,7 +94,7 @@ namespace Arbeitszeit {
 
             if($count > 0){
                 # compute and return data
-                while($row = $data->fetch(\PDO::FETCH_ASSOC)){
+                foreach($data->fetchAll(\PDO::FETCH_ASSOC) as $row){
                     $rnw = $row["username"];
                     $start = @strftime("%d.%m.%Y", strtotime($row["start"]));
                     $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
@@ -89,12 +108,12 @@ namespace Arbeitszeit {
                         case "approved":
                             $status = "<span style='color:green;'>{$i18n["status"]["approved"]}</span>";
                             break;
-                        case "action":
-                            $status = "<span style='color:red'>Action needed</span>";
+                        case "rejected":
+                            $status = "<span style='color:red;'>{$i18n["status"]["rejected"]}</span>";
                             break;
                     }
 
-                    if($stop = "01.01.1970"){
+                    if($stop == "01.01.1970"){
                         $stop = "-";
                     }
 
