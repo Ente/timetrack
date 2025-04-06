@@ -52,6 +52,7 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 - `auto_update`: (not yet implemented)
 - `db_*`: Set the connection details for your mysql instance
 - `app`: If set to true, users will be able to use the TimeTrack mobile application
+- `timezone`: Set the timezone of your application, e.g. `Europe/Berlin` or `America/New_York` (default: `UTC`)
 
 #### **SMTP section**
 

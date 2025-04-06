@@ -49,6 +49,14 @@ namespace Arbeitszeit {
         {
             $this->db = new DB();
             $this->init_lang() ?? null;
+
+            if(isset($this->get_app_ini()["general"]["timezone"])){
+                try {
+                    date_default_timezone_set($this->get_app_ini()["general"]["timezone"]);
+                } catch (\Exception $e) {
+                    Exceptions::error_rep("Error setting timezone: " . $e->getMessage());
+                }
+            }
         }
 
         public function __destruct()
