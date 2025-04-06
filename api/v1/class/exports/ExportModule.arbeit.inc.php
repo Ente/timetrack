@@ -17,7 +17,7 @@ class ExportModule extends Arbeitszeit {
         Exceptions::error_rep("Exporting data using module: {$args['module']}", 1, "N/A");
         $module = $this->getExportModule($args['module']);
         if ($module) {
-            EventDispatcherService::get()->dispatch(new generatedExportEvent($_SESSION["username"], $args['module'], $args['filename']), generatedExportEvent::NAME);
+            EventDispatcherService::get()->dispatch(new generatedExportEvent($_SESSION["username"], $args['module']), generatedExportEvent::NAME);
             return $module->export($args);
         }
         return false;

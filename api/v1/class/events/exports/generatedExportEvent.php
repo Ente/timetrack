@@ -11,11 +11,10 @@ class generatedExportEvent extends Event
     private string $module;
     private string $filename;
 
-    public function __construct(string $username, string $module, string $filename)
+    public function __construct(string $username, string $module)
     {
         $this->username = $username;
         $this->module = $module;
-        $this->filename = $filename;
     }
 
     public function getUsername(): string
@@ -26,10 +25,5 @@ class generatedExportEvent extends Event
     public function getModule(): string
     {
         return $this->module;
-    }
-
-    public function getFilename(): string
-    {
-        return $this->filename;
     }
 }
