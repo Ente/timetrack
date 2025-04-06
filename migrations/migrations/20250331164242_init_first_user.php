@@ -8,15 +8,13 @@ final class InitFirstUser extends AbstractMigration
 {
     public function change(): void
     {
-        // create default user INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`, `state`, `easymode`) VALUES (NULL, 'admin','admin', 'admin@admin.com', '$2y$10$5cmvKFvDl07C0QJJRMtG4OPSS56n.7p7VOw9UAHoIIGJTvvqp/HKG', 1, 1, NULL, 0);
-
         if ($this->hasTable("users")) {
 
             $data = [
                 'name' => 'admin',
                 'username' => 'admin',
                 'email' => 'admin@admin.com',
-                'password' => '$2y$10$5cmvKFvDl07C0QJJRMtG4OPSS56n.7p7VOw9UAHoIIGJTvvqp/HKG',
+                'password' => password_hash('admin', PASSWORD_DEFAULT),
                 'email_confirmed' => true,
                 'isAdmin' => true,
                 'state' => null,
