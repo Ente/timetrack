@@ -1,6 +1,6 @@
 # TimeTrack - small enterprise time recording
 
-TimeTrack aims to be a easy-to-use time recording software for small enterprises.
+TimeTrack aims to be an easy-to-use time recording software for small enterprises.
 It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more features)
 
 ## Features
@@ -14,9 +14,9 @@ It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more 
 - Maintenance mode
 - Easy and fast installation
 - LDAP Authentication
-
-That's not even all of it, you can also generate timesheets (PDF) to export, user creation menu, an "easymode" to make it even easier to track your time and a mobile-friendly UI.
-Additional functionality can be unlocked with TimeTrack Oval
+- Supporting NFC Login
+- Plugin Support
+- Exporting to PDF/CSV
 
 ## Installation
 
@@ -157,7 +157,7 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 
 ```
 
-As there is currently no Export Area in the UI you have to create the GUI elements on your own.
+All existing export modules can be accessed with the `ExportManager` Plugin.
 You can specify your own CSS file within the `app.json` `exports -> pdf -> css` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
 
 ## QR codes
@@ -189,3 +189,21 @@ If downloaded any other way, just make sure to copy and paste the new files into
 ### Database
 
 You can update the database by using `vendor/bin/phinx migrate` to migrate to latest release or `vendor/bin/phinx rollback` to rollback.
+
+## Managed Hosting
+
+If you don't want to worry about installation, updates and maintenance - let us do it for you.
+
+With our managed TimeTrack hosting, you get:
+
+* 🛡️ Fully GDPR-compliant hosting in Germany or Netherlands
+* 🚀 Always up-to-date with the latest features and security patches
+* 🔐 Secure HTTPS out-of-the-box
+* ☁  Backupts, monitoring and support included
+* 🧩 Custom plugins, integration, branding
+
+Want to move your team to the cloud? Check out our <a href="https://openducks.org/timetrack.php">website</a> for more information.
+
+## License
+
+The original project is licensed under the GPLv3 license - see the [LICENSE](LICENSE) file for details.
