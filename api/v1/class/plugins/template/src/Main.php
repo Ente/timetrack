@@ -7,7 +7,7 @@ namespace Example;
 use Arbeitszeit;
 use Arbeitszeit\PluginBuilder;
 
-class Main extends PluginBuilder {
+class MyPlugin extends PluginBuilder {
 
 
     private string $log_append;
