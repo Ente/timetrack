@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v7.12.1
+
+* Updated `README.md`
+* Updated Plugin template
+* You can now set the timezone within `app.json` (see `README.md` for more information)
+* Fixed an issue with the generatedExport event
+* Fixed db migrations for first user creation
+
 ## v7.12
 
 * Added a simple Favicon
