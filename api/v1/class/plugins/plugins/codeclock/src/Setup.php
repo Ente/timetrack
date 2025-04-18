@@ -45,6 +45,18 @@ class Setup extends codeclock {
             CustomRoutes::registerCustomRoute("code", "/api/v1/class/plugins/plugins/codeclock/views/routes/Code.ep.toil.arbeit.inc.php", 0);
             return true;
         } else {
+            // check if any PIN exists duplicate
+            $files = glob(dirname(__DIR__, 1) . "/data/pin/*_c");
+            $pins = [];
+            foreach($files as $file){
+                $pin = file_get_contents($file);
+                if(in_array($pin, $pins)){
+                    Exceptions::error_rep("Duplicate PIN found for user " . basename($file, "_c"));
+                    Exceptions::failure("Duplicate PIN found for user " . basename($file, "_c"), "ERROR-PLUGIN-SETUP-DUPLICATE-PIN", basename($file, "_c") . " user has duplicate PIN. Please delete PIN files to regenerate them.");
+                    return false;
+                }
+                $pins[] = $pin;
+            }
             Exceptions::error_rep("Token file found");
             return true;
         }

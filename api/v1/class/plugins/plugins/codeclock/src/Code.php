@@ -43,7 +43,11 @@ class Code extends codeclock {
         if(file_exists($file)){
             return file_get_contents($file);
         } else {
-            Exceptions::error_rep("[CodeClock] PIN file not found for {$username}");
+            Exceptions::error_rep("[CodeClock] PIN file not found for {$username}...Generating new PIN.");
+            $pinString = (string)random_int(1000, 9999);
+            file_put_contents($file, $pinString);
+            chmod($file, 0600);
+            Exceptions::error_rep("[CodeClock] New PIN generated for {$username}");
             return "";
         }
     }
@@ -56,7 +60,7 @@ class Code extends codeclock {
                 return basename($file, "_c");
             }
         }
-        Exceptions::error_rep("[CodeClock] User not found by PIN");
+        Exceptions::error_rep("[CodeClock] PIN not found.");
         return "";
     }
 }

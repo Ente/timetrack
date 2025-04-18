@@ -7,6 +7,7 @@ This plugin allows you to clock in or out using a PIN to authenticate. The plugi
 ### View PIN
 
 You can view your PIN by navigating to `Plugins` -> `[codeclock] View PIN`.
+If the user PIN does not exist, it will be created automatically.
 
 ### Resetting PIN
 
