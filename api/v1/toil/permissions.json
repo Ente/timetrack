@@ -22,5 +22,8 @@
     "autoremoveNotifications": 0,
     "removeNotification": 1,
     "addNotification": 1,
-    "getNotifications": 0
+    "getNotifications": 0,
+    "createToken": 0,
+    "deleteToken": 0,
+    "refreshToken": 0
 }
