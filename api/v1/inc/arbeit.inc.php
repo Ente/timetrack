@@ -31,6 +31,7 @@ require_once dirname(__DIR__, 1) . "/toil/Controller.toil.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/toil/resources/ep.toil.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/toil/Permissions.routes.toil.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/toil/CustomRoutes.routes.toil.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/toil/Tokens.routes.toil.arbeit.inc.php";
 
 require_once dirname(__DIR__, 1) . "/class/plugins/Hooks.plugins.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/auth/plugins/ldap/ldap.auth.arbeit.inc.php";
