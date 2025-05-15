@@ -9,5 +9,6 @@
     "no_data": "No data found!",
     "worktime_all": "Total working time (rounded)",
     "worktime_date": "Start date of the data",
-    "end_date": "End date"
+    "end_date": "End date",
+    "type": "Type"
 }

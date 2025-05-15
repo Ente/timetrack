@@ -12,5 +12,6 @@
     "send": "end of shift",
     "pbegin": "Break Start",
     "pend": "end of break",
-    "loc": "location"
+    "loc": "location",
+    "type": "type"
 }

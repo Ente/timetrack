@@ -36,6 +36,7 @@ if(!isset($_GET["monat"])){
                     <th><?php echo $loc["s_pstart"] ?></th>
                     <th><?php echo $loc["s_pend"] ?></th>
                     <th><?php echo $loc["s_location"] ?></th>
+                    <th><?php echo $loc["type"] ?></th>
                 </tr>
 
                 <?php echo $arbeit->get_employee_worktime_html($_SESSION["username"]);  ?>

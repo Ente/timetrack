@@ -16,6 +16,14 @@ namespace Arbeitszeit {
             }
         }
 
+        public static function compute_html_worktime_types(){
+            $data = "";
+            foreach(Arbeitszeit::get_all_types() as $type => $value){
+                $data .= "<option value=\"{$type}\">{$value}</option>";
+            }
+            return $data;
+        }
+
 
         private static function get_normal_mode_html(){
             $nodes = new Nodes;
@@ -24,6 +32,7 @@ namespace Arbeitszeit {
             }
             $i18n = new i18n;
             $loc = $i18n->loadLanguage(null, "mode/easymode");
+            $t = self::compute_html_worktime_types();
             $data = <<< DATA
             <form action="actions/worktime/add.php" method="POST">
             <label name="ort">{$loc["loc"]}</label>
@@ -43,6 +52,11 @@ namespace Arbeitszeit {
                 <br>
                 <label name="pause_end">{$loc["pend"]}</label>
                 <input class="input" type="time" name="pause_end" placeholder="{$loc["pend"]}">
+                <br>
+                <label name="Wtype">{$loc["type"]}</label>
+                <select class="input" name="Wtype">
+                    {$t}
+                </select>
                 <br>
                 <input class="input" type="text" name="username" value="{$_SESSION["username"]}" hidden>
                 <button type="submit" class="button">{$loc["submit"]}</button>

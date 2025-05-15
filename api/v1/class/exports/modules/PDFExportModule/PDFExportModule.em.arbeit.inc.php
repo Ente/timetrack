@@ -51,6 +51,7 @@ class PDFExportModule implements ExportModuleInterface {
                                 <th>{$i18nn["pbegin"]}</th>
                                 <th>{$i18nn["pend"]}</th>
                                 <th>{$i18nn["loc"]}</th>
+                                <th>{$i18nn["type"]}</th>
                             </tr>
 
             DATA;
@@ -68,6 +69,7 @@ class PDFExportModule implements ExportModuleInterface {
                     $rew = $row["schicht_anfang"];
                     $rol = $row["schicht_ende"];
                     $ral = $row["ort"];
+                    $rtn = $arbeit->type_from_int($row["Wtype"]) ?? "N/A";
                     $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
                     $rpe = @strftime("%H:%M", strtotime($row["pause_end"]));
 
@@ -88,6 +90,7 @@ class PDFExportModule implements ExportModuleInterface {
                                 <td>{$rps}</td>
                                 <td>{$rpe}</td>
                                 <td>{$ral}</td>
+                                <td>{$rtn}</td>
                             </tr>
 
 

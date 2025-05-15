@@ -7,5 +7,6 @@
     "csv": "(CSV)",
     "delete_entry": "Invoer verwijderen",
     "no_shifts": "Geen vermeldingen gevonden.",
-    "or": "of"
+    "or": "of",
+    "type": "Type"
    }

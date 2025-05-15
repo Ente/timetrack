@@ -6,5 +6,6 @@
     "s_end": "Schicht Ende",
     "s_pstart": "Pause Start",
     "s_pend": "Pause Ende",
-    "s_location": "Ort"
+    "s_location": "Ort",
+    "type": "Typ"
 }

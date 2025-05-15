@@ -12,5 +12,6 @@
     "send": "Schicht Ende",
     "pbegin": "Pause Start",
     "pend": "Pause Ende",
-    "loc": "Ort"
+    "loc": "Ort",
+    "type": "Typ"
 }
