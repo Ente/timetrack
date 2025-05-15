@@ -48,6 +48,7 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
                     <th><?php echo $loc["pbegin"] ?></th>
                     <th><?php echo $loc["pend"] ?></th>
                     <th><?php echo $loc["loc"] ?></th>
+                    <th><?php echo $loc["type"] ?></th>
                 </tr>
 
                 <?php echo $arbeit->get_specific_worktime_html($date_month, $date_year)  ?>

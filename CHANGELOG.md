@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v7.13
+
+* You can now set different types of worktimes. You can specify your own ones in the `app/v1/inc/configs/worktime_types.json` file. If none is set, like when using the easymode, mode `0` will be used.
+* Toil API release `1.12`: added Bearer token authentication
+
 ## v7.12.1
 
 * Updated `README.md`

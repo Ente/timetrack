@@ -9,5 +9,6 @@
     "no_data": "Geen gegevens gevonden!",
     "worktime_all": "Totale werktijd (afgerond)",
     "worktime_date": "Begindatum van gegevens",
-    "end_date": "Einddatum"
+    "end_date": "Einddatum",
+    "type": "Type"
    }

@@ -6,5 +6,6 @@
     "s_end": "Shift End",
     "s_pstart": "Pause Start",
     "s_pend": "Pause End",
-    "s_location": "Location"
+    "s_location": "Location",
+    "type": "Type"
 }

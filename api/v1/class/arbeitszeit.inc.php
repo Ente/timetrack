@@ -328,9 +328,10 @@ namespace Arbeitszeit {
          * @param string $location Ort der Schicht
          * @param date $date Datum der Schicht
          * @param string $username Username des Mitarbeiters
+         * @param string $Wtype Type of worktime
          * @return bool Gibt true bei Erfolg und false bei einem Fehler zurück
          */
-        public function add_worktime($start, $end, $location, $date, $username, $type, $pause = null, $meta = null)
+        public function add_worktime($start, $end, $location, $date, $username, $type, $Wtype = 0, $pause = null, $meta = null)
         {
             if(!$this->nodes()->checkNode("arbeitszeit.inc", "add_worktime")) {
                 return false;
@@ -345,10 +346,16 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("An error occured while creating an worktime entry. The user does not exist.");
                 return false;
             } else {
+
+                if($this->type_from_int($Wtype) == false){
+                    Exceptions::error_rep("An error occured while creating an worktime entry. The worktime type does not exist.");
+                    return false;
+                }
+
                 Exceptions::error_rep("Creating worktime entry for user '{$username}'...");
-                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `review`, `active`, `type`, `pause_start`, `pause_end`, `attachements`) VALUES ( ?, '0', ?, ?, ?, ?, ?, ?, '0', '0', ?, ?, ?, ?);";
+                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `review`, `active`, `type`, `Wtype`, `pause_start`, `pause_end`, `attachements`) VALUES ( ?, '0', ?, ?, ?, ?, ?, ?, '0', '0', ?, ?, ?, ?, ?);";
                 $data = $this->db->sendQuery($sql);
-                $data->execute([$usr["name"], $usr["email"], $username, $date, $start, $end, $location, $type, $pause["start"], $pause["end"], $meta]);
+                $data->execute([$usr["name"], $usr["email"], $username, $date, $start, $end, $location, $type, $Wtype ,$pause["start"], $pause["end"], $meta]);
                 if (!$data) {
                     Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information.");
                     return false;
@@ -357,6 +364,27 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("Worktime entry for user '{$username}' created successfully.");
                     return true;
                 }
+            }
+        }
+
+        public static function type_from_int($int){
+            $types = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . self::get_app_ini()["config"]["worktime_types"]), true);
+            if (isset($types[$int])) {
+                return $types[$int];
+            } else {
+                Exceptions::error_rep("An error occured while getting worktime type from int. The type does not exist. Returning default");
+                return $types[0];
+            }
+
+        }
+
+        public static function get_all_types(){
+            $types = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . self::get_app_ini()["config"]["worktime_types"]), true);
+            if (isset($types)) {
+                return $types;
+            } else {
+                Exceptions::error_rep("An error occured while getting worktime types. The types do not exist. Returning default");
+                return [];
             }
         }
 
@@ -480,6 +508,7 @@ namespace Arbeitszeit {
                     $rum = $row["ort"];
                     $rqw = $row["id"];
                     $rbn = $row["username"];
+                    $rtn = $this->type_from_int($row["Wtype"]) ?? "N/A";
                     $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
                     $rpe = @strftime("%H:%M", strtotime($row["pause_end"]));
 
@@ -508,6 +537,7 @@ namespace Arbeitszeit {
                             <td>$rps</td>
                             <td>$rpe</td>
                             <td>$rum $rno</td>
+                            <td>$rtn</td>
                         </tr>
 
 
@@ -544,6 +574,7 @@ namespace Arbeitszeit {
                     $rol = $row["schicht_ende"];
                     $rum = $row["ort"];
                     $rqw = $row["id"];
+                    $rtn = $this->type_from_int($row["Wtype"]) ?? "N/A";
                     $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
                     $rpe = @strftime("%H.%M", strtotime($row["pause_end"]));
 
@@ -570,6 +601,7 @@ namespace Arbeitszeit {
                             <td>$rps</td>
                             <td>$rpe</td>
                             <td $rmn>$rum $rno</td>
+                            <td>$rtn</td>
                         </tr>
 
 

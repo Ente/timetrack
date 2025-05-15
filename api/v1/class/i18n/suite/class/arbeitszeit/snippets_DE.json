@@ -7,5 +7,6 @@
     "csv": "(CSV)",
     "delete_entry": "Eintrag löschen",
     "no_shifts": "Keine Einträge gefunden.",
-    "or": "oder"
+    "or": "oder",
+    "type": "Typ"
 }
