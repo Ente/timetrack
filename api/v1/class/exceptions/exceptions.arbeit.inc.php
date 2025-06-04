@@ -6,7 +6,7 @@ namespace Arbeitszeit {
             parent::__construct($message, $code, $previous);
         }
         public function __toString(): string{
-            return __CLASS__ . ": [($this->code}]: {$this->message}\n";
+            return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
         }
 
         public static function error_rep($message, $method = NULL){

@@ -49,8 +49,8 @@ namespace Arbeitszeit {
             $response = self::get_bind()->getConnection()->execute($operation);
             $code1 = null;
             if(!$response->isAuthenticated()){
-                $code = $response->getErrorCode();
                 $code = $code1;
+                $code = $response->getErrorCode();
                 switch($code){
                     case "1317":
                         Exceptions::error_rep("Could not authenticate user '{$username}': Account does not exist.");
@@ -106,7 +106,7 @@ namespace Arbeitszeit {
                             Exceptions::error_rep("Could not authenticate user '{$username}': User not found in DB.");
                             if(Arbeitszeit::get_app_ini()["ldap"]["create_user"] == "true"){
                                 $benutzer = new Benutzer;
-                                Exceptions::error_rep("User authenticated but not existent locally '{$username}': Trying to create user istead...");
+                                Exceptions::error_rep("User authenticated but not existent locally '{$username}': Trying to create user instead...");
                                 if($user->get("mail") == ""){
                                     Exceptions::error_rep("Could not authenticate user '{$username}': User email in LDAP not set!");
                                     return false;
