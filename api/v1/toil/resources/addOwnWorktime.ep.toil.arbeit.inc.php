@@ -45,7 +45,7 @@ namespace Toil {
             ];
 
             
-                if ($arbeit->add_worktime($data["start"], $data["end"], $data["location"], $data["date"], $data["username"], $data["type"], $data["pause"], $data["meta"])) {
+                if ($arbeit->add_worktime($data["start"], $data["end"], $data["location"], $data["date"], $data["username"], $data["type"], 0, $data["pause"], $data["meta"])) {
                     echo json_encode(["note" => "Successfully saved worktime record"]);
                 } else {
                     echo json_encode(["error" => "An error occured while saving worktime"]);
