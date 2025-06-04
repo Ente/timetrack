@@ -94,14 +94,14 @@ DATA;
                     self::get_easymode_html();
                 }
                 $data = <<< DATA
-                <p>An error occured while checking for active easymode entries. Either a connection error to the database or you have multiple entries marked as active. If the problem persists, contact the system administrator!</p>
+                <p>An error occurred while checking for active easymode entries. Either a connection error to the database or you have multiple entries marked as active. If the problem persists, contact the system administrator!</p>
                 <p style="font-family:monospace;">Error-Code: DEM-CHK_FAIL_EM_ENY_AC</p>
 DATA;
                 goto skip_to_output;
             } elseif(!$worktime && $active === true){
-                Exceptions::error_rep("An error occured while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry! | Active worktime: " . $worktime);
+                Exceptions::error_rep("An error occurred while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry! | Active worktime: " . $worktime);
                 $data = <<< DATA
-                <p>An error occured while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry!</p>
+                <p>An error occurred while checking for active easymode entries. Please ask your administrator to remove the current active worktime entry!</p>
 DATA;
             
             } elseif($active == -1){

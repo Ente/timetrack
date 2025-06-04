@@ -33,7 +33,7 @@ namespace Arbeitszeit {
             $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES (?, ?, ?, ?, '1', ?);";
             $data = $this->db->sendQuery($sql)->execute([$name, $username, $email, $password, $isAdmin]);
             if ($data == false) {
-                Exceptions::error_rep("An error occured while creating a user. See previous message for more information");
+                Exceptions::error_rep("An error occurred while creating a user. See previous message for more information");
                 return [
                     "error" => [
                         "error_code" => 3,
@@ -67,7 +67,7 @@ namespace Arbeitszeit {
             $sql = "DELETE FROM `users` WHERE id = ?;";
             $data = $this->db->sendQuery($sql)->execute([$id]);
             if ($data == false) {
-                Exceptions::error_rep("An error occured while deleting an user. See previous message for more information");
+                Exceptions::error_rep("An error occurred while deleting an user. See previous message for more information");
                 return [
                     "error" => [
                         "error_code" => 4,
@@ -254,7 +254,7 @@ namespace Arbeitszeit {
             $base_url = $ini = $this->get_app_ini()["general"]["base_url"];
             $data = $this->get_user($username);
             if ($data == false) {
-                Exceptions::error_rep("An error occured while generating user html. User '$username' is either not logged in or the session expired.");
+                Exceptions::error_rep("An error occurred while generating user html. User '$username' is either not logged in or the session expired.");
                 return "<p>{$this->i18n["unknown_error"]}</p>";
             }
             while ($data) {

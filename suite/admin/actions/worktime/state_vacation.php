@@ -26,7 +26,7 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
                 } else {
-                    Exceptions::error_rep("An error occured while changing status for vacation with id '{$id}'");
+                    Exceptions::error_rep("An error occurred while changing status for vacation with id '{$id}'");
                     header("Location: http://{$base_url}/suite/?info=noperms");
                 }
                 break;
@@ -36,7 +36,7 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
                 } else {
-                    Exceptions::error_rep("An error occured while changing status for vacation with id '{$id}'");
+                    Exceptions::error_rep("An error occurred while changing status for vacation with id '{$id}'");
                     header("Location: http://{$base_url}/suite/?info=noperms");
                 }
                 break;
@@ -46,7 +46,7 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
                 } else {
-                    Exceptions::error_rep("An error occured while chaning status for vacation with id '{$id}'");
+                    Exceptions::error_rep("An error occurred while changing status for vacation with id '{$id}'");
                     header("Location: http://{$base_url}/suite/?info=noperms");
                 }
                 break;
@@ -56,7 +56,7 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
                     header("Location: http://{$base_url}/suite/?info=changed_vacation");
                     die();
                 } else {
-                    Exceptions::error_rep("An error occured while chaning status for vacation with id '{$id}'");
+                    Exceptions::error_rep("An error occurred while changing status for vacation with id '{$id}'");
                     header("Location: http://{$base_url}/suite/?info=noperms");
                 }
                 break;

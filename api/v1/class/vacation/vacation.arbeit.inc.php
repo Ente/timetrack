@@ -34,13 +34,13 @@ namespace Arbeitszeit {
             $dateObj = \DateTime::createFromFormat($format, $dateString);
 
             if ($dateObj == false) {
-              Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
+              Exceptions::error_rep("[VACATION] An error occurred while adding an vacation for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
               return false;
             }
             $sql = "INSERT INTO `vacation` (`id`, `username`, `start`, `stop`, `status`) VALUES ('0', ?, ?, ?, 'pending') ";
             $data = $this->db->sendQuery($sql)->execute([$user, $start, $stop]);
             if(!$data){
-                Exceptions::error_rep("[VACATION] An error occured while adding an vacation for user '$user'. See previous message for more information.");
+                Exceptions::error_rep("[VACATION] An error occurred while adding an vacation for user '$user'. See previous message for more information.");
                 return false;
             } else {
                 EventDispatcherService::get()->dispatch(new VacationCreatedEvent($user, $start, $stop), VacationCreatedEvent::NAME);
@@ -57,7 +57,7 @@ namespace Arbeitszeit {
             $sql = "DELETE * FROM `vacation` WHERE id = ?";
             $data = $this->db->sendQuery($sql)->execute(array([$id]));
             if($data == false){
-                Exceptions::error_rep("[VACATION] An error occured while deleting a vacation with id '{$id}'. See previous message for more information");
+                Exceptions::error_rep("[VACATION] An error occurred while deleting a vacation with id '{$id}'. See previous message for more information");
                 return false;
             }
             EventDispatcherService::get()->dispatch(new VacationDeletedEvent($_SESSION["username"], (int)$id), VacationDeletedEvent::NAME);
@@ -80,7 +80,7 @@ namespace Arbeitszeit {
             }
             $data = $this->db->sendQuery($sql)->execute([$id]);
             if($data == false){
-                Exceptions::error_rep("[VACATION] An error occured while setting status for vacaction. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
+                Exceptions::error_rep("[VACATION] An error occurred while setting status for vacaction. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
             } else {
                 EventDispatcherService::get()->dispatch(new VacationUpdatedEvent($_SESSION["username"], (int)$id, $new_state), VacationUpdatedEvent::NAME);
@@ -94,7 +94,7 @@ namespace Arbeitszeit {
             Exceptions::error_rep("[VACATION] Getting vacation id '{$id}'...");
             $data = $this->db->sendQuery("SELECT * FROM `vacation` WHERE id = ?")->execute([$id]);
             if($data == false){
-                Exceptions::error_rep("[VACATION] An error occured while getting vacaction. id '{$id}'. See previous message for more information.");
+                Exceptions::error_rep("[VACATION] An error occurred while getting vacaction. id '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[VACATION] Successfully found vacation id '{$id}' inside database.");

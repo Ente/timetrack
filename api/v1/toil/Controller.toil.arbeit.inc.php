@@ -25,7 +25,7 @@ namespace Toil {
                 $class = "Toil\\$endpoint";
                 $class = new $class;
             } catch (\Throwable $e){
-                \Arbeitszeit\Exceptions::error_rep("[API] An error occured while loading custom route for endpoint {$endpoint}: " . $e->getMessage());
+                \Arbeitszeit\Exceptions::error_rep("[API] An error occurred while loading custom route for endpoint {$endpoint}: " . $e->getMessage());
                 header("Content-Type: application/json");
                 echo json_encode(array("error" => "Could not load custom route."));
                 die();

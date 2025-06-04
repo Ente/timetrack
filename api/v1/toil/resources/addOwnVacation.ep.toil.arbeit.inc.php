@@ -40,7 +40,7 @@ namespace Toil {
                 if ($vac->add_vacation($start, $stop, $username)) {
                     echo json_encode(["note" => "Successfully saved vacation record"]);
                 } else {
-                    echo json_encode(["error" => "An error occured while saving vacation"]);
+                    echo json_encode(["error" => "An error occurred while saving vacation"]);
                 }
         }
 

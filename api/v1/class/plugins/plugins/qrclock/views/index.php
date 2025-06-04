@@ -14,7 +14,7 @@ if (isset($_GET["action"])) {
     try{
         $payload = json_decode(base64_decode($_GET["payload"]), true);
     } catch (\Exception $e){
-        return "An error occured while decoding payload.";
+        return "An error occurred while decoding payload.";
     }
     if ($_GET["action"] === "clockin") {
         if($main->getStatus() === "clockout"){
@@ -25,7 +25,7 @@ if (isset($_GET["action"])) {
             if ($arbeit->add_easymode_worktime($payload["username"])) {
                 echo "<h2 style='color:green'>Successfully clocked in.</h2>";
             } else {
-                echo "<h2 style='color:red'>An error occured while clocking in.</h2>";
+                echo "<h2 style='color:red'>An error occurred while clocking in.</h2>";
             }
         } else {
             echo "<h2 style='color:red'>Invalid token.</h2>";
@@ -39,7 +39,7 @@ if (isset($_GET["action"])) {
                 if ($arbeit->end_easymode_worktime($payload["username"], $arbeit->check_easymode_worktime_finished($payload["username"]))) {
                     echo "<h2 style='color:green'>Successfully clocked out.</h2>";
                 } else {
-                    echo "<h2 style='color:green'>An error occured while clocking in.</h2>";
+                    echo "<h2 style='color:green'>An error occurred while clocking in.</h2>";
                 }
             } else {
                 echo "<h2 style='color:red'>Invalid token.</h2>";

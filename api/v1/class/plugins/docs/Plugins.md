@@ -15,11 +15,11 @@ Plugins can be restricted to be used by administrators only.
 TimeTrack will read your plugin's `plugin.yml` and renders the `nav_links` to the `Plugins Page`.
 You could design your plugin this way, that it only has one `nav_links`. This page then contains all other links, this might help keeping the navigation bar clean.
 
-You can also design your plugin the way you want to. Since `PluginBuilder.plugins.arbeit.inc.php` has `Arbeitszeit` as it's parent class, its functions are inherited aswell. So you are able to communicate with the database aswell. In the future, we are planning to resolve the issue with direct access to the instance data to a plugin through the `permissions` attribute within the `plugin.yml`.
+You can also design your plugin the way you want to. Since `PluginBuilder.plugins.arbeit.inc.php` has `Arbeitszeit` as it's parent class, its functions are inherited as well. So you are able to communicate with the database as well. In the future, we are planning to resolve the issue with direct access to the instance data to a plugin through the `permissions` attribute within the `plugin.yml`.
 
 A user would go this way to access your plugin: (Select from nav bar) "Plugins" > "[PluginName] View Name" > (your php file)
 
-Plugins are able to work without a navigation bar aswell, like dependencies for other plugins. Just leave the `nav_links` directive empty inside the `plugin.yml`
+Plugins are able to work without a navigation bar as well, like dependencies for other plugins. Just leave the `nav_links` directive empty inside the `plugin.yml`
 
 ### plugin.yml
 

@@ -17,7 +17,7 @@ namespace Arbeitszeit{
             $sql = "DELETE FROM `kalender` WHERE `datum` < NOW();";
             $data = $db->sendQuery($sql)->execute();
             if($data == false){
-                Exceptions::error_rep("An error occured while autodeleting notifications entries. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while autodeleting notifications entries. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 7,

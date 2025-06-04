@@ -90,7 +90,7 @@ namespace Arbeitszeit {
             }
             $data = $this->db->sendQuery("DELETE FROM arbeitszeiten WHERE id = ?")->execute([$id]);
             if ($data == false) {
-                Exceptions::error_rep("An error occured while deleting an worktime entry. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while deleting an worktime entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 1,
@@ -119,14 +119,14 @@ namespace Arbeitszeit {
             $usr = $user->get_user($username);
 
             if (!$user->get_user($username)) {
-                Exceptions::error_rep("An error occured while creating easymode worktime entry for user '{$username}'. User does not exist.");
+                Exceptions::error_rep("An error occurred while creating easymode worktime entry for user '{$username}'. User does not exist.");
                 return false;
             } else {
                 Exceptions::error_rep("Creating easymode worktime entry for user '{$username}'...");
                 $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `active`, `review`) VALUES ( ?, '0', ?, ?, ?, ?, '00:00', '-', '1', '0');";
                 $data = $conn->sendQuery($sql)->execute([$usr["name"], $usr["email"], $username, $date, $time]);
                 if ($data == false) {
-                    Exceptions::error_rep("An error occured while creating easymode worktime entry. See previous message for more information");
+                    Exceptions::error_rep("An error occurred while creating easymode worktime entry. See previous message for more information");
                     return false;
                 } else {
                     EventDispatcherService::get()->dispatch(new EasymodeWorktimeAddedEvent($username), EasymodeWorktimeAddedEvent::NAME);
@@ -148,14 +148,14 @@ namespace Arbeitszeit {
             $user = new Benutzer();
 
             if (!$user->get_user($username)) {
-                Exceptions::error_rep("An error occured while ending easymode worktime for user '{$username}'. User does not exist.");
+                Exceptions::error_rep("An error occurred while ending easymode worktime for user '{$username}'. User does not exist.");
                 return false;
             } else {
                 Exceptions::error_rep("Ending easymode worktime for user '{$username}'...");
                 $sql = "UPDATE `arbeitszeiten` SET `schicht_ende` = ?, `active` = '0' WHERE `id` = ?;";
                 $data = $conn->sendQuery($sql)->execute([$time, $id]);
                 if (!$data) {
-                    Exceptions::error_rep("An error occured while ending easymode worktime. See previous message for more information.");
+                    Exceptions::error_rep("An error occurred while ending easymode worktime. See previous message for more information.");
                     return false;
                 } else {
                     EventDispatcherService::get()->dispatch(new EasymodeWorktimeEndedEvent($username, (int)$id), EasymodeWorktimeEndedEvent::NAME);
@@ -175,14 +175,14 @@ namespace Arbeitszeit {
             $user = new Benutzer;
 
             if (!$user->get_user($username)) {
-                Exceptions::error_rep("An error occured while starting user pause for worktime with ID '{$id}' for user '{$username}'. User does not exist.");
+                Exceptions::error_rep("An error occurred while starting user pause for worktime with ID '{$id}' for user '{$username}'. User does not exist.");
                 return false;
             } else {
                 Exceptions::error_rep("Starting easymode pause for user '{$username}'...");
                 $sql = "UPDATE `arbeitszeiten` SET `pause_start` = ? WHERE id = ?;";
                 $data = $this->db->sendQuery($sql)->execute([$time, $id]);
                 if (!$data) {
-                    Exceptions::error_rep("An error occured while starting user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
+                    Exceptions::error_rep("An error occurred while starting user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
                     EventDispatcherService::get()->dispatch(new EasymodeWorktimePauseStartEvent($username, (int)$id), EasymodeWorktimePauseStartEvent::NAME);
@@ -201,14 +201,14 @@ namespace Arbeitszeit {
             $user = new Benutzer;
 
             if (!$user->get_user($username)) {
-                Exceptions::error_rep("An error occured while ending user pause for worktime with ID '{$id}' for user '{$username}'. User does not exist.");
+                Exceptions::error_rep("An error occurred while ending user pause for worktime with ID '{$id}' for user '{$username}'. User does not exist.");
                 return false;
             } else {
                 Exceptions::error_rep("Ending easymode pause for user '{$username}'...");
                 $sql = "UPDATE `arbeitszeiten` SET `pause_end` = ? WHERE id = ?;";
                 $data = $this->db->sendQuery($sql)->execute([$time, $id]);
                 if (!$data) {
-                    Exceptions::error_rep("An error occured while ending user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
+                    Exceptions::error_rep("An error occurred while ending user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
                     EventDispatcherService::get()->dispatch(new EasymodeWorktimePauseEndEvent($username, (int)$id), EasymodeWorktimePauseEndEvent::NAME);
@@ -228,7 +228,7 @@ namespace Arbeitszeit {
             $res = $this->db->sendQuery($sql);
             $res->execute([$username]);
             if (!$res) {
-                Exceptions::error_rep("An error occured while toggling easymode for user '{$username}'!");
+                Exceptions::error_rep("An error occurred while toggling easymode for user '{$username}'!");
                 return false;
             } else {
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
@@ -236,7 +236,7 @@ namespace Arbeitszeit {
                     $sql1 = "UPDATE `users` SET `easymode` = '1' WHERE username = ?;";
                     $res1 = $this->db->sendQuery($sql1)->execute([$username]);
                     if (!$res1) {
-                        Exceptions::error_rep("An error occured while toggling easymode for user '{$username}'! Could not enable mode.");
+                        Exceptions::error_rep("An error occurred while toggling easymode for user '{$username}'! Could not enable mode.");
                         return false;
                     }
                     return true;
@@ -244,7 +244,7 @@ namespace Arbeitszeit {
                     $sql1 = "UPDATE `users` SET `easymode` = '0' WHERE username = ?;";
                     $res1 = $this->db->sendQuery($sql1)->execute([$username]);
                     if (!$res1) {
-                        Exceptions::error_rep("An error occured while toggling easymode for user '{$username}'! Could not disable mode.");
+                        Exceptions::error_rep("An error occurred while toggling easymode for user '{$username}'! Could not disable mode.");
                         return false;
                     }
                     Exceptions::error_rep("Easymode disabled for user '{$username}'");
@@ -263,7 +263,7 @@ namespace Arbeitszeit {
             $res = $this->db->sendQuery($sql);
             $res->execute([$username]);
             if (!$res) {
-                Exceptions::error_rep("An error occured while getting status easymode for user '{$username}'!");
+                Exceptions::error_rep("An error occurred while getting status easymode for user '{$username}'!");
                 return false;
             } else {
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
@@ -304,11 +304,11 @@ namespace Arbeitszeit {
             $res = $db->sendQuery($sql);
             $res->execute([$username]);
             if (!$res) {
-                Exceptions::error_rep("An error occured while checking user entries for easymode worktime");
+                Exceptions::error_rep("An error occurred while checking user entries for easymode worktime");
                 return false;
             } else {
                 if ($res->rowCount() > 1) {
-                    Exceptions::error_rep("An error occured while checking user entries for easymode worktime. Duplicated easymode entry found, please fix manually.");
+                    Exceptions::error_rep("An error occurred while checking user entries for easymode worktime. Duplicated easymode entry found, please fix manually.");
                     return false;
                 } elseif ($res->rowCount() < 1) {
                     Exceptions::error_rep("No easymode worktime found for user '{$username}'");
@@ -339,16 +339,16 @@ namespace Arbeitszeit {
             $user = new Benutzer;
             $usr = $user->get_user($username);
             if ($date > date("y-m-d") /*|| $date < date("y-m-d")*/) {
-                Exceptions::error_rep("An error occured while creating an worktime entry. The date is in the future.");
+                Exceptions::error_rep("An error occurred while creating an worktime entry. The date is in the future.");
                 return false;
             }
             if (!$user->get_user($username)) {
-                Exceptions::error_rep("An error occured while creating an worktime entry. The user does not exist.");
+                Exceptions::error_rep("An error occurred while creating an worktime entry. The user does not exist.");
                 return false;
             } else {
 
                 if($this->type_from_int($Wtype) == false){
-                    Exceptions::error_rep("An error occured while creating an worktime entry. The worktime type does not exist.");
+                    Exceptions::error_rep("An error occurred while creating an worktime entry. The worktime type does not exist.");
                     return false;
                 }
 
@@ -357,7 +357,7 @@ namespace Arbeitszeit {
                 $data = $this->db->sendQuery($sql);
                 $data->execute([$usr["name"], $usr["email"], $username, $date, $start, $end, $location, $type, $Wtype ,$pause["start"], $pause["end"], $meta]);
                 if (!$data) {
-                    Exceptions::error_rep("An error occured while creating an worktime entry. See previous message for more information.");
+                    Exceptions::error_rep("An error occurred while creating an worktime entry. See previous message for more information.");
                     return false;
                 } else {
                     EventDispatcherService::get()->dispatch(new WorktimeAddedEvent($username, ["start" => $start, "end" => $end], $Wtype), WorktimeAddedEvent::NAME);
@@ -372,7 +372,7 @@ namespace Arbeitszeit {
             if (isset($types[$int])) {
                 return $types[$int];
             } else {
-                Exceptions::error_rep("An error occured while getting worktime type from int. The type does not exist. Returning default");
+                Exceptions::error_rep("An error occurred while getting worktime type from int. The type does not exist. Returning default");
                 return $types[0];
             }
 
@@ -383,7 +383,7 @@ namespace Arbeitszeit {
             if (isset($types)) {
                 return $types;
             } else {
-                Exceptions::error_rep("An error occured while getting worktime types. The types do not exist. Returning default");
+                Exceptions::error_rep("An error occurred while getting worktime types. The types do not exist. Returning default");
                 return [];
             }
         }
@@ -626,7 +626,7 @@ namespace Arbeitszeit {
             $sql = "UPDATE `arbeitszeiten` SET `review` = '1' WHERE `id` = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
             if (!$res) {
-                Exceptions::error_rep("An error occured while marking an worktime as under review, id '{$id}'. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while marking an worktime as under review, id '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 EventDispatcherService::get()->dispatch(new WorktimeMarkedForReviewEvent($_SESSION["username"], (int)$id), WorktimeMarkedForReviewEvent::NAME);
@@ -643,7 +643,7 @@ namespace Arbeitszeit {
             $sql = "UPDATE `arbeitszeiten` SET `review` = '0' WHERE `id` = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
             if (!$res) {
-                Exceptions::error_rep("An error occured while unlocking an worktime from review, id '{$id}'. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while unlocking an worktime from review, id '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 EventDispatcherService::get()->dispatch(new WorktimeUnlockedFromReviewEvent($_SESSION["username"], (int)$id), WorktimeUnlockedFromReviewEvent::NAME);

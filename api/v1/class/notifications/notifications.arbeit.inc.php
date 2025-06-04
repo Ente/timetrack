@@ -33,7 +33,7 @@ namespace Arbeitszeit{
             $sql = "DELETE FROM `kalender` WHERE `datum` < NOW();";
             $data = $this->db->sendQuery($sql)->execute();
             if($data == false){
-                Exceptions::error_rep("An error occured while deleting expired notifications entries. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while deleting expired notifications entries. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 1,
@@ -163,7 +163,7 @@ namespace Arbeitszeit{
                 Exceptions::error_rep("[NOTIFICATIONS] Found notifications entry with ID '$id'.");
                 return $data;
             } else {
-                Exceptions::error_rep("An error occured while getting an notifications entry. Entry could not be found for id '$id'.");
+                Exceptions::error_rep("An error occurred while getting an notifications entry. Entry could not be found for id '$id'.");
                 return [
                     "error" => [
                         "error_code" => 5,
@@ -188,7 +188,7 @@ namespace Arbeitszeit{
             $sql = "INSERT INTO `kalender` (`datum`, `uhrzeit`, `ort`, `notiz`) VALUES (?, ?, ?, ?)";
             $res = $this->db->sendQuery($sql)->execute([$date, $time, $location, $comment]);
             if(!$res){
-                Exceptions::error_rep("An error occured while creating an notifications entry. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while creating an notifications entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 6,
@@ -218,7 +218,7 @@ namespace Arbeitszeit{
             $sql = "UPDATE `kalender` SET `datum` = ?, `uhrzeit` = ?, `ort` = ?, `notiz` = ? WHERE id = ?;";
             $res = $this->db->sendQuery($sql)->execute([$date, $time, $location, $comment, $id]);
             if(!$res){
-                Exceptions::error_rep("An error occured while editing an notifications entry. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while editing an notifications entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 8,
@@ -244,7 +244,7 @@ namespace Arbeitszeit{
             $sql = "DELETE FROM `kalender` WHERE id = ?;";
             $res = $this->db->sendQuery($sql)->execute([$id]);
             if(!$res){
-                Exceptions::error_rep("An error occured while deleting an notifications entry. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while deleting an notifications entry. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 9,

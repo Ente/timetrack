@@ -22,7 +22,7 @@ class PasswordChangedTemplate implements MailsTemplateInterface {
             if($count == 1){
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
             } else {
-                Exceptions::error_rep("An error occured while fetching user data from database for user '{$data["username"]}'. See previous message for more information.");
+                Exceptions::error_rep("An error occurred while fetching user data from database for user '{$data["username"]}'. See previous message for more information.");
                 return [
                     "error" => [
                         "error_code" => 10,

@@ -25,8 +25,8 @@ class PDFExportModule implements ExportModuleInterface {
             $statement = $arbeit->db()->sendQuery($sql);
             $userdata = $statement->execute([$year, $month, $user]);
             if($userdata == false){
-                Exceptions::error_rep("An error occured while generating worktime pdf. See previous message for more information");
-                die("An error occured!");
+                Exceptions::error_rep("An error occurred while generating worktime pdf. See previous message for more information");
+                die("An error occurred!");
             }
             $user_data = Benutzer::get_user($user);
             $user_data["name"] ?? $statement->fetch(\PDO::FETCH_ASSOC)[0]["name"]; # Bug 14 Fix -> http://bugzilla.openducks.org/show_bug.cgi?id=14

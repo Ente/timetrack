@@ -35,7 +35,7 @@ namespace Arbeitszeit {
         }
 
         public static function failure($code, $error, $stack){
-            Exceptions::error_rep("[EXCEPTIONS] A critical error occured. | Message: " . $error);
+            Exceptions::error_rep("[EXCEPTIONS] A critical error occurred. | Message: " . $error);
             $parms = http_build_query(array("code" => $code, "error" => $error, "stack" => base64_encode($stack)));
             header("Location: /errors/500.php?$parms");
         }

@@ -33,7 +33,7 @@ if ($user->is_admin($user->get_user($_SESSION["username"]))) {
                     header("Location: http://{$base_url}/suite/?info=changed_sickness");
                     die();
                 } else {
-                    Exceptions::error_rep("An error occured while changing status for sickness with id '{$id}'");
+                    Exceptions::error_rep("An error occurred while changing status for sickness with id '{$id}'");
                     header("Location: http://{$base_url}/suite/?info=noperms");
                 }
                 break;
@@ -43,7 +43,7 @@ if ($user->is_admin($user->get_user($_SESSION["username"]))) {
                     header("Location: http://{$base_url}/suite/?info=changed_sickness");
                     die();
                 } else {
-                    Exceptions::error_rep("An error occured while changing status for sickness with id '{$id}'");
+                    Exceptions::error_rep("An error occurred while changing status for sickness with id '{$id}'");
                     header("Location: http://{$base_url}/suite/?info=noperms");
                 }
                 break;
@@ -53,7 +53,7 @@ if ($user->is_admin($user->get_user($_SESSION["username"]))) {
                     header("Location: http://{$base_url}/suite/?info=changed_sickness");
                     die();
                 } else {
-                    Exceptions::error_rep("An error occured while changing status for sickness with id '{$id}'");
+                    Exceptions::error_rep("An error occurred while changing status for sickness with id '{$id}'");
                     header("Location: http://{$base_url}/suite/?info=noperms");
                 }
                 break;
@@ -63,7 +63,7 @@ if ($user->is_admin($user->get_user($_SESSION["username"]))) {
                     header("Location: http://{$base_url}/suite/?info=changed_sickness");
                     die();
                 } else {
-                    Exceptions::error_rep("An error occured while chaning status for sickness with id '{$id}'");
+                    Exceptions::error_rep("An error occurred while changing status for sickness with id '{$id}'");
                     header("Location: http://{$base_url}/suite/?info=noperms");
                 }
                 break;
