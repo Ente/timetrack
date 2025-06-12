@@ -3,8 +3,9 @@
 ## v7.13
 
 * You can now set different types of worktimes. You can specify your own ones in the `app/v1/inc/config/worktime_types.json` file. If none is set, like when using the easymode, mode `0` will be used. Added `Wtype` parameter to `WorktimeAdded` event.
-* Toil API release `1.12`: added Bearer token authentication
+* Toil API release `1.12`: added Bearer token authentication, fixed an issue with the `addOwnWorktime` and `addWorktime` endpoints.
 * Fixed an issue allowing normal users to reset all PINs for the CodeClock plugin
+* Fixed some typos in some of the error messages
 
 ## v7.12.1
 
