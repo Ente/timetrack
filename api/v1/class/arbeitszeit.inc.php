@@ -13,6 +13,7 @@ namespace Arbeitszeit {
     use Arbeitszeit\ExportModule;
     use Arbeitszeit\Mails;
     use Arbeitszeit\Nodes;
+    use Arbeitszeit\StatusMessages;
     use Arbeitszeit\Events\EventDispatcherService;
     use Arbeitszeit\Events\EasymodeWorktimeAddedEvent; // "EasymodeWorktimeSTARTED" Event, actually.
     use Arbeitszeit\Events\EasymodeWorktimeEndedEvent;
@@ -44,12 +45,12 @@ namespace Arbeitszeit {
         private $exportModule;
         private $mails;
         private $nodes;
+        private $statusMessages;
 
         public function __construct()
         {
             $this->db = new DB();
             $this->init_lang() ?? null;
-
             if(isset($this->get_app_ini()["general"]["timezone"])){
                 try {
                     date_default_timezone_set($this->get_app_ini()["general"]["timezone"]);
@@ -651,97 +652,6 @@ namespace Arbeitszeit {
             }
         }
 
-        public static function check_status_code($url)
-        {
-            $i18n = new i18n;
-            $loc = $i18n->loadLanguage(null, "status");
-            if (strpos($url, "info=worktime_deleted")) {
-                return "<p><span style='color:blue;'>{$loc["worktime_deleted"]}</p>";
-            }
-            if (strpos($url, "info=logged_out")) {
-                return "<p><span style='color:blue;'>{$loc["logged_out"]}</p>";
-            }
-            if (strpos($url, "info=error_sickness")) {
-                return "<p><span style='color:red;'>{$loc["error_sickness"]}</p>";
-            }
-            if (strpos($url, "info=error_vacation")) {
-                return "<p><span style='color:red;'>{$loc["error_vacation"]}</p>";
-            }
-            if (strpos($url, "info=vacation_added")) {
-                return "<p><span style='color:green;'>{$loc["vacation_added"]}</p>";
-            }
-            if (strpos($url, "info=password_reset")) {
-                return "<p><span style='color:green;'>{$loc["password_reset"]}</p>";
-            }
-            if (strpos($url, "info=sickness_added")) {
-                return "<p><span style='color:green;'>{$loc["sickness_added"]}</p>";
-            }
-            if (strpos($url, "info=notifications_entry_deleted")) {
-                return "<p><span style='color:blue;'>{$loc["notifications_entry_deleted"]}</p>";
-            }
-            if (strpos($url, "info=noperms")) {
-                return "<p><span style='color:red;'>{$loc["noperms"]}</p>";
-            }
-            if (strpos($url, "info=user_deleted")) {
-                return "<p><span style='color:blue;'>{$loc["user_deleted"]}</p>";
-            }
-            if (strpos($url, "info=created_user")) {
-                return "<p><span style='color:green;'>{$loc["created_user"]}</p>";
-            }
-            if (strpos($url, "info=worktime_added")) {
-                return "<p><span style='color:green;'>{$loc["worktime_added"]}</span></p>";
-            }
-            if (strpos($url, "info=password_changed")) {
-                return "<p><span style='color: green;'>{$loc["password_changed"]}</span></p>";
-            }
-            if (strpos($url, "info=password_change_failed")) {
-                return "<p><span style='color: red;'>{$loc["password_change_failed"]}</span></p>";
-            }
-            if (strpos($url, "error=nodata")) {
-                return "<p><span style='color: red;'>{$loc["nodata"]}</span></p>";
-            }
-            if (strpos($url, "info=statemismatch")) {
-                return "<p><span style='color: red;'>{$loc["statemismatch"]}</span></p>";
-            }
-            if (strpos($url, "error=wrongdata")) {
-                return "<p><span style='color: red;'>{$loc["wrongdata"]}</span></p>";
-            }
-            if (strpos($url, "error=ldapauth")) {
-                return "<p><span style='color: red;'>{$loc["ldapauth"]}</span></p>";
-            }
-            if (strpos($url, "info=ldapcreated")) {
-                return "<p><span style='color: red;'>{$loc["ldapcreated"]}</span></p>";
-            }
-            if (strpos($url, "info=worktime_review")) {
-                return "<p><span style='color:blue;'>{$loc["worktime_review"]}</span></p>";
-            }
-            if (strpos($url, "info=worktime_review_unlock")) {
-                return "<p><span style='color:blue;'>{$loc["worktime_review_unlock"]}</span></p>";
-            }
-            if (strpos($url, "info=worktime_easymode_start")) {
-                return "<p><span style='color:blue;'>{$loc["worktime_easymode_start"]}</span></p>";
-            }
-            if (strpos($url, "info=worktime_easymode_end")) {
-                return "<p><span style='color:blue;'>{$loc["worktime_easymode_end"]}</span></p>";
-            }
-            if (strpos($url, "info=worktime_easymode_pause_start")) {
-                return "<p><span style='color:blue;'>{$loc["worktime_easymode_pause_start"]}</span></p>";
-            }
-            if (strpos($url, "info=worktime_easymode_pause_end")) {
-                return "<p><span style='color:blue;'>{$loc["worktime_easymode_pause_end"]}</span></p>";
-            }
-            if (strpos($url, "info=easymode_toggled")) {
-                return "<p><span style='color:blue;'>{$loc["easymode_toggled"]}</span></p>";
-            }
-            if (strpos($url, "info=error")) {
-                return "<p><span style='color:red;'>{$loc["error"]}</span></p>";
-            }
-            if (strpos($url, "info=notification_not_found")) {
-                return "<p><span style='color:red;'>{$loc["notification_not_found"]}</span></p>";
-            }
-
-        }
-
         public function calculate_hours_specific_time($username, $month, $year)
         {
             Exceptions::error_rep("Calculating hours for user '{$username}' in month '{$month}' and year '{$year}'...");
@@ -914,6 +824,13 @@ namespace Arbeitszeit {
             if (!$this->nodes)
                 $this->nodes = new Nodes;
             return $this->nodes;
+        }
+
+        public function statusMessages(): StatusMessages
+        {
+            if (!$this->statusMessages)
+                $this->statusMessages = new StatusMessages;
+            return $this->statusMessages;
         }
     }
 }

@@ -8,7 +8,6 @@ use Arbeitszeit\PluginBuilder;
 use NFClogin\NFClogin;
 $ini = $arbeit->get_app_ini();
 $base_url = $ini["general"]["base_url"];
-echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]);
 $language = $arbeit->i18n()->loadLanguage(NULL, "login");
 ?>
 <!DOCTYPE html>
