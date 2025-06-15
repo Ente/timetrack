@@ -118,7 +118,7 @@ namespace Arbeitszeit {
                                 } else {
                                     $statusMessages = new StatusMessages;
                                     $uri = $statusMessages->URIBuilder("ldapcreated");
-                                    header("Location: http://". Arbeitszeit::get_app_ini()["general"]["base_url"]."/suite/" . $uri);
+                                    header("Location: http://". Arbeitszeit::get_app_ini()["general"]["base_url"]."/suite/?" . $uri);
                                     exit;
                                 }
                             }
