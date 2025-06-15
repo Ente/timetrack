@@ -111,6 +111,7 @@ namespace Arbeitszeit {
                                     Exceptions::error_rep("Could not authenticate user '{$username}': User email in LDAP not set!");
                                     return false;
                                 }
+                                define("SYSTEM_MODE", true);
                                 if(!$benutzer->create_user($username, "" . $user->get("firstName") . " " . $user->get("lastName"), $user->get("mail"), hash('sha256', $user->get("sid"). $user->get("upn")), 0)){
                                     Exceptions::error_rep("Could not authenticate user '{$username}': Could not create user in DB.");
                                     return false;  
@@ -118,6 +119,7 @@ namespace Arbeitszeit {
                                     $statusMessages = new StatusMessages;
                                     $uri = $statusMessages->URIBuilder("ldapcreated");
                                     header("Location: http://". Arbeitszeit::get_app_ini()["general"]["base_url"]."/suite/" . $uri);
+                                    exit;
                                 }
                             }
                             return false;
