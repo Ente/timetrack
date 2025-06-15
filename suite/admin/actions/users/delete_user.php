@@ -9,13 +9,13 @@ $base_url = $ini["general"]["base_url"];
 $arbeit->auth()->login_validation();
 if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     if($arbeit->benutzer()->get_user_from_id($id)["username"] == "api"){
-        header("Location: http://{$base_url}/suite/?info=error");
+        header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("error")); // can't delete api user once created
         die();
     }
     if($arbeit->benutzer()->delete_user($id) == true){
-        header("Location: http://{$base_url}/suite/?info=user_deleted");
+        header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("user_deleted"));
     }  
 } else {
-    header("Location http://{$base_url}/suite/?info=noperms");
+    header("Location http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 ?>

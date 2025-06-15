@@ -20,6 +20,8 @@ require_once dirname(__DIR__, 1) . "/class/auth/auth.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/mode/mode.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/notifications/plugins/autodelete.notifications.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/exceptions/exceptions.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/status/statusMessages.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/status/runHook.php";
 require_once dirname(__DIR__, 1) . "/class/vacation/vacation.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/sickness/sickness.arbeit.inc.php";
 

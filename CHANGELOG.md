@@ -6,6 +6,7 @@
 * Toil API release `1.12`: added Bearer token authentication, fixed an issue with the `addOwnWorktime` and `addWorktime` endpoints.
 * Fixed an issue allowing normal users to reset all PINs for the CodeClock plugin
 * Fixed some typos in some of the error messages
+* Reworked the way status messages are displayed and used. Implemented a new `StatusMessage` class to handle status messages which can also be used by plugins.
 
 ## v7.12.1
 

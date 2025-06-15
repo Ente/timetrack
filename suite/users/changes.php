@@ -22,7 +22,6 @@ $data = $arbeit->benutzer()->get_user($_SESSION["username"]);
     <body>
         <?php $arbeit->notifications()->get_notifications_html()  ?>
         <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php" ?> 
-        <?php echo $arbeit->check_status_code($_SERVER["REQUEST_URI"]); ?>
         <h1><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>
         <div class="box" style="padding:20px;">
             <h2><?php echo $loc["title"] ?></h2>

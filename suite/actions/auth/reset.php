@@ -15,7 +15,7 @@ $ini = $arbeitszeit->get_app_ini();
 if(isset($_POST["email"])){
     $arbeitszeit->mails()->init(new PHPMailerMailsProvider($arbeitszeit, $arbeitszeit->benutzer()->get_username_from_email($_POST["email"])));
     $arbeitszeit->mails()->sendMail("PasswordResetTemplate", ["username" => $arbeitszeit->benutzer()->get_username_from_email($_POST["email"]), "email" => $_POST["email"]]);
-    header("Location: /suite/login.php?info=password_reset");
+    header("Location: /suite/login.php?" . $arbeitszeit->statusMessages()->URIBuilder("password_reset"));
 }
 
 if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
@@ -32,10 +32,10 @@ if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
         if($res){
             $arbeitszeit->mails()->init(new PHPMailerMailsProvider($arbeitszeit, $data["username"]));
             $arbeitszeit->mails()->sendMail("PasswordChangedTemplate", ["username" => $data["username"], "email" => $_POST["auth"]]);
-            header("Location: /suite/login.php?info=password_changed");
+            header("Location: /suite/login.php?" . $arbeitszeit->statusMessages()->URIBuilder("password_changed"));
         } else {
             Exceptions::error_rep("Could not change password as the query failed!. See previous message for more information.");
-            header("Location: /suite/login.php?info=password_change_failed");
+            header("Location: /suite/login.php?". $arbeitszeit->statusMessages()->URIBuilder("password_change_failed"));
         }
     } else {
         Exceptions::error_rep("Could not reset password as the user could not be found! | Email: " . $_POST["auth"]);

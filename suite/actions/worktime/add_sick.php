@@ -6,9 +6,9 @@ $base_url = $worktime->get_app_ini()["general"]["base_url"];
 $worktime->auth()->login_validation();
 $sick = $worktime->sickness()->add_sickness(start: $_POST["date-start"], stop: $_POST["date-end"], user: $_SESSION["username"]);
 if(!$sick){
-    header("Location: http://{$base_url}/suite/?info=error_sickness");
+    header("Location: http://{$base_url}/suite/?" . $worktime->statusMessages()->URIBuilder("error_sickness"));
 } else {
-    header("Location: http://{$base_url}/suite/?info=sickness_added");
+    header("Location: http://{$base_url}/suite/?" . $worktime->statusMessages()->URIBuilder("sickness_added"));
 }
 
 

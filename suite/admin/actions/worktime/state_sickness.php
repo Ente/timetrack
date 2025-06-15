@@ -22,7 +22,7 @@ if ($user->is_admin($user->get_user($_SESSION["username"]))) {
     if (isset($_GET["id"], $_GET["new"])) {
         if (!$vacation->get_sickness($id, 2)) {
             Exceptions::error_rep("Could not find vacation with ID {$id}.");
-            header("Location: http://{$base_url}/suite/?info=error");
+            header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("error"));
             die();
         }
         $arbeit->mails()->init(new PHPMailerMailsProvider($arbeit, $_SESSION["username"], true));
@@ -30,47 +30,47 @@ if ($user->is_admin($user->get_user($_SESSION["username"]))) {
             case "approve":
                 if ($vacation->change_status($id, 1)) {
                     $arbeit->mails()->sendMail("SicknessApprovedTemplate", ["username" => $_GET["u"], "id" => $id]);
-                    header("Location: http://{$base_url}/suite/?info=changed_sickness");
+                    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("changed_sickness"));
                     die();
                 } else {
                     Exceptions::error_rep("An error occurred while changing status for sickness with id '{$id}'");
-                    header("Location: http://{$base_url}/suite/?info=noperms");
+                    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
                 }
                 break;
             case "pending":
                 if ($vacation->change_status($id, 3)) {
                     $arbeit->mails()->sendMail("SicknessPendingTemplate", ["username" => $_GET["u"], "id" => $id]);
-                    header("Location: http://{$base_url}/suite/?info=changed_sickness");
+                    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("changed_sickness"));
                     die();
                 } else {
                     Exceptions::error_rep("An error occurred while changing status for sickness with id '{$id}'");
-                    header("Location: http://{$base_url}/suite/?info=noperms");
+                    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
                 }
                 break;
             case "reject":
                 if ($vacation->change_status($id, 2)) {
                     $arbeit->mails()->sendMail("SicknessRejectedTemplate", ["username" => $_GET["u"], "id" => $id]);
-                    header("Location: http://{$base_url}/suite/?info=changed_sickness");
+                    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("changed_sickness"));
                     die();
                 } else {
                     Exceptions::error_rep("An error occurred while changing status for sickness with id '{$id}'");
-                    header("Location: http://{$base_url}/suite/?info=noperms");
+                    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
                 }
                 break;
             default:
                 if ($vacation->change_status($id, 3)) {
                     $arbeit->mails()->sendMail("SicknessApprovedTemplate", ["username" => $_GET["u"], "id" => $id]);
-                    header("Location: http://{$base_url}/suite/?info=changed_sickness");
+                    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("changed_sickness"));
                     die();
                 } else {
                     Exceptions::error_rep("An error occurred while changing status for sickness with id '{$id}'");
-                    header("Location: http://{$base_url}/suite/?info=noperms");
+                    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
                 }
                 break;
         }
     }
 } else {
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 
 
