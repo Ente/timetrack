@@ -14,12 +14,12 @@ if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["userna
     if($arbeit->unlock_for_review($id) == true){
         $arbeit->mails()->init(new PHPMailerMailsProvider($arbeit, $_SESSION["username"], true));
         $arbeit->mails()->sendMail("WorktimeUncompliantTemplate", ["username" => $_GET["u"], "worktime" => $id, "type" => 0]);
-        header("Location: http://{$base_url}/suite/?info=worktime_review_unlock");
+        header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("worktime_review_unlocked"));
     } else {
         echo "Error while processing...";
     }
 } else {
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 
 

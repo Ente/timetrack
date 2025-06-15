@@ -23,6 +23,7 @@ namespace Arbeitszeit{
 
             Exceptions::error_rep("Logging in user '$username'...");
             $db = new DB;
+            $sM = new StatusMessages;
             session_start();
             $ini = Arbeitszeit::get_app_ini();
             $base_url = $ini["general"]["base_url"];
@@ -32,7 +33,7 @@ namespace Arbeitszeit{
                 if(LDAP::authenticate($username, $password) != true){
                     EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
                     Exceptions::error_rep("Login failed for username '$username' - Could not authenticate user via LDAP. See errors from before to find issue.");
-                    die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=ldapauth"));
+                    die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?" . $sM->URIBuilder("ldapauth")));
                 } else {
                     Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                     $ldap = true;
@@ -41,7 +42,7 @@ namespace Arbeitszeit{
             if(!isset($username, $password)){
                 EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username ?? "N/A", "failed"));
                 Exceptions::error_rep("Login failed for username '$username' - no data supplied. Redirecting...");
-                die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
+                die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?" . $sM->URIBuilder("nodata")));
             } else {
                 $sql = "SELECT * FROM users WHERE username = ?;";
                 $res = $db->sendQuery($sql);
@@ -50,14 +51,14 @@ namespace Arbeitszeit{
                 if($res == false){
                    EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
                    Exceptions::error_rep("Login failed for username '$username' - Database connection error. Redirecting...");
-                   die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
+                   die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?" . $sM->URIBuilder("nodata")));
                 }
 
                 $count = $res->rowCount();
                 if($count != 1){
                     EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
                     Exceptions::error_rep("Login failed for username '$username' - User not found. Redirecting...");
-                    die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?error=nodata"));
+                    die(header("Location: http://{$ini["general"]["base_url"]}/suite/login.php?" . $sM->URIBuilder("nodata")));
                 }
 
                 $data = $res->fetch(\PDO::FETCH_ASSOC);
@@ -135,7 +136,7 @@ namespace Arbeitszeit{
                 } else {
                     EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
                     Exceptions::error_rep("Login failed for username '$username' - Incorrect credentials. Redirecting...");
-                    die(header("Location: http://{$base_url}/suite/login.php?error=wrongdata"));
+                    die(header("Location: http://{$base_url}/suite/login.php?" . $sM->URIBuilder("wrongdata")));
                 }
             }
         }
@@ -153,13 +154,13 @@ namespace Arbeitszeit{
             if(isset($_SESSION["logged_in"]) == false){
                 EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"] ?? "N/A", "failed"));
                 Exceptions::error_rep("User not logged in. Redirecting...");
-                header("Location: http://{$baseurl}/suite/login.php?error=notloggedin");
+                header("Location: http://{$baseurl}/suite/login.php?" . $this->statusMessages()->URIBuilder("notloggedin"));
             }
             if($this->get_state($_SESSION["username"]) != $_COOKIE["state"]){
                 EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"] ?? "N/A", "failed"));
                 $this->remove_state($_SESSION["username"]);
                 Exceptions::error_rep("State mismatch on user {$_SESSION["username"]}. Removing state and redirecting...");
-                header("Location: http://{$baseurl}/suite/login.php?error=statemismatch");
+                header("Location: http://{$baseurl}/suite/login.php?" . $this->statusMessages()->URIBuilder("statemismatch"));
             }
         }
 

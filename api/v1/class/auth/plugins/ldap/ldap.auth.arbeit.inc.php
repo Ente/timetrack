@@ -115,7 +115,9 @@ namespace Arbeitszeit {
                                     Exceptions::error_rep("Could not authenticate user '{$username}': Could not create user in DB.");
                                     return false;  
                                 } else {
-                                    header("Location: http://". Arbeitszeit::get_app_ini()["general"]["base_url"]."/suite/?info=ldapcreated");
+                                    $statusMessages = new StatusMessages;
+                                    $uri = $statusMessages->URIBuilder("ldapcreated");
+                                    header("Location: http://". Arbeitszeit::get_app_ini()["general"]["base_url"]."/suite/" . $uri);
                                 }
                             }
                             return false;

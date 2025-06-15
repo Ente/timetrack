@@ -8,7 +8,7 @@ $base_url = $ini["general"]["base_url"];
 $loc = $arbeit->i18n()->loadLanguage(null, "worktime/vacation/all", "admin");
 $arbeit->auth()->login_validation();
 if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
     $date_year = date("Y");

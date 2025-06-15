@@ -7,9 +7,9 @@ $arbeit = new Arbeitszeit;
 $base_url = $ini = $arbeit->get_app_ini()["general"]["base_url"];
 $arbeit->auth()->login_validation();
 if($arbeit->auth()->logout() == true){
-    header("Location: http://{$base_url}/suite/?info=logged_out");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("logged_out"));
 } else {
-    header("Location: http://{$base_url}/suite/?info=logged_out_e");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("error"));
 }
 
 ?>

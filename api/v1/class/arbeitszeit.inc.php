@@ -81,8 +81,6 @@ namespace Arbeitszeit {
          * @param int $id ID des zu löschenden Eintrags
          * @return bool|array Wirft "true" bei erfolg und ein Array bei einem Fehler zurück
          * 
-         * @Hinweis **In der Originalen Datei wurde zu `alle_arbeitszeiten.php?info=deleted_worktime` verwiesen, evt. mal ändern**
-         * 
          */
         public function delete_worktime($id)
         {

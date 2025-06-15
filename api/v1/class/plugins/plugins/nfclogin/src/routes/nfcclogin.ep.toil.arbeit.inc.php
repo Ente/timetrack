@@ -7,6 +7,7 @@ namespace Toil {
 
     use Toil\EP;
     use Arbeitszeit\Arbeitszeit;
+    use Arbeitszeit\StatusMessages;
     use Arbeitszeit\Benutzer;
     use Arbeitszeit\Auth;
     use NFClogin\NFClogin;
@@ -37,12 +38,13 @@ namespace Toil {
                 $block = $nfc->readBlock4();
                 $uid = $nfc->readCard()["uid"] ?? null;
                 $val = $block["value"];
+                $statusMessages = new StatusMessages;
                 $getMapUser = $nfc->getUser($uid);
                 $dbUser = Benutzer::get_user_from_id($val)["username"] ?? null;
                 if($getMapUser == $dbUser){
                     Auth::login($dbUser, "", ["nfclogin" => true]);
                 } else {
-                    header("Location: /suite/login.php?error=wrongdata&uid={$uid}&block={$val}");
+                    header("Location: /suite/login.php?" . $statusMessages->URIBuilder("wrongdata") . "&uid={$uid}&block={$val}");
                     exit;
                 }
                 
