@@ -7,5 +7,5 @@
     "placeholder_base_url": "sub.domein.tld:<poort>",
     "button_text": "Verzenden",
     "log_title": "Logbestand",
-    "log_p1": "Hieronder kunt u de inhoud van het logbestand van vandaag zien..."
+    "log_p1": "Hieronder kunt u de inhoud van het logbestand van vandaag zien...(laatste 200 regels)"
 }
