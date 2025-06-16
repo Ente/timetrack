@@ -8,6 +8,7 @@ namespace Toil {
     use Toil\EP;
     use Arbeitszeit\Arbeitszeit;
     use Arbeitszeit\StatusMessages;
+    use Arbeitszeit\Exceptions;
     use Arbeitszeit\Benutzer;
     use Arbeitszeit\Auth;
     use NFClogin\NFClogin;
@@ -49,7 +50,8 @@ namespace Toil {
                 }
                 
             } catch (\Exception $e) {
-                echo json_encode(["error" => true, "message" => $e->getMessage()]);
+                Exceptions::error_rep("An error occurred while processing the NFC login: " . $e->getMessage());
+                echo json_encode(["error" => true, "message" => "An error occured."]);
             }
         }
 

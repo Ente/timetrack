@@ -63,7 +63,7 @@ namespace Arbeitszeit {
             return [];
         }
 
-        private function sanitizeOutput($data) {
+        public function sanitizeOutput($data) {
             if (is_array($data)) {
                 return array_map([$this, 'sanitizeOutput'], $data);
             }

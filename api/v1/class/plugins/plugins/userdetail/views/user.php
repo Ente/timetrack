@@ -3,10 +3,12 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/inc/arbeit.inc.php";
 require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/loader.plugins.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/src/Main.php";
 
+use Arbeitszeit\Arbeitszeit;
 use Userdetail\Userdetail;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Auth;
 
+$a = new Arbeitszeit;
 $benutzer = new Benutzer;
 $auth = new Auth;
 $main = new Userdetail;
@@ -63,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-$r = $main->get_employee_data($_GET["user"]);
+$r = $main->get_employee_data($a->i18n()->sanitizeOutput($_GET["user"]));
 $notes = $r["notes"] ?? "";
 $pos = $r["position"] ?? "";
 $eid = $r["employee-id"] ?? "";
