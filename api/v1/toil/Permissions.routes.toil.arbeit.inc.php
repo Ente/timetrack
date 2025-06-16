@@ -62,7 +62,7 @@ namespace Toil{
                 return true;
             }
         
-            if ($endpointPermission === 0 && !$userIsAdmin) {
+            if ($endpointPermission === 0) {
                 return true;
             }
         

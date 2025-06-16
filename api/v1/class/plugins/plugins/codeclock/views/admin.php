@@ -16,6 +16,9 @@ $main = new codeclock;
 $code = new Code;
 $setup = new Setup;
 $message = "Ready to reset all PINs?";
+
+$arbeit->blockIfNotAdmin();
+
 if(isset($_GET["reset"])) {
     //remove token file
     unlink(dirname(__DIR__, 1) . "/data/token");

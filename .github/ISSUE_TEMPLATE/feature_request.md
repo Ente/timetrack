@@ -1,20 +1,25 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: "[FEATURE]"
-labels: ''
+
+name: 💡 Feature Request  
+about: Suggest an idea or improvement for TimeTrack (OpenDucks edition)  
+title: "[FEATURE] Brief and clear summary"  
+labels: enhancement  
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## 🧩 Problem Description  
+What problem are you currently facing?  
+> Example: It's hard to quickly see how many hours I worked last week.
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+## ✅ Proposed Solution  
+Describe how you’d like TimeTrack to solve this.  
+> Example: Add a weekly export button that generates a CSV or PDF.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## 🔁 Alternatives Considered  
+Have you tried any workarounds or alternative ideas?  
+> Example: I export daily logs manually, but it’s tedious.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## 🧠 Additional Context  
+Any screenshots, mockups, or links that help explain your idea better?  
+> Drop them here 👇

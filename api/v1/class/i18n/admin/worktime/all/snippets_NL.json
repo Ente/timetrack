@@ -12,5 +12,6 @@
     "send": "einde dienst",
     "pbegin": "Breekstart",
     "pend": "einde einde",
-    "loc": "locatie"
+    "loc": "locatie",
+    "type": "type"
 }

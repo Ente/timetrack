@@ -10,7 +10,7 @@ $language = $arbeit->i18n()->loadLanguage(null, "notifications/edit", "admin");
 
 $arbeit->auth()->login_validation();
 if(!@$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($username))){
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 $id = htmlspecialchars($_GET["id"]);
 $data = $arbeit->notifications()->get_notifications_entry($id);

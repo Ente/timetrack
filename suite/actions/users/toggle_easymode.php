@@ -6,7 +6,7 @@ $base_url = $arbeit->get_app_ini()["general"]["base_url"];
 $arbeit->auth()->login_validation();
 $t = $arbeit->toggle_easymode($_SESSION["username"]);
 if($t == true){
-    header("Location: http://{$base_url}/suite/?info=easymode_toggled");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("easymode_toggled"));
     die();
 }
 ?>

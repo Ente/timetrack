@@ -1,0 +1,41 @@
+name: Psalm Security Scan
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+  schedule:
+    - cron: '27 5 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  php-security:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # or your required PHP version
+          extensions: ldap
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: Psalm Security Scan
+        uses: psalm/psalm-github-security-scan@f3e6fd9432bc3e44aec078572677ce9d2ef9c287
+
+      - name: Upload Security Analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif

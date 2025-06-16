@@ -49,8 +49,8 @@ namespace Arbeitszeit {
             $response = self::get_bind()->getConnection()->execute($operation);
             $code1 = null;
             if(!$response->isAuthenticated()){
-                $code = $response->getErrorCode();
                 $code = $code1;
+                $code = $response->getErrorCode();
                 switch($code){
                     case "1317":
                         Exceptions::error_rep("Could not authenticate user '{$username}': Account does not exist.");
@@ -106,16 +106,20 @@ namespace Arbeitszeit {
                             Exceptions::error_rep("Could not authenticate user '{$username}': User not found in DB.");
                             if(Arbeitszeit::get_app_ini()["ldap"]["create_user"] == "true"){
                                 $benutzer = new Benutzer;
-                                Exceptions::error_rep("User authenticated but not existent locally '{$username}': Trying to create user istead...");
+                                Exceptions::error_rep("User authenticated but not existent locally '{$username}': Trying to create user instead...");
                                 if($user->get("mail") == ""){
                                     Exceptions::error_rep("Could not authenticate user '{$username}': User email in LDAP not set!");
                                     return false;
                                 }
+                                define("SYSTEM_MODE", true);
                                 if(!$benutzer->create_user($username, "" . $user->get("firstName") . " " . $user->get("lastName"), $user->get("mail"), hash('sha256', $user->get("sid"). $user->get("upn")), 0)){
                                     Exceptions::error_rep("Could not authenticate user '{$username}': Could not create user in DB.");
                                     return false;  
                                 } else {
-                                    header("Location: http://". Arbeitszeit::get_app_ini()["general"]["base_url"]."/suite/?info=ldapcreated");
+                                    $statusMessages = new StatusMessages;
+                                    $uri = $statusMessages->URIBuilder("ldapcreated");
+                                    header("Location: http://". Arbeitszeit::get_app_ini()["general"]["base_url"]."/suite/?" . $uri);
+                                    exit;
                                 }
                             }
                             return false;

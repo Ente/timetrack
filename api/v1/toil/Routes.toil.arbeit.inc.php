@@ -14,13 +14,14 @@ use Arbeitszeit\Benutzer;
 use Arbeitszeit\Exceptions;
 use Toil\Controller;
 use Toil\Permissions;
+use Toil\Tokens;
 
 class Routes extends Toil
 {
     private Arbeitszeit $arbeitszeit;
     private Benutzer $benutzer;
 
-    private string $api_username;
+    private string $api_username = "";
 
     private $api_password;
 
@@ -33,6 +34,8 @@ class Routes extends Toil
     public function __construct()
     {
         $this->__set("eventHandler", new EventHandler());
+        $this->__set("arbeitszeit", new Arbeitszeit());
+        $this->__set("benutzer", new Benutzer());
 
         $endpoint = preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']);
         $endpointName = $this->getResourceNameFromPath($endpoint);
@@ -42,9 +45,31 @@ class Routes extends Toil
             Exceptions::error_rep("[API] Public access to '$endpointName' allowed – skipping authentication.");
             return;
         }
-
         $user = $_SERVER["PHP_AUTH_USER"] ?? null;
         $pw = $_SERVER["PHP_AUTH_PW"] ?? null;
+        $tokenAuth = false;
+        if (isset($_SERVER["HTTP_AUTHORIZATION"])) {
+            $authHeader = $_SERVER["HTTP_AUTHORIZATION"];
+            if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+                $token = $matches[1];
+                $tokens = new Tokens();
+                if ($tokens->validate_token($token)) {
+                    Exceptions::error_rep("[API] Token is valid.");
+                    $t = $tokens->get_token_from_token($token);
+                    $user = $this->arbeitszeit->benutzer()->get_user_from_id($t["user_id"])["username"];
+                    $pw = $t["access_token"];
+                    $tokenAuth = true;
+                    
+                } else {
+                    Exceptions::error_rep("[API] Token is invalid.");
+                    header("Content-type: application/json");
+                    header("HTTP/1.1 401 Unauthorized");
+                    echo json_encode(["error" => "invalid token"]);
+                    die();
+                }
+            }
+        }
+
 
         $this->__set("arbeitszeit", new Arbeitszeit());
         $this->__set("benutzer", new Benutzer());
@@ -55,7 +80,12 @@ class Routes extends Toil
             $this->__set("api_username", $user);
         }
 
-        $this->__set("api_password", $pw or $this->authError($user));
+        $this->__set("api_password", $pw ?? $this->authError($user));
+
+        if($tokenAuth == true){
+            Exceptions::error_rep("[API] Token authentication successful.");
+            return;
+        }
 
         if (!$this->login(username: $user, password: $pw)) {
             $this->authError($user);
@@ -97,7 +127,7 @@ class Routes extends Toil
     {
         Exceptions::error_rep("[API] Start API routing request and registering routes...");
         $base = $this->__get("basepath");
-        $user = $_SERVER["PHP_AUTH_USER"];
+        $user = $this->__get("api_username");
         $eventHandler->register(EventHandler::EVENT_ADD_ROUTE, function (EventArgument $event) use ($base) {
             $route = $event->route;
             if (!$event->isSubRoute) {
@@ -225,6 +255,21 @@ class Routes extends Toil
         Router::get("/api/v1/toil/autoremoveNotifications", function(){
             Exceptions::error_rep("[API] User authenticated and accessing 'autoremoveNotifications' endpoint");
             Controller::createview("autoremoveNotifications");
+        });
+
+        Router::get("/api/v1/toil/createToken", function () {
+            Exceptions::error_rep("[API] User authenticated and accessing 'createToken' endpoint");
+            Controller::createview("createToken");
+        });
+
+        Router::get("/api/v1/toil/deleteToken", function () {
+            Exceptions::error_rep("[API] User authenticated and accessing 'deleteToken' endpoint");
+            Controller::createview("deleteToken");
+        });
+
+        Router::post("/api/v1/toil/refreshToken", function () {
+            Exceptions::error_rep("[API] User authenticated and accessing 'refreshToken' endpoint");
+            Controller::createview("refreshToken");
         });
 
         // Loading all custom routes

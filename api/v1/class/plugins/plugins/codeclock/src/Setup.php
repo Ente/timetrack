@@ -27,9 +27,14 @@ class Setup extends codeclock {
 
             // create PIN 4-numeric file for each user
             $users = $arbeit->benutzer()->get_all_users();
+            $existingPins = [];
             foreach($users as $user){
                 Exceptions::error_rep("Creating PIN file for user {$user["username"]}");
                 $pinString = (string)random_int(1000, 9999);
+                do {
+                    $pinString = (string) random_int(1000, 9999);
+                } while (in_array($pinString, $existingPins));
+                $existingPins[] = $pinString;
                 file_put_contents(dirname(__DIR__) . "/data/pin/{$user["username"]}_c", $pinString);
                 $pin = password_hash($pinString, PASSWORD_DEFAULT);
                 if(!file_put_contents(dirname(__DIR__) . "/data/pin/{$user["username"]}", $pin)){

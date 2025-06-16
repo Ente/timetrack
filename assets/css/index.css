@@ -194,3 +194,46 @@ hr {
 .text-green { color: green; font-weight: bold;}
 .text-yellow { color: yellow; font-weight: bold;}
 .text-blue { color: blue; font-weight: bold;}
+
+.status-message {
+  font-family: "Rubik", sans-serif;
+  font-size: 16px;
+  padding: 15px 20px;
+  margin: 20px auto;
+  border-radius: 10px;
+  max-width: 700px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(6px);
+  color: white;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  cursor: default;
+}
+
+.status-message .dismiss-button {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.status-message .dismiss-button:hover {
+  color: red;
+}
+
+.status-message.dismissed {
+  opacity: 0;
+  transform: scale(0.95);
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  pointer-events: none;
+}
+

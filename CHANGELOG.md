@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v7.13.1
+
+* Fixed issues with LDAP authentication
+* Fixed an issue with setting the status of vacations
+* Fixed a php leak for the log file causing the settings page to crash when the log file is too large and php memory limit is too low
+
+## v7.13
+
+* You can now set different types of worktimes. You can specify your own ones in the `app/v1/inc/config/worktime_types.json` file. If none is set, like when using the easymode, mode `0` will be used. Added `Wtype` parameter to `WorktimeAdded` event.
+* Toil API release `1.12`: added Bearer token authentication, fixed an issue with the `addOwnWorktime` and `addWorktime` endpoints.
+* Fixed an issue allowing normal users to reset all PINs for the CodeClock plugin
+* Fixed some typos in some of the error messages
+* Reworked the way status messages are displayed and used. Implemented a new `StatusMessage` class to handle status messages which can also be used by plugins.
+
+## v7.12.1
+
+* Updated `README.md`
+* Updated Plugin template
+* You can now set the timezone within `app.json` (see `README.md` for more information)
+* Fixed an issue with the generatedExport event
+* Fixed db migrations for first user creation
+
 ## v7.12
 
 * Added a simple Favicon

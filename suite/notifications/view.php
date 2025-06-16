@@ -8,7 +8,7 @@ $id = $_GET["id"];
 $data = $arbeit->notifications()->get_notifications_entry($id);
 
 if(isset($data["error"])){
-    header("Location: /suite/?info=notification_not_found");
+    header("Location: /suite/?" . $arbeit->statusMessages()->URIBuilder("notification_not_found"));
     exit;
 }
 

@@ -10,9 +10,12 @@ class WorktimeAddedEvent extends Event
     private string $username;
     private array $dates;
 
-    public function __construct(string $username, array $dates = []){
+    private string $Wtype;
+
+    public function __construct(string $username, array $dates = [], int $Wtype){
         $this->username = $username;
         $this->dates = $dates;
+        $this->Wtype = $Wtype;
     }
 
     public function getUsername(): string
@@ -23,5 +26,10 @@ class WorktimeAddedEvent extends Event
     public function getDates(): array
     {
         return $this->dates;
+    }
+
+    public function getWtype(): string
+    {
+        return $this->Wtype;
     }
 }

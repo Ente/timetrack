@@ -16,11 +16,11 @@ if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["userna
             $arbeit->mails()->init($provider);
             $arbeit->mails()->sendMail("NewUserTemplate", ["username" => $_POST["username"]]);
             $arbeit->mails()->sendMail("PasswordSendTemplate", ["username" => $_POST["username"], "password" => $_POST["password"]]);
-            echo "<meta http-equiv='refresh' content='0; url=http://{$base_url}/suite/?info=created_user'>";
+            echo "<meta http-equiv='refresh' content='0; url=http://{$base_url}/suite/? " . $arbeit->statusMessages()->URIBuilder("user_added") . "'>";
         } else {
-            echo "<meta http-equiv='refresh' content='0; url=http://{$base_url}/suite/?info=error'>";
+            echo "<meta http-equiv='refresh' content='0; url=http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("error") . "'>";
         } 
 } else {
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 ?>

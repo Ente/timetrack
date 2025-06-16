@@ -2,7 +2,7 @@
 
 ## Developer: How to send mails
 
-Currently you do have to make sure that your custom provider is loaded before you can send mails. Simply require your custom provider and follow belows code example to send a mail. In the future you should be able to register a provider aswell and autoload it.
+Currently you do have to make sure that your custom provider is loaded before you can send mails. Simply require your custom provider and follow the code example below to send a mail. In the future you should be able to register a provider as well and autoload it.
 
 ```php
 

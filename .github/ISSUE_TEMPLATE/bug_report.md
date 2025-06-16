@@ -1,40 +1,45 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: "[BUG]"
-labels: ''
+
+name: 🐞 Bug Report  
+about: Report something that’s broken or not working as expected in TimeTrack  
+title: "[BUG] Short and clear description"  
+labels: bug  
 assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## 🔍 Describe the Bug  
+What exactly is going wrong?  
+> Example: When exporting a report, the total hours show "NaN".
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
+## 🧪 Steps to Reproduce  
+How can we see the bug happen?
+1. Go to "..."
+2. Click on "..."
+3. Scroll down to "..."
 4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+## 🤔 Expected Behavior  
+What should have happened instead?  
+> Example: The total hours should be calculated and displayed correctly.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## 🖼️ Screenshots (if applicable)  
+Add screenshots or logs if they help explain the issue.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+## 🖥️ Environment  
+**Desktop:**  
+- OS: [e.g. Windows 11]  
+- Browser: [e.g. Firefox]  
+- Version: [e.g. 124.0]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**Mobile (if applicable):**  
+- Device: [e.g. Pixel 6]  
+- OS: [e.g. Android 13]  
+- Browser: [e.g. Chrome]  
+- Version: [e.g. 124.0]
 
-**TimeTrack Version**: e.g. v7.9
+## 🧭 TimeTrack Version  
+> Example: v7.12 (API v1.11)
 
-**Additional context**
-Add any other context about the problem here.
+## 🧩 Additional Context  
+Any extra info, logs, console errors, or related issues?

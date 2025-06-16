@@ -43,7 +43,7 @@ namespace Toil {
                 if ($projects->addProjectE($data["name"], $data["description"], $data["note"], $data["users"])) {
                     echo json_encode(["note" => "Successfully saved new project"]);
                 } else {
-                    echo json_encode(["error" => "An error occured while saving project"]);
+                    echo json_encode(["error" => "An error occurred while saving project"]);
                 }
             } else {
                 echo json_encode(["error" => "No permission."]);

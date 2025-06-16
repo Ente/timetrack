@@ -12,7 +12,7 @@ namespace Arbeitszeit {
             $sql = "INSERT INTO projects (id, name, users, description, note) VALUES (0, ?, ?, ?, ?);";
             $res = $this->db->sendQuery($sql)->execute([$name, $description, $note, $this->computeProjectUserArray("json", $users)]);
             if(!$res){
-                Exceptions::error_rep("[PROJECTS] An error occured while creating an project. See previous message for more information.");
+                Exceptions::error_rep("[PROJECTS] An error occurred while creating an project. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[PROJECTS] Successfully created project '{$name}'.");
@@ -25,7 +25,7 @@ namespace Arbeitszeit {
             $sql = "DELETE FROM projects WHERE id = ?";
             $res = $this->db->sendQuery($sql)->execute([$id]);
             if(!$res){
-                Exceptions::error_rep("[PROJECTS] An error occured while deleting an project. See previous message for more information.");
+                Exceptions::error_rep("[PROJECTS] An error occurred while deleting an project. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[PROJECTS] Successfully deleted project '{$id}'.");
@@ -60,7 +60,7 @@ namespace Arbeitszeit {
             $res = $this->db->sendQuery($sql);
             $res->execute();
             if(!$res){
-                Exceptions::error_rep("[PROJECTS] An error occured while fetching projects - there just may be none. See previous message for more information.");
+                Exceptions::error_rep("[PROJECTS] An error occurred while fetching projects - there just may be none. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[PROJECTS] Successfully found projects.");
@@ -74,7 +74,7 @@ namespace Arbeitszeit {
             $res = $this->db->sendQuery($sql);
             $res->execute([$id]);
             if(!$res){
-                Exceptions::error_rep("[PROJECTS] An error occured while fetching project '{$id}'. See previous message for more information.");
+                Exceptions::error_rep("[PROJECTS] An error occurred while fetching project '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[PROJECTS] Successfully found project '{$id}'.");

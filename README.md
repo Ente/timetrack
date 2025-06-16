@@ -1,6 +1,6 @@
 # TimeTrack - small enterprise time recording
 
-TimeTrack aims to be a easy-to-use time recording software for small enterprises.
+TimeTrack aims to be an easy-to-use time recording software for small enterprises.
 It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more features)
 
 ## Features
@@ -14,9 +14,9 @@ It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more 
 - Maintenance mode
 - Easy and fast installation
 - LDAP Authentication
-
-That's not even all of it, you can also generate timesheets (PDF) to export, user creation menu, an "easymode" to make it even easier to track your time and a mobile-friendly UI.
-Additional functionality can be unlocked with TimeTrack Oval
+- Supporting NFC Login
+- Plugin Support
+- Exporting to PDF/CSV
 
 ## Installation
 
@@ -63,7 +63,7 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 - `port`: Specify a custom port or change the port if you do not want to use encryption
 - `usessl`: Specify if you want to use STARTTLS (false) after initial communication or use SSL (true)
 
-If you plan to use this system with a Gmail-Account, please be aware that you are not able to use your usual password. You would have to create a seperate `App Password`, you should note down.
+If you plan to use this system with a Gmail-Account, please be aware that you are not able to use your usual password. You would have to create a seperete `App Password`, you should note down.
 You can do this following this link: <https://myaccount.google.com/u/0/apppasswords> or by navigating from <https://accounts.google.com> to `Security` > `2-Factor Authentication` > `App Passwords`. If you do not see this option on screen, use the link.
 
 #### **Plugins** (Read more at `/api/v1/classes/plugins/docs`)
@@ -71,7 +71,7 @@ You can do this following this link: <https://myaccount.google.com/u/0/apppasswo
 - `plugins`: Specify if you want to enable or disable plugins (default: true)
 - `path`: Plugins path (default: `/api/v1/classes/plugins/plugins`)
 - `data`: Data path for plugins, relative from the `path` variable (default: `data`)
-- `testing`: Specify if the testing mode is enabled or not. If enabled, plugins which are not bundled within an phar archive are working aswell (e.g. just the source code within the plugins folder).
+- `testing`: Specify if the testing mode is enabled or not. If enabled, plugins which are not bundled within an phar archive are working as well (e.g. just the source code within the plugins folder).
 
 #### **LDAP**
 
@@ -103,7 +103,7 @@ After configuring, please rename the `app.json.sample` to `app.json` (`mv app.js
 
 ## Maintenance Mode
 
-To enable the maintenance mode, simply rename the `api/inc/.MAINTENANCE` to `MAINTENANCE` (without the dot) to enable the functionality. No one will be able to access the application, aswell as administrators.
+To enable the maintenance mode, simply rename the `api/v1/inc/.MAINTENANCE` to `MAINTENANCE` (without the dot) to enable the functionality. No one will be able to access the application, as well as administrators.
 Disabling is done by renaming the file again.
 
 ## Permissions
@@ -138,7 +138,7 @@ If above mentioned setting is set to `false` you have to create a user on your o
 The `ExportModule` allows you to export your data in any format as long as you have a `ExportModule` defined for it.
 TimeTrack ships the `PDFExportModule` and `CSVExportModule` which allows you to export your data in PDF/CSV format through your browser/file.
 
-You can define your own `ExporModules` by creating a new class in `api/v1/class/exports/modules/MyExportExportModule/MyExportExportModule.em.arbeit.inc.php` and implementing the `ExportModuleInterface` interface found in `api/v1/class/exports/modules/ExportModuleInterface.em.arbeit.inc.php`.
+You can define your own `ExportModules` by creating a new class in `api/v1/class/exports/modules/MyExportExportModule/MyExportExportModule.em.arbeit.inc.php` and implementing the `ExportModuleInterface` interface found in `api/v1/class/exports/modules/ExportModuleInterface.em.arbeit.inc.php`.
 
 You can then use your new `MyExportExportModule` the following:
 
@@ -157,7 +157,7 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 
 ```
 
-As there is currently no Export Area in the UI you have to create the GUI elements on your own.
+All existing export modules can be accessed with the `ExportManager` Plugin.
 You can specify your own CSS file within the `app.json` `exports -> pdf -> css` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
 
 ## QR codes
@@ -189,3 +189,21 @@ If downloaded any other way, just make sure to copy and paste the new files into
 ### Database
 
 You can update the database by using `vendor/bin/phinx migrate` to migrate to latest release or `vendor/bin/phinx rollback` to rollback.
+
+## Managed Hosting
+
+If you don't want to worry about installation, updates and maintenance - let us do it for you.
+
+With our managed TimeTrack hosting, you get:
+
+* 🛡️ Fully GDPR-compliant hosting in Germany or Netherlands
+* 🚀 Always up-to-date with the latest features and security patches
+* 🔐 Secure HTTPS out-of-the-box
+* ☁  Backups, monitoring and support included
+* 🧩 Custom plugins, integration, branding
+
+Want to move your team to the cloud? Check out our <a href="https://openducks.org/timetrack.php">website</a> for more information.
+
+## License
+
+The original project is licensed under the GPLv3 license - see the [LICENSE](LICENSE) file for details.

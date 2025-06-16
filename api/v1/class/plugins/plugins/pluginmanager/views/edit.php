@@ -12,8 +12,8 @@ if(@isset($_GET["edit"])){
     try {
         $yaml = $main->getPluginYaml($_GET["edit"]);
     } catch (TypeError $e){
-        Exceptions::error_rep("[pluginmanager] An error occured while trying to retrieve the YAML configuration.");
-        $yaml = "An error occured while trying to retrieve the YAML configuration. Does this plugin exist?";
+        Exceptions::error_rep("[pluginmanager] An error occurred while trying to retrieve the YAML configuration.");
+        $yaml = "An error occurred while trying to retrieve the YAML configuration. Does this plugin exist?";
         $status = "<div class='alert alert-danger' role='alert'>Plugin not found!</div>";
         $submitButton = "";
         $submitEdit = "";

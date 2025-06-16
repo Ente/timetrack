@@ -21,7 +21,7 @@ if(isset($_GET["code"], $_GET["stack"], $_GET["error"])){
         <h1>500 | Internal Server Error</h1>
 
         <div class="box">
-            <h2><b>An critical error occured - Code: <?php echo htmlspecialchars($code); ?></b></h2>
+            <h2><b>A critical error occurred - Code: <?php echo htmlspecialchars($code); ?></b></h2>
             <p><b>Message: </b> <span><?php echo htmlspecialchars($error) ?></span></p>
             <p>Trace (if available):</p><pre>
                 <?php echo htmlspecialchars($stack) ?? "No trace."; ?>

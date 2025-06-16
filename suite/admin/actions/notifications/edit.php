@@ -8,10 +8,10 @@ $base_url = $ini["general"]["base_url"];
 $arbeit->auth()->login_validation();
 if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     if($arbeit->notifications()->edit_notifications_entry($_GET["id"], $_POST["uhrzeit"], $_POST["datum"], $_POST["ort"], $_POST["notiz"]) == true){
-        header("Location: http://{$base_url}/suite/?info=notifications_entry_edited");
+        header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("notifications_entry_edited"));
     }   
 } else {
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 
 

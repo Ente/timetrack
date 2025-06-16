@@ -18,5 +18,6 @@
     "pend": "end of break",
     "submit": "Send",
     "h_vacation": "Request vacation",
-    "h_sickness": "Report sickness"
+    "h_sickness": "Report sickness",
+    "type": "Type"
 }

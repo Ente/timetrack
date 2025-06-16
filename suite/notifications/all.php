@@ -8,7 +8,7 @@ $base_url = $ini["general"]["base_url"];
 $loc = $arbeit->i18n()->loadLanguage(null, "notifications/all");
 $arbeit->auth()->login_validation();
 if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 ?>
 <!DOCTYPE html>

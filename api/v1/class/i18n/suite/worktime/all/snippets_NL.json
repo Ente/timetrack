@@ -6,5 +6,6 @@
     "s_end": "Einde dienst",
     "s_pstart": "Start pauzeren",
     "s_pend": "Einde einde",
-    "s_location": "Locatie"
+    "s_location": "Locatie",
+    "type": "Type"
 }

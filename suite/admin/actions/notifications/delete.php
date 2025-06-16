@@ -9,10 +9,10 @@ $id = $_GET["id"];
 $arbeit->auth()->login_validation();
 if($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
     if($arbeit->notifications()->delete_notifications_entry($id) == true){
-        header("Location: http://{$base_url}/suite/?info=notifications_entry_deleted");
+        header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("notifications_entry_deleted"));
     }   
 } else {
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 
 

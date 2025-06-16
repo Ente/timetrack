@@ -46,5 +46,10 @@
         "saf_group": "GROUP",
         "saf_domain": "DOMAIN",
         "create_user": "true"
+    },
+    "config": {
+        "worktime_types": "/api/v1/inc/config/worktime_types.json",
+        "vacation_types": "/api/v1/inc/config/vacation_types.json",
+        "sickness_types": "/api/v1/inc/config/sickness_types.json"
     }
 }

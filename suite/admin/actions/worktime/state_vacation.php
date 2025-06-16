@@ -15,55 +15,55 @@ if ($arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
     if (isset($_GET["id"], $_GET["new"])) {
         if (!$vacation->get_vacation($id, 2)) {
             Exceptions::error_rep("Could not find vacation with ID {$id}.");
-            header("Location: http://{$base_url}/suite/?info=error");
+            header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("error"));
             die();
         }
-        $arbeit->mails()->init(new PHPMailerMailsProvider($arbeit, $_SESSION["username"], true));
-        switch ($_GET["new"]) {
-            case "approve":
-                if ($vacation->change_status($id, 1)) {
-                    $arbeit->mails()->sendMail("VacationApprovedTemplate", ["username" => $_GET["u"], "id" => $id]);
-                    header("Location: http://{$base_url}/suite/?info=changed_vacation");
-                    die();
-                } else {
-                    Exceptions::error_rep("An error occured while changing status for vacation with id '{$id}'");
-                    header("Location: http://{$base_url}/suite/?info=noperms");
-                }
-                break;
-            case "pending":
-                if ($vacation->change_status($id, 3)) {
-                    $arbeit->mails()->sendMail("VacationPendingTemplate", ["username" => $_GET["u"], "id" => $id]);
-                    header("Location: http://{$base_url}/suite/?info=changed_vacation");
-                    die();
-                } else {
-                    Exceptions::error_rep("An error occured while changing status for vacation with id '{$id}'");
-                    header("Location: http://{$base_url}/suite/?info=noperms");
-                }
-                break;
-            case "reject":
-                if ($vacation->change_status($id, 2)) {
-                    $arbeit->mails()->sendMail("VacationRejectedTemplate", ["username" => $_GET["u"], "id" => $id]);
-                    header("Location: http://{$base_url}/suite/?info=changed_vacation");
-                    die();
-                } else {
-                    Exceptions::error_rep("An error occured while chaning status for vacation with id '{$id}'");
-                    header("Location: http://{$base_url}/suite/?info=noperms");
-                }
-                break;
-            default:
-                if ($vacation->change_status($id, 3)) {
-                    $arbeit->mails()->sendMail("VacationApprovedTemplate", ["username" => $_GET["u"], "id" => $id]);
-                    header("Location: http://{$base_url}/suite/?info=changed_vacation");
-                    die();
-                } else {
-                    Exceptions::error_rep("An error occured while chaning status for vacation with id '{$id}'");
-                    header("Location: http://{$base_url}/suite/?info=noperms");
-                }
-                break;
-        }
+    }
+    $arbeit->mails()->init(new PHPMailerMailsProvider($arbeit, $_SESSION["username"], true));
+    switch ($_GET["new"]) {
+        case "approve":
+            if ($vacation->change_status($id, 1)) {
+                $arbeit->mails()->sendMail("VacationApprovedTemplate", ["username" => $_GET["u"], "id" => $id]);
+                header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("changed_vacation"));
+                die();
+            } else {
+                Exceptions::error_rep("An error occurred while changing status for vacation with id '{$id}'");
+                header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
+            }
+            break;
+        case "pending":
+            if ($vacation->change_status($id, 3)) {
+                $arbeit->mails()->sendMail("VacationPendingTemplate", ["username" => $_GET["u"], "id" => $id]);
+                header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("changed_vacation"));
+                die();
+            } else {
+                Exceptions::error_rep("An error occurred while changing status for vacation with id '{$id}'");
+                header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
+            }
+            break;
+        case "reject":
+            if ($vacation->change_status($id, 2)) {
+                $arbeit->mails()->sendMail("VacationRejectedTemplate", ["username" => $_GET["u"], "id" => $id]);
+                header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("changed_vacation"));
+                die();
+            } else {
+                Exceptions::error_rep("An error occurred while changing status for vacation with id '{$id}'");
+                header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
+            }
+            break;
+        default:
+            if ($vacation->change_status($id, 3)) {
+                $arbeit->mails()->sendMail("VacationApprovedTemplate", ["username" => $_GET["u"], "id" => $id]);
+                header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("changed_vacation"));
+                die();
+            } else {
+                Exceptions::error_rep("An error occurred while changing status for vacation with id '{$id}'");
+                header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
+            }
+            break;
     }
 } else {
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 
 

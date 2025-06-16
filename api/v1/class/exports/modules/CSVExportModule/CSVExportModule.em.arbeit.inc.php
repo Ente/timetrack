@@ -24,7 +24,7 @@ class CSVExportModule implements ExportModuleInterface
             $year = date("Y");
         }
 
-        $sql = "SELECT id, username, schicht_tag, schicht_anfang, schicht_ende, ort, pause_start, pause_end 
+        $sql = "SELECT id, username, schicht_tag, schicht_anfang, schicht_ende, ort, pause_start, pause_end, Wtype
                 FROM `arbeitszeiten` 
                 WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? AND username = ? 
                 ORDER BY schicht_tag DESC";
@@ -47,7 +47,7 @@ class CSVExportModule implements ExportModuleInterface
         $output = fopen('php://output', 'w');
 
         // Set columns
-        $columns = ["ID", "Username", "Shift Date", "Shift Start", "Shift End", "Location/Notes", "Pause Start", "Pause End"];
+        $columns = ["ID", "Username", "Shift Date", "Shift Start", "Shift End", "Location/Notes", "Pause Start", "Pause End", "Type"];
         fputcsv($output, $columns, ';');
 
         // Datenzeilen in CSV schreiben
@@ -69,7 +69,7 @@ class CSVExportModule implements ExportModuleInterface
             $year = date("Y");
         }
     
-        $sql = "SELECT id, username, schicht_tag, schicht_anfang, schicht_ende, ort, pause_start, pause_end 
+        $sql = "SELECT id, username, schicht_tag, schicht_anfang, schicht_ende, ort, pause_start, pause_end, Wtype 
                 FROM `arbeitszeiten` 
                 WHERE YEAR(schicht_tag) = ? AND MONTH(schicht_tag) = ? AND username = ? 
                 ORDER BY schicht_tag DESC";
@@ -91,7 +91,7 @@ class CSVExportModule implements ExportModuleInterface
     
         $output = fopen($filename, 'w');
 
-        $columns = ["ID", "Username", "Shift Date", "Shift Start", "Shift End", "Location/Notes", "Pause Start", "Pause End"];
+        $columns = ["ID", "Username", "Shift Date", "Shift Start", "Shift End", "Location/Notes", "Pause Start", "Pause End", "Type"];
         fputcsv($output, $columns, ';');
     
         foreach ($data as $row) {

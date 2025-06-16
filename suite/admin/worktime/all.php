@@ -8,7 +8,7 @@ $base_url = $ini["general"]["base_url"];
 $loc = $arbeit->i18n()->loadLanguage(null, "worktime/all", "admin");
 $arbeit->auth()->login_validation();
 if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["username"]))){
-    header("Location: http://{$base_url}/suite/?info=noperms");
+    header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("noperms"));
 }
 if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
     $date_year = date("Y");
@@ -48,6 +48,7 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
                     <th><?php echo $loc["pbegin"] ?></th>
                     <th><?php echo $loc["pend"] ?></th>
                     <th><?php echo $loc["loc"] ?></th>
+                    <th><?php echo $loc["type"] ?></th>
                 </tr>
 
                 <?php echo $arbeit->get_specific_worktime_html($date_month, $date_year)  ?>

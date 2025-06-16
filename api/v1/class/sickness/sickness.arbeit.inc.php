@@ -26,13 +26,13 @@ namespace Arbeitszeit {
             $dateObj = \DateTime::createFromFormat($format, $dateString);
 
             if ($dateObj == false) {
-              Exceptions::error_rep("[SICK] An error occured while adding an sickness for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
+              Exceptions::error_rep("[SICK] An error occurred while adding an sickness for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
               return false;
             }
 
             $data = $this->db()->sendQuery("INSERT INTO sick (id, username, start, stop, status) VALUES (0, ?, ?, ?, 'pending')")->execute([$user, $start, $stop]);
             if($data == false){
-                Exceptions::error_rep("[SICK] An error occured while adding an sickness for user '$user'. See previous message for more information.");
+                Exceptions::error_rep("[SICK] An error occurred while adding an sickness for user '$user'. See previous message for more information.");
                 return false;
             } else {
                 EventDispatcherService::get()->dispatch(new SicknessCreatedEvent($user, $start, $stop), SicknessCreatedEvent::NAME);
@@ -48,7 +48,7 @@ namespace Arbeitszeit {
             Exceptions::error_rep("[SICK] Removing sickness with id '{$id}'...");
             $data = $this->db()->sendQuery("DELETE * FROM sick WHERE id = ?")->execute([$id]);
             if($data == false){
-                Exceptions::error_rep("[SICK] An error occured while deleting a sickness with id '{$id}'. See previous message for more information.");
+                Exceptions::error_rep("[SICK] An error occurred while deleting a sickness with id '{$id}'. See previous message for more information.");
                 return false;
             }
             EventDispatcherService::get()->dispatch(new SicknessDeletedEvent($_SESSION["username"], $id), SicknessDeletedEvent::NAME);
@@ -70,7 +70,7 @@ namespace Arbeitszeit {
             }
             $data = $this->db()->sendQuery($sql)->execute([$id]);
             if($data == false){
-                Exceptions::error_rep("[SICK] An error occured while setting status for sickness. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
+                Exceptions::error_rep("[SICK] An error occurred while setting status for sickness. id '{$id}', new state: '{$new_state}'. See previous message for more information.");
                 return false;
             } else {
                 EventDispatcherService::get()->dispatch(new SicknessUpdatedEvent($_SESSION["username"], $id, $new_state), SicknessUpdatedEvent::NAME);
@@ -142,7 +142,7 @@ namespace Arbeitszeit {
             $sql = "SELECT * FROM `sick` WHERE id = ?";
             $data = $this->db()->sendQuery($sql)->execute([$id]);
             if($data == false){
-                Exceptions::error_rep("[SICK] An error occured while getting sickness. id '{$id}'. See previous message for more information.");
+                Exceptions::error_rep("[SICK] An error occurred while getting sickness. id '{$id}'. See previous message for more information.");
                 return false;
             } else {
                 Exceptions::error_rep("[SICK] Successfully found sickness id '{$id}' inside database.");
