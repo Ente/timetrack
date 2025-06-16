@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v7.13.1
+
+* Fixed issues with LDAP authentication
+* Fixed an issue with setting the status of vacations
+* Fixed a php leak for the log file causing the settings page to crash when the log file is too large and php memory limit is too low
+
 ## v7.13
 
 * You can now set different types of worktimes. You can specify your own ones in the `app/v1/inc/config/worktime_types.json` file. If none is set, like when using the easymode, mode `0` will be used. Added `Wtype` parameter to `WorktimeAdded` event.

@@ -7,5 +7,5 @@
     "placeholder_base_url": "sub.domain.tld:<port>",
     "button_text": "Submit",
     "log_title": "Log file",
-    "log_p1": "See the contents of the log file from today below..."
+    "log_p1": "See the contents of the log file from today below...(last 200 lines)"
 }

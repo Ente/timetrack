@@ -7,5 +7,5 @@
     "placeholder_base_url": "sub.domain.tld:<port>",
     "button_text": "Abschicken",
     "log_title": "Log-Datei",
-    "log_p1": "Unten siehst du den Inhalt der heutigen Log-Datei..."
+    "log_p1": "Unten siehst du den Inhalt der heutigen Log-Datei... (letzten 200 Zeilen)"
 }
