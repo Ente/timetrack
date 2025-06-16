@@ -7,6 +7,7 @@ namespace Toil {
 
     use Toil\EP;
     use Arbeitszeit\Arbeitszeit;
+    use Arbeitszeit\Exceptions;
     use NFClogin\NFClogin;
 
     class readNfc implements EPInterface
@@ -35,7 +36,8 @@ namespace Toil {
                 $data = $nfc->readCard();
                 echo json_encode($data);
             } catch (\Exception $e) {
-                echo json_encode(["error" => true, "message" => $e->getMessage()]);
+                Exceptions::error_rep("An error occurred while reading the NFC card: " . $e->getMessage());
+                echo json_encode(["error" => true, "message" => "An error occured."]);
             }
         }
 

@@ -5,6 +5,7 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/api/v1/class/plugins/loader.plugins.a
 require_once dirname(__DIR__, 1) . "/src/Main.php";
 
 use Arbeitszeit\Arbeitszeit;
+use Arbeitszeit\Exceptions;
 use NFClogin\NFClogin;
 
 $arbeit = new Arbeitszeit;
@@ -45,7 +46,7 @@ $arbeit->blockIfNotAdmin();
             echo "No card detected.";
         }
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        Exceptions::error_rep("An error occured while reading the card: " . $e->getMessage());
     }
     ?>
     </p><hr width="75%">

@@ -5,6 +5,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/class/plugins/plugins/pluginma
 use pluginmanager\pluginmanager;
 use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Exceptions;
+use Arbeitszeit\i18n;
 
 $main = new pluginmanager();
 $arbeit = new Arbeitszeit();
@@ -30,12 +31,12 @@ if(@isset($_GET["edit"])){
     }
     if(@isset($_GET["disabled"])){
         Exceptions::error_rep("[pluginmanager] Disabling plugin: {$_GET["edit"]}...");
-        $main->disablePlugin($_GET["edit"]);
+        $main->disablePlugin($arbeit->i18n()->sanitizeOutput($_GET["edit"]));
         $status = "<div class='alert alert-success' role='alert'>Plugin disabled! You may want to reload the windows for the YAML configuration to reload if it still shows 'false'.</div>";
     }
     if(@isset($_GET["enabled"])){
         Exceptions::error_rep("[pluginmanager] Enabling plugin: {$_GET["edit"]}...");
-        $main->enablePlugin($_GET["edit"]);
+        $main->enablePlugin($arbeit->i18n()->sanitizeOutput($_GET["edit"]));
         $status = "<div class='alert alert-success' role='alert'>Plugin enabled! You may want to reload the windows for the YAML configuration to reload if it still shows 'false'.</div>";
     }
     skip_get:
@@ -66,7 +67,7 @@ if(@isset($_GET["edit"])){
                             <form method="get">
                                 <div id="plugins">
                                     <p>Plugin Configuration:</p>
-                                </div><code><pre><?php echo $yaml; ?></pre></code>
+                                </div><code><pre><?php echo $arbeit->i18n()->sanitizeOutput($yaml); ?></pre></code>
                                 <div id="reload">
                                     <p><label class="form-label">Enabled?</label><input type="checkbox" name="enabled" <?php echo $isEnabled; ?>></p>
                                     <p><label>Disable? <input type="checkbox" name="disabled" <?php echo $isDisabled; ?>></label></p>
