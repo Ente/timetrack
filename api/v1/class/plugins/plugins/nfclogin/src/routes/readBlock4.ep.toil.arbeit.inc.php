@@ -7,6 +7,7 @@ namespace Toil {
 
     use Toil\EP;
     use Arbeitszeit\Arbeitszeit;
+    use Arbeitszeit\Exceptions;
     use Arbeitszeit\Benutzer;
     use NFClogin\NFClogin;
 
@@ -39,7 +40,8 @@ namespace Toil {
                 }
                 echo json_encode($data);
             } catch (\Exception $e) {
-                echo json_encode(["error" => true, "message" => $e->getMessage()]);
+                Exceptions::error_rep("An error occured while reading authentication block 4: " . $e->getMessage());
+                echo json_encode(["error" => true, "message" => "An error occured."]);
             }
         }
 

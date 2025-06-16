@@ -12,7 +12,7 @@ $base_url = $ini["general"]["base_url"];
 $name = $ini["general"]["app_name"];
 
 $locale = locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]);
-$lang = $i18n->loadLanguage($locale, "nav");
+$lang = $i18n->loadLanguage(null, "nav");
 ?>
 <script type="text/javascript" id="cookiebanner"
   src="https://cdnjs.cloudflare.com/ajax/libs/cookie-banner/1.2.2/cookiebanner.min.js"></script>

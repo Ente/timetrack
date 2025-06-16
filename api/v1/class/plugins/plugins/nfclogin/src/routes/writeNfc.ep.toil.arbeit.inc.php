@@ -7,6 +7,7 @@ namespace Toil {
 
     use Toil\EP;
     use Arbeitszeit\Arbeitszeit;
+    use Arbeitszeit\Exceptions;
     use NFClogin\NFClogin;
     use Arbeitszeit\Benutzer;
 
@@ -41,7 +42,8 @@ namespace Toil {
                 $data = $nfc->assignCard((int)$user["id"]);
                 echo json_encode($data);
             } catch (\Exception $e) {
-                echo json_encode(["error" => true, "message" => $e->getMessage()]);
+                Exceptions::error_rep("An error occurred while writing to the NFC card: " . $e->getMessage());
+                echo json_encode(["error" => true, "message" => "An error occured."]);
             }
         }
 
