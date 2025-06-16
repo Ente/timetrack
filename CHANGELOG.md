@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v7.13.1.1
+
+* Added colors to status messages
+* Security fixes
+
 ## v7.13.1
 
 * Fixed issues with LDAP authentication
