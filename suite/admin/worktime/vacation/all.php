@@ -19,29 +19,46 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
 }
 ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="../../../../assets/css/index.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <?php include dirname(__DIR__, 4) . "/assets/gui/standard_nav.php"; ?>
-        <h1><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>
-        <div class="box">
-            <h2><?php echo $loc["note1"] ?></h2>
-            <p><?php echo $loc["note2"] ?></p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?= $loc["title"]; ?> | <?= $ini["general"]["app_name"]; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            <table style="width:100%;">
-                <tr>
-                    <th><?php echo $loc["t1"] ?></th>
-                    <th><?php echo $loc["t2"] ?></th>
-                    <th><?php echo $loc["t3"] ?></th>
-                    <th><?php echo $loc["t4"] ?></th>
-                </tr>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+</head>
 
-                <?php echo $arbeit->vacation()->display_vacation_all()  ?>
-            </table>
+<body>
+    <div class="animated-bg"></div>
+
+    <?php include dirname(__DIR__, 4) . "/assets/gui/standard_nav.php"; ?>
+
+    <main style="max-width: 1080px; margin: 0 auto; padding: 2rem;">
+        <h1><?= $loc["title"]; ?> | <?= $ini["general"]["app_name"]; ?></h1>
+
+        <div class="card v8-bordered">
+            <h2><?= $loc["note1"]; ?></h2>
+            <p><?= $loc["note2"]; ?></p>
+
+            <div class="table-wrapper" style="margin-top: 1rem;">
+                <table class="v8-table">
+                    <thead>
+                        <tr>
+                            <th><?= $loc["t1"]; ?></th>
+                            <th><?= $loc["t2"]; ?></th>
+                            <th><?= $loc["t3"]; ?></th>
+                            <th><?= $loc["t4"]; ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?= $arbeit->vacation()->display_vacation_all(); ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </body>
+    </main>
+
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?>
+</body>
 </html>

@@ -15,11 +15,13 @@ if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
 <?php
 $log_contents = @Exceptions::getLastLines(Exceptions::getSpecificLogFilePath(), 200)?? "Error retrieving log file!";
 echo <<< DAT
-<div class="box">
-    <h2> {$language["log_title"]} </h2>
+<div class="card v8-bordered log-box">
+    <h2>{$language["log_title"]}</h2>
     <p>{$language["log_p1"]}</p>
 
-    <pre style="font-family:monospace;text-size:x-small;">{$log_contents}</pre>
+    <pre class="log-output">{$log_contents}</pre>
+</div>
+
 DAT;
 ?>
 </div>

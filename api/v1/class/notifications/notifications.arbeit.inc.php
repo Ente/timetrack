@@ -125,10 +125,13 @@ namespace Arbeitszeit{
                     $id = $row["id"];
                     
                     $html = <<< DATA
-                    <a href="http://{$base_url}/suite/notifications/view.php?id={$id}" target="_blank"><div>
-                        <h2>{$this->i18n["notifications_notify"]} $date</h2>
-                        <p><b>$location</b>: $note | <span><b>$date</b></span> - $time</p>
-                    </div></a>
+                    <a href="http://{$base_url}/suite/notifications/view.php?id={$id}" target="_blank">
+                    <div class="notification-banner">
+                    <h2>{$this->i18n["notifications_notify"]} $date</h2>
+                    <p><b>$location</b>: $note | <span><b>$date</b></span> – $time</p>
+                    </div>
+                    </a>
+
                     DATA;
                 }
                 
