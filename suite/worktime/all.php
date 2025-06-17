@@ -16,31 +16,49 @@ if(!isset($_GET["monat"])){
 }
 ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
-        <h1><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>
-        <div class="box">
-            <h2><?php echo $loc["h2"] ?></h2>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?= $loc["title"]; ?> | <?= $ini["general"]["app_name"]; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+</head>
 
-            <table style="width:100%;">
-                <tr>
-                    <th><?php echo $loc["s_day"] ?></th>
-                    <th><?php echo $loc["s_begin"] ?></th>
-                    <th><?php echo $loc["s_end"] ?></th>
-                    <th><?php echo $loc["s_pstart"] ?></th>
-                    <th><?php echo $loc["s_pend"] ?></th>
-                    <th><?php echo $loc["s_location"] ?></th>
-                    <th><?php echo $loc["type"] ?></th>
-                </tr>
+<body>
+    <div class="animated-bg"></div>
 
-                <?php echo $arbeit->get_employee_worktime_html($_SESSION["username"]);  ?>
-            </table>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
+
+    <main style="max-width: 1080px; margin: 0 auto; padding: 2rem;">
+        <h1><?= $loc["title"]; ?> | <?= $ini["general"]["app_name"]; ?></h1>
+
+        <div class="card" style="padding: 1rem 2rem;">
+            <h2><?= $loc["h2"]; ?></h2>
+
+            <div class="table-wrapper">
+                <table class="v8-table">
+                    <thead>
+                        <tr>
+                            <th><?= $loc["s_day"]; ?></th>
+                            <th><?= $loc["s_begin"]; ?></th>
+                            <th><?= $loc["s_end"]; ?></th>
+                            <th><?= $loc["s_pstart"]; ?></th>
+                            <th><?= $loc["s_pend"]; ?></th>
+                            <th><?= $loc["s_location"]; ?></th>
+                            <th><?= $loc["type"]; ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?= $arbeit->get_employee_worktime_html($_SESSION["username"]); ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </body>
+    </main>
+
+        <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?> 
+
+</body>
 </html>

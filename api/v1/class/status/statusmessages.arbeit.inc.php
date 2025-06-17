@@ -79,7 +79,11 @@ namespace Arbeitszeit {
         {
             if (isset($this->messages[$id])) {
                 Exceptions::error_rep("Status message with ID '$id' found.", 1, "N/A");
-                return "<div class='status-message'>  <span class='dismiss-button' onclick='this.parentElement.classList.add(\"dismissed\")'>&times;</span>" . $this->messages[$id] . "</div>";
+                $type = $this->types[$id] ?? "info"; // z. B. "error", "warn", "info"
+                return "<div class='status-message {$type}'>
+                    <span class='dismiss-button' onclick='this.parentElement.classList.add(\"dismissed\")'>&times;</span>
+                    " . $this->i18n()->sanitizeOutput($this->messages[$id]) . "
+                    </div>";
             } else {
                 Exceptions::error_rep("Status message with ID '$id' not found.", 1, "N/A");
                 return null;

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v8.0
+
+* Reworked the whole web UI, some elements may have not been migrated yet.
+* Plugin Hub now integrates the Navigation Bar
+
 ## v7.13.1.1
 
 * Added colors to status messages

@@ -1,20 +1,25 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>403 | Unauthorized</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+</head>
+<body>
+  <div class="animated-bg"></div>
 
-<html>
-    <head>
-        <title>403 | Unauthorized</title>
-        <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="utf-8">
-    </head>
+  <main style="display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column;">
+    <div class="card" style="max-width: 600px; width: 100%;">
+      <h1 class="text-center" style="margin-bottom: 0.5rem;">403 | Unauthorized</h1>
+      <h2 class="text-center">Access to this resource has been denied</h2>
+      <p class="text-center">Either you do not have the necessary permissions or the resource does not exist anymore.</p>
+      <p class="text-center">Please check back later. Thank you!</p>
+    </div>
+    <p style="margin-top: 1rem;"><a href="/" class="button">Return to Home</a></p>
+  </main>
 
-    <body>
-        <h1>403 | This request has been denied</h1>
-
-        <div class="box">
-            <h2>Your request to access this ressource has been denied.</h2>
-            <p>Either you do not have the permissions to access the resource or it simply does not exist (anymore).</p>
-            <p>Please check back later, thank you!</p>
-        </div>
-    </body>
+  <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?>
+</body>
 </html>

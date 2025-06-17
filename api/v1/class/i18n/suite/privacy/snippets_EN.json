@@ -1,0 +1,10 @@
+{
+  "h1": "Privacy Policy",
+  "intro": "This application processes personal data strictly within the functional scope of TimeTrack.",
+  "data_collected": "Data collected: First name, last name, email address, password (hashed). If LDAP is used, authentication is handled via the connected directory service.",
+  "email_usage": "TimeTrack may send emails to users, e.g., for notifications or password resets.",
+  "plugins": "Installed plugins may access certain data when necessary for their function. This transfer occurs without additional confirmation.",
+  "locality": "TimeTrack is a locally installed open-source application. All data remains on the local system unless explicitly configured otherwise.",
+  "contact": "Contact",
+  "contact_note": "If you have any questions or concerns regarding the processing of your personal data, you can contact us at any time. Email:"
+}

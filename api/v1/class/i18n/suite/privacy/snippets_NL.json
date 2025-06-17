@@ -1,0 +1,10 @@
+{
+  "h1": "Privacybeleid",
+  "intro": "Deze applicatie verwerkt persoonsgegevens uitsluitend binnen de functionele werking van TimeTrack.",
+  "data_collected": "Verzamelde gegevens: Voornaam, achternaam, e-mailadres, wachtwoord (gehasht). Bij gebruik van LDAP wordt authenticatie afgehandeld via de gekoppelde directoryservice.",
+  "email_usage": "TimeTrack kan e-mails naar gebruikers verzenden, bijvoorbeeld voor meldingen of het opnieuw instellen van wachtwoorden.",
+  "plugins": "Geïnstalleerde plugins kunnen toegang hebben tot bepaalde gegevens indien dit nodig is voor hun werking. Deze overdracht vindt plaats zonder verdere bevestiging.",
+  "locality": "TimeTrack is een lokaal geïnstalleerde open-source applicatie. Alle gegevens blijven op het lokale systeem, tenzij anders geconfigureerd.",
+  "contact": "Contact",
+  "contact_note": "Als u vragen of zorgen heeft over de verwerking van uw persoonsgegevens, kunt u te allen tijde contact met ons opnemen. E-mail:"
+}

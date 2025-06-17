@@ -43,23 +43,34 @@ if(isset($_POST["password"]) == true && isset($_POST["auth"]) == true){
     }
 }
 ?>
+<?php
+// reset_password.php
+?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Passwort zurücksetzen - Neues Passwort festlegen | <?php echo $ini["general"]["app_name"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="../../../assets/css/index.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Passwort zurücksetzen | <?= $ini["general"]["app_name"]; ?></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+</head>
+<body>
+  <div class="animated-bg"></div>
 
-        <form class="box" action="<?php $_SERVER["PHP_SELF"]; ?>" method="POST">
-            <h2>Password forgot?</h2>
-            <p>Please enter your new password in the below's form.</p>
-            <p>You will recieve a email after submiting your new password.</p>
-            <label>Your new password: </label><input class="input" type="password" name="password" placeholder="Password">
-            <input type="text" name="auth" value="<?php echo htmlspecialchars(explode(";", base64_decode($_GET["token"]))[1]);  ?>" hidden>
-            <br>
-            <button class="input" type="submit" name="reset" value="true">Submit</button>
-        </form>
-    </body>
+  <main style="display:flex;justify-content:center;align-items:center;min-height:100vh;flex-direction:column;">
+    <div class="card" style="max-width: 420px; width: 100%;">
+      <h2 class="text-center">🔐 <?= $language["pw_reset_title"] ?? "Reset your password" ?></h2>
+      <p><?= $language["pw_reset_note"] ?? "Please enter your new password below." ?></p>
+
+      <form method="POST" action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <input class="input" type="password" name="password" placeholder="<?= $language["pw_reset_placeholder"] ?? "New password"; ?>" required>
+        <input type="hidden" name="auth" value="<?= htmlspecialchars(explode(";", base64_decode($_GET["token"]))[1]); ?>">
+        <button type="submit" name="reset" value="true"><?= $language["pw_reset_submit"] ?? "Submit" ?></button>
+      </form>
+    </div>
+  </main>
+
+  <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?>
+</body>
 </html>
