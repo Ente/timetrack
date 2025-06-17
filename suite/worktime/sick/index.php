@@ -8,28 +8,45 @@ $loc = $arbeit->i18n()->loadLanguage(null, "sickness");
 $arbeit->auth()->login_validation();
 ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <title><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></title>
-        <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
-        <h1><?php echo $loc["title"] ?> | <?php echo $ini["general"]["app_name"]; ?></h1>
-        <div class="box">
-            <h2><?php echo $loc["h2"] ?></h2>
-                <form action="/suite/actions/worktime/add_sick.php" method="POST">
-                    <p><?php echo $loc["note1"] ?></p>
-                    <input class="input" type="date" data-date-format="DD.MM.YYYY" name="date-start">
-                    <br>
-                    <p><?php echo $loc["note2"] ?>:</p>
-                    <input class="input" type="date" data-date-format="DD.MM.YYYY" name="date-end">
-                    <br>
-                    <button type="submit" class="button"><?php echo $loc["button_submit"] ?></button>
-                </form>
-                <br>
-                <p><?php echo $loc["note3"] ?></p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?= $loc["title"]; ?> | <?= $ini["general"]["app_name"]; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+</head>
+
+<body>
+    <div class="animated-bg"></div>
+
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
+
+    <main style="max-width: 720px; margin: 0 auto; padding: 2rem;">
+        <h1><?= $loc["title"]; ?> | <?= $ini["general"]["app_name"]; ?></h1>
+
+        <div class="card v8-bordered">
+            <h2><?= $loc["h2"]; ?></h2>
+
+            <form action="/suite/actions/worktime/add_sick.php" method="POST" style="margin-top: 1rem;">
+                <p><?= $loc["note1"]; ?></p>
+                <input type="date" name="date-start">
+
+                <p style="margin-top: 1rem;"><?= $loc["note2"]; ?>:</p>
+                <input type="date" name="date-end">
+
+                <button type="submit" style="margin-top: 1.5rem;">
+                    <?= $loc["button_submit"]; ?>
+                </button>
+            </form>
+
+            <p style="margin-top: 2rem; font-size: 0.95rem; opacity: 0.8;">
+                <?= $loc["note3"]; ?>
+            </p>
         </div>
-    </body>
+    </main>
+
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?>
+</body>
 </html>
