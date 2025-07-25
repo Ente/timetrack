@@ -33,6 +33,14 @@ $language = $arbeit->i18n()->loadLanguage(NULL, "login");
         <label><input type="checkbox" name="erinnern"> <?= $language["checkbox_30days"]; ?></label>
         <button type="submit"><?= $language["button_text"]; ?></button>
       </form>
+      <?php
+        $pl = new PluginBuilder();
+        if($pl->read_plugin_configuration("nfclogin")["enabled"] == "true"){
+            require_once dirname(__DIR__, 1) . "/api/v1/class/plugins/plugins/nfclogin/src/Main.php";
+            $nfc = new NFClogin;
+            echo "<br>" . $nfc->nfcloginHtml() . "<br>";
+        }
+        ?>
     </div>
     <p style="margin-top: 1rem;"><a href="forgot_password.php"><?= $language["forgot_pw"]; ?></a></p>
   </main>
