@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## v8.0.1
+
+* Readded the `nfclogin` button to the login page
+* Fixed failed require for `statusMessages.arbeit.inc.php`
+
+## v8.0
+
+* Reworked the whole web UI, some elements may have not been migrated yet.
+* Plugin Hub now integrates the Navigation Bar
+
+## v7.13.1.1
+
+* Added colors to status messages
+* Security fixes
+
 ## v7.13.1
 
 * Fixed issues with LDAP authentication

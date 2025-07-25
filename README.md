@@ -1,7 +1,6 @@
 # TimeTrack - small enterprise time recording
 
 TimeTrack aims to be an easy-to-use time recording software for small enterprises.
-It's a fork from TimeTrack Oval, v6.2 (license-based model, within cloud & more features)
 
 ## Features
 

@@ -1,20 +1,24 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>503 | Service not available</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+</head>
+<body>
+  <div class="animated-bg"></div>
 
-<html>
-    <head>
-        <title>503 | Service not available</title>
-        <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="utf-8">
-    </head>
+  <main style="display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column;">
+    <div class="card" style="max-width: 480px; width: 100%;">
+      <h1 class="text-center" style="color: #ffa000;">503 | Service not available</h1>
+      <h2 class="text-center">Maintenance or a system failure</h2>
+      <p>This service is currently not available due to scheduled maintenance or an unexpected issue.</p>
+      <p>Please check back later – thank you for your patience!</p>
+    </div>
+  </main>
 
-    <body>
-        <h1>503 | Service not available</h1>
-
-        <div class="box">
-            <h2>Maintenance or a System failure</h2>
-            <p>This service is currently not available either to a maintenance or a system failure</p>
-            <p>Please check back later, thank you!</p>
-        </div>
-    </body>
+  <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?>
+</body>
 </html>

@@ -1,0 +1,10 @@
+{
+  "h1": "Datenschutzerklärung",
+  "intro": "Diese Anwendung verarbeitet personenbezogene Daten ausschließlich im Rahmen der Funktionsweise von TimeTrack.",
+  "data_collected": "Erhobene Daten: Vorname, Nachname, E-Mail-Adresse, Passwort (gehasht). Bei Verwendung von LDAP erfolgt die Authentifizierung über den verbundenen Verzeichnisdienst.",
+  "email_usage": "TimeTrack kann E-Mails an Benutzer versenden, z. B. für Benachrichtigungen oder zur Passwortzurücksetzung.",
+  "plugins": "Installierte Plugins können auf bestimmte Daten zugreifen, wenn dies für ihre Funktion erforderlich ist. Die Weitergabe erfolgt ohne gesonderte Nachfrage.",
+  "locality": "TimeTrack ist eine lokal installierte Open-Source-Anwendung. Alle Daten verbleiben auf dem lokalen System, sofern nicht explizit anderweitig konfiguriert.",
+  "contact": "Kontakt",
+  "contact_note": "Bei Fragen oder Anliegen zur Verarbeitung Ihrer personenbezogenen Daten können Sie sich jederzeit an uns wenden. Email:"
+}
