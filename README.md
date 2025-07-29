@@ -21,8 +21,8 @@ TimeTrack aims to be an easy-to-use time recording software for small enterprise
 
 ### Requirements
 
-- at least PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`)
-- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation, phinx: for database migrations)
+- PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`)
+- composer (to install dependencies; phpmailer: for sending emails via smtp, parsedown: markdown parser for the `CHANGELOG.md`, simple-router: does the API routing, yaml: for reading plugin yaml files, ldaptools: for LDAP authentication, dompdf: for PDF generation, phinx: for database migrations, event-dispatcher: for handling events, contracts: for defining events and interfaces)
 - Apache2.4 with enabled rewrite mod (optional)
 
 This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. `php -S 0.0.0.0:80`).
@@ -39,6 +39,8 @@ Simply install the software by following these steps:
 - Run DB migrations: `vendor/bin/phinx migrate`
 - Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
 - You can then access TimeTrack in your browser at `http://localhost`, default login is `admin` with password `admin`. Create yourself a new admin account, login and delete the default account afterwards.
+
+To save log files, please create the subfolder `data/logs` and make it writeable to the web server (e.g. `chown www-data:www-data data/logs && chmod 775 data/logs`).
 
 ### Configure app.json
 

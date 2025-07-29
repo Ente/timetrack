@@ -575,7 +575,7 @@ namespace Arbeitszeit {
                     $rqw = $row["id"];
                     $rtn = $this->type_from_int($row["Wtype"]) ?? "N/A";
                     $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
-                    $rpe = @strftime("%H.%M", strtotime($row["pause_end"]));
+                    $rpe = @strftime("%H:%M", strtotime($row["pause_end"]));
 
                     if ($rps == "01:00" || $rps == null) {
                         $rps = "-";
