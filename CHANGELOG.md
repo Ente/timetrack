@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v8.0.2
+
+* Small fixes to the web UI
+* Updated `README.md`
+
 ## v8.0.1
 
 * Readded the `nfclogin` button to the login page

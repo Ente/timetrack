@@ -39,20 +39,20 @@ if(!$arbeit->benutzer()->is_admin($arbeit->benutzer()->get_user($_SESSION["usern
         </div>
 
         <!-- Formular -->
-        <div class="card v8-bordered" style="margin-bottom: 2rem;">
+        <div class="card v8-bordered" style="margin-bottom: 2rem;text-align: center;">
             <form method="POST" action="../admin/actions/notifications/add.php">
-                <label><?= $loc["label_date"]; ?></label>
+                <label for="datum"><?= $loc["label_date"]; ?>:</label>
                 <input type="date" value="<?= date("Y-m-d"); ?>" name="datum" required>
-
-                <label style="margin-top: 1rem;"><?= $loc["label_time"]; ?></label>
-                <input type="time" value="<?= date("H:i"); ?>" name="uhrzeit" required>
-
-                <label style="margin-top: 1rem;"><?= $loc["label_location"]; ?></label>
-                <input type="text" name="ort" placeholder="Ort">
                 <br>
-                <label style="margin-top: 1rem;"><?= $loc["label_note"]; ?></label>
+                <label for="uhrzeit" style="margin-top: 1rem;"><?= $loc["label_time"]; ?>:</label>
+                <input type="time" value="<?= date("H:i"); ?>" name="uhrzeit" required>
+                <br>
+                <label for="ort" style="margin-top: 1rem;"><?= $loc["label_location"]; ?>:</label>
+                <input type="text" name="ort" placeholder="Ort">
+                <br><hr width="50%">
+                <label for="notiz" style="margin-top: 1rem;"><?= $loc["label_note"]; ?>:</label><br>
                 <textarea name="notiz" placeholder="<?= $loc["pl_note"]; ?>"></textarea>
-
+                <br>
                 <button type="submit" style="margin-top: 1rem;"><?= $loc["button_send"]; ?></button>
             </form>
         </div>

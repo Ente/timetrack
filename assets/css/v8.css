@@ -27,7 +27,7 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
-input, button {
+input, button, textarea {
   border-radius: var(--radius);
   border: none;
   padding: 0.75rem;
