@@ -1,0 +1,10 @@
+{
+    "title": "Add User to Project",
+    "title2": "Add User to Project",
+    "label_userid": "User ID",
+    "label_role": "Role",
+    "label_permissions": "Permissions",
+    "tooltip_permissions": "0 = Member, 1 = Project Admin",
+    "btn_add": "Add.",
+    "btn_cancel": "Cancel."
+}

@@ -48,6 +48,7 @@ if(!isset($_GET["monat"])){
                             <th><?= $loc["s_pend"]; ?></th>
                             <th><?= $loc["s_location"]; ?></th>
                             <th><?= $loc["type"]; ?></th>
+                            <th><?= $loc["id"]; ?></th>
                         </tr>
                     </thead>
                     <tbody>

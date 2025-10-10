@@ -1,5 +1,24 @@
 # CHANGELOG
 
+# v8.1
+
+* Toil API release `1.13`:
+  * Added `editUser` endpoint
+  * Added `getOwnUser` endpoint
+  * `healthcheck` endpoint now includes the server time (ISO-8601) and API version
+* Enhanced `app.json` with the `mobile` section (enable/disable app, enable/disable API token generation within Settings, per-Client rate limit, enable/disable QR-code mobile pairing) - for future mobile app release
+* Fixed translations for German and English
+* Added example values to `LDAP` section within `app.json`
+* The ID of the worktime is now being displayed within `Worktime records` and `All worktime records`. 
+* Updated `README.md`
+* **Update requires DB migration** (see `README.md` section `Database`)
+* Added projects (read more within the `README.md`)
+* Upgrading composer dependencies, please run `composer update`:
+  * `simple-router`: `4.3.7.2` to `5.0.0.3`
+* Added function to check if current user is admin
+* Added function to redirect directly to the suite page if an error occurs
+* Fixed an error causing infinite redirects to the 500 HTTP Page when the database is not available.
+
 ## v8.0.2
 
 * Small fixes to the web UI

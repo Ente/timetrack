@@ -1,0 +1,19 @@
+{
+    "title": "Projects - Admin",
+    "existing_projects": "Below is a list for which projects you are a member in.",
+    "th_id": "ID",
+    "th_name": "Name",
+    "th_deadline": "Deadline",
+    "th_owner": "Owner",
+    "th_actions": "Actions",
+    "btn_edit": "Edit",
+    "btn_delete": "Delete",
+    "no_projects": "No projects found...",
+    "add_project": "Add a new project",
+    "label_name": "Name",
+    "label_description": "Description",
+    "label_assoc": "Project short name",
+    "label_owner": "Owner",
+    "btn_add": "Add project",
+    "delete_confirm": "Are you sure that you want to delete this project?"
+}

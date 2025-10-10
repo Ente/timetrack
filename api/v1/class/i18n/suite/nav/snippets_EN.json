@@ -4,9 +4,11 @@
     "own_worktime": "Worktime records",
     "notifications": "Calendar",
     "logout": "Logout",
+    "projects": "Projects",
     "a_allworktime": "All worktime records",
     "a_useredit": "Edit users",
     "a_sickness": "Sickness reports",
     "a_vacation": "Vacation reports",
-    "a_plugins": "Plugins"
+    "a_plugins": "Plugins",
+    "a_projects": "Projects management"
 }

@@ -119,6 +119,12 @@ namespace Arbeitszeit {
             return $uri;
         }
 
+        public function redirect($message, $suite = true){
+            Exceptions::error_rep("Attempting redirect for user with message '{$message}'");
+            $base_url = $this->get_app_ini()["general"]["base_url"];
+            header("Location: http://{$base_url}/suite/?" . $this->URIBuilder($message));
+        }
+
         public function hook()
         {
             // This function is used in the arbeitszeit class to hook it into the system directly, ensuring it will be displayed at the top and exactly as before v7.13.

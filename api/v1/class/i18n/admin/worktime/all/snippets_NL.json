@@ -13,5 +13,6 @@
     "pbegin": "Breekstart",
     "pend": "einde einde",
     "loc": "locatie",
-    "type": "type"
+    "type": "type",
+    "id": "ID"
 }

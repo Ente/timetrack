@@ -26,5 +26,17 @@
   "statemismatch": "Fehler: Sicherheitsfehler",
   "ldapauth": "Fehler: Die Authentifizierung über LDAP ist fehlgeschlagen.",
   "ldapcreated": "Hinweis: Bitte melde dich erneut an. Dein Benutzerkonto wurde nun erstellt. (LDAP allowed self-login)",
-  "notification_not_found": "Fehler: Benachrichtigung nicht gefunden."
+  "notification_not_found": "Fehler: Benachrichtigung nicht gefunden.",
+  "project_deleted": "Hinweis: Das Projekt wurde erfolgreich gelöscht.",
+  "project_deleted_failed": "Fehler: Das Projekt konnte nicht gelöscht werden. Bitte wende dich an deinen Administrator.",
+  "project_edited": "Hinweis: Das Projekt wurde erfolgreich bearbeitet.",
+  "project_edited_error": "Fehler: Das Projekt konnte nicht gelöscht werden. Bitte wende dich an deinen Administrator.",
+  "project_added": "Hinweis: Das Projekt wurde erfolgreich erstellt.",
+  "project_added_failed": "Fehler: Das Projekt konnte nicht erstellt werden. Bitte wende dich an deinen Administrator.",
+  "project_userAdded": "Hinweis: Der Benutzer hat nun Zugriff auf das freigegebene Projekt.",
+  "project_userAddeed_failed": "Fehler: Dem Benutzer konnten die Berechtigungen nicht zugewiesen werden. Bitte wende dich an deinen Administrator.",
+  "projects_item_added": "Hinweis: Projektaufgabe hinzugefügt.",
+  "projects_item_failed": "Fehler: Die Projektaufgabe konnte nicht hinzugefügt werden. Bitte wende dich an deinen Administrator.",
+  "mapWorktimeToItem_success": "Hinweis: Arbeitszeit erfolgreich mit der Projektaufgabe verbunden.",
+  "mapWorktimeToItem_failed": "Fehler: Die Arbeitszeit konnte nicht mit der Projektaufgabe verbunden werden. Bitte wende dich an deinen Administrator."
 }

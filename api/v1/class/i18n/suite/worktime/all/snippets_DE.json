@@ -7,5 +7,6 @@
     "s_pstart": "Pause Start",
     "s_pend": "Pause Ende",
     "s_location": "Ort",
-    "type": "Typ"
+    "type": "Typ",
+    "id": "ID"
 }

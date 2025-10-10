@@ -12,7 +12,9 @@ require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 require_once dirname(__DIR__, 1) . "/class/events/loader.events.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/arbeitszeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/nodes/nodes.arbeit.inc.php";
-require_once dirname(__DIR__, 1) . "/class/db/db.arbeit.inc.php";
+if (!defined("NO_DB")) {
+    require_once dirname(__DIR__, 1) . "/class/db/db.arbeit.inc.php";
+}
 require_once dirname(__DIR__, 1) . "/class/notifications/notifications.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/i18n/i18n.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/benutzer/benutzer.arbeit.inc.php";
@@ -24,6 +26,7 @@ require_once dirname(__DIR__, 1) . "/class/status/statusMessages.arbeit.inc.php"
 require_once dirname(__DIR__, 1) . "/class/status/runHook.php";
 require_once dirname(__DIR__, 1) . "/class/vacation/vacation.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/sickness/sickness.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/projects/projects.arbeit.inc.php";
 
 require_once dirname(__DIR__, 1) . "/class/exports/ExportModule.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/exports/modules/ExportModuleInterface.em.arbeit.inc.php";

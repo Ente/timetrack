@@ -1,0 +1,19 @@
+{
+    "title": "Projekte - Admin",
+    "existing_projects": "Meine Projekte",
+    "th_id": "ID",
+    "th_name": "Name",
+    "th_deadline": "Deadline",
+    "th_owner": "Besitzer",
+    "th_actions": "Aktionen",
+    "btn_edit": "Bearbeiten",
+    "btn_delete": "Löschen",
+    "no_projects": "Keine Projekte gefunden...",
+    "add_project": "Füge ein neues Projekt hinzu",
+    "label_name": "Name",
+    "label_description": "Beschreibung",
+    "label_deadline": "Deadline",
+    "label_owner": "Besitzer",
+    "btn_add": "Projekt hinzufügen",
+    "delete_confirm": "Bist du sicher, dass du das Projekt löschen möchtest?"
+}
