@@ -11,6 +11,7 @@
         "pending": "Pending",
         "or": "or",
         "approved": "Approved",
-        "rejected": "Rejected"
+        "rejected": "Rejected",
+        "not_found": "No vacation reports found."
     }
 }

@@ -3,10 +3,12 @@
     "settings": "Einstellungen",
     "own_worktime": "Eigene Arbeitszeiten",
     "notifications": "Benachrichtigungen",
+    "projects": "Projekte",
     "logout": "Abmelden",
     "a_allworktime": "Alle Arbeitszeiten",
     "a_useredit": "Benutzer bearbeiten",
     "a_sickness": "Alle Krankheiten",
     "a_vacation": "Alle Urlaube",
-    "a_plugins": "Plugins"
+    "a_plugins": "Plugins",
+    "a_projects": "Projektmanagement"
 }

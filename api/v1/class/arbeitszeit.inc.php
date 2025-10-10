@@ -13,6 +13,7 @@ namespace Arbeitszeit {
     use Arbeitszeit\ExportModule;
     use Arbeitszeit\Mails;
     use Arbeitszeit\Nodes;
+    use Arbeitszeit\Projects;
     use Arbeitszeit\StatusMessages;
     use Arbeitszeit\Events\EventDispatcherService;
     use Arbeitszeit\Events\EasymodeWorktimeAddedEvent; // "EasymodeWorktimeSTARTED" Event, actually.
@@ -46,6 +47,8 @@ namespace Arbeitszeit {
         private $mails;
         private $nodes;
         private $statusMessages;
+
+        private $projects;
 
         public function __construct()
         {
@@ -537,6 +540,7 @@ namespace Arbeitszeit {
                             <td>$rpe</td>
                             <td>$rum $rno</td>
                             <td>$rtn</td>
+                            <td>$rqw</td>
                         </tr>
 
 
@@ -601,6 +605,7 @@ namespace Arbeitszeit {
                             <td>$rpe</td>
                             <td $rmn>$rum $rno</td>
                             <td>$rtn</td>
+                            <td>$rqw</td>
                         </tr>
 
 
@@ -723,7 +728,7 @@ namespace Arbeitszeit {
 
         public function blockIfNotAdmin(){
             if(!Benutzer::is_admin(Benutzer::get_user($_SESSION["username"]))){
-                header("Location: /");
+                $this->statusMessages()->redirect("error");
             }
             return false;
         }
@@ -829,6 +834,13 @@ namespace Arbeitszeit {
             if (!$this->statusMessages)
                 $this->statusMessages = new StatusMessages;
             return $this->statusMessages;
+        }
+
+        public function projects(): Projects
+        {
+            if(!$this->projects)
+                $this->projects = new Projects;
+            return $this->projects;
         }
     }
 }

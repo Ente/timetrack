@@ -4,9 +4,11 @@
     "own_worktime": "Eigen werktijden",
     "notifications": "Benachrichtigungen",
     "logout": "Uitloggen",
+    "projects": "Projects",
     "a_allworktime": "Alle werktijden",
     "a_useredit": "Gebruiker bewerken",
     "a_sickness": "Alle ziekten",
     "a_vacation": "Alle vakanties",
-    "a_plugins": "Plug-ins"
+    "a_plugins": "Plug-ins",
+    "a_projects": "Projects management"
    }

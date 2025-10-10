@@ -25,5 +25,6 @@
     "getNotifications": 0,
     "createToken": 0,
     "deleteToken": 0,
-    "refreshToken": 0
+    "refreshToken": 0,
+    "editUser": 1
 }

@@ -26,5 +26,17 @@
   "statemismatch": "Error: Security error",
   "ldapauth": "Error: LDAP authentication failed.",
   "ldapcreated": "Note: Please log in again. Your user account has now been created. (LDAP allowed self-login)",
-  "notification_not_found": "Error: Notification not found."
+  "notification_not_found": "Error: Notification not found.",
+  "project_deleted": "Note: Project successfully deleted.",
+  "project_deleted_failed": "Error: The project could not be deleted. Please contact your administrator.",
+  "project_edited": "Note: The changes to the project have been applied.",
+  "project_edited_error": "Error: An error occurred while applying the changes to the project. Please contact your administrator.",
+  "project_added": "Note: The project has been succesfully added.",
+  "project_added_error": "Error: An error occurred while creating the new project. Please contact your administrator.",
+  "project_userAdded": "Note: The user has been successfully added to the project.",
+  "project_userAdded_failed": "Error: An error occurred while assigning the permissions to the user. Please contact your administrator.",
+  "projects_item_added": "Note: The item has been added to the project.",
+  "projects_item_failed": "Error: An error occurred while creating the item. Please contact your administrator.",
+  "mapWorktimeToItem_success": "Note: Worktime successfully mapped to project item.",
+  "mapWorktimeToItem_failed": "Error: An error occurred while mapping the worktime to the project itme. Please contact your administrator."
 }

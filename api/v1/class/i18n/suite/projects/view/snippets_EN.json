@@ -1,0 +1,23 @@
+{
+    "title": "View Project",
+    "no_description": "No description...",
+    "description": "Description",
+    "deadline": "Deadline",
+    "tab_items": "Items",
+    "tab_members": "Members",
+    "tab_worktimes": "Worktimes",
+    "items": "Items",
+    "th_item": "Item",
+    "th_assignee": "Assignee",
+    "th_status": "Status",
+    "th_actions": "Actions",
+    "btn_view": "View",
+    "no_items": "No items...",
+    "members": "Members",
+    "no_members": "No members...",
+    "worktimes": "Worktimes",
+    "th_user": "User",
+    "th_hours": "Hours",
+    "no_worktimes": "No worktimes...",
+    "id": "ID"
+}

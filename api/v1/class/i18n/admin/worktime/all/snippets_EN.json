@@ -13,5 +13,6 @@
     "pbegin": "Break Start",
     "pend": "end of break",
     "loc": "location",
-    "type": "type"
+    "type": "type",
+    "id": "ID"
 }

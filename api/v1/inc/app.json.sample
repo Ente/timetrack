@@ -30,13 +30,13 @@
     },
     "ldap": {
         "ldap": "false",
-        "ldap_user": "USER",
+        "ldap_user": "myuser",
         "ldap_password": "BASE64-ENCODED-PASSWORD",
-        "ldap_host": "HOST",
+        "ldap_host": "dc.domain.tld",
         "ldap_ip": "IP",
-        "ldap_domain": "DOMAIN",
-        "ldap_basedn": "BASEDN",
-        "ldap_group": "GROUP",
+        "ldap_domain": "domain.tld",
+        "ldap_basedn": "DC=domain,DC=tld",
+        "ldap_group": "MYGROUP",
         "saf": "true",
         "saf_user": "USER",
         "saf_password": "BASE64-ENCODED-PASSWORD",
@@ -51,5 +51,12 @@
         "worktime_types": "/api/v1/inc/config/worktime_types.json",
         "vacation_types": "/api/v1/inc/config/vacation_types.json",
         "sickness_types": "/api/v1/inc/config/sickness_types.json"
+    },
+    "mobile": {
+        "allow_app_use": false,
+        "allow_api_token_generation_w_settings": true,
+        "enable_rate_limit_client_requests": false,
+        "rate_limit_client_requests_p_minute": 80,
+        "enable_qr_code_pairing": false
     }
 }
