@@ -1,6 +1,6 @@
 # CHANGELOG
 
-# v8.1
+## v8.1
 
 * Toil API release `1.13`:
   * Added `editUser` endpoint
