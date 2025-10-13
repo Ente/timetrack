@@ -54,7 +54,7 @@ namespace Arbeitszeit {
         {
             $this->db = new DB();
             $this->init_lang() ?? null;
-            if(isset($this->get_app_ini()["general"]["timezone"])){
+            if (isset($this->get_app_ini()["general"]["timezone"])) {
                 try {
                     date_default_timezone_set($this->get_app_ini()["general"]["timezone"]);
                 } catch (\Exception $e) {
@@ -87,7 +87,7 @@ namespace Arbeitszeit {
          */
         public function delete_worktime($id)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "delete_worktime")){
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "delete_worktime")) {
                 return false;
             }
             $data = $this->db->sendQuery("DELETE FROM arbeitszeiten WHERE id = ?")->execute([$id]);
@@ -100,7 +100,7 @@ namespace Arbeitszeit {
                     ]
                 ];
             } else {
-                EventDispatcherService::get()->dispatch(new WorktimeDeletedEvent($_SESSION["username"], (int)$id), WorktimeDeletedEvent::NAME);
+                EventDispatcherService::get()->dispatch(new WorktimeDeletedEvent($_SESSION["username"], (int) $id), WorktimeDeletedEvent::NAME);
                 Exceptions::error_rep("Worktime entry with ID '{$id}' deleted successfully.");
                 return 1;
             }
@@ -110,7 +110,7 @@ namespace Arbeitszeit {
         public static function add_easymode_worktime($username)
         {
             $nodes = new Nodes;
-            if(!$nodes->checkNode("arbeitszeit.inc", "add_easymode_worktime")) {
+            if (!$nodes->checkNode("arbeitszeit.inc", "add_easymode_worktime")) {
                 return false;
             }
             Exceptions::error_rep("Creating easymode worktime entry for user '{$username}'...");
@@ -141,7 +141,7 @@ namespace Arbeitszeit {
         public static function end_easymode_worktime($username, $id)
         {
             $nodes = new Nodes;
-            if(!$nodes->checkNode("arbeitszeit.inc", "end_easymode_worktime")) {
+            if (!$nodes->checkNode("arbeitszeit.inc", "end_easymode_worktime")) {
                 return false;
             }
             Exceptions::error_rep("Ending easymode worktime for user '{$username}'...");
@@ -160,7 +160,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occurred while ending easymode worktime. See previous message for more information.");
                     return false;
                 } else {
-                    EventDispatcherService::get()->dispatch(new EasymodeWorktimeEndedEvent($username, (int)$id), EasymodeWorktimeEndedEvent::NAME);
+                    EventDispatcherService::get()->dispatch(new EasymodeWorktimeEndedEvent($username, (int) $id), EasymodeWorktimeEndedEvent::NAME);
                     Exceptions::error_rep("Easymode worktime ended for user '{$username}'");
                     return true;
                 }
@@ -169,7 +169,7 @@ namespace Arbeitszeit {
 
         public function start_easymode_pause_worktime($username, $id)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "start_easymode_pause_worktime")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "start_easymode_pause_worktime")) {
                 return false;
             }
             Exceptions::error_rep("Starting easymode pause for user '{$username}'...");
@@ -187,7 +187,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occurred while starting user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
-                    EventDispatcherService::get()->dispatch(new EasymodeWorktimePauseStartEvent($username, (int)$id), EasymodeWorktimePauseStartEvent::NAME);
+                    EventDispatcherService::get()->dispatch(new EasymodeWorktimePauseStartEvent($username, (int) $id), EasymodeWorktimePauseStartEvent::NAME);
                     Exceptions::error_rep("Easymode pause started for user '{$username}'");
                     return true;
                 }
@@ -195,7 +195,7 @@ namespace Arbeitszeit {
         }
         public function end_easymode_pause_worktime($username, $id)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "end_easymode_pause_worktime")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "end_easymode_pause_worktime")) {
                 return false;
             }
             Exceptions::error_rep("Ending easymode pause for user '{$username}'...");
@@ -213,7 +213,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occurred while ending user pause for worktime with ID '{$id}' for user '{$username}'. See previous message for more information.");
                     return false;
                 } else {
-                    EventDispatcherService::get()->dispatch(new EasymodeWorktimePauseEndEvent($username, (int)$id), EasymodeWorktimePauseEndEvent::NAME);
+                    EventDispatcherService::get()->dispatch(new EasymodeWorktimePauseEndEvent($username, (int) $id), EasymodeWorktimePauseEndEvent::NAME);
                     Exceptions::error_rep("Easymode pause ended for user '{$username}'");
                     return true;
                 }
@@ -222,7 +222,7 @@ namespace Arbeitszeit {
 
         public function toggle_easymode($username)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "toggle_easymode")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "toggle_easymode")) {
                 return false;
             }
             Exceptions::error_rep("Toggling easymode for user '{$username}'...");
@@ -257,7 +257,7 @@ namespace Arbeitszeit {
 
         public function get_easymode_status($username, $mode = 0)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_easymode_status")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "get_easymode_status")) {
                 return false;
             }
             Exceptions::error_rep("Getting easymode status for user '{$username}'...");
@@ -297,7 +297,7 @@ namespace Arbeitszeit {
         public static function check_easymode_worktime_finished($username)
         {
             $nodes = new Nodes;
-            if(!$nodes->checkNode("arbeitszeit.inc", "check_easymode_worktime_finished")) {
+            if (!$nodes->checkNode("arbeitszeit.inc", "check_easymode_worktime_finished")) {
                 return false;
             }
             Exceptions::error_rep("Checking easymode worktime for user '{$username}'...");
@@ -335,7 +335,7 @@ namespace Arbeitszeit {
          */
         public function add_worktime($start, $end, $location, $date, $username, $type, $Wtype = 0, $pause = null, $meta = null)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "add_worktime")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "add_worktime")) {
                 return false;
             }
             $user = new Benutzer;
@@ -349,7 +349,7 @@ namespace Arbeitszeit {
                 return false;
             } else {
 
-                if($this->type_from_int($Wtype) == false){
+                if ($this->type_from_int($Wtype) == false) {
                     Exceptions::error_rep("An error occurred while creating an worktime entry. The worktime type does not exist.");
                     return false;
                 }
@@ -357,7 +357,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("Creating worktime entry for user '{$username}'...");
                 $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `review`, `active`, `type`, `Wtype`, `pause_start`, `pause_end`, `attachements`) VALUES ( ?, '0', ?, ?, ?, ?, ?, ?, '0', '0', ?, ?, ?, ?, ?);";
                 $data = $this->db->sendQuery($sql);
-                $data->execute([$usr["name"], $usr["email"], $username, $date, $start, $end, $location, $type, $Wtype ,$pause["start"], $pause["end"], $meta]);
+                $data->execute([$usr["name"], $usr["email"], $username, $date, $start, $end, $location, $type, $Wtype, $pause["start"], $pause["end"], $meta]);
                 if (!$data) {
                     Exceptions::error_rep("An error occurred while creating an worktime entry. See previous message for more information.");
                     return false;
@@ -369,7 +369,57 @@ namespace Arbeitszeit {
             }
         }
 
-        public static function type_from_int($int){
+        public function update_worktime($id, $array)
+        {
+            if(!$this->check_if_for_review($id)){
+                return false;
+            }
+            $allowed = [
+                "schicht_anfang",
+                "schicht_ende",
+                "ort"
+            ];
+
+            $fields = [];
+            $values = [];
+
+            foreach ($allowed as $col) {
+                if (isset($array[$col]) && $array[$col] !== "" && $array[$col] !== null && $array[$col] !== false) {
+                    $fields[] = "$col = ?";
+                    $values[] = $array[$col];
+                }
+            }
+
+            if (empty($fields)) {
+                return false;
+            }
+
+            $sql = "UPDATE arbeitszeiten SET " . implode(", ", $fields) . " WHERE id = ?";
+            $values[] = $id;
+
+            try {
+                $stmt = $this->db->sendQuery($sql);
+                $ok = $stmt->execute($values);
+
+                if (!$ok) {
+                    return false;
+                }
+
+                if ($stmt->rowCount() === 0) {
+                    return false;
+                }
+
+                return true;
+            } catch (\PDOException $e) {
+                Exceptions::error_rep("[WORKTIME] Update failed: " . $e->getMessage());
+                return false;
+            }
+        }
+
+
+
+        public static function type_from_int($int)
+        {
             $types = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . self::get_app_ini()["config"]["worktime_types"]), true);
             if (isset($types[$int])) {
                 return $types[$int];
@@ -380,7 +430,8 @@ namespace Arbeitszeit {
 
         }
 
-        public static function get_all_types(){
+        public static function get_all_types()
+        {
             $types = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . self::get_app_ini()["config"]["worktime_types"]), true);
             if (isset($types)) {
                 return $types;
@@ -442,7 +493,7 @@ namespace Arbeitszeit {
 
         public function get_all_worktime()
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_all_worktime")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "get_all_worktime")) {
                 return false;
             }
             Exceptions::error_rep("Getting all worktimes...");
@@ -462,7 +513,7 @@ namespace Arbeitszeit {
 
         public function get_all_user_worktime($username)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_all_user_worktime")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "get_all_user_worktime")) {
                 return false;
             }
             Exceptions::error_rep("Getting all worktimes for user '{$username}'...");
@@ -482,7 +533,7 @@ namespace Arbeitszeit {
 
         public function get_specific_worktime_html(int $month, int $year)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_specific_worktime_html")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "get_specific_worktime_html")) {
                 return false;
             }
             Exceptions::error_rep("Getting worktimes rendered for month '{$month}' and year '{$year}'...");
@@ -558,7 +609,7 @@ namespace Arbeitszeit {
         }
         public function get_employee_worktime_html($username)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "get_employee_worktime_html")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "get_employee_worktime_html")) {
                 return false;
             }
             Exceptions::error_rep("Getting worktimes rendered for user '{$username}'...");
@@ -588,12 +639,14 @@ namespace Arbeitszeit {
                         $rpe = "-";
                     }
 
-                    if ($row["review"] != 0) {
+                    if ($row["review"] == 1 || $row["review"] == '1') {
                         $rmn = "style='color: red;'" ?? null;
                         $rno = "&#9888; {$this->i18n["to_review"]} &#9888;" ?? null;
+                        $rrr = "| <a href='/suite//worktime/correction.php?id={$rqw}'>{$this->i18n["propose_correction"]}</a>" ?? null;
                     } else {
                         $rmn = null;
                         $rno = null;
+                        $rrr = null;
                     }
                     $data = <<<DATA
 
@@ -603,7 +656,7 @@ namespace Arbeitszeit {
                             <td $rmn>$rol</td>
                             <td>$rps</td>
                             <td>$rpe</td>
-                            <td $rmn>$rum $rno</td>
+                            <td $rmn>$rum $rno $rrr</td>
                             <td>$rtn</td>
                             <td>$rqw</td>
                         </tr>
@@ -623,7 +676,7 @@ namespace Arbeitszeit {
 
         public function mark_for_review($id)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "mark_for_review")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "mark_for_review")) {
                 return false;
             }
             Exceptions::error_rep("Marking worktime with ID '{$id}' for review...");
@@ -633,14 +686,31 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("An error occurred while marking an worktime as under review, id '{$id}'. See previous message for more information.");
                 return false;
             } else {
-                EventDispatcherService::get()->dispatch(new WorktimeMarkedForReviewEvent($_SESSION["username"], (int)$id), WorktimeMarkedForReviewEvent::NAME);
+                EventDispatcherService::get()->dispatch(new WorktimeMarkedForReviewEvent($_SESSION["username"], (int) $id), WorktimeMarkedForReviewEvent::NAME);
                 return true;
+            }
+        }
+
+        public function check_if_for_review($id)
+        {
+            Exceptions::error_rep("Checking if worktime with ID '{$id}' is for review...");
+            $sql = "SELECT * FROM `arbeitszeiten` WHERE id = ? AND review = ?";
+            $res = $this->db->sendQuery($sql);
+            $res->execute([$id, 1]);
+
+            if (!$res) {
+                Exceptions::error_rep("An error occured while checking if worktime is for review. See previous message for more information.");
+                return false;
+            } else {
+                if ($res->rowCount() == 1) {
+                    return true;
+                }
             }
         }
 
         public function unlock_for_review($id)
         {
-            if(!$this->nodes()->checkNode("arbeitszeit.inc", "unlock_for_review")) {
+            if (!$this->nodes()->checkNode("arbeitszeit.inc", "unlock_for_review")) {
                 return false;
             }
             Exceptions::error_rep("Unlocking worktime from review with ID '{$id}'...");
@@ -650,7 +720,7 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("An error occurred while unlocking an worktime from review, id '{$id}'. See previous message for more information.");
                 return false;
             } else {
-                EventDispatcherService::get()->dispatch(new WorktimeUnlockedFromReviewEvent($_SESSION["username"], (int)$id), WorktimeUnlockedFromReviewEvent::NAME);
+                EventDispatcherService::get()->dispatch(new WorktimeUnlockedFromReviewEvent($_SESSION["username"], (int) $id), WorktimeUnlockedFromReviewEvent::NAME);
                 return true;
             }
         }
@@ -726,22 +796,26 @@ namespace Arbeitszeit {
         }
 
 
-        public function blockIfNotAdmin(){
-            if(!Benutzer::is_admin(Benutzer::get_user($_SESSION["username"]))){
+        public function blockIfNotAdmin()
+        {
+            if (!Benutzer::is_admin(Benutzer::get_user($_SESSION["username"]))) {
                 $this->statusMessages()->redirect("error");
             }
             return false;
         }
 
-        public function global_dispatcher(): \Symfony\Component\EventDispatcher\EventDispatcher {
+        public function global_dispatcher(): \Symfony\Component\EventDispatcher\EventDispatcher
+        {
             return \Arbeitszeit\Events\EventDispatcherService::get();
         }
 
-        public function getTimeTrackVersion(){
+        public function getTimeTrackVersion()
+        {
             return file_get_contents(dirname(__DIR__, 3) . "/VERSION");
         }
 
-        public function getToilVersion(){
+        public function getToilVersion()
+        {
             return file_get_contents(dirname(__DIR__, 1) . "/toil/VERSION");
         }
 
@@ -838,7 +912,7 @@ namespace Arbeitszeit {
 
         public function projects(): Projects
         {
-            if(!$this->projects)
+            if (!$this->projects)
                 $this->projects = new Projects;
             return $this->projects;
         }

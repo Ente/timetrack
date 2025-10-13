@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v8.2
+
+* Users are now able to propose corrections to worktimes when they have been marked as for "in review".
+
 ## v8.1
 
 * Toil API release `1.13`:

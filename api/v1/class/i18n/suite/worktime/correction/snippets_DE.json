@@ -1,0 +1,15 @@
+{
+    "title": "Änderung an einer Arbeitszeit vorschlagen",
+    "h2": "Derzeitige Daten",
+    "start": "Start",
+    "end": "Ende",
+    "comment": "Kommentar",
+    "suggest_change": "Änderung vorschlagen",
+    "new_start": "Neue Startzeit",
+    "new_end": "Neues Ende",
+    "new_comment": "Neuer Kommentar",
+    "reason": "Begründung",
+    "tooltip_reason": "Bitte gebe eine Begründung an, warum du nun die Daten änderst. Diese wird dem Kommentarfeld hinzugefügt.",
+    "btn_submit": "Abschicken",
+    "date": "Datum"
+}
