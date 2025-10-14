@@ -41,7 +41,7 @@ $add_style = "";
         </div>
 
         <!-- Nutzerliste -->
-        <div class="card v8-bordered" style="margin-bottom: 2rem;">
+        <div class="card v8-bordered" style="margin-bottom: 2rem;" id="userlist">
             <h2><?= $language["title"]; ?></h2>
             <div class="table-wrapper">
                 <table class="v8-table">

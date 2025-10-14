@@ -4,7 +4,7 @@ main: Main
 namespace: userdetail
 author: Ente
 description: Save more information about your employees
-version: "1.2"
+version: "1.2.1"
 api: 0.1
 permissions: none
 enabled: true

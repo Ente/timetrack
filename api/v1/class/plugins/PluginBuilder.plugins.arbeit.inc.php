@@ -129,7 +129,7 @@ namespace Arbeitszeit{
          * 
          * @return bool|void If everything went ok, void. If an error occurs false bool.
          */
-        final public function initialize_plugins(): ?bool {
+        final public function initialize_plugins(): bool {
             if ($this->testing == true) {
                 $plugins = $this->get_plugins();
                 if ($plugins == false) {
@@ -154,10 +154,10 @@ namespace Arbeitszeit{
         
                 return true;
             } elseif ($this->testing == false) {
-                // Keine Aktion notwendig
             } else {
                 return false;
             }
+            return false;
         }
         
 
@@ -195,7 +195,7 @@ namespace Arbeitszeit{
                 return (array)$yaml;
            } else {
                 Exceptions::error_rep("{$la} Could not read plugin configuration for plugin '{$name}' - Path: " . $_SERVER["DOCUMENT_ROOT"] . "" . $this->basepath . "/" . $name . "/plugin.yml");
-                return null;
+                return false;
                 
            }
         }
@@ -205,7 +205,7 @@ namespace Arbeitszeit{
          * 
          * @return array|void Returns and array on success. Nothing otherwise
          */
-        final public function get_plugins(): array{
+        final public function get_plugins(): array|bool{
             $this->logger("{$this->la} Getting all plugins...");
             $dir = array_diff(scandir($_SERVER["DOCUMENT_ROOT"]. "" . $this->get_basepath()), array(".", "..", "data"));
             if($dir == false){
@@ -224,6 +224,7 @@ namespace Arbeitszeit{
                     return $data;
                 }
             }
+            return false;
 
         }
 
@@ -299,7 +300,7 @@ namespace Arbeitszeit{
          * @param string $name Class name of the plugin
          * @return object|bool|Exception Returns the class on success and either false or an Exception on failure
          */
-        final public function unmemorize_plugin($name): object{
+        final public function unmemorize_plugin($name): object|bool{
             Exceptions::deprecated(__FUNCTION__, "This function is not supported anymore.");
             $this->logger("{$this->la} Unmemorizing plugin '{$name}'...");
             $plugin = $this->read_plugin_configuration($name);

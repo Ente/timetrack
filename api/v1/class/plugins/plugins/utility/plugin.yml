@@ -1,0 +1,15 @@
+name: utility
+src: /src
+main: Main
+namespace: utility
+author: Ente
+description: 'Export all data from an user and more.'
+version: '1.0'
+api: 0.1
+permissions: none
+enabled: true
+custom.values:
+    license: LIC
+nav_links:
+    'Open Utility Plugin': views/overview.php
+path: 'C:\Users\diege\Documents\GitHub\timetrack/api/v1/class/plugins/plugins/utility/plugin.yml'

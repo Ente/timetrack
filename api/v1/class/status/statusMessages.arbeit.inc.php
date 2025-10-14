@@ -108,7 +108,7 @@ namespace Arbeitszeit {
          * @param mixed $path Optional path to the status message, if needed.
          * @return string Returns the URI string with the status message encoded in base64 ("status=....", without URI begin (?) or separator (&)).
          */
-        public function URIBuilder($key, $path = null)
+        public static function URIBuilder($key, $path = null)
         {
             // This function is used to build the URI for the status message.
             $uri = "status=" . base64_encode(json_encode([
@@ -119,10 +119,10 @@ namespace Arbeitszeit {
             return $uri;
         }
 
-        public function redirect($message, $suite = true){
+        public static function redirect($message, $suite = true){
             Exceptions::error_rep("Attempting redirect for user with message '{$message}'");
-            $base_url = $this->get_app_ini()["general"]["base_url"];
-            header("Location: http://{$base_url}/suite/?" . $this->URIBuilder($message));
+            $base_url = self::get_app_ini()["general"]["base_url"];
+            header("Location: http://{$base_url}/suite/?" . self::URIBuilder($message));
         }
 
         public function hook()
