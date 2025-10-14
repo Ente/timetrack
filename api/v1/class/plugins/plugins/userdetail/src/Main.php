@@ -8,7 +8,6 @@ use Arbeitszeit\Arbeitszeit;
 use Arbeitszeit\Benutzer;
 use Arbeitszeit\Exceptions;
 use Arbeitszeit\PluginBuilder;
-use Arbeitszeit\Hooks;
 use Arbeitszeit\PluginInterface;
 
 class Userdetail extends PluginBuilder implements PluginInterface {
@@ -49,7 +48,6 @@ class Userdetail extends PluginBuilder implements PluginInterface {
     public function __construct(){
         $this->set_log_append();
         $this->set_plugin_configuration();
-        #Hooks::addHook("create_user", "callback", function(){echo "hi";}, "userdetail");
         $this->check_folder();
     }
 
@@ -102,10 +100,6 @@ class Userdetail extends PluginBuilder implements PluginInterface {
         return $html;
     }
 
-    public function add($name, $value, $user){
-
-    }
-
     public function save_employee_data($payload){
         $this->logger("[userdetail] Saving employee data...");
         $handle = fopen(dirname(__DIR__, 1) . "/data/" . $payload["username"] . ".json", "w+");
@@ -138,10 +132,6 @@ class Userdetail extends PluginBuilder implements PluginInterface {
             $this->logger("[userdetail] Employee file for employee: {$username} does not exist...");
             return false;
         }
-    }
-
-    public function create_user_callback($username, $name, $email, $password, $isAdmin){
-        echo "Successfully created user account...";
     }
 
     public function check_folder(){
