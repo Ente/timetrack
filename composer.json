@@ -3,18 +3,18 @@
   "description": "TimeTrack is a PHP-written time recording tool for small businesses",
   "type": "software",
   "license": "GNU GPL",
-  "version": "8.0",
+  "version": "8.1",
   "authors": [
     {
-      "name": "Ente",
-      "email": "github@openducks.org",
+      "name": "Bryan Boehnke-Avan",
+      "email": "bryan@openducks.org",
       "homepage": "https://openducks.org"
     }
   ],
   "require": {
     "phpmailer/phpmailer": "^6.1",
     "erusev/parsedown": "^1.7",
-    "pecee/simple-router": "4.3.7.2",
+    "pecee/simple-router": "5.0.0.3",
     "symfony/yaml": "^7.1",
     "cweagans/composer-patches": "^1.7",
     "ldaptools/ldaptools": "dev-master",

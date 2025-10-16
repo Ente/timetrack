@@ -41,7 +41,7 @@ $add_style = "";
         </div>
 
         <!-- Nutzerliste -->
-        <div class="card v8-bordered" style="margin-bottom: 2rem;">
+        <div class="card v8-bordered" style="margin-bottom: 2rem;" id="userlist">
             <h2><?= $language["title"]; ?></h2>
             <div class="table-wrapper">
                 <table class="v8-table">
@@ -61,11 +61,11 @@ $add_style = "";
         </div>
 
         <!-- Benutzer hinzufügen -->
-        <div class="card v8-bordered">
+        <div class="card v8-bordered" style="text-align: center;">
             <h2><?= $language["add_user"]; ?></h2>
 
             <form action="../../admin/actions/users/add_user.php" method="POST">
-                <label title="Der Username besteht aus Anfangsbuchstabe des Vornamens großgeschrieben und voller Nachname, z. B. MMueller">
+                <label title="Der Username besteht aus Anfangsbuchstabe des Vornamens großgeschrieben und voller Nachname, z.B. MMueller">
                     Username:
                 </label>
                 <input type="text" name="username" placeholder="MMustermann" required>

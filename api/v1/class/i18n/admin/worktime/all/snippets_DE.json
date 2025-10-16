@@ -13,5 +13,6 @@
     "pbegin": "Pause Start",
     "pend": "Pause Ende",
     "loc": "Ort",
-    "type": "Typ"
+    "type": "Typ",
+    "id": "ID"
 }

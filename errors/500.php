@@ -1,4 +1,5 @@
 <?php
+define("NO_DB", true);
 http_response_code(500);
 if(isset($_GET["code"], $_GET["stack"], $_GET["error"])){
     $code = filter_var($_GET["code"], FILTER_SANITIZE_NUMBER_INT);

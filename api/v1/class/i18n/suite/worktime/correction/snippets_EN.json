@@ -1,0 +1,15 @@
+{
+    "title": "Propose a correction for a worktime",
+    "h2": "Current data",
+    "start": "Start",
+    "end": "End",
+    "comment": "Comment",
+    "suggest_change": "Propose Correction",
+    "new_start": "New start time",
+    "new_end": "New end time",
+    "new_comment": "New comment",
+    "reason": "Reason",
+    "tooltip_reason": "Please provide a reason why you are proposing a correction. The reason will be attached to the comment.",
+    "btn_submit": "Submit",
+    "date": "Date"
+}

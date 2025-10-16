@@ -1,0 +1,9 @@
+{
+    "title": "Edit Project",
+    "label_name": "Project name",
+    "label_description": "Project description",
+    "label_deadline": "Project deadline",
+    "label_owner": "Project Owner",
+    "btn_save": "Edit Project.",
+    "btn_cancel": "Cancel."
+}

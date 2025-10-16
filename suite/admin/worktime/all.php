@@ -69,6 +69,7 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
                             <th><?= $loc["pend"]; ?></th>
                             <th><?= $loc["loc"]; ?></th>
                             <th><?= $loc["type"]; ?></th>
+                            <th><?= $loc["id"]; ?></th>
                         </tr>
                     </thead>
                     <tbody>

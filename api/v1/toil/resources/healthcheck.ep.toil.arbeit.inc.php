@@ -26,7 +26,7 @@ namespace Toil {
         public function get()
         {
             header('Content-Type: application/json');
-            echo json_encode(array('status' => "alive"));
+            echo json_encode(array('status' => "alive", "time" => date("c")));
         }
 
         public function post($post = null)

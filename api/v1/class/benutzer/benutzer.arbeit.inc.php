@@ -297,6 +297,22 @@ namespace Arbeitszeit {
             }
         }
 
+        public static function current_user_is_admin(){
+            if(self::get_current_user()["isAdmin"] == true){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public static function get_current_user(){
+            return self::get_user($_SESSION["username"]);
+        }
+
+        public static function get_name_from_id($id){
+            return self::get_user_from_id($id)["name"];
+        }
+
         public function editUserProperties(mixed $username_or_id, string $name, mixed $value): bool
         {
             if($this->nodes()->checkNode("benutzer.inc", "editUserProperties") == false){

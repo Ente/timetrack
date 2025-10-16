@@ -1,0 +1,9 @@
+{
+    "title": "Projekt bearbeiten",
+    "label_name": "Projektname",
+    "label_description": "Projektbeschreibung",
+    "label_deadline": "Fällig bis",
+    "label_owner": "Projecteigentümer",
+    "btn_save": "Projekt bearbeiten.",
+    "btn_cancel": "Zurück."
+}

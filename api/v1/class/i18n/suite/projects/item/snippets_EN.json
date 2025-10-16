@@ -1,0 +1,15 @@
+{
+    "title": "View Item",
+    "no_description": "No description...",
+    "project": "Project",
+    "assignee": "Assignee",
+    "status": "Status",
+    "worktimes": "Worktimes",
+    "th_user": "User",
+    "th_hours": "Hours",
+    "th_date": "Date",
+    "no_worktimes": "No worktimes...",
+    "btn_edit": "Edit",
+    "btn_delete": "Delete",
+    "id": "ID"
+}

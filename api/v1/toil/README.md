@@ -18,9 +18,11 @@ Most endpoints are using `GET` method to either change, delete, view or add data
 * `getOwnWorktime` - Returns the worktime entries of the authenticated API user (user)
 * `addOwnWorktime` - Allows you to add a worktime entry for the authenticated API user (user)
 * `addOwnVacation` - Allows you to request vacation for the authenticated API user (user)
+* `getOwnUser` - Returns user information for the authenticated API user (user)
 * `getUserWorktimes` - Returns a JSON array of all worktime entries of a specified user (admin)
 * `addProject` - Allows you to add a project (admin)
 * `addUser` - Create a new user (admin)
+* `editUser` - Edit a user (admin)
 * `deleteUser` - Delete a desired user (admin)
 * `getUserDetails` - Get a JSON array of the user's details (admin)
 * `getVersion` - Returns the current installed TimeTrack version (user)
@@ -91,6 +93,8 @@ If you do not set the second parameter to `true` the function will return the pa
 You can also use the `CustomRoutes::getCustomRoutes()` function to get all custom routes and then check if the endpoint has a key in the returned array.
 
 ## Tokens
+
+**Tokens can only be used by local users**
 
 You can use the `createToken` endpoint to create a new token for yourself. The token will be returned in the response along with other useful information you may want to note down. The token will be valid by default for 2 hours. You can set the expiration time in the `Tokens.routes.toil.arbeit.inc.php` file. When a token is expired you can use the `refreshToken` enpoint to refresh the token. When a token expires it is not deleted from the database to allow you refreshing it as the refresh token does not expire. To delete a token entirely you can use the `deleteToken` endpoint (revoke).
 Tokens cannot be used to login to the web interface, you can only use them to access the API. You have to set the `Authorization` header to `Bearer {token}` to use the token.
