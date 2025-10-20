@@ -3,6 +3,10 @@
 ## v8.2
 
 * Users are now able to propose corrections to worktimes when they have been marked as for "in review".
+* Added project management. Take a look into the README.md for more information.
+* Administrators can now change the theme globally within TimeTrack. See more within `README.md`.
+* Added `theme_file` and `force_theme` keys to the `app.json` `[general]` section
+* Users can choose their own theme, if `force_theme` is set to `false`
 
 ## v8.1
 

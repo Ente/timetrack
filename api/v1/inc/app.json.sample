@@ -6,7 +6,9 @@
         "debug": "false",
         "auto_update": "false",
         "app": "false",
-        "timezone": "UTC"
+        "timezone": "UTC",
+        "theme_file": "/assets/css/v8.css",
+        "force_theme": "false"
     },
     "mysql": {
         "db_host": "localhost",

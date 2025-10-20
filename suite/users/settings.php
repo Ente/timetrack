@@ -56,6 +56,26 @@ $data = $arbeit->benutzer()->get_user($_SESSION["username"]);
             <form action="/suite/actions/users/toggle_easymode.php" method="POST" style="margin-top: 1rem;">
                 <button type="submit"><?= $loc["easymode_toggle"]; ?></button>
             </form>
+
+            <hr>
+            
+            <form action="/suite/actions/users/change_theme.php" method="POST">
+                <h2>Select theme</h2>
+                <label for="theme">Select a theme:</label>
+                <select name="theme" id="theme" onchange="this.form.submit()">
+                    <?php 
+                    if($arbeit->benutzer()->checkThemeForce()){
+                        $noTheme =  "<p>You cannot select a theme, since your administrator doesn't allow this feature!</p>";
+                    } else {
+                        unset($noTheme);
+                        $arbeit->benutzer()->computeUserThemes();
+                    }
+                    
+                    
+                    ?>
+                </select>
+                <?= $noTheme; ?>
+            </form>
         </div>
 
         <h2 style="margin-top: 3rem;"><?= $loc["support"]; ?></h2>

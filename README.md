@@ -186,6 +186,13 @@ Users can access their projects within the `Projects` tab.
 
 You can create items for their projects and map worktimes to it. The feature will be reworked in the future.
 
+## Themes
+
+Users can now select their own theme within the `Settings` page. It loads all available themes that reside within the `/assets/css` folder.
+Administrators can enforce a theme globally by setting `force_theme` to `true`. If so, only the theme specified within `theme_file` is available.
+
+To upload a new theme, simply place it into the `/assets/css` folder.
+
 ## Updates
 
 TimeTrack has to be updated in two ways: database and application.
