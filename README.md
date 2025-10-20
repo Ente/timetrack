@@ -55,6 +55,8 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 - `db_*`: Set the connection details for your mysql instance
 - `app`: If set to true, users will be able to use the TimeTrack mobile application
 - `timezone`: Set the timezone of your application, e.g. `Europe/Berlin` or `America/New_York` (default: `UTC`)
+- `force_theme`: Force a theme for all users, this disables the feature allowing users to set their own theme.
+- `theme_file`: If `force_theme` is true, the specified theme is used (default: `/assets/css/v8.css`)
 
 #### **SMTP section**
 
@@ -192,6 +194,8 @@ Users can now select their own theme within the `Settings` page. It loads all av
 Administrators can enforce a theme globally by setting `force_theme` to `true`. If so, only the theme specified within `theme_file` is available.
 
 To upload a new theme, simply place it into the `/assets/css` folder.
+
+The theme the user selected is saved as a cookie, meaning it is only selected on the current device. On mobile or on another device, the user has to set the desired theme again.
 
 ## Updates
 

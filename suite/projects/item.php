@@ -21,7 +21,7 @@ $itemId = $_GET["id"] ?? null;
 
 $item = $arbeit->projects()->getItem($itemId);
 $project = $arbeit->projects()->getProject($item["id"]);
-$worktimes = $arbeit->projects()->getUserProjectWorktimes($project["id"], $user);
+$worktimes = $arbeit->projects()->getUserProjectWorktimes($project["id"]);
 
 ?>
 <!DOCTYPE html>
@@ -29,7 +29,7 @@ $worktimes = $arbeit->projects()->getUserProjectWorktimes($project["id"], $user)
 <head>
     <meta charset="UTF-8">
     <title><?= $language["title"]; ?> | <?= $ini["general"]["app_name"]; ?></title>
-    <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+    <link rel="stylesheet" href="<?= $arbeit->benutzer()->loadUserTheme(); ?>?v=1">
 </head>
 <body>
     <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>

@@ -15,7 +15,7 @@ if(isset($_GET["code"], $_GET["stack"], $_GET["error"])){
   <title>500 | Internal Server Error</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+  <link rel="stylesheet" href="<?= $arbeit->benutzer()->loadUserTheme(); ?>?v=1">
 </head>
 <body>
   <div class="animated-bg"></div>

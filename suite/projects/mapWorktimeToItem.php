@@ -16,7 +16,7 @@ $projectId = $_GET["project"] ?? null;
 <head>
     <meta charset="UTF-8">
     <title>Map Worktime | <?= $ini["general"]["app_name"]; ?></title>
-    <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+    <link rel="stylesheet" href="<?= $arbeit->benutzer()->loadUserTheme(); ?>?v=1">
 </head>
 <body>
 <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
