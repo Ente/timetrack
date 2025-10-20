@@ -360,6 +360,50 @@ namespace Arbeitszeit {
                 return false;
             }
         }
+
+        public function loadUserTheme(){
+
+            $themes = scandir($_SERVER["DOCUMENT_ROOT"] . "/assets/css");
+            $themes = array_diff($themes, [".", ".."]);
+            $check = in_array($_COOKIE["theme"], $themes);
+            if($this->get_app_ini()["general"]["force_theme"] == "true"){
+                return $this->get_app_ini()["general"]["theme_file"];
+            }
+
+            if(!isset($_COOKIE["theme"]) || !$check){
+                return "/assets/css/v8.css";
+            } else {
+                return "/assets/css/" . $_COOKIE["theme"];
+            }
+        }
+
+        public function computeUserThemes(){
+            $themes = scandir($_SERVER["DOCUMENT_ROOT"] . "/assets/css");
+            $themes = array_diff($themes, [".", ".."]);
+            $currentTheme = basename($this->loadUserTheme());
+            foreach($themes as $theme){
+                if($currentTheme == $theme){
+                    echo "<option name='{$theme}' selected>{$theme}</option>";
+                } else {
+                    echo "<option name='{$theme}'>{$theme}</option>";
+                }
+            }
+
+            return true;
+        }
+
+        public function setUserTheme($theme){
+            setcookie("theme", $theme, time()+60*60*24*30, "/");
+            return true;
+        }
+
+        public function checkThemeForce(){
+            if($this->get_app_ini()["general"]["force_theme"] == "true" || $this->get_app_ini()["general"]["force_theme"] == true){
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }
 
