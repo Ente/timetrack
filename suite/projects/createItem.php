@@ -37,7 +37,7 @@ $language = $arbeit->i18n()->loadLanguage(null, "projects/createItem");
         <input type="text" name="assignee">
         <br><br>
         <button type="submit" class="v8-button"><?= $language["btn_save"]; ?></button><br>
-        <a href="view.php?id=<?= $projectId; ?>" class="v8-button secondary"><?= $language["btn_cancel"]; ?></a>
+        <a href="view.php?id=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button secondary"><?= $language["btn_cancel"]; ?></a>
     </form>
 </main>
 </body>

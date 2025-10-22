@@ -45,7 +45,7 @@ $arbeit->statusMessages()->blockIfNotAdmin();
     <main style="max-width: 1080px; margin: 0 auto; padding: 2rem;">
         <h1><?= htmlspecialchars($project["name"] ?? $language["title"]); ?></h1>
         <p><?= $language["description"] ?>: <?= htmlspecialchars($project["description"] ?? $language["no_description"]); ?></p>
-        <p><strong><?= $language["deadline"]; ?>:</strong> <?= $project["deadline"] ?? "-"; ?></p>
+        <p><strong><?= $language["deadline"]; ?>:</strong> <?= $arbeit->i18n()->sanitizeOutput($project["deadline"] ?? "-"); ?></p>
 
         <!-- Tabs -->
         <div class="tabs">
@@ -74,9 +74,9 @@ $arbeit->statusMessages()->blockIfNotAdmin();
                         <tr>
                             <td><?= htmlspecialchars($i["title"]); ?></td>
                             <td><?= $arbeit->benutzer()->get_user_from_id($i["assignee"])["name"] ?? "-"; ?></td>
-                            <td><?= $i["status"] ?? "Open"; ?></td>
-                            <td><a href="item.php?id=<?= $i["id"]; ?>" class="v8-button"><?= $language["btn_view"]; ?></a></td>
-                            <td><?= $i["itemid"]; ?></td>
+                            <td><?= $arbeit->i18n()->sanitizeOutput($i["status"] ?? "Open"); ?></td>
+                            <td><a href="item.php?id=<?= $arbeit->i18n()->sanitizeOutput($i["id"]); ?>" class="v8-button"><?= $language["btn_view"]; ?></a></td>
+                            <td><?= $arbeit->i18n()->sanitizeOutput($i["itemid"] ?? ""); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     <?php if(empty($items)): ?>
@@ -91,12 +91,12 @@ $arbeit->statusMessages()->blockIfNotAdmin();
                 <h2><?= $language["members"]; ?></h2>
                 <?php $isAdmin = $arbeit->benutzer()->get_current_user()["isAdmin"]; ?>
                 <?php if($isAdmin): ?>
-                    <a href="/suite/admin/projects/addUser.php?project=<?= $projectId; ?>" class="v8-button">+</a>
+                    <a href="/suite/admin/projects/addUser.php?project=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button">+</a>
                 <?php endif; ?>
             </div>
             <ul>
                 <?php foreach($members as $m): ?>
-                    <li><?= $m["name"]; ?> (<?= $m["role"]; ?>) - UserID: <?= $m["userid"]; ?></li>
+                    <li><?= $arbeit->i18n()->sanitizeOutput($m["name"]); ?> (<?= $arbeit->i18n()->sanitizeOutput($m["role"]); ?>) - UserID: <?= $arbeit->i18n()->sanitizeOutput($m["userid"]); ?></li>
                 <?php endforeach; ?>
                 <?php if(empty($members)): ?>
                     <li><?= $language["no_members"]; ?></li>
@@ -107,7 +107,7 @@ $arbeit->statusMessages()->blockIfNotAdmin();
         <div id="worktimes" class="tab-content" style="display:none;">
             <div class="section-header">
                 <h2><?= $language["worktimes"]; ?></h2>
-                <a href="/suite/projects/mapWorktimeToItem.php?project=<?= $projectId; ?>" class="v8-button">+</a>
+                <a href="/suite/projects/mapWorktimeToItem.php?project=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button">+</a>
             </div>
             <table class="v8-table">
                 <thead>
@@ -120,9 +120,9 @@ $arbeit->statusMessages()->blockIfNotAdmin();
                 <tbody>
                     <?php foreach($worktimes as $w): ?>
                         <tr>
-                            <td><?= $w["user"]; ?></td>
-                            <td><?= $w["itemid"]; ?></td>
-                            <td><?= $w["hours"] ?? "-"; ?></td>
+                            <td><?= $arbeit->benutzer()->get_user_from_id($w["user"])["name"] ?? "-"; ?></td>
+                            <td><?= $arbeit->i18n()->sanitizeOutput($w["itemid"] ?? ""); ?></td>
+                            <td><?= $arbeit->i18n()->sanitizeOutput($w["hours"] ?? "-"); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     <?php if(empty($worktimes)): ?>

@@ -31,7 +31,7 @@ $language = $arbeit->i18n()->loadLanguage(null, "projects/addUser");
         <input type="hidden" name="project" value="<?= htmlspecialchars($projectId); ?>">
 
         <label><?= $language["label_userid"]; ?>:</label><br>
-        <input type="text" name="projectId" value="<?= $_GET["project"]; ?>" hidden>
+        <input type="text" name="projectId" value="<?= $arbeit->i18n()->sanitizeOutput($_GET["project"]); ?>" hidden>
         <input type="text" name="userId" required>
         <br><br>
         <label><?= $language["label_role"]; ?>:</label><br>
@@ -42,7 +42,7 @@ $language = $arbeit->i18n()->loadLanguage(null, "projects/addUser");
         <span class="tooltip-text"><?= $language["tooltip_permissions"]; ?></span>
         <br><br>
         <button type="submit" class="v8-button"><?= $language["btn_add"]; ?></button><br>
-        <a href="/suite/projects/view.php?id=<?= $projectId; ?>" class="v8-button secondary"><?= $language["btn_cancel"]; ?></a>
+        <a href="/suite/projects/view.php?id=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button secondary"><?= $language["btn_cancel"]; ?></a>
     </form>
 </main>
 </body>
