@@ -2,7 +2,7 @@
   "subject1": "Your working hours need to be reviewed!",
   "suject2": "Your working hours have been unchecked!",
   "greetings": "Hello",
-  "message1": "Your supervisor has put your working hours under review. The affected working hours are listed below",
+  "message1": "Your supervisor has put your working hours under review. The affected working hours are listed below. You can suggest a change.",
   "message2": "Your supervisor has unchecked your working hours. The affected working hours are listed below",
   "id": "ID",
   "username": "Username",

@@ -21,6 +21,7 @@ require_once dirname(__DIR__, 1) . "/events/worktimes/WorktimeUnlockedFromReview
 require_once dirname(__DIR__, 1) . "/events/worktimes/WorktimeMarkedForReviewEvent.php";
 require_once dirname(__DIR__, 1) . "/events/worktimes/WorktimeAddedEvent.php";
 require_once dirname(__DIR__, 1) . "/events/worktimes/WorktimeDeletedEvent.php";
+require_once dirname(__DIR__, 1) . "/events/worktimes/WorktimeCorrectionProposedEvent.php";
 
 require_once dirname(__DIR__, 1) . "/events/notifications/CreatedNotificationEvent.php";
 require_once dirname(__DIR__, 1) . "/events/notifications/DeletedNotificationEvent.php";
