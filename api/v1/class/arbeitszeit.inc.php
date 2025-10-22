@@ -25,6 +25,7 @@ namespace Arbeitszeit {
     use Arbeitszeit\Events\WorktimeMarkedForReviewEvent;
     use Arbeitszeit\Events\WorktimeUnlockedFromReviewEvent;
     use Arbeitszeit\Events\FixEasymodeWorktimeEvent;
+    use Arbeitszeit\Events\WorktimeCorrectionProposedEvent;
     /**
      * Beinhaltet wesentliche Inhalte, wie Einstellungen, Arbeitszeiten erstellen, etc.
      * 
@@ -409,6 +410,8 @@ namespace Arbeitszeit {
                     return false;
                 }
 
+                EventDispatcherService::get()->dispatch(new WorktimeCorrectionProposedEvent($_SESSION["username"], (int) $id), WorktimeCorrectionProposedEvent::NAME);
+                Exceptions::error_rep("Worktime entry with ID '{$id}' updated successfully.");
                 return true;
             } catch (\PDOException $e) {
                 Exceptions::error_rep("[WORKTIME] Update failed: " . $e->getMessage());
