@@ -36,7 +36,7 @@ $projectId = $_GET["project"] ?? null;
         <input type="text" name="user_id">
         <br><br>
         <button type="submit" class="v8-button">Map</button><br>
-        <a href="view.php?id=<?= $projectId; ?>" class="v8-button secondary">Cancel</a>
+        <a href="view.php?id=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button secondary">Cancel</a>
     </form>
 </main>
 </body>

@@ -35,16 +35,16 @@ if(!$arbeit->check_if_for_review($worktimeId)){
 
     <div class="card v8-bordered" style="margin-bottom: 2rem;">
         <h2><?= $language["h2"]; ?></h2>
-        <p><strong><?= $language["start"]; ?>:</strong> <?= $worktime["schicht_anfang"] ?? "?" ?></p>
-        <p><strong><?= $language["end"]; ?>:</strong> <?= $worktime["schicht_ende"] ?? "?" ?></p>
-        <p><strong><?= $language["comment"]; ?>:</strong> <?= $worktime["ort"] ?? "-" ?></p>
-        <p><strong><?= $language["date"]; ?>:</strong> <?= $worktime["schicht_tag"] ?? "-" ?></p>
+        <p><strong><?= $language["start"]; ?>:</strong> <?= $arbeit->i18n()->sanitizeOutput($worktime["schicht_anfang"] ?? "?"); ?></p>
+        <p><strong><?= $language["end"]; ?>:</strong> <?= $arbeit->i18n()->sanitizeOutput($worktime["schicht_ende"] ?? "?"); ?></p>
+        <p><strong><?= $language["comment"]; ?>:</strong> <?= $arbeit->i18n()->sanitizeOutput($worktime["ort"] ?? "-"); ?></p>
+        <p><strong><?= $language["date"]; ?>:</strong> <?= $arbeit->i18n()->sanitizeOutput($worktime["schicht_tag"] ?? "-"); ?></p>
     </div>
 
     <div class="card v8-bordered" style="text-align: center;">
         <h2><?= $language["suggest_change"]; ?></h2>
         <form action="/suite/actions/worktime/correction.php" method="POST">
-            <input type="hidden" name="worktime_id" value="<?= $worktimeId ?>">
+            <input type="hidden" name="worktime_id" value="<?= $arbeit->i18n()->sanitizeOutput($worktimeId); ?>">
 
             <label><?= $language["new_start"]; ?>:</label><br>
             <input type="time" data-date-format="DD.MM.YYYY" name="new_start"><br>
