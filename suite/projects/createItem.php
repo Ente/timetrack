@@ -17,7 +17,7 @@ $language = $arbeit->i18n()->loadLanguage(null, "projects/createItem");
 <head>
     <meta charset="UTF-8">
     <title><?= $language["title"]; ?> | <?= $ini["general"]["app_name"]; ?></title>
-    <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+    <link rel="stylesheet" href="<?= $arbeit->benutzer()->loadUserTheme(); ?>?v=1">
 </head>
 <body>
 <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
@@ -37,7 +37,7 @@ $language = $arbeit->i18n()->loadLanguage(null, "projects/createItem");
         <input type="text" name="assignee">
         <br><br>
         <button type="submit" class="v8-button"><?= $language["btn_save"]; ?></button><br>
-        <a href="view.php?id=<?= $projectId; ?>" class="v8-button secondary"><?= $language["btn_cancel"]; ?></a>
+        <a href="view.php?id=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button secondary"><?= $language["btn_cancel"]; ?></a>
     </form>
 </main>
 </body>

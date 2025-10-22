@@ -28,7 +28,7 @@ $project = $arbeit->projects()->getProject($projectId);
 <head>
     <meta charset="UTF-8">
     <title><?= $language["title"]; ?> | <?= $ini["general"]["app_name"]; ?></title>
-    <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+    <link rel="stylesheet" href="<?= $arbeit->benutzer()->loadUserTheme(); ?>?v=1">
 </head>
 <body>
     <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_nav.php"; ?>
@@ -39,7 +39,7 @@ $project = $arbeit->projects()->getProject($projectId);
         <div class="card v8-bordered">
             <form action="/suite/admin/actions/projects/edit.php" method="POST">
                 <!-- Hidden ID -->
-                <input type="hidden" name="id" value="<?= $project["id"] ?? $projectId; ?>">
+                <input type="hidden" name="id" value="<?= $arbeit->i18n()->sanitizeOutput($project["id"] ?? $projectId); ?>">
 
                 <label><?= $language["label_name"]; ?>:</label><br>
                 <input type="text" name="name" value="<?= htmlspecialchars($project["name"] ?? ""); ?>" required>
@@ -48,10 +48,10 @@ $project = $arbeit->projects()->getProject($projectId);
                 <textarea name="description"><?= htmlspecialchars($project["description"] ?? ""); ?></textarea>
                 <br><br>
                 <label><?= $language["label_deadline"]; ?>:</label><br>
-                <input type="date" name="deadline" value="<?= $project["deadline"] ?? ""; ?>">
+                <input type="date" name="deadline" value="<?= $arbeit->i18n()->sanitizeOutput($project["deadline"] ?? ""); ?>">
                 <br><br>
                 <label><?= $language["label_owner"]; ?>:</label><br>
-                <input type="text" name="owner" value="<?= $project["owner"] ?? ""; ?>" placeholder="UserID">
+                <input type="text" name="owner" value="<?= $arbeit->i18n()->sanitizeOutput($project["owner"] ?? ""); ?>" placeholder="UserID">
                 <br>
                 <button type="submit" name="submit" class="v8-button"><?= $language["btn_save"]; ?></button><br><br>
                 <a href="admin.php" class="v8-button secondary"><?= $language["btn_cancel"]; ?></a>

@@ -15,7 +15,7 @@ $loc = $arbeitszeit->i18n()->loadLanguage(NULL, "reset");
     
     <!-- Fonts & Style -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/v8.css?v=1">
+    <link rel="stylesheet" href="<?= $arbeit->benutzer()->loadUserTheme(); ?>?v=1">
 </head>
 
 <body>

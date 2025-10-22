@@ -1,0 +1,209 @@
+:root {
+  --primary: #88c0d0;
+  --bg: #2e3440;
+  --text: #d8dee9;
+  --card: #3b4252;
+  --radius: 12px;
+  --font-main: "Fira Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  font-weight: 600;
+  color: #eceff4;
+}
+
+input, button, textarea {
+  border-radius: var(--radius);
+  border: none;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  font-family: var(--font-main);
+  background: #434c5e;
+  color: var(--text);
+}
+
+button {
+  background: var(--primary);
+  color: #2e3440;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+button:hover {
+  background: #81a1c1;
+}
+
+.card {
+  background-color: var(--card);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+.card h1, .card h2, .card h3 {
+  color: var(--primary);
+}
+.card p, .card ul, .card code {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+footer {
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 2rem;
+  color: #88c0d0;
+  border-top: 1px solid #4c566a;
+  margin-top: 2rem;
+}
+
+/* === Navigation === */
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: #3b4252;
+  padding: 0.75rem 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  font-size: 0.95rem;
+  border-bottom: 1px solid #4c566a;
+}
+.topnav a {
+  color: var(--text);
+  margin-right: 1rem;
+  padding: 0.3rem 0.5rem;
+  transition: color 0.2s;
+}
+.topnav a:hover {
+  color: var(--primary);
+}
+.topnav .topnav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.user-label {
+  font-weight: bold;
+  font-family: var(--font-mono);
+  color: var(--primary);
+}
+.nav-version {
+  font-size: 0.8rem;
+  color: #bf616a;
+  font-family: var(--font-mono);
+  margin-left: 1rem;
+}
+
+/* === Status Messages === */
+.status-message {
+  background-color: rgba(136, 192, 208, 0.12);
+  border-left: 4px solid var(--primary);
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  position: relative;
+  animation: fadeIn 0.4s ease;
+  color: var(--text);
+}
+.status-message.error {
+  background-color: rgba(191, 97, 106, 0.12);
+  border-left-color: #bf616a;
+}
+.status-message.warn {
+  background-color: rgba(235, 203, 139, 0.12);
+  border-left-color: #ebcb8b;
+}
+.status-message.info {
+  background-color: rgba(129, 161, 193, 0.12);
+  border-left-color: #81a1c1;
+}
+.status-message .dismiss-button {
+  position: absolute;
+  top: 0.7rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.status-message .dismiss-button:hover {
+  color: var(--primary);
+}
+
+/* === Tables === */
+.v8-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  font-family: var(--font-mono);
+  background-color: var(--card);
+  border: 1px solid #4c566a;
+}
+.v8-table th,
+.v8-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #434c5e;
+}
+.v8-table thead {
+  background-color: #434c5e;
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+.v8-table tr:hover {
+  background-color: rgba(136, 192, 208, 0.08);
+  transition: background 0.2s;
+}
+
+/* === Log Output === */
+.log-output {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  background-color: #3b4252;
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-top: 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid #4c566a;
+  color: #eceff4;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.log-output .error {
+  color: #bf616a;
+  font-weight: bold;
+}
+.log-output .warn {
+  color: #ebcb8b;
+}
+.log-output .info {
+  color: #81a1c1;
+}
+
+/* === Animations === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
