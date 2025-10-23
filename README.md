@@ -33,6 +33,8 @@ You can quickly get started with TimeTrack using Docker. Follow these steps:
 * Start the services using Docker Compose: `docker-compose up -d`
 * Access TimeTrack in your web browser at `http://localhost:8080`
 
+Certain features, like the NFC login may require additional setup for parsing the USB device.
+
 ### Requirements
 
 - PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`) - tested with PHP 8.2.26
