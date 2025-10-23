@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v8.2.2
+
+* Fixed deprecation warning for `WorktimeAddedEvent` event
+* Dockerized TimeTrack:
+  * Added `Dockerfile` and `docker-compose.yml` to run TimeTrack within Docker
+  * Added `entrypoint.sh` to handle database migrations and start Apache
+  * Updated `README.md` with Docker instructions
+
 ## v8.2.1
 
 * Added events for worktime correction proposals: `WorktimeCorrectionProposed`
