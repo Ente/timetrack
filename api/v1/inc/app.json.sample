@@ -11,9 +11,9 @@
         "force_theme": "false"
     },
     "mysql": {
-        "db_host": "localhost",
-        "db_user": "root",
-        "db_password": "",
+        "db_host": "db",
+        "db_user": "timetool",
+        "db_password": "yourpassword",
         "db": "ab"
     },
     "smtp": {

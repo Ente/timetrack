@@ -9,7 +9,7 @@ namespace Arbeitszeit {
             $this->db = new DB;
         }
 
-        public function addProject($name, $description = null, $items_assoc, $deadline = null, $owner = null)
+        public function addProject($name, $items_assoc, $description = null, $deadline = null, $owner = null)
         {
             Exceptions::error_rep("[PROJECTS] Adding project...");
             if ($items_assoc == null) {
