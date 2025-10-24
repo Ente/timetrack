@@ -32,6 +32,7 @@ You can quickly get started with TimeTrack using Docker. Follow these steps:
   * **Change the DB password before using in production within the `docker-compose.yml` and `app.json` file!**
 * Start the services using Docker Compose: `docker-compose up -d`
 * Access TimeTrack in your web browser at `http://localhost:8080`
+* Login with username `admin` and password `admin`
 
 Certain features, like the NFC login may require additional setup for parsing the USB device.
 
