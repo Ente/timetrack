@@ -12,4 +12,3 @@ custom.values:
     license: LIC
 nav_links:
     'Open Utility Plugin': views/overview.php
-path: 'C:\Users\diege\Documents\GitHub\timetrack/api/v1/class/plugins/plugins/utility/plugin.yml'
