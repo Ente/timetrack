@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  timetrack:
+    image: openducks/timetrack:latest
+    container_name: timetrack
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html
+    restart: unless-stopped
+
+  db:
+    image: mariadb:11
+    container_name: timetrack-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ab
+      MYSQL_USER: timetool
+      MYSQL_PASSWORD: yourpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+
+volumes:
+  db_data:
