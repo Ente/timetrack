@@ -132,7 +132,7 @@ $arbeit->statusMessages()->blockIfNotAdmin();
             </table>
         </div>
     </main>
-
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?> 
     <script>
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.style.display = "none");

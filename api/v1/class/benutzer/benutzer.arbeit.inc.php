@@ -47,6 +47,23 @@ namespace Arbeitszeit {
             }
         }
 
+        public function user_active($username){
+            $user = $this->get_user($username);
+            if($user["active"] == true || $user["active"] == 1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function activate_user($username){
+            return $this->editUserProperties($username, "active", 1);
+        }
+
+        public function deactivate_user($username){
+            return $this->editUserProperties($username, "active", 0);
+        }
+
         /**
          * delete_user() - Deletes a user from the database
          * 
@@ -326,7 +343,7 @@ namespace Arbeitszeit {
                 return false;
             }
 
-            $allowed_types = ["username", "email", "isAdmin", "name"];
+            $allowed_types = ["username", "email", "isAdmin", "name", "active"];
             if (!in_array($name, $allowed_types)) {
                 Exceptions::error_rep("Could not update user entry – invalid property '{$name}'");
                 return false;

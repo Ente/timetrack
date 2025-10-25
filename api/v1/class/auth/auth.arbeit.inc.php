@@ -71,7 +71,12 @@ namespace Arbeitszeit{
                     $_SESSION["username"] = $username;
                     $_SESSION["time"] = date("d.m.Y H:i:s", $ts);
                     self::store_state($username);
-
+                    # check if user active
+                    if(!$data["active"]) {
+                        EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
+                        Exceptions::error_rep("Login failed for username '$username' - User inactive. Redirecting...");
+                        die(header("Location: http://{$base_url}/suite/login.php?" . $sM->URIBuilder("userinactive")));
+                    }
                     if(@isset($option["remember"])){
                         if($ini["general"]["app"] == "true"){
                             EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
@@ -102,6 +107,12 @@ namespace Arbeitszeit{
                     if($option["nfclogin"]){
                         nfclogin:
                         Exceptions::error_rep("Authenticated user via NFC login '" . $username . "'");
+                    }
+                    # check if user active
+                    if(!$data["active"]) {
+                        EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "failed"));
+                        Exceptions::error_rep("Login failed for username '$username' - User inactive. Redirecting...");
+                        die(header("Location: http://{$base_url}/suite/login.php?" . $sM->URIBuilder("userinactive")));
                     }
                     Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
                     $ini = Arbeitszeit::get_app_ini();
@@ -162,6 +173,13 @@ namespace Arbeitszeit{
                 Exceptions::error_rep("State mismatch on user {$_SESSION["username"]}. Removing state and redirecting...");
                 header("Location: http://{$baseurl}/suite/login.php?" . $this->statusMessages()->URIBuilder("statemismatch"));
             }
+            # is active user
+            if(!$this->benutzer()->user_active($_SESSION["username"])) {
+                EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"] ?? "N/A", "failed"));
+                $this->remove_state($_SESSION["username"]);
+                Exceptions::error_rep("User {$_SESSION["username"]} is inactive. Removing state and redirecting...");
+                header("Location: http://{$baseurl}/suite/login.php?" . $this->statusMessages()->URIBuilder("userinactive"));
+            }
         }
 
         /**
@@ -205,10 +223,10 @@ namespace Arbeitszeit{
             if($ini["general"]["app"] == "true"){
                 @ini_set("session.cookie_samesite", "None");
                 @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
-                setcookie("state", $state, null, "/");
+                setcookie("state", $state, time()+(60*60*24*30), "/");
                 session_regenerate_id(true);
             } else {
-                setcookie("state", $state, null, "/");
+                setcookie("state", $state, time()+(60*60*24*30), "/");
                 $_SESSION["state"] = $state;
             }
             $sql = "UPDATE `users` SET `state` = ? WHERE `username` = ?;";

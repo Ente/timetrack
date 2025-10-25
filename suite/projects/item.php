@@ -73,5 +73,6 @@ $worktimes = $arbeit->projects()->getUserProjectWorktimes($project["id"]);
             <a href="delete_item.php?id=<?= $arbeit->i18n()->sanitizeOutput($itemId); ?>" class="v8-button danger"><?= $language["btn_delete"]; ?></a>
         </div>
     </main>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?> 
 </body>
 </html>

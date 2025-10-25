@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v8.2.3
+
+**This update requires DB migration** - see `README.md` section `Database`
+
+* Fixed missing `status` i18n entries
+* Fixed incorrect theme loading within error pages
+* Removed outdated `index.css` file
+* Added missing footer to project management pages
+* Admins can now enable or disable users within the `userdetail` plugin
+
 ## v8.2.2
 
 * Fixed deprecation warning for `WorktimeAddedEvent` event
