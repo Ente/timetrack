@@ -64,5 +64,6 @@ if(!$arbeit->check_if_for_review($worktimeId)){
         </form>
     </div>
 </main>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?> 
 </body>
 </html>

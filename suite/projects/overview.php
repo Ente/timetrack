@@ -95,5 +95,6 @@ $userItems = $arbeit->projects()->getUserProjectItems($userProjects[1]["id"], $u
             </div>
         </div>
     </main>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?> 
 </body>
 </html>

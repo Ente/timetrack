@@ -39,5 +39,6 @@ $projectId = $_GET["project"] ?? null;
         <a href="view.php?id=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button secondary">Cancel</a>
     </form>
 </main>
+<?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?> 
 </body>
 </html>

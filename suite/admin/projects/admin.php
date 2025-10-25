@@ -107,6 +107,7 @@ $allProjects = $arbeit->projects()->getCurrentUserProjects();
             </form>
         </div>
     </main>
+    <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?>
 </body>
 
 </html>
