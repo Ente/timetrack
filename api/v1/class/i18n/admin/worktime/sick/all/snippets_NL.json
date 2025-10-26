@@ -6,6 +6,7 @@
     "t2": "Begin van de ziekte",
     "t3": "Ziekteeinde",
     "t4": "Status",
+    "t5": "Soort ziekte",
     "status": {
         "set_to": "Instellen op",
         "pending": "Wordt beoordeeld",

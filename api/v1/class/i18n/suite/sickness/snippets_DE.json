@@ -4,5 +4,6 @@
     "note1": "Bitte gib hier das Start-Datum deines Ausfalls an. Solltest du nur einen Tag ausfallen, dann fülle 'End-Datum' bitte [RED]nicht[/RED] aus.",
     "note2": "End-Datum deiner Ausfalls*",
     "button_submit": "Krankheit einreichen",
-    "note3": "Nach dem Absenden wird dein Arbeitgeber die Krankheit überprüfen und sich bei dir, bei Bedarf, melden."
+    "note3": "Nach dem Absenden wird dein Arbeitgeber die Krankheit überprüfen und sich bei dir, bei Bedarf, melden.",
+    "label_type": "Krankheitsart"
 }

@@ -51,6 +51,7 @@ if(!is_string(@$_POST["jahr"]) || !is_string(@$_POST["monat"])){
                             <th><?= $loc["t2"]; ?></th>
                             <th><?= $loc["t3"]; ?></th>
                             <th><?= $loc["t4"]; ?></th>
+                            <th><?= $loc["t5"]; ?></th>
                         </tr>
                     </thead>
                     <tbody>

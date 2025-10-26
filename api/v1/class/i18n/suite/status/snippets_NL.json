@@ -48,5 +48,6 @@
   "user_added": "Opmerking: Nieuwe gebruiker succesvol toegevoegd!",
   "changed_sickness": "Opmerking: Ziekte succesvol bijgewerkt!",
   "changed_vacation": "Opmerking: Vakantie succesvol bijgewerkt!",
-  "userinactive": "Fout: Je account is uitgeschakeld. Neem contact op met je beheerder!"
+  "userinactive": "Fout: Je account is uitgeschakeld. Neem contact op met je beheerder!",
+  "plugins_disabled": "Fout: Het plugin-systeem is uitgeschakeld. Neem contact op met je beheerder!"
 }

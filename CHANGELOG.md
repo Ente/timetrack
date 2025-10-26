@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v8.3
+
+**This update requires DB migration** - see `README.md` section `Database`
+
+* Fixed an issue causing the plugin system to be always enabled
+* Sickness and vacation entries can now have a type like worktime entries
+* Fixed dispatching of `WorktimeAddedEvent` event with incorrect parameters
+* Added Database migration instructions when using Docker within the `README.md` `Database` section
+* Removed the `setup` folder entirely (deprecated)
+
 ## v8.2.3
 
 **This update requires DB migration** - see `README.md` section `Database`

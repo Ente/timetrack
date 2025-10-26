@@ -48,5 +48,6 @@
   "user_added": "Note: New user successfully added!",
   "changed_sickness": "Note: Sickness successfully updated!",
   "changed_vacation": "Note: Vacation successfully updated!",
-  "userinactive": "Error: Your account has been disabled. Please contact your administrator!"
+  "userinactive": "Error: Your account has been disabled. Please contact your administrator!",
+  "plugins_disabled": "Error: The plugin system is disabled. Please contact your administrator!"
 }

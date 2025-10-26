@@ -6,6 +6,7 @@
     "t2": "Vakantiebegin",
     "t3": "Einde van de vakantie",
     "t4": "Status",
+    "t5": "Soort vakantie",
     "status": {
         "set_to": "Instellen op",
         "pending": "Wordt beoordeeld",

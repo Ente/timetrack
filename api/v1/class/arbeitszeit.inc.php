@@ -363,7 +363,7 @@ namespace Arbeitszeit {
                     Exceptions::error_rep("An error occurred while creating an worktime entry. See previous message for more information.");
                     return false;
                 } else {
-                    EventDispatcherService::get()->dispatch(new WorktimeAddedEvent($username, ["start" => $start, "end" => $end], $Wtype), WorktimeAddedEvent::NAME);
+                    EventDispatcherService::get()->dispatch(new WorktimeAddedEvent($username, $Wtype, ["start" => $start, "end" => $end]), WorktimeAddedEvent::NAME);
                     Exceptions::error_rep("Worktime entry for user '{$username}' created successfully.");
                     return true;
                 }

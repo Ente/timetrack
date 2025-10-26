@@ -13,7 +13,7 @@ namespace Arbeitszeit {
     class Sickness extends Arbeitszeit
     {
 
-        public function add_sickness($start, $stop, $user = null)
+        public function add_sickness($start, $stop, $user = null, $type = null)
         {
             if($this->nodes()->checkNode("sickness.inc", "add_sickness") == false){
                 return false;
@@ -30,7 +30,7 @@ namespace Arbeitszeit {
               return false;
             }
 
-            $data = $this->db()->sendQuery("INSERT INTO sick (id, username, start, stop, status) VALUES (0, ?, ?, ?, 'pending')")->execute([$user, $start, $stop]);
+            $data = $this->db()->sendQuery("INSERT INTO sick (id, username, start, stop, status, Stype) VALUES (0, ?, ?, ?, 'pending', ?)")->execute([$user, $start, $stop, $type]);
             if($data == false){
                 Exceptions::error_rep("[SICK] An error occurred while adding an sickness for user '$user'. See previous message for more information.");
                 return false;
@@ -100,6 +100,7 @@ namespace Arbeitszeit {
                     $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
                     $status = $row["status"];
                     $id = $row["id"];
+                    $type = $this->sickness()->type_from_int($row["Stype"]);
 
                     switch($status){
                         case "pending":
@@ -124,6 +125,7 @@ namespace Arbeitszeit {
                             <td>{$start}</td>
                             <td>{$stop}</td>
                             <td>{$status} | {$i18n["status"]["set_to"]} <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=pending&u={$rnw}">{$i18n["status"]["pending"]}</a> {$i18n["status"]["or"]} <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=approve&u={$rnw}">{$i18n["status"]["approved"]}</a> {$i18n["status"]["or"]} <a href="/suite/admin/actions/worktime/state_sickness.php?id={$id}&new=reject&u={$rnw}">{$i18n["status"]["rejected"]}</a></td></td>
+                            <td>{$type}</td>
                         </tr>
 
 
@@ -151,6 +153,33 @@ namespace Arbeitszeit {
                 } else {
                     return $data;
                 }
+            }
+        }
+
+        public static function get_all_types(){
+            $types = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . Arbeitszeit::get_app_ini()["config"]["sickness_types"]), true);
+            if(isset($types)){
+                return $types;
+            } else {
+                return false;
+            }
+        }
+
+        public function compute_html_sickness_types(){
+            $types = self::get_all_types();
+            $html = "";
+            foreach($types as $key => $type){
+                $html .= "<option value='{$key}'>{$type}</option>\n";
+            }
+            return $html;
+        }
+
+        public static function type_from_int($int){
+            $types = self::get_all_types();
+            if(isset($types[$int])){
+                return $types[$int];
+            } else {
+                return $types[0];
             }
         }
     }
