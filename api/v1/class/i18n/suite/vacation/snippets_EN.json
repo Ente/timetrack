@@ -4,5 +4,6 @@
     "note1": "Please enter the start date of your vacation. If you plan to just use one day, do [RED]not[/RED] fill out the 'End-Date' field.",
     "note2": "End-Date of your vacation*",
     "button_submit": "Request Vacation.",
-    "note3": "After submitting the responsible person will check and if required contact you."
+    "note3": "After submitting the responsible person will check and if required contact you.",
+    "label_type": "Vacation Type"
 }

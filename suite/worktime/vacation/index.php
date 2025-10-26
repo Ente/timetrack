@@ -38,6 +38,11 @@ $arbeit->auth()->login_validation();
                 <p style="margin-top: 1rem;"><?= $loc["note2"]; ?>:</p>
                 <input type="date" name="date-end">
 
+                <p style="margin-top: 1rem;"><?= $loc["label_type"]; ?>:</p>
+                <select name="Vtype" id="Vtype" required>
+                    <?= $arbeit->vacation()->compute_html_vacation_types(); ?>
+                </select>
+
                 <button type="submit" style="margin-top: 1.5rem;">
                     <?= $loc["button_submit"]; ?>
                 </button>

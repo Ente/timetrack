@@ -48,5 +48,6 @@
   "user_added": "Hinweis: Neuer Benutzer erfolgreich hinzugefügt!",
   "changed_sickness": "Hinweis: Die Krankheit wurde erfolgreich aktualisiert!",
   "changed_vacation": "Hinweis: Der Urlaub wurde erfolgreich aktualisiert!",
-  "userinactive": "Fehler: Dein Konto wurde deaktiviert. Bitte wende dich an deinen Administrator!"
+  "userinactive": "Fehler: Dein Konto wurde deaktiviert. Bitte wende dich an deinen Administrator!",
+  "plugins_disabled": "Fehler: Das Plugin-System ist deaktiviert. Bitte wende dich an deinen Administrator!"
 }

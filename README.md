@@ -118,8 +118,6 @@ LDAP authentication works with OpenLDAP and Active Directory.
 
 If done correctly, you should now be able to access the application via http://BASE_URL/ - redirects to http://BASE_URL/suite/
 
-**Please delete the whole `/setup/` folder after installation**
-
 After configuring, please rename the `app.json.sample` to `app.json` (`mv app.json.sample app.json`)
 
 ## Maintenance Mode
@@ -227,6 +225,7 @@ If downloaded any other way, just make sure to copy and paste the new files into
 ### Database
 
 You can update the database by using `vendor/bin/phinx migrate` to migrate to latest release or `vendor/bin/phinx rollback` to rollback.
+If you are using docker, you can just restart the container after updating the files, as the entrypoint will try to do the migration automatically.
 
 ## Managed Hosting
 

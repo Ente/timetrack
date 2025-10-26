@@ -19,7 +19,7 @@ namespace Arbeitszeit {
             $this->db = new DB;
         }
 
-        public function add_vacation($start, $stop, $username = null)
+        public function add_vacation($start, $stop, $username = null, $type = null)
         {
             if($this->nodes()->checkNode("vacation.inc", "add_vacation") == false){
                 return false;
@@ -37,8 +37,8 @@ namespace Arbeitszeit {
               Exceptions::error_rep("[VACATION] An error occurred while adding an vacation for user '$user'. Could not validate dateFormat! | String: '{$dateString}', expected: d-m-Y");
               return false;
             }
-            $sql = "INSERT INTO `vacation` (`id`, `username`, `start`, `stop`, `status`) VALUES ('0', ?, ?, ?, 'pending') ";
-            $data = $this->db->sendQuery($sql)->execute([$user, $start, $stop]);
+            $sql = "INSERT INTO `vacation` (`id`, `username`, `start`, `stop`, `status`, `Vtype`) VALUES ('0', ?, ?, ?, 'pending', ?) ";
+            $data = $this->db->sendQuery($sql)->execute([$user, $start, $stop, $type]);
             if(!$data){
                 Exceptions::error_rep("[VACATION] An error occurred while adding an vacation for user '$user'. See previous message for more information.");
                 return false;
@@ -127,6 +127,7 @@ namespace Arbeitszeit {
                     $stop = @strftime("%d.%m.%Y", strtotime($row["stop"]));
                     $status = $row["status"];
                     $id = $row["id"];
+                    $type = $this->vacation()->type_from_int($row["Vtype"]);
 
                     switch($status){
                         case "pending":
@@ -151,6 +152,7 @@ namespace Arbeitszeit {
                             <td>{$start}</td>
                             <td>{$stop}</td>
                             <td>{$status} | {$i18n["status"]["set_to"]} <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=pending&u={$rnw}">{$i18n["status"]["pending"]}</a> {$i18n["status"]["or"]} <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=approve&u={$rnw}">{$i18n["status"]["approved"]}</a> {$i18n["status"]["or"]} <a href="/suite/admin/actions/worktime/state_vacation.php?id={$id}&new=reject&u={$rnw}">{$i18n["status"]["rejected"]}</a></td>
+                            <td>{$type}</td>
                         </tr>
 
 
@@ -179,6 +181,34 @@ namespace Arbeitszeit {
                 $arr[$row["id"]] = $row;
             }
             return $arr;
+        }
+
+        public static function get_all_types(): array|false
+        {
+            $types = json_decode(file_get_contents($_SERVER["DOCUMENT_ROOT"] . Arbeitszeit::get_app_ini()["config"]["vacation_types"]), true);
+            if(isset($types)){
+                return $types;
+            } else {
+                return false;
+            }
+        }
+
+        public function compute_html_vacation_types()
+        {
+            $data = "";
+            foreach(self::get_all_types() as $key => $value){
+                $data .= "<option value='{$key}'>{$value}</option>";
+            }
+            return $data;
+        }
+
+        public static function type_from_int($int){
+            $types = self::get_all_types();
+            if(isset($types[$int])){
+                return $types[$int];
+            } else {
+                return $types[0];
+            }
         }
     }
 }

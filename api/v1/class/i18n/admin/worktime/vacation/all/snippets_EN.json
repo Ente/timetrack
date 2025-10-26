@@ -6,6 +6,7 @@
     "t2": "Vacation Start",
     "t3": "Vacation End",
     "t4": "Status",
+    "t5": "Vacation Type",
     "status": {
         "set_to": "Set to",
         "pending": "Pending",

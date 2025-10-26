@@ -6,6 +6,7 @@
     "t2": "Sickness Start",
     "t3": "Sickness End",
     "t4": "Status",
+    "t5": "Sickness Type",
     "status": {
         "set_to": "Set to",
         "pending": "Pending",

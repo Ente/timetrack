@@ -1,5 +1,7 @@
 {
     "0": "Initial medical certificate",
     "1": "Follow-up medical certificate",
-    "2": "Other"
+    "2": "Sick without medical certificate",
+    "3": "Sick child care",
+    "4": "Other"
 }

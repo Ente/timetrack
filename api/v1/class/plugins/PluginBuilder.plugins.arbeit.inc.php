@@ -26,7 +26,7 @@ namespace Arbeitszeit{
          *
          * @var boolean
          */
-        private bool $plugins = true;
+        private static bool $plugins = true;
 
         /**
          * Path of the plugin directory specified in the app.ini
@@ -58,6 +58,7 @@ namespace Arbeitszeit{
         public function __construct(){
             $this->set_basepath();
             $this->set_testing();
+            $this->config = Arbeitszeit::get_app_ini()["plugins"];
         }
 
         /**
@@ -132,7 +133,7 @@ namespace Arbeitszeit{
         final public function initialize_plugins(): bool {
             if ($this->testing == true) {
                 $plugins = $this->get_plugins();
-                if ($plugins == false) {
+                if ($plugins == false || $plugins == "false") {
                     $this->logger("{$this->la} Could not get plugins. Please verify the plugin path given in the app.ini");
                     return false;
                 }
@@ -375,13 +376,17 @@ namespace Arbeitszeit{
         }
 
         final public static function check_plugins_enabled(){
-            if(!isset(self::$plugins)){
-                self::$plugins = Arbeitszeit::get_app_ini()["plugins"]["plugins"];
-            }
-            if(self::$plugins == true){
+            if(Arbeitszeit::get_app_ini()["plugins"]["plugins"] == "true" || Arbeitszeit::get_app_ini()["plugins"]["plugins"] == true){
                 return true;
             } else {
                 return false;
+            }
+        }
+
+        final public static function redirect_if_disabled(){
+            if(!self::check_plugins_enabled()){
+                StatusMessages::redirect("plugins_disabled");
+                exit();
             }
         }
 
