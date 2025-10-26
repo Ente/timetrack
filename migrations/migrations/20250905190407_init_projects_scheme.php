@@ -17,8 +17,7 @@ final class InitProjectsScheme extends AbstractMigration
         $this->execute("SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO';");
         $this->execute("SET time_zone = '+00:00';");
 
-        $this->table("projects", ["id" => false, "primary_key" => "id"])
-        ->addColumn("id", "integer", ["identity" => true])
+        $this->table("projects")
         ->addColumn("name", "string", ["limit" => 255])
         ->addColumn("description", "text", ["null" => true])
         ->addColumn("members", "text", ["null" => true])

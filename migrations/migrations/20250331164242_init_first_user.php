@@ -19,6 +19,7 @@ final class InitFirstUser extends AbstractMigration
                 'isAdmin' => true,
                 'state' => null,
                 'easymode' => false,
+                "active" => 1
             ];
 
             $users = $this->fetchRow("SELECT COUNT(*) as count FROM users WHERE username = 'admin'");

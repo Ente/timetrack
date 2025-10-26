@@ -163,7 +163,7 @@ namespace Arbeitszeit {
 
         public function addProjectItem($project_id, $title, $description, $assignee = null)
         {
-            $sql = "INSERT INTO `projects_items` (id, title, description, assignee) VALUES (?, ?, ?, ?)";
+            $sql = "INSERT INTO `projects_items` (pid, title, description, assignee) VALUES (?, ?, ?, ?)";
             $res = $this->db->sendQuery($sql)->execute([$project_id, $title, $description, $assignee]);
 
             if (!$res) {
@@ -297,7 +297,7 @@ namespace Arbeitszeit {
         {
             Exceptions::error_rep("[PROJECTS] Fetching project items for project '{$project_id}'...");
 
-            $sql = "SELECT * FROM projects_items WHERE id = ?";
+            $sql = "SELECT * FROM projects_items WHERE pid = ?";
             $stmt = $this->db->sendQuery($sql);
             $res = $stmt->execute([$project_id]);
 
@@ -320,7 +320,7 @@ namespace Arbeitszeit {
         public function getUserProjectItems($project_id, $user)
         {
             Exceptions::error_rep("[PROJECTS] Fetching project items for user '{$user}' and project '{$project_id}'...");
-            $sql = "SELECT * FROM projects_items WHERE assignee = ? AND id = ?";
+            $sql = "SELECT * FROM projects_items WHERE assignee = ? AND pid = ?";
             $stmt = $this->db->sendQuery($sql);
 
             if (!$stmt->execute([$user, $project_id])) {
@@ -336,7 +336,7 @@ namespace Arbeitszeit {
 
         public function getItem($id): array|bool
         {
-            $sql = "SELECT * FROM projects_items WHERE id = ?";
+            $sql = "SELECT * FROM projects_items WHERE pid = ?";
             $stmt = $this->db->sendQuery($sql);
             $res = $stmt->execute([$id]);
 

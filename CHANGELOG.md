@@ -9,6 +9,7 @@
 * Fixed dispatching of `WorktimeAddedEvent` event with incorrect parameters
 * Added Database migration instructions when using Docker within the `README.md` `Database` section
 * Removed the `setup` folder entirely (deprecated)
+* Fixed DB migrations for Docker setups
 
 ## v8.2.3
 
