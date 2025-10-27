@@ -78,7 +78,7 @@ namespace Arbeitszeit{
                         die(header("Location: http://{$base_url}/suite/login.php?" . $sM->URIBuilder("userinactive")));
                     }
                     if(@isset($option["remember"])){
-                        if($ini["general"]["app"] == "true"){
+                        if($ini["mobile"]["allow_app_use"] == "true"){
                             EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
                             Exceptions::error_rep("Successfully authenticated user '" . $username . "' - LDAP Auth");
                             @ini_set("session.cookie_samesite", "None");
@@ -124,7 +124,7 @@ namespace Arbeitszeit{
                     self::store_state($username);
 
                     if(@isset($option["remember"])){
-                        if($ini["general"]["app"] == "true"){
+                        if($ini["mobile"]["allow_app_use"] == "true"){
                             EventDispatcherService::get()->dispatch(new LoggedInUserEvent($username, "success"));
                             Exceptions::error_rep("Successfully authenticated user '" . $username . "'");
                             @ini_set("session.cookie_samesite", "None");
@@ -152,35 +152,49 @@ namespace Arbeitszeit{
             }
         }
 
-        public function login_validation(){
+        public function login_validation()
+        {
             Exceptions::error_rep("Validating login...");
             $ini = Arbeitszeit::get_app_ini();
             $baseurl = $ini["general"]["base_url"];
-            if($ini["general"]["app"] == "true"){
+
+            if ($ini["mobile"]["allow_app_use"] == "true") {
                 @ini_set("session.cookie_samesite", "None");
                 header('P3P: CP="CAO PSA OUR"');
-                @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
+                @session_set_cookie_params([
+                    "path" => "/",
+                    "domain" => $ini["general"]["base_url"],
+                    "secure" => true,
+                    "samesite" => "None"
+                ]);
             }
+
             @session_start();
-            if(isset($_SESSION["logged_in"]) == false){
+
+            if (empty($_SESSION["logged_in"]) || empty($_SESSION["username"])) {
                 EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"] ?? "N/A", "failed"));
                 Exceptions::error_rep("User not logged in. Redirecting...");
                 header("Location: http://{$baseurl}/suite/login.php?" . $this->statusMessages()->URIBuilder("notloggedin"));
+                exit;
             }
-            if($this->get_state($_SESSION["username"]) != $_COOKIE["state"]){
-                EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"] ?? "N/A", "failed"));
+
+            if ($this->get_state($_SESSION["username"]) !== ($_COOKIE["state"] ?? null)) {
+                EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"], "failed"));
                 $this->remove_state($_SESSION["username"]);
                 Exceptions::error_rep("State mismatch on user {$_SESSION["username"]}. Removing state and redirecting...");
                 header("Location: http://{$baseurl}/suite/login.php?" . $this->statusMessages()->URIBuilder("statemismatch"));
+                exit;
             }
-            # is active user
-            if(!$this->benutzer()->user_active($_SESSION["username"])) {
-                EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"] ?? "N/A", "failed"));
+
+            if (!$this->benutzer()->user_active($_SESSION["username"])) {
+                EventDispatcherService::get()->dispatch(new ValidatedLoginEvent($_SESSION["username"], "failed"));
                 $this->remove_state($_SESSION["username"]);
                 Exceptions::error_rep("User {$_SESSION["username"]} is inactive. Removing state and redirecting...");
                 header("Location: http://{$baseurl}/suite/login.php?" . $this->statusMessages()->URIBuilder("userinactive"));
+                exit;
             }
         }
+
 
         /**
          * logout() - Logs out user
@@ -220,7 +234,7 @@ namespace Arbeitszeit{
             $db = new DB;
             $ini = self::get_app_ini();
             $state = bin2hex(random_bytes(12));
-            if($ini["general"]["app"] == "true"){
+            if($ini["mobile"]["allow_app_use"] == "true"){
                 @ini_set("session.cookie_samesite", "None");
                 @session_set_cookie_params(["path" => "/", "domain" => $ini["general"]["base_url"], "secure" => true, "samesite" => "None"]);
                 setcookie("state", $state, time()+(60*60*24*30), "/");

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v8.3.1
+
+* Removed deprecated `app` attribute from `general` section within `app.json`
+* Fixed issue stating that the account got disabled when logging out or when accessing the web UI
+
 ## v8.3
 
 **This update requires DB migration** - see `README.md` section `Database`
