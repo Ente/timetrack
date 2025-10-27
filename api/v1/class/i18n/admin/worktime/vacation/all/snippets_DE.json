@@ -6,6 +6,7 @@
     "t2": "Urlaub Beginn",
     "t3": "Urlaub Ende",
     "t4": "Status",
+    "t5": "Urlaubsart",
     "status": {
         "set_to": "Setzen zu",
         "pending": "In Prüfung",

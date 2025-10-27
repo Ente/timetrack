@@ -38,5 +38,16 @@
   "projects_item_added": "Note: The item has been added to the project.",
   "projects_item_failed": "Error: An error occurred while creating the item. Please contact your administrator.",
   "mapWorktimeToItem_success": "Note: Worktime successfully mapped to project item.",
-  "mapWorktimeToItem_failed": "Error: An error occurred while mapping the worktime to the project itme. Please contact your administrator."
+  "mapWorktimeToItem_failed": "Error: An error occurred while mapping the worktime to the project itme. Please contact your administrator.",
+  "notloggedin": "Error: You are not logged in.",
+  "loggedout": "Note: You have been logged out.",
+  "worktime_updated": "Note: Work time successfully updated!",
+  "error_worktime_update": "Error: Your work time could not be updated. Please contact your administrator!",
+  "notifications_entry_added": "Note: Notification entry added!",
+  "notifications_entry_edited": "Note: Notification entry updated!",
+  "user_added": "Note: New user successfully added!",
+  "changed_sickness": "Note: Sickness successfully updated!",
+  "changed_vacation": "Note: Vacation successfully updated!",
+  "userinactive": "Error: Your account has been disabled. Please contact your administrator!",
+  "plugins_disabled": "Error: The plugin system is disabled. Please contact your administrator!"
 }

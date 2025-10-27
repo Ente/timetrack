@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## v8.3.1
+
+* Removed deprecated `app` attribute from `general` section within `app.json`
+* Fixed issue stating that the account got disabled when logging out or when accessing the web UI
+
+## v8.3
+
+**This update requires DB migration** - see `README.md` section `Database`
+
+* Fixed an issue causing the plugin system to be always enabled
+* Sickness and vacation entries can now have a type like worktime entries
+* Fixed dispatching of `WorktimeAddedEvent` event with incorrect parameters
+* Added Database migration instructions when using Docker within the `README.md` `Database` section
+* Removed the `setup` folder entirely (deprecated)
+* Fixed DB migrations for Docker setups
+
+## v8.2.3
+
+**This update requires DB migration** - see `README.md` section `Database`
+
+* Fixed missing `status` i18n entries
+* Fixed incorrect theme loading within error pages
+* Removed outdated `index.css` file
+* Added missing footer to project management pages
+* Admins can now enable or disable users within the `userdetail` plugin
+
+## v8.2.2
+
+* Fixed deprecation warning for `WorktimeAddedEvent` event
+* Dockerized TimeTrack:
+  * Added `Dockerfile` and `docker-compose.yml` to run TimeTrack within Docker
+  * Added `entrypoint.sh` to handle database migrations and start Apache
+  * Updated `README.md` with Docker instructions
+
+## v8.2.1
+
+* Added events for worktime correction proposals: `WorktimeCorrectionProposed`
+* Sanitized outputs to prevent XSS attacks
+* Added a link to the documentation within the settings page
+
 ## v8.2
 
 * Users are now able to propose corrections to worktimes when they have been marked as for "in review".

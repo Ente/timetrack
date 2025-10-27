@@ -85,7 +85,8 @@ $data = $arbeit->benutzer()->get_user($_SESSION["username"]);
             </p>
             <p>
                 <a href="https://tracking.isx.openducks.org/articles/TT-A-5/Roadmap-TimeTrack" target="_blank"><?= $loc["roadmap_note"]; ?></a> |
-                <a href="https://github.com/ente/timetrack/issues" target="_blank"><?= $loc["github_note"]; ?></a>
+                <a href="https://github.com/ente/timetrack/issues" target="_blank"><?= $loc["github_note"]; ?></a> |
+                <a href="https://timetrackd.openducks.org" target="_blank"><?= $loc["documentation"]; ?></a>
             </p>
             <p>TimeTrack Version: <?= $arbeit->getTimeTrackVersion(); ?> | API Version: <?= $arbeit->getToilVersion(); ?></p>
         </div>

@@ -19,6 +19,23 @@ TimeTrack aims to be an easy-to-use time recording software for small enterprise
 
 ## Installation
 
+### Quick Install with Docker
+
+You can quickly get started with TimeTrack using Docker. Follow these steps:
+
+* Ensure you have Docker and Docker Compose installed on your system.
+* Clone the TimeTrack repository: `git clone https://github.com/Ente/timetrack.git` & `cd timetrack`
+* Build the Docker image: `docker build -t openducks/timetrack .`
+* Create a `app.json` configuration file based on the provided sample below: `cp api/v1/inc/app.json.sample api/v1/inc/app.json` and edit it to fit your needs.
+  * Adjust the database settings if needed (at least `db_password`)
+  * Change the base_url to match your setup (e.g. `localhost:8080`)
+  * **Change the DB password before using in production within the `docker-compose.yml` and `app.json` file!**
+* Start the services using Docker Compose: `docker-compose up -d`
+* Access TimeTrack in your web browser at `http://localhost:8080`
+* Login with username `admin` and password `admin`
+
+Certain features, like the NFC login may require additional setup for parsing the USB device.
+
 ### Requirements
 
 - PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`) - tested with PHP 8.2.26
@@ -100,8 +117,6 @@ LDAP authentication works with OpenLDAP and Active Directory.
 - `css`: Full path to the CSS file used for the PDF export (default: `api/v1/class/exports/modules/PDFExportModule/css/index.css`) - **optional value**
 
 If done correctly, you should now be able to access the application via http://BASE_URL/ - redirects to http://BASE_URL/suite/
-
-**Please delete the whole `/setup/` folder after installation**
 
 After configuring, please rename the `app.json.sample` to `app.json` (`mv app.json.sample app.json`)
 
@@ -210,6 +225,7 @@ If downloaded any other way, just make sure to copy and paste the new files into
 ### Database
 
 You can update the database by using `vendor/bin/phinx migrate` to migrate to latest release or `vendor/bin/phinx rollback` to rollback.
+If you are using docker, you can just restart the container after updating the files, as the entrypoint will try to do the migration automatically.
 
 ## Managed Hosting
 

@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST["username"];
     $email = $_POST["email"];
     $name = $_POST["name"];
+    @$active = $_POST["active"];
 
     if (!empty($username)) {
         if ($benutzer->editUserProperties($id, "username", $username)) {
@@ -47,6 +48,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!empty($_POST["reset-password"])) {
         if ($auth->reset_password($username)) {
             echo "Successfully reset password for {$username}<br>";
+        }
+    }
+
+    if (!empty($_POST["active"])) {
+        if ($benutzer->editUserProperties($id, "active", 1)) {
+            echo "Enabled user account for ID {$id}.<br>";
+        }
+    } elseif(empty($_POST["active"])){
+        if($benutzer->editUserProperties($id, "active", 0)) {
+            echo "Disabled user account for ID {$id}.<br>";
         }
     }
 
@@ -83,6 +94,7 @@ $department = $r["department"] ?? "";
         <label>Notes: </label><textarea name="notes"><?php echo htmlspecialchars($notes); ?></textarea><br>
         <label>Position: </label><input type="text" name="position" value="<?php echo htmlspecialchars($pos); ?>" placeholder="CEO"><br>
         <label>Email:</label><input type="email" name="email" value="<?php echo htmlspecialchars($user["email"]); ?>" placeholder="box@mail.com"><br>
+        <label>Active: </label><input type="checkbox" name="active" <?php echo $user["active"] == 1 ? "checked" : "" ?>><br>
         <input type="text" name="id" value="<?php echo htmlspecialchars($user["id"]); ?>" hidden>
 
         <h3>HR</h3>

@@ -12,7 +12,7 @@ class WorktimeAddedEvent extends Event
 
     private string $Wtype;
 
-    public function __construct(string $username, array $dates = [], int $Wtype){
+    public function __construct(string $username, int $Wtype, array $dates = []){
         $this->username = $username;
         $this->dates = $dates;
         $this->Wtype = $Wtype;

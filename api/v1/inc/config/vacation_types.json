@@ -2,7 +2,8 @@
     "0": "Vacation",
     "1": "Public Holiday",
     "2": "Unpaid leave",
-    "3": "Overtime",
+    "3": "Overtime Compensation",
     "4": "Parental Leave",
-    "5": "Other"
+    "5" : "Special Leave",
+    "6": "Other"
 }

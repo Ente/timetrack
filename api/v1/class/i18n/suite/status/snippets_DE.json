@@ -15,8 +15,8 @@
   "password_reset": "Hinweis: Es wurde eine E-Mail verschickt, damit du dein Passwort zurücksetzen kannst.",
   "nodata": "Fehler: Es wurde kein Benutzername oder Passwort eingegeben.",
   "wrongdata": "Fehler: Falsche Anmeldedaten.",
-  "worktime_review": "Hinweis: Arbeitszeit erfolgreich auf Prüfung gestellt!",
-  "worktime_review_unlock": "Hinweis: Prüfung erfolgreich aufgehoben für Arbeitszeit!",
+  "worktime_reviewed": "Hinweis: Arbeitszeit erfolgreich auf Prüfung gestellt!",
+  "worktime_review_unlocked": "Hinweis: Prüfung erfolgreich aufgehoben für Arbeitszeit!",
   "worktime_easymode_start": "Hinweis: Deine Schicht wurde erfolgreich gestartet!",
   "worktime_easymode_end": "Hinweis: Deine Schicht wurde erfolgreich beendet!",
   "worktime_easymode_pause_start": "Hinweis: Deine Pause wurde erfolgreich gestartet!",
@@ -38,5 +38,16 @@
   "projects_item_added": "Hinweis: Projektaufgabe hinzugefügt.",
   "projects_item_failed": "Fehler: Die Projektaufgabe konnte nicht hinzugefügt werden. Bitte wende dich an deinen Administrator.",
   "mapWorktimeToItem_success": "Hinweis: Arbeitszeit erfolgreich mit der Projektaufgabe verbunden.",
-  "mapWorktimeToItem_failed": "Fehler: Die Arbeitszeit konnte nicht mit der Projektaufgabe verbunden werden. Bitte wende dich an deinen Administrator."
+  "mapWorktimeToItem_failed": "Fehler: Die Arbeitszeit konnte nicht mit der Projektaufgabe verbunden werden. Bitte wende dich an deinen Administrator.",
+  "notloggedin": "Fehler: Du bist nicht eingeloggt.",
+  "loggedout": "Hinweis: Du wurdest ausgeloggt.",
+  "worktime_updated": "Hinweis: Arbeitszeit erfolgreich aktualisiert!",
+  "error_worktime_update": "Fehler: Deine Arbeitszeit konnte nicht aktualisiert werden. Bitte kontaktiere deinen Administrator!",
+  "notifications_entry_added": "Hinweis: Benachrichtigungeneintrag hinzugefügt!",
+  "notifications_entry_edited": "Hinweis: Benachrichtigungeneintrag aktualisiert!",
+  "user_added": "Hinweis: Neuer Benutzer erfolgreich hinzugefügt!",
+  "changed_sickness": "Hinweis: Die Krankheit wurde erfolgreich aktualisiert!",
+  "changed_vacation": "Hinweis: Der Urlaub wurde erfolgreich aktualisiert!",
+  "userinactive": "Fehler: Dein Konto wurde deaktiviert. Bitte wende dich an deinen Administrator!",
+  "plugins_disabled": "Fehler: Das Plugin-System ist deaktiviert. Bitte wende dich an deinen Administrator!"
 }

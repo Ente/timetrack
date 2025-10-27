@@ -4,5 +4,6 @@
     "note1": "Bitte gib hier das Start-Datum deines Urlaubs an. Solltest du nur einen Tag Urlaub nehmen wollen, dann fülle das 'End-Datum' bitte [RED]nicht[/RED] aus.",
     "note2": "End-Datum deines Urlaubs*",
     "button_submit": "Urlaub einreichen.",
-    "note3": "Nach dem Absenden wird dein Arbeitgeber deinen Urlaub prüfen und sich bei dir, bei Bedarf, melden."
+    "note3": "Nach dem Absenden wird dein Arbeitgeber deinen Urlaub prüfen und sich bei dir, bei Bedarf, melden.",
+    "label_type": "Urlaubsart"
 }

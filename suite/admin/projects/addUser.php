@@ -45,5 +45,6 @@ $language = $arbeit->i18n()->loadLanguage(null, "projects/addUser");
         <a href="/suite/projects/view.php?id=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button secondary"><?= $language["btn_cancel"]; ?></a>
     </form>
 </main>
+<?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?>
 </body>
 </html>

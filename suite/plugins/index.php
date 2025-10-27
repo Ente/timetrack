@@ -6,6 +6,7 @@ use Arbeitszeit\Arbeitszeit;
 $arbeit = new Arbeitszeit;
 $arbeit->auth()->login_validation();
 $pl = new PluginBuilder();
+$pl->redirect_if_disabled();
 ?>
 <!DOCTYPE html>
 <html lang="en">
