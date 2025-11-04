@@ -19,6 +19,7 @@ final class InitUserScheme extends AbstractMigration
             ->addColumn("username", "string", ["limit" => 255])
             ->addColumn("email", "string", ["limit" => 256])
             ->addColumn("password", "string", ["limit" => 256])
+            ->addColumn("active", "boolean", ["default" => true, "null" => false])
             ->addColumn("email_confirmed", "boolean")
             ->addColumn("isAdmin", "string", ["limit" => 256])
             ->addColumn("state", "text", ["null" => true])

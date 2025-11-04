@@ -36,6 +36,9 @@ You can quickly get started with TimeTrack using Docker. Follow these steps:
 
 Certain features, like the NFC login may require additional setup for parsing the USB device.
 
+If you want to use the demo, you can run the provided `demo_setup.sh` script within the project root. This will automatically setup the database with demo data (worktimes and users) and rebuilds the entire container.
+You may want to set the `demo` setting within the `app.json` to `true` to display the demo credentials on the login page.
+
 ### Requirements
 
 - PHP 8.2 (`curl|gd|gmp|intl|mbstring|mysqli|openssl|xsl|gettext|dom|ldap`) - tested with PHP 8.2.26
@@ -74,6 +77,7 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 - `timezone`: Set the timezone of your application, e.g. `Europe/Berlin` or `America/New_York` (default: `UTC`)
 - `force_theme`: Force a theme for all users, this disables the feature allowing users to set their own theme.
 - `theme_file`: If `force_theme` is true, the specified theme is used (default: `/assets/css/v8.css`)
+- `demo`: If set to `true`, demo credentials are shown on the login page. Useful for demo installations.
 
 #### **SMTP section**
 
