@@ -7,7 +7,8 @@
         "auto_update": "false",
         "timezone": "UTC",
         "theme_file": "/assets/css/v8.css",
-        "force_theme": "false"
+        "force_theme": "false",
+        "demo": false
     },
     "mysql": {
         "db_host": "db",

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v8.3.2
+
+* Added script to initialize the database for demo purposes when using Docker (See `README.md`)
+* Fixed missing `active` column within the `users` table when initializing the database for the first time
+
 ## v8.3.1
 
 * Removed deprecated `app` attribute from `general` section within `app.json`

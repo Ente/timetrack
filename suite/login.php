@@ -34,6 +34,11 @@ $language = $arbeit->i18n()->loadLanguage(NULL, "login");
         <button type="submit"><?= $language["button_text"]; ?></button>
       </form>
       <?php
+          if($ini["general"]["demo"] == true){
+            echo "<p><b>Demo Credentials:</b><ul><li>Admin Account: demo_admin / demo123</li><li>User Account: demo_user / demo123</li></ul></p>";
+          }
+      ?>
+      <?php
         $pl = new PluginBuilder();
         if($pl->read_plugin_configuration("nfclogin")["enabled"] == "true"){
             require_once dirname(__DIR__, 1) . "/api/v1/class/plugins/plugins/nfclogin/src/Main.php";
