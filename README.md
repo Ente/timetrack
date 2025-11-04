@@ -17,6 +17,8 @@ TimeTrack aims to be an easy-to-use time recording software for small enterprise
 - Plugin Support
 - Exporting to PDF/CSV
 
+A demo is available here: [https://tt-demo.openducks.org](https://tt-demo.openducks.org)
+
 ## Installation
 
 ### Quick Install with Docker
