@@ -24,43 +24,80 @@ namespace Arbeitszeit {
 
         */
         public function loadLanguage($locale = null, $page = "index", $area = "suite"){
-            if($locale == null){
-                $locale = @basename(locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]));
-                if($locale == null){
-                    $locale = "en_EN";
-                }
+            if ($locale == null) {
+            $locale = @basename(locale_accept_from_http($_SERVER["HTTP_ACCEPT_LANGUAGE"]));
+            if ($locale == null) {
+                $locale = "en_EN";
+            }
             }
 
-            $langlist = ["de", "en", "nl"];
-            $locale = substr($locale, 0, 2);
+            $lang = substr($locale, 0, 2);
+            $lang_upper = strtoupper($lang);
 
-            if (in_array($locale, $langlist)) {
-                $file_path = dirname(__FILE__) . "/$area/{$page}/snippets_" . strtoupper($locale) . ".json";
-                if (file_exists($file_path)) {
-                    $json_data = file_get_contents($file_path);
-                    $decoded_data = json_decode($json_data, true);
-                    
-                    if (!is_array($decoded_data)) {
-                        Exceptions::error_rep("Invalid JSON format in '$file_path'", 1, "N/A");
-                        return [];
-                    }
+            $default_path = dirname(__FILE__) . "/$area/{$page}/snippets_{$lang_upper}.json";
+            if (file_exists($default_path)) {
+            $json_data = file_get_contents($default_path);
+            $decoded_data = json_decode($json_data, true);
 
-                    Exceptions::error_rep("Language files for '$page' and '$area' with locale '$locale' loaded successfully", 1, "N/A");
-                    return $this->sanitizeOutput($decoded_data);
-                } else {
-                    Exceptions::error_rep("Could not retrieve language files for '$page' and '$area' and locale '$locale' | Using fallback language 'EN'", 1, "N/A");
-                    $fallback_path = dirname(__FILE__) . "/$area/{$page}/snippets_EN.json";
-                    
-                    if (file_exists($fallback_path)) {
-                        return $this->sanitizeOutput(json_decode(file_get_contents($fallback_path), true));
-                    } else {
-                        return [];
-                    }
-                }
+            if (!is_array($decoded_data)) {
+                Exceptions::error_rep("Invalid JSON format in '$default_path'", 1, "N/A");
+                return [];
+            }
+
+            Exceptions::error_rep("Default language file for '$page' and '$area' with locale '$lang' loaded successfully", 1, "N/A");
+            return $this->sanitizeOutput($decoded_data);
+            }
+
+            $docRoot = rtrim(isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '', '/\\');
+            $custom_path = ($docRoot !== '' ? $docRoot : '') . "/data/i18n/custom/{$page}/snippets_{$lang_upper}.json";
+
+            if (file_exists($custom_path)) {
+            $json_data = file_get_contents($custom_path);
+            $decoded_data = json_decode($json_data, true);
+
+            if (!is_array($decoded_data)) {
+                Exceptions::error_rep("Invalid JSON format in custom file '$custom_path'", 1, "N/A");
+                return [];
+            }
+
+            Exceptions::error_rep("Custom language file for '$page' with locale '$lang' loaded successfully", 1, "N/A");
+            return $this->sanitizeOutput($decoded_data);
+            }
+
+            $fallback_path = dirname(__FILE__) . "/$area/{$page}/snippets_EN.json";
+            if (file_exists($fallback_path)) {
+            $json_data = file_get_contents($fallback_path);
+            $decoded_data = json_decode($json_data, true);
+
+            if (!is_array($decoded_data)) {
+                Exceptions::error_rep("Invalid JSON format in fallback file '$fallback_path'", 1, "N/A");
+                return [];
+            }
+
+            Exceptions::error_rep("Fallback English language file for '$page' and '$area' loaded", 1, "N/A");
+            return $this->sanitizeOutput($decoded_data);
             }
 
             Exceptions::failure(1, "Could not retrieve language files for '$page' and '$area' and locale '$locale'", "N/A");
             return [];
+        }
+
+        public function loadCustomLanguageFile($file_path = "") {
+            if (empty($file_path) || !file_exists($file_path)) {
+                Exceptions::failure(1, "Invalid or non-existent file path provided for custom language file", "N/A");
+                return [];
+            }
+
+            $json_data = file_get_contents($file_path);
+            $decoded_data = json_decode($json_data, true);
+
+            if (!is_array($decoded_data)) {
+                Exceptions::error_rep("Invalid JSON format in '$file_path'", 1, "N/A");
+                return [];
+            }
+
+            Exceptions::error_rep("Custom language file '$file_path' loaded successfully", 1, "N/A");
+            return $this->sanitizeOutput($decoded_data);
         }
 
         public function sanitizeOutput($data) {

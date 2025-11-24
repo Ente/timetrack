@@ -1,10 +1,18 @@
 # CHANGELOG
 
+## v8.4
+
+* Added `nfcclock` plugin to allow clocking in and out with NFC tags (requires `nfclogin` plugin)
+* Updated `nfclogin` plugin to version `1.2` (added Toil API route for `nfcclock` called `nfclclock`)
+* Removed unused `extract_plugin` function from `PluginDevTool` class
+* Custom language files can now be used with the `i18n` class by placing them within the `data/i18n/custom/` directory. This also works for plugins.
+
 ## v8.3.3
 
 **This update might require DB migration** - see `README.md` section `Database`
 
 * Added migration script for adding the `pid` column to the `projects_items` table for already existing installations. The script will not be executed for new installations.
+
 
 ## v8.3.2
 
