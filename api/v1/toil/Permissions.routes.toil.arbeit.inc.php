@@ -39,7 +39,7 @@ namespace Toil{
 
         private function checkUserPermission($username){
             $user = $this->arbeitszeit->benutzer()->get_user($username);
-            return $user["isAdmin"];
+            return @$user["isAdmin"] ?? 0;
         }
 
     

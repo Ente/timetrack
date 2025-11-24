@@ -34,14 +34,6 @@ namespace Arbeitszeit{
             }
             return false;
         }
-
-        public function extract_plugin($name){
-            $this->logger(parent::$la . " Extracting plugin '$name'...");
-            $plugins = $this->get_plugins();
-            if(file_exists($name)){
-                
-            }
-        }
     }
 }
 
