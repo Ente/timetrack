@@ -7,6 +7,13 @@
 * Removed unused `extract_plugin` function from `PluginDevTool` class
 * Custom language files can now be used with the `i18n` class by placing them within the `data/i18n/custom/` directory. This also works for plugins.
 
+## v8.3.3
+
+**This update might require DB migration** - see `README.md` section `Database`
+
+* Added migration script for adding the `pid` column to the `projects_items` table for already existing installations. The script will not be executed for new installations.
+
+
 ## v8.3.2
 
 * Added script to initialize the database for demo purposes when using Docker (See `README.md`)
