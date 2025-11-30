@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v8.4.1
+
+**This update requires DB migration** - see `README.md` section `Database`
+
+* Added telemetry support (disabled by default, can be enabled within `app.json`)
+* Added telemetry server to receive telemetry data (see `api/v1/class/telemetry/server/README.md` for more information)
+
 ## v8.4
 
 * Added `nfcclock` plugin to allow clocking in and out with NFC tags (requires `nfclogin` plugin)
@@ -12,7 +19,6 @@
 **This update might require DB migration** - see `README.md` section `Database`
 
 * Added migration script for adding the `pid` column to the `projects_items` table for already existing installations. The script will not be executed for new installations.
-
 
 ## v8.3.2
 

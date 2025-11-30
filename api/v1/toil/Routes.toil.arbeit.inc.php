@@ -15,6 +15,7 @@ use Arbeitszeit\Exceptions;
 use Toil\Controller;
 use Toil\Permissions;
 use Toil\Tokens;
+use Arbeitszeit\Telemetry;
 
 class Routes extends Toil
 {
@@ -147,6 +148,8 @@ class Routes extends Toil
         # Before letting user accessing the API endpoint, checking if authorized
 
         $permissions = new Permissions;
+        $telemetry = new Telemetry();
+        $telemetry->incrementAPICalls();
         preg_match("/\/([^\/?]+)(\?.*)?$/m", $_SERVER["REQUEST_URI"], $matches);
         if (!$permissions->checkPermissions($user, $matches[1])) {
             Exceptions::error_rep("[API] Failed checking permissions for expected endpoint: " . $matches[1]);
