@@ -15,6 +15,7 @@ namespace Arbeitszeit {
     use Arbeitszeit\Nodes;
     use Arbeitszeit\Projects;
     use Arbeitszeit\StatusMessages;
+    use Arbeitszeit\Telemetry;
     use Arbeitszeit\Events\EventDispatcherService;
     use Arbeitszeit\Events\EasymodeWorktimeAddedEvent; // "EasymodeWorktimeSTARTED" Event, actually.
     use Arbeitszeit\Events\EasymodeWorktimeEndedEvent;
@@ -48,6 +49,7 @@ namespace Arbeitszeit {
         private $mails;
         private $nodes;
         private $statusMessages;
+        private $telemetry;
 
         private $projects;
 
@@ -919,9 +921,12 @@ namespace Arbeitszeit {
                 $this->projects = new Projects;
             return $this->projects;
         }
+
+        public function telemetry(): Telemetry
+        {
+            if (!$this->telemetry)
+                $this->telemetry = new Telemetry;
+            return $this->telemetry;
+        }
     }
 }
-
-
-
-?>

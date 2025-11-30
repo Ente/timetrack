@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v8.4.1
+
+**This update requires DB migration** - see `README.md` section `Database`
+
+* Added telemetry support (disabled by default, can be enabled within `app.json`)
+* Added telemetry server to receive telemetry data (see `api/v1/class/telemetry/server/README.md` for more information)
+
 ## v8.3.2
 
 * Added script to initialize the database for demo purposes when using Docker (See `README.md`)

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 namespace Arbeitszeit{
-    require_once $_SERVER["DOCUMENT_ROOT"] . "/vendor/autoload.php";
+    require_once dirname(__DIR__, 4) . "/vendor/autoload.php";
     use Symfony\Component\Yaml\Yaml;
 
     use Exception;
@@ -472,6 +472,18 @@ namespace Arbeitszeit{
                 $this->logger("{$this->la} Class file not found: {$classPath}");
                 throw new Exception("Class file not found: " . $classPath);
             }
+        }
+
+        public function countPlugins(): int {
+            $this->logger("{$this->la} Counting plugins...");
+            $plugins = $this->get_plugins();
+            if (is_array($plugins) && isset($plugins['plugins'])) {
+                $count = count($plugins['plugins']);
+                $this->logger("{$this->la} Found {$count} plugins.");
+                return $count;
+            }
+            $this->logger("{$this->la} No plugins found.");
+            return 0;
         }
 
         /* Plugin section */

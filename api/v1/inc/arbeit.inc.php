@@ -27,6 +27,8 @@ require_once dirname(__DIR__, 1) . "/class/status/runHook.php";
 require_once dirname(__DIR__, 1) . "/class/vacation/vacation.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/sickness/sickness.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/projects/projects.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/telemetry/server/Server.telemetry.arbeit.inc.php";
+require_once dirname(__DIR__, 1) . "/class/telemetry/telemetry.arbeit.inc.php";
 
 require_once dirname(__DIR__, 1) . "/class/exports/ExportModule.arbeit.inc.php";
 require_once dirname(__DIR__, 1) . "/class/exports/modules/ExportModuleInterface.em.arbeit.inc.php";
