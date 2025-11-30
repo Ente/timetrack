@@ -42,6 +42,7 @@ class NFClogin extends PluginBuilder implements PluginInterface {
         CustomRoutes::registerCustomRoute("writeNfc", "/api/v1/class/plugins/plugins/nfclogin/src/routes/writeNfc.ep.toil.arbeit.inc.php", 1);
         CustomRoutes::registerCustomRoute("readBlock4", "/api/v1/class/plugins/plugins/nfclogin/src/routes/readBlock4.ep.toil.arbeit.inc.php", 1);
         CustomRoutes::registerCustomRoute("nfcclogin", "/api/v1/class/plugins/plugins/nfclogin/src/routes/nfcclogin.ep.toil.arbeit.inc.php", 2);
+        CustomRoutes::registerCustomRoute("nfclclock", "/api/v1/class/plugins/plugins/nfclogin/src/routes/nfclclock.ep.toil.arbeit.inc.php", 2);
     }
 
     public function set_log_append(): void {
