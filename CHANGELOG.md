@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v8.4.2
+
+* Added user based permissions for plugin views.
+* Updated plugins to use new permission system.
+
 ## v8.4.1
 
 **This update requires DB migration** - see `README.md` section `Database`

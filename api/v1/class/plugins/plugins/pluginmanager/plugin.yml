@@ -12,3 +12,5 @@ custom.values:
   license: "LIC"
 nav_links:
   Open PluginManager: views/redirect.php
+nav_permissions:
+  Open PluginManager: 1
