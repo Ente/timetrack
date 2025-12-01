@@ -6,12 +6,12 @@ $arbeit = new Arbeitszeit;
 $base_url = $arbeit->get_app_ini()["general"]["base_url"];
 $arbeit->auth()->login_validation();
 
-if(!isset($_POST["projectId"], $_POST["userId"])){
+if(!isset($_POST["project"], $_POST["userid"])){
     header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("error"));
 }
 
-if($arbeit->projects()->checkUserisOwner($_POST["projectId"])){
-    if($arbeit->projects()->addProjectMember($_POST["projectId"], $_POST["userId"], $_POST["permissions"], $_POST["role"])){
+if($arbeit->projects()->checkUserisOwner($_POST["project"])){
+    if($arbeit->projects()->addProjectMember($_POST["project"], $_POST["userid"], $_POST["permissions"], $_POST["role"])){
         header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("project_userAdded"));
     } else {
         header("Location: http://{$base_url}/suite/?" . $arbeit->statusMessages()->URIBuilder("project_userAdded_failed"));

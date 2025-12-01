@@ -11,5 +11,10 @@
     "no_worktimes": "No worktimes...",
     "btn_edit": "Edit",
     "btn_delete": "Delete",
-    "id": "ID"
+    "id": "ID",
+    "edit_title": "Edit Item",
+    "title_label": "Title",
+    "description_label": "Description",
+    "no_assignee": "No assignee",
+    "btn_save": "Save Changes"
 }

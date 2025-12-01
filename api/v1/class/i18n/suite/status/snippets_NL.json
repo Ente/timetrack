@@ -51,5 +51,6 @@
   "userinactive": "Fout: Je account is uitgeschakeld. Neem contact op met je beheerder!",
   "plugins_disabled": "Fout: Het plugin-systeem is uitgeschakeld. Neem contact op met je beheerder!",
   "telemetry_sent": "Opmerking: Telemetriegegevens succesvol verzonden!",
-  "telemetry_disabled": "Opmerking: Telemetriegegevens niet verzonden!"
+  "telemetry_disabled": "Opmerking: Telemetriegegevens niet verzonden!",
+  "success": "Opmerking: De actie is succesvol uitgevoerd!"
 }

@@ -31,8 +31,7 @@ $language = $arbeit->i18n()->loadLanguage(null, "projects/addUser");
         <input type="hidden" name="project" value="<?= htmlspecialchars($projectId); ?>">
 
         <label><?= $language["label_userid"]; ?>:</label><br>
-        <input type="text" name="projectId" value="<?= $arbeit->i18n()->sanitizeOutput($_GET["project"]); ?>" hidden>
-        <input type="text" name="userId" required>
+        <?php $arbeit->benutzer()->renderUserSelect("userid"); ?>
         <br><br>
         <label><?= $language["label_role"]; ?>:</label><br>
         <input type="text" name="role" placeholder="Member / Admin">
