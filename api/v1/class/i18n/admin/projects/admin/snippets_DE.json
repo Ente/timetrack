@@ -14,6 +14,7 @@
     "label_description": "Beschreibung",
     "label_deadline": "Deadline",
     "label_owner": "Besitzer",
+    "label_assoc": "Kurzname",
     "btn_add": "Projekt hinzufügen",
     "delete_confirm": "Bist du sicher, dass du das Projekt löschen möchtest?"
 }

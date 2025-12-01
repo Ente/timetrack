@@ -163,8 +163,9 @@ namespace Arbeitszeit {
 
         public function addProjectItem($project_id, $title, $description, $assignee = null)
         {
-            $sql = "INSERT INTO `projects_items` (pid, title, description, assignee) VALUES (?, ?, ?, ?)";
-            $res = $this->db->sendQuery($sql)->execute([$project_id, $title, $description, $assignee]);
+            $rand = rand(10000000, 99999999);
+            $sql = "INSERT INTO `projects_items` (pid, title, description, assignee, id) VALUES (?, ?, ?, ?, ?)";
+            $res = $this->db->sendQuery($sql)->execute([$project_id, $title, $description, $assignee, $rand]);
 
             if (!$res) {
                 return false;
@@ -175,7 +176,7 @@ namespace Arbeitszeit {
 
         public function mapWorktimeToItem($worktime_id, $item_id, $user_id = null)
         {
-            if ($user_id = null) {
+            if ($user_id == null) {
                 if (!$this->benutzer()->get_current_user()) {
                     return false;
                 }
@@ -232,6 +233,7 @@ namespace Arbeitszeit {
                 return false;
             }
         }
+
 
         public function checkUserHasProjectAccess($user_id, $project_id, $required = 0)
         {
@@ -336,18 +338,17 @@ namespace Arbeitszeit {
 
         public function getItem($id): array|bool
         {
-            $sql = "SELECT * FROM projects_items WHERE pid = ?";
+            $sql = "SELECT * FROM projects_items WHERE id = ?";
             $stmt = $this->db->sendQuery($sql);
-            $res = $stmt->execute([$id]);
 
-            if (!$res) {
+            if (!$stmt->execute([$id])) {
                 return false;
             }
 
             $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-
             return $row ?: false;
         }
+
 
         public function getUserProjectWorktimes($item_id): array|bool
         {
@@ -393,6 +394,88 @@ namespace Arbeitszeit {
 
             Exceptions::error_rep("[PROJECTS] Successfully fetched " . count($rows) . " worktimes for project '{$project_id}'.");
             return $rows;
+        }
+
+        public function deleteItem($item_id)
+        {
+            Exceptions::error_rep("[PROJECTS] Deleting item '{$item_id}'...");
+
+            if (!$this->checkUserisOwner($this->getItem($item_id)["pid"]) && !$this->benutzer()->current_user_is_admin()) {
+                Exceptions::error_rep("[PROJECTS] User does not have permission to delete item '{$item_id}'.");
+                return false;
+            }
+
+            $sql = "DELETE FROM projects_items WHERE id = ?";
+            $res = $this->db->sendQuery($sql)->execute([$item_id]);
+            if (!$res) {
+                Exceptions::error_rep("[PROJECTS] An error occurred while deleting item '{$item_id}'. See previous message for more information.");
+                return false;
+            } else {
+                Exceptions::error_rep("[PROJECTS] Successfully deleted item '{$item_id}'.");
+                return true;
+            }
+        }
+
+        public function editItem($itemId, $changes)
+        {
+            Exceptions::error_rep("[PROJECTS] Editing item '{$itemId}'...");
+
+            $allowed = ["title", "description", "assignee", "status"];
+
+            $setParts = [];
+            $values = [];
+
+            foreach ($changes as $key => $value) {
+                if (!in_array($key, $allowed))
+                    continue;
+
+                $setParts[] = "`$key` = ?";
+                $values[] = $value;
+            }
+
+            if (empty($setParts)) {
+                Exceptions::error_rep("[PROJECTS] No valid changes for item '{$itemId}'.");
+                return false;
+            }
+
+            $values[] = $itemId;
+
+            $sql = "UPDATE `projects_items` SET " . implode(", ", $setParts) . " WHERE id = ?";
+            $stmt = $this->db->sendQuery($sql);
+            $res = $stmt->execute($values);
+
+            if (!$res) {
+                Exceptions::error_rep("[PROJECTS] Error updating item '{$itemId}'.");
+                return false;
+            }
+
+            Exceptions::error_rep("[PROJECTS] Successfully updated item '{$itemId}'.");
+            return true;
+        }
+
+        public function renderUserItemSelect(
+            string $name,
+            int $userId,
+            ?int $selectedItem = null,
+            string $placeholder = "—",
+            string $class = ""
+        ): void {
+            $sql = "SELECT * FROM projects_items WHERE assignee = ?";
+            $stmt = $this->db->sendQuery($sql);
+            $stmt->execute([$userId]);
+            $items = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            echo '<select name="' . htmlspecialchars($name) . '" class="' . htmlspecialchars($class) . '">';
+            echo '<option value="">' . htmlspecialchars($placeholder) . '</option>';
+
+            foreach ($items as $item) {
+                $sel = ($selectedItem !== null && $item["id"] == $selectedItem) ? " selected" : "";
+                echo '<option value="' . $item["id"] . '"' . $sel . '>'
+                    . htmlspecialchars($item["title"])
+                    . '</option>';
+            }
+
+            echo '</select>';
         }
 
 

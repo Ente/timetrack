@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v8.5
+* Fixed an issue with IDs not generated correctly for project items.
+* Added functionality to delete and edit project items.
+* Adding users to a project has been made easier.
+* Internal changes
+* Added additional plugin permission level
+
+## v8.4.3
+
+* Now displaying the instance uuid within the settings page.
+* Added ability to reset the instance uuid via the settings page.
+
 ## v8.4.2
 
 * Added user based permissions for plugin views.

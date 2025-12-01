@@ -223,6 +223,36 @@ namespace Arbeitszeit {
             }
         }
 
+        public function renderUserWorktimeSelect(
+            string $name,
+            int $userId,
+            ?int $selectedWorktime = null,
+            string $placeholder = "—",
+            string $class = ""
+        ): void
+        {
+            $userId = $this->benutzer()->get_user_from_id($userId)["username"];
+            $sql = "SELECT * FROM arbeitszeiten WHERE username = ?";
+            $stmt = $this->db->sendQuery($sql);
+            $stmt->execute([$userId]);
+            $times = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            echo '<select name="' . htmlspecialchars($name) . '" class="' . htmlspecialchars($class) . '">';
+            echo '<option value="">' . htmlspecialchars($placeholder) . '</option>';
+
+            foreach ($times as $wt) {
+                $label = $wt["schicht_tag"] . " – " . $wt["id"];
+                $sel = ($selectedWorktime !== null && $wt["id"] == $selectedWorktime) ? " selected" : "";
+
+                echo '<option value="' . $wt["id"] . '"' . $sel . '>'
+                    . htmlspecialchars($label)
+                    . '</option>';
+        }
+
+        echo '</select>';
+        }
+
+
         public function toggle_easymode($username)
         {
             if (!$this->nodes()->checkNode("arbeitszeit.inc", "toggle_easymode")) {

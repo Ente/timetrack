@@ -25,7 +25,7 @@ namespace Arbeitszeit {
          */
         public function create_user($username, $name, $email, $password, $isAdmin = 0)
         {
-            if($this->nodes()->checkNode("benutzer.inc", "create_user") == false){
+            if ($this->nodes()->checkNode("benutzer.inc", "create_user") == false) {
                 return false;
             }
             Exceptions::error_rep("Creating user '$username'...");
@@ -47,20 +47,44 @@ namespace Arbeitszeit {
             }
         }
 
-        public function user_active($username){
+        public function renderUserSelect(string $name, ?int $selectedUser = null, string $noAssigneeText = "—"): void
+        {
+            $users = $this->get_all_users();
+
+            echo '<select name="' . htmlspecialchars($name) . '">';
+
+            // First “no assignee” option
+            echo '<option value="">' . htmlspecialchars($noAssigneeText) . '</option>';
+
+            // Users
+            foreach ($users as $u) {
+                $sel = ($selectedUser !== null && $u["id"] == $selectedUser) ? ' selected' : '';
+                echo '<option value="' . $u["id"] . '"' . $sel . '>'
+                    . htmlspecialchars($u["name"])
+                    . '</option>';
+            }
+
+            echo '</select>';
+        }
+
+
+        public function user_active($username)
+        {
             $user = $this->get_user($username);
-            if($user["active"] == true || $user["active"] == 1){
+            if ($user["active"] == true || $user["active"] == 1) {
                 return true;
             } else {
                 return false;
             }
         }
 
-        public function activate_user($username){
+        public function activate_user($username)
+        {
             return $this->editUserProperties($username, "active", 1);
         }
 
-        public function deactivate_user($username){
+        public function deactivate_user($username)
+        {
             return $this->editUserProperties($username, "active", 0);
         }
 
@@ -74,10 +98,10 @@ namespace Arbeitszeit {
          */
         public function delete_user($id)
         {
-            if($this->nodes()->checkNode("benutzer.inc", "delete_user") == false){
+            if ($this->nodes()->checkNode("benutzer.inc", "delete_user") == false) {
                 return false;
             }
-            $user = $this->get_user_from_id($id);	
+            $user = $this->get_user_from_id($id);
             $username = $user["username"];
             $email = $user["email"];
             Exceptions::error_rep("Deleting user with id '$id'...");
@@ -217,7 +241,7 @@ namespace Arbeitszeit {
          */
         public function get_all_users_html()
         {
-            if($this->nodes()->checkNode("benutzer.inc", "get_all_users_html") == false){
+            if ($this->nodes()->checkNode("benutzer.inc", "get_all_users_html") == false) {
                 return false;
             }
             Exceptions::error_rep("Getting all users...");
@@ -264,7 +288,7 @@ namespace Arbeitszeit {
          */
         public function get_user_html($username)
         {
-            if($this->nodes()->checkNode("benutzer.inc", "get_user_html") == false){
+            if ($this->nodes()->checkNode("benutzer.inc", "get_user_html") == false) {
                 return false;
             }
             Exceptions::error_rep("Getting user '$username'...");
@@ -314,25 +338,28 @@ namespace Arbeitszeit {
             }
         }
 
-        public static function current_user_is_admin(){
-            if(self::get_current_user()["isAdmin"] == true){
+        public static function current_user_is_admin()
+        {
+            if (self::get_current_user()["isAdmin"] == true) {
                 return true;
             } else {
                 return false;
             }
         }
 
-        public static function get_current_user(){
+        public static function get_current_user()
+        {
             return self::get_user($_SESSION["username"]);
         }
 
-        public static function get_name_from_id($id){
+        public static function get_name_from_id($id)
+        {
             return self::get_user_from_id($id)["name"];
         }
 
         public function editUserProperties(mixed $username_or_id, string $name, mixed $value): bool
         {
-            if($this->nodes()->checkNode("benutzer.inc", "editUserProperties") == false){
+            if ($this->nodes()->checkNode("benutzer.inc", "editUserProperties") == false) {
                 return false;
             }
             if (
@@ -378,28 +405,30 @@ namespace Arbeitszeit {
             }
         }
 
-        public function loadUserTheme(){
+        public function loadUserTheme()
+        {
 
             $themes = scandir($_SERVER["DOCUMENT_ROOT"] . "/assets/css");
             $themes = array_diff($themes, [".", ".."]);
             $check = in_array($_COOKIE["theme"], $themes);
-            if($this->get_app_ini()["general"]["force_theme"] == "true"){
+            if ($this->get_app_ini()["general"]["force_theme"] == "true") {
                 return $this->get_app_ini()["general"]["theme_file"];
             }
 
-            if(!isset($_COOKIE["theme"]) || !$check){
+            if (!isset($_COOKIE["theme"]) || !$check) {
                 return "/assets/css/v8.css";
             } else {
                 return "/assets/css/" . $_COOKIE["theme"];
             }
         }
 
-        public function computeUserThemes(){
+        public function computeUserThemes()
+        {
             $themes = scandir($_SERVER["DOCUMENT_ROOT"] . "/assets/css");
             $themes = array_diff($themes, [".", ".."]);
             $currentTheme = basename($this->loadUserTheme());
-            foreach($themes as $theme){
-                if($currentTheme == $theme){
+            foreach ($themes as $theme) {
+                if ($currentTheme == $theme) {
                     echo "<option name='{$theme}' selected>{$theme}</option>";
                 } else {
                     echo "<option name='{$theme}'>{$theme}</option>";
@@ -409,13 +438,15 @@ namespace Arbeitszeit {
             return true;
         }
 
-        public function setUserTheme($theme){
-            setcookie("theme", $theme, time()+60*60*24*30, "/");
+        public function setUserTheme($theme)
+        {
+            setcookie("theme", $theme, time() + 60 * 60 * 24 * 30, "/");
             return true;
         }
 
-        public function checkThemeForce(){
-            if($this->get_app_ini()["general"]["force_theme"] == "true" || $this->get_app_ini()["general"]["force_theme"] == true){
+        public function checkThemeForce()
+        {
+            if ($this->get_app_ini()["general"]["force_theme"] == "true" || $this->get_app_ini()["general"]["force_theme"] == true) {
                 return true;
             } else {
                 return false;
