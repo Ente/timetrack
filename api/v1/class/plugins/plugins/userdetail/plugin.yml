@@ -12,3 +12,5 @@ custom.values:
   license: "LIC"
 nav_links:
   Open Userdetail: views/overview.php
+nav_permissions:
+  Open Userdetail: 1
