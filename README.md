@@ -82,6 +82,8 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 - `force_theme`: Force a theme for all users, this disables the feature allowing users to set their own theme.
 - `theme_file`: If `force_theme` is true, the specified theme is used (default: `/assets/css/v8.css`)
 - `demo`: If set to `true`, demo credentials are shown on the login page. Useful for demo installations.
+- `telemetry`: Enable/disable telemetry (Default: `enabled` - **PLEASE DISABLE IF NEEDED**)
+- `telemetry_server_url`: Full server url to telemetry upload
 
 #### **SMTP section**
 
