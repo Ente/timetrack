@@ -6,6 +6,7 @@
 * Adding users to a project has been made easier.
 * Internal changes
 * Added additional plugin permission level
+* Added 2 new themes
 
 ## v8.4.3
 
