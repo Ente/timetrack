@@ -6,6 +6,7 @@
 * Changed app.json.sample default values
 * Updated README.md <!-- [#134](https://github.com/Ente/timetrack/issues/134) -->
 * Added `update.sh` script
+* Internal plugin views can now be hidden
 
 ## v8.5
 
