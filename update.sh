@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 
 log() {
     echo -e "[\e[36mUPDATE\e[0m] $1"
