@@ -255,6 +255,7 @@ The theme the user selected is saved as a cookie, meaning it is only selected on
 ## Updates
 
 TimeTrack has to be updated in two ways: database and application.
+A full update on linux based machines can also be performed by executing the `update.sh` file inside the root directory. In any other cases follow the steps below:
 
 ### Application
 

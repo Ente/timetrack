@@ -5,6 +5,7 @@
 * Fixed undefined variable warning message <!-- [#133](https://github.com/Ente/timetrack/issues/133) -->
 * Changed app.json.sample default values
 * Updated README.md <!-- [#134](https://github.com/Ente/timetrack/issues/134) -->
+* Added `update.sh` script
 
 ## v8.5
 
