@@ -7,9 +7,9 @@
         "auto_update": "false",
         "timezone": "UTC",
         "theme_file": "/assets/css/v8.css",
-        "force_theme": "false",
+        "force_theme": false,
         "demo": false,
-        "telemetry": "enabled",
+        "telemetry": "disabled",
         "telemetry_server_url": "https://telemetry.openducks.org/timetrack/submit"
     },
     "mysql": {
