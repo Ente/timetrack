@@ -97,7 +97,7 @@ You can now access TimeTrack in your browser at `http://localhost`, default logi
 To save log files, please create the subfolder `data/logs` and make it writeable to the web server (e.g. `chown www-data:www-data data/logs && chmod 775 data/logs`).
 Please also make sure that the `/data` directory is writable by the webserver, aswell as the plugins directory (default: `api/v1/class/plugins/plugins`). The `/api/v1/toil/permissions.json` also needs to be writeable by the webserver.
 
-**You can run the update.sh script to update your instance**
+**You can run the `update.sh` script to update your instance: `sudo sh update.sh`**
 
 ### Configure app.json
 
