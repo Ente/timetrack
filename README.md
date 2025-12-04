@@ -257,6 +257,8 @@ The theme the user selected is saved as a cookie, meaning it is only selected on
 TimeTrack has to be updated in two ways: database and application.
 A full update on linux based machines can also be performed by executing the `update.sh` file inside the root directory. In any other cases follow the steps below:
 
+If you were seeking assistance and were asked to try out the changes in a branch, please execute this command inside the timetrack root directory: `git fetch && git checkout BRANCH` - replace BRANCH with the actual branch name, e.g. TT-24 or develop.
+
 ### Application
 
 If downloaded from GitHub you can simply pull the latest release e.g. `git pull`
