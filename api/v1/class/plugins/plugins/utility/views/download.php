@@ -16,8 +16,15 @@ $a->auth()->login_validation();
 $a->benutzer()->current_user_is_admin();
 
 if(!isset($_POST["username"])){
-    $main->logger("[utility] Username not found. Aborting export...");
+    $main->logger("[utility] Username not found in Request parameters. Aborting export...");
     $a->statusMessages()->redirect("error");
+    exit();
+}
+
+if(!$a->benutzer()->user_active($_POST["username"]) == 1){
+    $main->logger("[utility] Username not found or user disabled. Aborting export...");
+    $a->statusMessages()->redirect("error");
+    exit();
 }
 
 $main->exportAll($_POST["username"])->download();

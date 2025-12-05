@@ -64,10 +64,11 @@ $data = $arbeit->benutzer()->get_user($_SESSION["username"]);
                 <label for="theme">Select a theme:</label>
                 <select name="theme" id="theme" onchange="this.form.submit()">
                     <?php 
+                    $noTheme = "";
                     if($arbeit->benutzer()->checkThemeForce()){
                         $noTheme =  "<p>You cannot select a theme, since your administrator doesn't allow this feature!</p>";
                     } else {
-                        unset($noTheme);
+                        $noTheme = null;
                         $arbeit->benutzer()->computeUserThemes();
                     }
                     

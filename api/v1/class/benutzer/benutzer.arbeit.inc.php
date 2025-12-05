@@ -410,12 +410,15 @@ namespace Arbeitszeit {
 
             $themes = scandir($_SERVER["DOCUMENT_ROOT"] . "/assets/css");
             $themes = array_diff($themes, [".", ".."]);
+            if(!isset($_COOKIE["theme"])){
+                return "/assets/css/v8.css";
+            }
             $check = in_array($_COOKIE["theme"], $themes);
             if ($this->get_app_ini()["general"]["force_theme"] == "true") {
                 return $this->get_app_ini()["general"]["theme_file"];
             }
 
-            if (!isset($_COOKIE["theme"]) || !$check) {
+            if (!$check) {
                 return "/assets/css/v8.css";
             } else {
                 return "/assets/css/" . $_COOKIE["theme"];
@@ -446,7 +449,7 @@ namespace Arbeitszeit {
 
         public function checkThemeForce()
         {
-            if ($this->get_app_ini()["general"]["force_theme"] == "true" || $this->get_app_ini()["general"]["force_theme"] == true) {
+            if ($this->get_app_ini()["general"]["force_theme"] == true) {
                 return true;
             } else {
                 return false;

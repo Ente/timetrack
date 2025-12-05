@@ -1,6 +1,16 @@
 # CHANGELOG
 
+## v8.5.1
+
+* Fixed undefined variable warning message <!-- [#133](https://github.com/Ente/timetrack/issues/133) -->
+* Changed app.json.sample default values
+* Updated README.md <!-- [#134](https://github.com/Ente/timetrack/issues/134) -->
+* Added `update.sh` script
+* Internal plugin views can now be hidden
+* Fix utility plugin 500 error when trying to export data for user that doesn't exist
+
 ## v8.5
+
 * Fixed an issue with IDs not generated correctly for project items.
 * Added functionality to delete and edit project items.
 * Adding users to a project has been made easier.

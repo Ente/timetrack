@@ -255,10 +255,11 @@ namespace Arbeitszeit {
             if (isset($permissions['nav_permissions'][$viewName])) {
                 $requiredPermission = $permissions['nav_permissions'][$viewName]; 
                 $this->logger("{$la} Required permission for view '{$viewName}': '{$requiredPermission}'");
-                if ($requiredPermission === 5 && $userPermissions === $adminLevel) {
-                    $this->logger("{$la} View '{$viewName}' is marked as internal placeholder. Skipping.");
-                    return true;
+                if ($requiredPermission === 5) {
+                    $this->logger("{$la} View '{$viewName}' has permission level 5 (internal placeholder). Access denied.");
+                    return false;
                 }
+
 
                 if ($requiredPermission === $adminLevel && $userPermissions === $adminLevel) {
                     $this->logger("{$la} User '{$user}' has admin permissions for view '{$viewName}'. Access granted.");

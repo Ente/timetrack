@@ -61,11 +61,43 @@ Simply install the software by following these steps:
 - Create a new database, e.g. with the name `ab` and create a dedicated user, login (`mysql -u root -p`) then e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
 - Configure `app.json` (see below - required changes: `base_url`, `db_user`, `db_password`, `smtp` section and any other if your installation is different) then `mv api/v1/inc/app.json.sample app.json && cd /var/www/timetrack`
 - Run DB migrations: `vendor/bin/phinx migrate`
-- Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
-- You can then access TimeTrack in your browser at `http://localhost`, default login is `admin` with password `admin`. Create yourself a new admin account, login and delete the default account afterwards.
+- Follow "Use with ..." guides
+
+#### Use with apache2.4
+
+- Create a new virtual host: `sudo nano /etc/apache2/sites-available/timetrack.conf`
+- Content:
+
+```conf
+<VirtualHost *:80>
+    ServerName timetrack.yourdomain.de
+    DocumentRoot /var/www/timetrack
+
+    <Directory /var/www/timetrack>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+```
+
+- Enable site and module: `sudo a2ensite timetrack && a2enmod rewrite`
+
+#### Use with PHP development server
+
+- Start server: `cd /var/www/timetrack && php -S 0.0.0.0:80`
+
+#### Finalize
+
+You can now access TimeTrack in your browser at `http://localhost`, default login is `admin` with password `admin`. Create yourself a new admin account, login and delete the default account afterwards.
 
 To save log files, please create the subfolder `data/logs` and make it writeable to the web server (e.g. `chown www-data:www-data data/logs && chmod 775 data/logs`).
-Please also make sure that the `/data` directory is writable by the webserver, aswell as the plugins directory (default: `api/v1/class/plugins/plugins`).
+Please also make sure that the `/data` directory is writable by the webserver, aswell as the plugins directory (default: `api/v1/class/plugins/plugins`). The `/api/v1/toil/permissions.json` also needs to be writeable by the webserver.
+
+**You can run the `update.sh` script to update your instance: `sudo sh update.sh`**
 
 ### Configure app.json
 
@@ -225,6 +257,9 @@ The theme the user selected is saved as a cookie, meaning it is only selected on
 ## Updates
 
 TimeTrack has to be updated in two ways: database and application.
+A full update on linux based machines can also be performed by executing the `update.sh` file inside the root directory. In any other cases follow the steps below:
+
+If you were seeking assistance and were asked to try out the changes in a branch, please execute this command inside the timetrack root directory: `git fetch && git checkout BRANCH` - replace BRANCH with the actual branch name, e.g. TT-24 or develop.
 
 ### Application
 
