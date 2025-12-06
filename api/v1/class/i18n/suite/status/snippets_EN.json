@@ -52,5 +52,6 @@
   "plugins_disabled": "Error: The plugin system is disabled. Please contact your administrator!",
   "telemetry_sent": "Note: Telemetry data sent successfully!",
   "telemetry_disabled": "Note: Telemetry data not sent!",
-  "success": "Note: The action was completed successfully!"
+  "success": "Note: The action was completed successfully!",
+  "telemetryServer_disabled": "Note: The server telemetry functionality is currently disabled!"
 }

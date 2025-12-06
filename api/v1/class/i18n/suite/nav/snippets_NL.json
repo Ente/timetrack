@@ -10,5 +10,6 @@
     "a_sickness": "Alle ziekten",
     "a_vacation": "Alle vakanties",
     "a_plugins": "Plug-ins",
-    "a_projects": "Projects management"
+    "a_projects": "Projects management",
+    "a_serverTelemetry": "Server Telemetry"
    }

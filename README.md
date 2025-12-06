@@ -116,6 +116,7 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 - `demo`: If set to `true`, demo credentials are shown on the login page. Useful for demo installations.
 - `telemetry`: Enable/disable telemetry (Default: `enabled` - **PLEASE DISABLE IF NEEDED**)
 - `telemetry_server_url`: Full server url to telemetry upload
+- `telemetryServer`: Enables/disables the Server Telemetry Statistics page
 
 #### **SMTP section**
 
@@ -253,6 +254,23 @@ Administrators can enforce a theme globally by setting `force_theme` to `true`. 
 To upload a new theme, simply place it into the `/assets/css` folder.
 
 The theme the user selected is saved as a cookie, meaning it is only selected on the current device. On mobile or on another device, the user has to set the desired theme again.
+
+## Run as Telemetry server
+
+Basically, there are only a few steps to do
+
+1. Navigate to the telemetry server directory: `cd api/v1/class/telemetry/server`
+2. Start server: `nohup php -S 0.0.0.0:8888 server.php > telemetry.log 2>&1 &`
+3. Set `telemetryServer` inside app.json `general` section to `true`.
+4. Check received telemetry data on the "Server Telemetry" page.
+
+## Change Telemetry server URL for managed environments
+
+If you want  all of your TimeTrack instances to point to your telemetry server instance, you need to change the app.json `general` `telemetry_server_url` attribute to your URL.
+Also make sure the `telemetry` attribute is set to `"enabled"`.
+
+To check if all worked simply visit the Settings page using an admin account. Check the checkbox within the Telemetry section at the bottom of the page and click the Submit button.
+On your server timetrack instance you need to visit the "Server Telemetry" page to check if you received the new/updated telemetry data.
 
 ## Updates
 
