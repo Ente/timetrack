@@ -32,6 +32,9 @@ $lang = $i18n->loadLanguage(null, "nav");
         <a href="http://<?= $base_url ?>/suite/admin/worktime/sick/all.php"><?= $lang["a_sickness"]; ?></a>
         <a href="http://<?= $base_url ?>/suite/admin/worktime/vacation/all.php"><?= $lang["a_vacation"]; ?></a>
         <a href="http://<?= $base_url ?>/suite/admin/projects/admin.php"><?= $lang["a_projects"]; ?></a>
+        <?php if($ini["general"]["telemetryServer"] == true) : ?>
+        <a href="http://<?= $base_url ?>/suite/admin/users/serverTelemetry.php"><?= $lang["a_serverTelemetry"] ?></a>
+        <?php endif; ?>
         <span class="nav-version">ADMIN | <?= htmlspecialchars($v); ?></span>
     <?php endif; ?>
   </div>

@@ -10,7 +10,8 @@
         "force_theme": false,
         "demo": false,
         "telemetry": "disabled",
-        "telemetry_server_url": "https://telemetry.openducks.org/timetrack/submit"
+        "telemetry_server_url": "https://telemetry.openducks.org/timetrack/submit",
+        "telemetryServer": false
     },
     "mysql": {
         "db_host": "db",

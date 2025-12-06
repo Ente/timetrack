@@ -57,6 +57,69 @@ namespace Arbeitszeit {
             return isset($ini["general"]["telemetry"]) && $ini["general"]["telemetry"] === "enabled";
         }
 
+        public function isTelemetryServerEnabled(): bool
+        {
+            $ini = $this->get_app_ini();
+            return isset($ini["general"]["telemetryServer"]) && $ini["general"]["telemetryServer"] == true;
+        }
+
+public function getServerTelemetryData(): array
+{
+    $stmt = $this->db->sendQuery("SELECT * FROM telemetry_server ORDER BY id DESC");
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+}
+
+
+public function renderServerTelemetryHTML(): void
+{
+    $rows = $this->getServerTelemetryData();
+
+    if (empty($rows)) {
+        echo "<p>{$this->i18n['no_data']}</p>";
+        return;
+    }
+
+    $columns = [
+        "instance_uuid",
+        "time_track_version",
+        "api_version",
+        "php_version",
+        "os_version_and_name",
+        "total_plugins",
+        "total_users",
+        "total_worktimes",
+        "api_calls_total",
+        "created_at",
+        "updated_at"
+    ];
+
+    $html = '<div style="overflow-x:auto; width:100%;">';
+
+    $html .= "<table class='v8-table'><thead><tr>";
+
+    foreach ($columns as $col) {
+        $html .= "<th>" . htmlspecialchars($col) . "</th>";
+    }
+
+    $html .= "</tr></thead><tbody>";
+
+    foreach ($rows as $row) {
+        $html .= "<tr>";
+
+        foreach ($columns as $col) {
+            $value = $row[$col] ?? "-";
+            $html .= "<td>" . htmlspecialchars((string)$value) . "</td>";
+        }
+
+        $html .= "</tr>";
+    }
+
+    $html .= "</tbody></table></div>";
+
+    echo $html;
+}
+
 
 
 public function sendRequest($data)

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v8.6
+
+* Telemetry statistics page for environments using the Telemetry Server. Please check `README.md`
+
 ## v8.5.1
 
 * Fixed undefined variable warning message <!-- [#133](https://github.com/Ente/timetrack/issues/133) -->
