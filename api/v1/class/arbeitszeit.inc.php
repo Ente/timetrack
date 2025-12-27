@@ -229,8 +229,7 @@ namespace Arbeitszeit {
             ?int $selectedWorktime = null,
             string $placeholder = "—",
             string $class = ""
-        ): void
-        {
+        ): void {
             $userId = $this->benutzer()->get_user_from_id($userId)["username"];
             $sql = "SELECT * FROM arbeitszeiten WHERE username = ?";
             $stmt = $this->db->sendQuery($sql);
@@ -247,9 +246,9 @@ namespace Arbeitszeit {
                 echo '<option value="' . $wt["id"] . '"' . $sel . '>'
                     . htmlspecialchars($label)
                     . '</option>';
-        }
+            }
 
-        echo '</select>';
+            echo '</select>';
         }
 
 
@@ -404,7 +403,7 @@ namespace Arbeitszeit {
 
         public function update_worktime($id, $array)
         {
-            if(!$this->check_if_for_review($id)){
+            if (!$this->check_if_for_review($id)) {
                 return false;
             }
             $allowed = [
@@ -837,6 +836,92 @@ namespace Arbeitszeit {
                 $this->statusMessages()->redirect("error");
             }
             return false;
+        }
+
+        public function checkForUpdate()
+        {
+            $currentVersion = $this->getTimeTrackVersion();
+            $latestVersion = file_get_contents("https://raw.githubusercontent.com/Ente/timetrack/refs/heads/develop/VERSION");
+
+            $currentVersion = trim($currentVersion);
+            $latestVersion = trim($latestVersion);
+
+            if (version_compare($currentVersion, $latestVersion, '<')) {
+                return $latestVersion;
+            } else {
+                return false;
+            }
+        }
+
+        public function getChanges(string $version_tag = "latest")
+        {
+            if ($version_tag !== "latest") {
+                $url = "https://api.github.com/repos/ente/timetrack/releases/tags/v{$version_tag}";
+            } else {
+                $url = "https://api.github.com/repos/ente/timetrack/releases/latest";
+            }
+
+            $context = stream_context_create([
+                "http" => [
+                    "method" => "GET",
+                    "header" => [
+                        "User-Agent: TimeTrack-Updater",
+                        "Accept: application/vnd.github+json"
+                    ],
+                    "timeout" => 10
+                ]
+            ]);
+
+            $json = @file_get_contents($url, false, $context);
+
+            if ($json === false) {
+                return null;
+                #throw new \RuntimeException("GitHub API request failed");
+            }
+
+            return json_decode($json, true);
+        }
+
+
+        public function renderGUIUpdateCheck()
+        {
+
+            $text = "";
+            $current = $this->getTimeTrackVersion();
+            $latest = $this->checkForUpdate();
+
+
+            if ($this->checkForUpdate() != false) {
+                $latestChanges = $this->getChanges($latest) ?? "NULL";
+                $fullChangelogUrl = "https://github.com/ente/timetrack/compare/v{$current}...v{$latest}";
+                $latestVersionLink = "https://github.com/ente/timetrack/releases/tag/v{$latest}";
+                $text .= "<div class='card v8-bordered log-box'>";
+                $text .= "<h2>Update available!</h2><br>";
+                $text .= "You are currently using TimeTrack version <strong>{$current}</strong>, the latest version is <strong><a href='{$latestVersionLink}' target='_blank'>{$latest}</a></strong>.<br>";
+                $text .= "Please check the <a href='{$fullChangelogUrl}' target='_blank'>changelog</a> for more information about the changes.<br>";
+                $text .= "It is recommended to update as soon as possible to benefit from the latest features and security improvements.";
+                ## changelog + parsedown
+                $text .= "<hr>";
+                $text .= "<strong>Changelog for version {$latest}:</strong><br>";
+                $parsedown = new \Parsedown();
+                $text .= $parsedown->text($latestChanges["body"]);
+                $text .= "</div>";
+                return $text;
+            } else {
+                $text .= "<div class='card v8-bordered log-box'>";
+                $text .= "You are using the latest version of TimeTrack (<strong>{$current}</strong>). No update is required.";
+                ## current changelog
+                $text .= "<hr>";
+                $text .= "<strong>Changelog for version {$current}:</strong><br>";
+                $parsedown = new \Parsedown();
+                $currentChanges = $this->getChanges($current);
+                if($currentChanges == null) {
+                    $currentChanges["body"] = "**No changelogs found. Either you are using a custom build or something went wrong while fetching the changelogs.**";
+                }
+                $text .= $parsedown->text($currentChanges["body"]);
+                $text .= "</div>";
+                return $text;
+            }
         }
 
         public function global_dispatcher(): \Symfony\Component\EventDispatcher\EventDispatcher
