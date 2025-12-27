@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v8.7
+
+* Added automatic update check within the Settings page allowing to see the changelogs and a link to the new Release.
+* Updated `README.md`
+
 ## v8.6
 
 * Telemetry statistics page for environments using the Telemetry Server. Please check `README.md`
@@ -7,7 +12,7 @@
 ## v8.5.1
 
 * Fixed undefined variable warning message <!-- [#133](https://github.com/Ente/timetrack/issues/133) -->
-* Changed app.json.sample default values
+* Changed `app.json.sample` default values
 * Updated README.md <!-- [#134](https://github.com/Ente/timetrack/issues/134) -->
 * Added `update.sh` script
 * Internal plugin views can now be hidden

@@ -24,7 +24,8 @@ echo <<< DAT
 
 DAT;
 
-?>
+?><br><br>
+<?= $arbeit->renderGUIUpdateCheck(); ?><br><br>
 <div class="card v8-bordered log-box">
     <h2>Telemetry</h2>
     <p>Here you can send anonymous telemetry data to help improve the application.
