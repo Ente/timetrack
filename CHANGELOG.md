@@ -4,6 +4,8 @@
 
 * Added automatic update check within the Settings page allowing to see the changelogs and a link to the new Release.
 * Updated `README.md`
+* Admins can now select the default worktime type to be selected in the form within the app.json `config` section via the `default_worktime_type` key.
+* Added function to automatically add keys to app.json after update
 * Admins can now customize the look and feel of the PDF exports. Please check `README.md` `Exports` section for more information.
 
 ## v8.6
