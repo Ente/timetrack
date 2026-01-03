@@ -21,6 +21,8 @@ A demo is available here: [https://tt-demo.openducks.org](https://tt-demo.opendu
 **The demo is available with limited features only, e.g. the plugin system disabled.**
 **The demo currently does not work as intended...**
 
+> You would like to support the project? Consider helping out with the documentation at [https://timetrackd.openducks.org](https://timetrackd.openducks.org) or by contributing to the code.
+
 ## Installation
 
 ### Quick Install with Docker
@@ -221,6 +223,15 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 
 All existing export modules can be accessed with the `ExportManager` Plugin.
 You can specify your own CSS file within the `app.json` `exports -> pdf -> css` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
+
+### Custom contents
+
+You can use custom contents within your PDF exports by placing HTML/PHP files into `api/v1/class/exports/modules/PDFExportModule/php/`.
+Two files can be placed there:
+
+- `user_content_ending.php`: This file is included at the end of the PDF export, e.g. for signatures or custom footers
+- `user_content_starting.php`: This file is included at the beginning of the PDF export, e.g. for custom headers.
+You can put normal PHP and HTML code into these files.
 
 ## QR codes
 
