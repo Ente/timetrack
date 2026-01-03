@@ -60,6 +60,7 @@ namespace Arbeitszeit {
             if (isset($this->get_app_ini()["general"]["timezone"])) {
                 try {
                     date_default_timezone_set($this->get_app_ini()["general"]["timezone"]);
+                    $this->app_ini_check();
                 } catch (\Exception $e) {
                     Exceptions::error_rep("Error setting timezone: " . $e->getMessage());
                 }
@@ -72,6 +73,42 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("Destroying Arbeitszeit class, dump of all loaded files: " . json_encode(get_included_files(), JSON_PRETTY_PRINT));
             }
         }
+
+        public function app_ini_check()
+        {
+            $base = dirname(__DIR__, 3) . "/api/v1/inc/";
+            $sample = json_decode(file_get_contents($base . "app.json.sample"), true);
+            $current = json_decode(file_get_contents($base . "app.json"), true);
+
+            $updated = false;
+
+            foreach ($sample as $section => $values) {
+
+                if (!isset($current[$section]) || !is_array($current[$section])) {
+                    $current[$section] = [];
+                    $updated = true;
+                    Exceptions::error_rep("App config section '{$section}' was missing and has been created.");
+                }
+
+                foreach ($values as $key => $value) {
+                    if (!array_key_exists($key, $current[$section])) {
+                        $current[$section][$key] = $value;
+                        $updated = true;
+                        Exceptions::error_rep(
+                            "App config key '{$key}' in section '{$section}' was missing and added with default value."
+                        );
+                    }
+                }
+            }
+
+            if ($updated) {
+                file_put_contents(
+                    $base . "app.json",
+                    json_encode($current, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+                );
+            }
+        }
+
 
         public function init_lang()
         {
@@ -128,8 +165,8 @@ namespace Arbeitszeit {
                 return false;
             } else {
                 Exceptions::error_rep("Creating easymode worktime entry for user '{$username}'...");
-                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `active`, `review`) VALUES ( ?, '0', ?, ?, ?, ?, '00:00', '-', '1', '0');";
-                $data = $conn->sendQuery($sql)->execute([$usr["name"], $usr["email"], $username, $date, $time]);
+                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `active`, `review`, `wtype`) VALUES ( ?, '0', ?, ?, ?, ?, '00:00', '-', '1', '0', ?);";
+                $data = $conn->sendQuery($sql)->execute([$usr["name"], $usr["email"], $username, $date, $time, Arbeitszeit::get_app_ini()["config"]["default_worktime_type"]]);
                 if ($data == false) {
                     Exceptions::error_rep("An error occurred while creating easymode worktime entry. See previous message for more information");
                     return false;
@@ -915,7 +952,7 @@ namespace Arbeitszeit {
                 $text .= "<strong>Changelog for version {$current}:</strong><br>";
                 $parsedown = new \Parsedown();
                 $currentChanges = $this->getChanges($current);
-                if($currentChanges == null) {
+                if ($currentChanges == null) {
                     $currentChanges["body"] = "**No changelogs found. Either you are using a custom build or something went wrong while fetching the changelogs.**";
                 }
                 $text .= $parsedown->text($currentChanges["body"]);

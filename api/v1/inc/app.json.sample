@@ -55,7 +55,8 @@
     "config": {
         "worktime_types": "/api/v1/inc/config/worktime_types.json",
         "vacation_types": "/api/v1/inc/config/vacation_types.json",
-        "sickness_types": "/api/v1/inc/config/sickness_types.json"
+        "sickness_types": "/api/v1/inc/config/sickness_types.json",
+        "default_worktime_type": 1
     },
     "mobile": {
         "allow_app_use": false,
