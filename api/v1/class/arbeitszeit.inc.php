@@ -924,8 +924,8 @@ namespace Arbeitszeit {
         {
 
             $text = "";
-            $current = $this->getTimeTrackVersion();
-            $latest = $this->checkForUpdate();
+            $current = trim($this->getTimeTrackVersion());
+            $latest = trim($this->checkForUpdate());
 
 
             if ($this->checkForUpdate() != false) {
