@@ -74,11 +74,11 @@ $userItems = $arbeit->projects()->getUserProjectItems($userProjects[1]["id"], $u
                                 <td><?= htmlspecialchars($item["title"]); ?></td>
                                 <td><?= $item["id"]; ?></td>
                                 <td>
-                                    <?= $arbeit->projects()->getProject($item["id"])["name"]; ?>
+                                    <?= $arbeit->projects()->getProject($item["pid"])["name"]; ?>
                                 </td>
                                 <td><?= $item["status"] ?? "Open"; ?></td>
                                 <td>
-                                    <a href="item.php?id=<?= $item["itemid"]; ?>" class="v8-button"><?= $language["btn_view_item"]; ?></a>
+                                    <a href="item.php?id=<?= $item["id"]; ?>" class="v8-button"><?= $language["btn_view_item"]; ?></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

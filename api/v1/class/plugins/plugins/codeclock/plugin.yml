@@ -13,3 +13,6 @@ custom.values:
 nav_links:
   View PIN: views/index.php
   Admin View: views/admin.php
+nav_permissions:
+  View PIN: 0
+  Admin View: 1

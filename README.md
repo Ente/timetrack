@@ -17,6 +17,12 @@ TimeTrack aims to be an easy-to-use time recording software for small enterprise
 - Plugin Support
 - Exporting to PDF/CSV
 
+A demo is available here: [https://tt-demo.openducks.org](https://tt-demo.openducks.org)
+**The demo is available with limited features only, e.g. the plugin system disabled.**
+**The demo currently does not work as intended...**
+
+> You would like to support the project? Consider helping out with the documentation at [https://timetrackd.openducks.org](https://timetrackd.openducks.org) or by contributing to the code.
+
 ## Installation
 
 ### Quick Install with Docker
@@ -24,7 +30,7 @@ TimeTrack aims to be an easy-to-use time recording software for small enterprise
 You can quickly get started with TimeTrack using Docker. Follow these steps:
 
 * Ensure you have Docker and Docker Compose installed on your system.
-* Clone the TimeTrack repository: `git clone https://github.com/Ente/timetrack.git` & `cd timetrack`
+* Clone the TimeTrack repository: `git clone https://github.com/Ente/timetrack.git` & `cd timetrack` - **The develop branch should not be used unless you know what you are doing. Download the latest release [https://github.com/ente/timetrack/releases/latest](here)**
 * Build the Docker image: `docker build -t openducks/timetrack .`
 * Create a `app.json` configuration file based on the provided sample below: `cp api/v1/inc/app.json.sample api/v1/inc/app.json` and edit it to fit your needs.
   * Adjust the database settings if needed (at least `db_password`)
@@ -35,6 +41,9 @@ You can quickly get started with TimeTrack using Docker. Follow these steps:
 * Login with username `admin` and password `admin`
 
 Certain features, like the NFC login may require additional setup for parsing the USB device.
+
+If you want to use the demo, you can run the provided `demo_setup.sh` script within the project root. This will automatically setup the database with demo data (worktimes and users) and rebuilds the entire container.
+You may want to set the `demo` setting within the `app.json` to `true` to display the demo credentials on the login page.
 
 ### Requirements
 
@@ -49,16 +58,48 @@ This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. 
 Simply install the software by following these steps:
 
 - Install php and requirements: `sudo apt update && sudo apt install php8.2 php8.2-curl php8.2-gd php8.2-gmp php8.2-intl php8.2-mbstring php8.2-mysqli php8.2-pgsql php8.2-xsl php8.2-gettext php8.2-dom php8.2-ldap composer git mariadb-server apache2 -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`. If you do not want to use apache2 you can skip this step.
-- Git clone timetrack to e.g. `/var/www`: `cd /var/www && git clone https://github.com/Ente/timetrack.git && cd timetrack`
+- Git clone timetrack to e.g. `/var/www`: `cd /var/www && git clone https://github.com/Ente/timetrack.git && cd timetrack` - **The develop branch should not be used unless you know what you are doing. Download the latest release [https://github.com/ente/timetrack/releases/latest](here)**
 - Install requirements for composer `composer install`
 - Create a new database, e.g. with the name `ab` and create a dedicated user, login (`mysql -u root -p`) then e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
 - Configure `app.json` (see below - required changes: `base_url`, `db_user`, `db_password`, `smtp` section and any other if your installation is different) then `mv api/v1/inc/app.json.sample app.json && cd /var/www/timetrack`
 - Run DB migrations: `vendor/bin/phinx migrate`
-- Start webserver e.g. `service apache2 stop && php -S 0.0.0.0:80` or using apache2 (then you have to configure the `sites-available` conf yourself)
-- You can then access TimeTrack in your browser at `http://localhost`, default login is `admin` with password `admin`. Create yourself a new admin account, login and delete the default account afterwards.
+- Follow "Use with ..." guides
+
+#### Use with apache2.4
+
+- Create a new virtual host: `sudo nano /etc/apache2/sites-available/timetrack.conf`
+- Content:
+
+```conf
+<VirtualHost *:80>
+    ServerName timetrack.yourdomain.de
+    DocumentRoot /var/www/timetrack
+
+    <Directory /var/www/timetrack>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+```
+
+- Enable site and module: `sudo a2ensite timetrack && a2enmod rewrite`
+
+#### Use with PHP development server
+
+- Start server: `cd /var/www/timetrack && php -S 0.0.0.0:80`
+
+#### Finalize
+
+You can now access TimeTrack in your browser at `http://localhost`, default login is `admin` with password `admin`. Create yourself a new admin account, login and delete the default account afterwards.
 
 To save log files, please create the subfolder `data/logs` and make it writeable to the web server (e.g. `chown www-data:www-data data/logs && chmod 775 data/logs`).
-Please also make sure that the `/data` directory is writable by the webserver, aswell as the plugins directory (default: `api/v1/class/plugins/plugins`).
+Please also make sure that the `/data` directory is writable by the webserver, aswell as the plugins directory (default: `api/v1/class/plugins/plugins`). The `/api/v1/toil/permissions.json` also needs to be writeable by the webserver.
+
+**You can run the `update.sh` script to update your instance: `sudo sh update.sh`**
 
 ### Configure app.json
 
@@ -74,6 +115,10 @@ In step 2, you need to configure the `app.json.sample` within the `api/v1/inc` f
 - `timezone`: Set the timezone of your application, e.g. `Europe/Berlin` or `America/New_York` (default: `UTC`)
 - `force_theme`: Force a theme for all users, this disables the feature allowing users to set their own theme.
 - `theme_file`: If `force_theme` is true, the specified theme is used (default: `/assets/css/v8.css`)
+- `demo`: If set to `true`, demo credentials are shown on the login page. Useful for demo installations.
+- `telemetry`: Enable/disable telemetry (Default: `enabled` - **PLEASE DISABLE IF NEEDED**)
+- `telemetry_server_url`: Full server url to telemetry upload
+- `telemetryServer`: Enables/disables the Server Telemetry Statistics page
 
 #### **SMTP section**
 
@@ -179,6 +224,15 @@ $arbeit->exportModule()->getExportModule("MyExportExportModule")->export($data);
 All existing export modules can be accessed with the `ExportManager` Plugin.
 You can specify your own CSS file within the `app.json` `exports -> pdf -> css` setting (full path) - the default is `api/v1/class/exports/modules/PDFExportModule/css/index.css`
 
+### Custom contents
+
+You can use custom contents within your PDF exports by placing HTML/PHP files into `api/v1/class/exports/modules/PDFExportModule/php/`.
+Two files can be placed there:
+
+- `user_content_ending.php`: This file is included at the end of the PDF export, e.g. for signatures or custom footers
+- `user_content_starting.php`: This file is included at the beginning of the PDF export, e.g. for custom headers.
+You can put normal PHP and HTML code into these files.
+
 ## QR codes
 
 You can use the plugin `QRClock` to generate QR codes for yourself to either clock in or out. The QR code generated can be saved for later use, e.g. print it out.
@@ -212,9 +266,29 @@ To upload a new theme, simply place it into the `/assets/css` folder.
 
 The theme the user selected is saved as a cookie, meaning it is only selected on the current device. On mobile or on another device, the user has to set the desired theme again.
 
+## Run as Telemetry server
+
+Basically, there are only a few steps to do
+
+1. Navigate to the telemetry server directory: `cd api/v1/class/telemetry/server`
+2. Start server: `nohup php -S 0.0.0.0:8888 server.php > telemetry.log 2>&1 &`
+3. Set `telemetryServer` inside app.json `general` section to `true`.
+4. Check received telemetry data on the "Server Telemetry" page.
+
+## Change Telemetry server URL for managed environments
+
+If you want  all of your TimeTrack instances to point to your telemetry server instance, you need to change the app.json `general` `telemetry_server_url` attribute to your URL.
+Also make sure the `telemetry` attribute is set to `"enabled"`.
+
+To check if all worked simply visit the Settings page using an admin account. Check the checkbox within the Telemetry section at the bottom of the page and click the Submit button.
+On your server timetrack instance you need to visit the "Server Telemetry" page to check if you received the new/updated telemetry data.
+
 ## Updates
 
 TimeTrack has to be updated in two ways: database and application.
+A full update on linux based machines can also be performed by executing the `update.sh` file inside the root directory. In any other cases follow the steps below:
+
+If you were seeking assistance and were asked to try out the changes in a branch, please execute this command inside the timetrack root directory: `git fetch && git checkout BRANCH` - replace BRANCH with the actual branch name, e.g. TT-24 or develop.
 
 ### Application
 

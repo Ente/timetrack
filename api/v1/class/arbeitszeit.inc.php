@@ -15,6 +15,7 @@ namespace Arbeitszeit {
     use Arbeitszeit\Nodes;
     use Arbeitszeit\Projects;
     use Arbeitszeit\StatusMessages;
+    use Arbeitszeit\Telemetry;
     use Arbeitszeit\Events\EventDispatcherService;
     use Arbeitszeit\Events\EasymodeWorktimeAddedEvent; // "EasymodeWorktimeSTARTED" Event, actually.
     use Arbeitszeit\Events\EasymodeWorktimeEndedEvent;
@@ -48,6 +49,7 @@ namespace Arbeitszeit {
         private $mails;
         private $nodes;
         private $statusMessages;
+        private $telemetry;
 
         private $projects;
 
@@ -58,6 +60,7 @@ namespace Arbeitszeit {
             if (isset($this->get_app_ini()["general"]["timezone"])) {
                 try {
                     date_default_timezone_set($this->get_app_ini()["general"]["timezone"]);
+                    $this->app_ini_check();
                 } catch (\Exception $e) {
                     Exceptions::error_rep("Error setting timezone: " . $e->getMessage());
                 }
@@ -70,6 +73,42 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("Destroying Arbeitszeit class, dump of all loaded files: " . json_encode(get_included_files(), JSON_PRETTY_PRINT));
             }
         }
+
+        public function app_ini_check()
+        {
+            $base = dirname(__DIR__, 3) . "/api/v1/inc/";
+            $sample = json_decode(file_get_contents($base . "app.json.sample"), true);
+            $current = json_decode(file_get_contents($base . "app.json"), true);
+
+            $updated = false;
+
+            foreach ($sample as $section => $values) {
+
+                if (!isset($current[$section]) || !is_array($current[$section])) {
+                    $current[$section] = [];
+                    $updated = true;
+                    Exceptions::error_rep("App config section '{$section}' was missing and has been created.");
+                }
+
+                foreach ($values as $key => $value) {
+                    if (!array_key_exists($key, $current[$section])) {
+                        $current[$section][$key] = $value;
+                        $updated = true;
+                        Exceptions::error_rep(
+                            "App config key '{$key}' in section '{$section}' was missing and added with default value."
+                        );
+                    }
+                }
+            }
+
+            if ($updated) {
+                file_put_contents(
+                    $base . "app.json",
+                    json_encode($current, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+                );
+            }
+        }
+
 
         public function init_lang()
         {
@@ -126,8 +165,8 @@ namespace Arbeitszeit {
                 return false;
             } else {
                 Exceptions::error_rep("Creating easymode worktime entry for user '{$username}'...");
-                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `active`, `review`) VALUES ( ?, '0', ?, ?, ?, ?, '00:00', '-', '1', '0');";
-                $data = $conn->sendQuery($sql)->execute([$usr["name"], $usr["email"], $username, $date, $time]);
+                $sql = "INSERT INTO `arbeitszeiten` (`name`, `id`, `email`, `username`, `schicht_tag`, `schicht_anfang`, `schicht_ende`, `ort`, `active`, `review`, `wtype`) VALUES ( ?, '0', ?, ?, ?, ?, '00:00', '-', '1', '0', ?);";
+                $data = $conn->sendQuery($sql)->execute([$usr["name"], $usr["email"], $username, $date, $time, Arbeitszeit::get_app_ini()["config"]["default_worktime_type"]]);
                 if ($data == false) {
                     Exceptions::error_rep("An error occurred while creating easymode worktime entry. See previous message for more information");
                     return false;
@@ -220,6 +259,35 @@ namespace Arbeitszeit {
                 }
             }
         }
+
+        public function renderUserWorktimeSelect(
+            string $name,
+            int $userId,
+            ?int $selectedWorktime = null,
+            string $placeholder = "—",
+            string $class = ""
+        ): void {
+            $userId = $this->benutzer()->get_user_from_id($userId)["username"];
+            $sql = "SELECT * FROM arbeitszeiten WHERE username = ?";
+            $stmt = $this->db->sendQuery($sql);
+            $stmt->execute([$userId]);
+            $times = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+            echo '<select name="' . htmlspecialchars($name) . '" class="' . htmlspecialchars($class) . '">';
+            echo '<option value="">' . htmlspecialchars($placeholder) . '</option>';
+
+            foreach ($times as $wt) {
+                $label = $wt["schicht_tag"] . " – " . $wt["id"];
+                $sel = ($selectedWorktime !== null && $wt["id"] == $selectedWorktime) ? " selected" : "";
+
+                echo '<option value="' . $wt["id"] . '"' . $sel . '>'
+                    . htmlspecialchars($label)
+                    . '</option>';
+            }
+
+            echo '</select>';
+        }
+
 
         public function toggle_easymode($username)
         {
@@ -372,7 +440,7 @@ namespace Arbeitszeit {
 
         public function update_worktime($id, $array)
         {
-            if(!$this->check_if_for_review($id)){
+            if (!$this->check_if_for_review($id)) {
                 return false;
             }
             $allowed = [
@@ -807,6 +875,92 @@ namespace Arbeitszeit {
             return false;
         }
 
+        public function checkForUpdate()
+        {
+            $currentVersion = $this->getTimeTrackVersion();
+            $latestVersion = file_get_contents("https://raw.githubusercontent.com/Ente/timetrack/refs/heads/develop/VERSION");
+
+            $currentVersion = trim($currentVersion);
+            $latestVersion = trim($latestVersion);
+
+            if (version_compare($currentVersion, $latestVersion, '<')) {
+                return $latestVersion;
+            } else {
+                return false;
+            }
+        }
+
+        public function getChanges(string $version_tag = "latest")
+        {
+            if ($version_tag !== "latest") {
+                $url = "https://api.github.com/repos/ente/timetrack/releases/tags/v{$version_tag}";
+            } else {
+                $url = "https://api.github.com/repos/ente/timetrack/releases/latest";
+            }
+
+            $context = stream_context_create([
+                "http" => [
+                    "method" => "GET",
+                    "header" => [
+                        "User-Agent: TimeTrack-Updater",
+                        "Accept: application/vnd.github+json"
+                    ],
+                    "timeout" => 10
+                ]
+            ]);
+
+            $json = @file_get_contents($url, false, $context);
+
+            if ($json === false) {
+                return null;
+                #throw new \RuntimeException("GitHub API request failed");
+            }
+
+            return json_decode($json, true);
+        }
+
+
+        public function renderGUIUpdateCheck()
+        {
+
+            $text = "";
+            $current = trim($this->getTimeTrackVersion());
+            $latest = trim($this->checkForUpdate());
+
+
+            if ($this->checkForUpdate() != false) {
+                $latestChanges = $this->getChanges($latest) ?? "NULL";
+                $fullChangelogUrl = "https://github.com/ente/timetrack/compare/v{$current}...v{$latest}";
+                $latestVersionLink = "https://github.com/ente/timetrack/releases/tag/v{$latest}";
+                $text .= "<div class='card v8-bordered log-box'>";
+                $text .= "<h2>Update available!</h2><br>";
+                $text .= "You are currently using TimeTrack version <strong>{$current}</strong>, the latest version is <strong><a href='{$latestVersionLink}' target='_blank'>{$latest}</a></strong>.<br>";
+                $text .= "Please check the <a href='{$fullChangelogUrl}' target='_blank'>changelog</a> for more information about the changes.<br>";
+                $text .= "It is recommended to update as soon as possible to benefit from the latest features and security improvements.";
+                ## changelog + parsedown
+                $text .= "<hr>";
+                $text .= "<strong>Changelog for version {$latest}:</strong><br>";
+                $parsedown = new \Parsedown();
+                $text .= $parsedown->text($latestChanges["body"]);
+                $text .= "</div>";
+                return $text;
+            } else {
+                $text .= "<div class='card v8-bordered log-box'>";
+                $text .= "You are using the latest version of TimeTrack (<strong>{$current}</strong>). No update is required.";
+                ## current changelog
+                $text .= "<hr>";
+                $text .= "<strong>Changelog for version {$current}:</strong><br>";
+                $parsedown = new \Parsedown();
+                $currentChanges = $this->getChanges($current);
+                if ($currentChanges == null) {
+                    $currentChanges["body"] = "**No changelogs found. Either you are using a custom build or something went wrong while fetching the changelogs.**";
+                }
+                $text .= $parsedown->text($currentChanges["body"]);
+                $text .= "</div>";
+                return $text;
+            }
+        }
+
         public function global_dispatcher(): \Symfony\Component\EventDispatcher\EventDispatcher
         {
             return \Arbeitszeit\Events\EventDispatcherService::get();
@@ -919,9 +1073,12 @@ namespace Arbeitszeit {
                 $this->projects = new Projects;
             return $this->projects;
         }
+
+        public function telemetry(): Telemetry
+        {
+            if (!$this->telemetry)
+                $this->telemetry = new Telemetry;
+            return $this->telemetry;
+        }
     }
 }
-
-
-
-?>

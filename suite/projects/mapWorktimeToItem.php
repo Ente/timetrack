@@ -24,16 +24,15 @@ $projectId = $_GET["project"] ?? null;
 <main style="max-width: 600px; margin: 0 auto; padding: 2rem;">
     <h1>Map Worktime to Item</h1>
     <form action="/suite/actions/projects/mapWorktimeToItem.php" method="POST">
-        <input type="hidden" name="project" value="<?= htmlspecialchars($projectId); ?>">
+        <input type="hidden" name="project_id" value="<?= htmlspecialchars($projectId); ?>">
 
         <label>Worktime ID:</label><br>
-        <input type="text" name="worktime_id" required>
-        <br><br>
+        <?php $arbeit->renderUserWorktimeSelect("worktime_id", $arbeit->benutzer()->get_current_user()["id"]); ?>
         <label>Item ID:</label><br>
-        <input type="text" name="item_id" required>
+        <?php $arbeit->projects()->renderUserItemSelect("item_id", $arbeit->benutzer()->get_current_user()["id"]); ?>
         <br><br>
         <label>User ID (optional):</label><br>
-        <input type="text" name="user_id">
+        <?php $arbeit->benutzer()->renderUserSelect("user_id"); ?>
         <br><br>
         <button type="submit" class="v8-button">Map</button><br>
         <a href="view.php?id=<?= $arbeit->i18n()->sanitizeOutput($projectId); ?>" class="v8-button secondary">Cancel</a>

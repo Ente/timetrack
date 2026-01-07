@@ -7,7 +7,11 @@
         "auto_update": "false",
         "timezone": "UTC",
         "theme_file": "/assets/css/v8.css",
-        "force_theme": "false"
+        "force_theme": false,
+        "demo": false,
+        "telemetry": "disabled",
+        "telemetry_server_url": "https://telemetry.openducks.org/timetrack/submit",
+        "telemetryServer": false
     },
     "mysql": {
         "db_host": "db",
@@ -51,7 +55,8 @@
     "config": {
         "worktime_types": "/api/v1/inc/config/worktime_types.json",
         "vacation_types": "/api/v1/inc/config/vacation_types.json",
-        "sickness_types": "/api/v1/inc/config/sickness_types.json"
+        "sickness_types": "/api/v1/inc/config/sickness_types.json",
+        "default_worktime_type": 1
     },
     "mobile": {
         "allow_app_use": false,

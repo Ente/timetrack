@@ -10,5 +10,6 @@
     "a_sickness": "Sickness reports",
     "a_vacation": "Vacation reports",
     "a_plugins": "Plugins",
-    "a_projects": "Projects management"
+    "a_projects": "Projects management",
+    "a_serverTelemetry": "Server Telemetry"
 }

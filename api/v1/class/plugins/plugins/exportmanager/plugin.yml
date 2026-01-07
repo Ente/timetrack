@@ -12,3 +12,5 @@ custom.values:
   license: "LIC"
 nav_links:
   Open ExportManager: views/redirect.php
+nav_permissions:
+  Open ExportManager: 1

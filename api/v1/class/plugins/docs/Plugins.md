@@ -44,6 +44,17 @@ These are optional values you can add, which might make things easier:
 - `build.instructions`: Allows you to add parameters to change the behaviour of the PluginBuilder.
   - `required`: An array containing relative paths to the required files, they will then get included within the archive (PHAR)
 - `nav_links`: If your plugin has a front-end, please specify this attribute. It is stored in key-value pairs, e.g. "Send Message": "views/send-message.php" - Views have to be always in the `/views` folder within your plugin folder
+- `nav_permissions`: Key-value pairs to restrict certain navigation links to certian permissions. E.g.:
+
+    ```yaml
+
+    nav_links:
+      Admin View: views/admin.php
+      User View: views/user.php
+    nav_permissions:
+      Admin View: 1
+      User View: 0
+    ```
 
 ### Permissions
 

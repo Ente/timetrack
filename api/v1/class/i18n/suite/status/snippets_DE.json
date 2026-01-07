@@ -49,5 +49,9 @@
   "changed_sickness": "Hinweis: Die Krankheit wurde erfolgreich aktualisiert!",
   "changed_vacation": "Hinweis: Der Urlaub wurde erfolgreich aktualisiert!",
   "userinactive": "Fehler: Dein Konto wurde deaktiviert. Bitte wende dich an deinen Administrator!",
-  "plugins_disabled": "Fehler: Das Plugin-System ist deaktiviert. Bitte wende dich an deinen Administrator!"
+  "plugins_disabled": "Fehler: Das Plugin-System ist deaktiviert. Bitte wende dich an deinen Administrator!",
+  "telemetry_sent": "Hinweis: Telemetriedaten wurden erfolgreich gesendet!",
+  "telemetry_disabled": "Hinweis: Telemetriedaten wurden nicht gesendet!",
+  "success": "Hinweis: Die Aktion wurde erfolgreich ausgeführt!",
+  "telemetryServer_disabled": "Hinweis: Die Serverfunktion der Telemetry ist derzeit deaktiviert!"
 }

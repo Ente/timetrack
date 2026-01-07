@@ -20,7 +20,7 @@ $user = $arbeit->benutzer()->get_current_user();
 $itemId = $_GET["id"] ?? null;
 
 $item = $arbeit->projects()->getItem($itemId);
-$project = $arbeit->projects()->getProject($item["id"]);
+$project = $arbeit->projects()->getProject($item["pid"]);
 $worktimes = $arbeit->projects()->getUserProjectWorktimes($project["id"]);
 
 ?>
@@ -41,7 +41,7 @@ $worktimes = $arbeit->projects()->getUserProjectWorktimes($project["id"]);
         <p><strong><?= $language["project"]; ?>:</strong> <?= $arbeit->i18n()->sanitizeOutput($project["name"] ?? "-"); ?></p>
         <p><strong><?= $language["assignee"]; ?>:</strong> <?= $arbeit->benutzer()->get_user_from_id($item["assignee"])["name"] ?? "-"; ?></p>
         <p><strong><?= $language["status"]; ?>:</strong> <?= $arbeit->i18n()->sanitizeOutput($item["status"] ?? "Open"); ?></p>
-        <p><strong><?= $language["id"]; ?></strong>: <?= $arbeit->i18n()->sanitizeOutput($item["itemid"] ?? ""); ?></p>
+        <p><strong><?= $language["id"]; ?></strong>: <?= $arbeit->i18n()->sanitizeOutput($item["id"] ?? ""); ?></p>
 
         <div class="card v8-bordered" style="margin-top:2rem;">
             <h2><?= $language["worktimes"]; ?></h2>
@@ -69,8 +69,8 @@ $worktimes = $arbeit->projects()->getUserProjectWorktimes($project["id"]);
         </div>
 
         <div class="card v8-bordered" style="margin-top:2rem; text-align:center;">
-            <a href="edit_item.php?id=<?= $arbeit->i18n()->sanitizeOutput($itemId); ?>" class="v8-button"><?= $language["btn_edit"]; ?></a>
-            <a href="delete_item.php?id=<?= $arbeit->i18n()->sanitizeOutput($itemId); ?>" class="v8-button danger"><?= $language["btn_delete"]; ?></a>
+            <a href="edit_item.php?id=<?= $arbeit->i18n()->sanitizeOutput($itemId); ?>" class="v8-button"><?= $language["btn_edit"]; ?></a>    |    
+            <a href="/suite/actions/projects/delete_item.php?id=<?= $arbeit->i18n()->sanitizeOutput($itemId); ?>" class="v8-button danger"><?= $language["btn_delete"]; ?></a>
         </div>
     </main>
     <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/gui/standard_footer.php"; ?> 

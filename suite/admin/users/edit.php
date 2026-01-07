@@ -35,12 +35,10 @@ $add_style = "";
     <main style="max-width: 1080px; margin: 0 auto; padding: 2rem;">
         <h1><?= $language["title"]; ?></h1>
 
-        <!-- Einleitung -->
         <div class="card v8-bordered" style="margin-bottom: 2rem;">
             <p><?= $language["p1"]; ?></p>
         </div>
 
-        <!-- Nutzerliste -->
         <div class="card v8-bordered" style="margin-bottom: 2rem;" id="userlist">
             <h2><?= $language["title"]; ?></h2>
             <div class="table-wrapper">
@@ -60,7 +58,6 @@ $add_style = "";
             </div>
         </div>
 
-        <!-- Benutzer hinzufügen -->
         <div class="card v8-bordered" style="text-align: center;">
             <h2><?= $language["add_user"]; ?></h2>
 

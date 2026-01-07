@@ -1,5 +1,70 @@
 # CHANGELOG
 
+## v8.7
+
+* Added automatic update check within the Settings page allowing to see the changelogs and a link to the new Release.
+* Updated `README.md`
+* Admins can now select the default worktime type to be selected in the form within the app.json `config` section via the `default_worktime_type` key.
+* Added function to automatically add keys to app.json after update
+* Admins can now customize the look and feel of the PDF exports. Please check `README.md` `Exports` section for more information.
+
+## v8.6
+
+* Telemetry statistics page for environments using the Telemetry Server. Please check `README.md`
+
+## v8.5.1
+
+* Fixed undefined variable warning message <!-- [#133](https://github.com/Ente/timetrack/issues/133) -->
+* Changed `app.json.sample` default values
+* Updated README.md <!-- [#134](https://github.com/Ente/timetrack/issues/134) -->
+* Added `update.sh` script
+* Internal plugin views can now be hidden
+* Fix utility plugin 500 error when trying to export data for user that doesn't exist
+
+## v8.5
+
+* Fixed an issue with IDs not generated correctly for project items.
+* Added functionality to delete and edit project items.
+* Adding users to a project has been made easier.
+* Internal changes
+* Added additional plugin permission level
+* Added 2 new themes
+
+## v8.4.3
+
+* Now displaying the instance uuid within the settings page.
+* Added ability to reset the instance uuid via the settings page.
+
+## v8.4.2
+
+* Added user based permissions for plugin views.
+* Updated plugins to use new permission system.
+
+## v8.4.1
+
+**This update requires DB migration** - see `README.md` section `Database`
+
+* Added telemetry support (disabled by default, can be enabled within `app.json`)
+* Added telemetry server to receive telemetry data (see `api/v1/class/telemetry/server/README.md` for more information)
+
+## v8.4
+
+* Added `nfcclock` plugin to allow clocking in and out with NFC tags (requires `nfclogin` plugin)
+* Updated `nfclogin` plugin to version `1.2` (added Toil API route for `nfcclock` called `nfclclock`)
+* Removed unused `extract_plugin` function from `PluginDevTool` class
+* Custom language files can now be used with the `i18n` class by placing them within the `data/i18n/custom/` directory. This also works for plugins.
+
+## v8.3.3
+
+**This update might require DB migration** - see `README.md` section `Database`
+
+* Added migration script for adding the `pid` column to the `projects_items` table for already existing installations. The script will not be executed for new installations.
+
+## v8.3.2
+
+* Added script to initialize the database for demo purposes when using Docker (See `README.md`)
+* Fixed missing `active` column within the `users` table when initializing the database for the first time
+
 ## v8.3.1
 
 * Removed deprecated `app` attribute from `general` section within `app.json`

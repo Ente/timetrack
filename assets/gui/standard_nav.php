@@ -21,6 +21,9 @@ $lang = $i18n->loadLanguage(null, "nav");
     <a href="http://<?= $base_url ?>/suite/worktime/all.php"><?= $lang["own_worktime"]; ?></a>
     <a href="http://<?= $base_url ?>/suite/notifications/all.php"><?= $lang["notifications"]; ?></a>
     <a href="http://<?= $base_url ?>/suite/projects/overview.php"><?= $lang["projects"] ?></a>
+    <?php if($ini["plugins"]["plugins"] == "true") : ?>
+      <a href="http://<?= $base_url ?>/suite/plugins/index.php" target="_blank"><?= $lang["a_plugins"]; ?></a>
+    <?php endif; ?>
 
     <?php if (@$user->is_Admin($user->get_user(@$_SESSION["username"]))) : 
         $v = file_get_contents($_SERVER["DOCUMENT_ROOT"] . "/VERSION"); ?>
@@ -29,8 +32,8 @@ $lang = $i18n->loadLanguage(null, "nav");
         <a href="http://<?= $base_url ?>/suite/admin/worktime/sick/all.php"><?= $lang["a_sickness"]; ?></a>
         <a href="http://<?= $base_url ?>/suite/admin/worktime/vacation/all.php"><?= $lang["a_vacation"]; ?></a>
         <a href="http://<?= $base_url ?>/suite/admin/projects/admin.php"><?= $lang["a_projects"]; ?></a>
-        <?php if($ini["plugins"]["plugins"] == "true") : ?>
-        <a href="http://<?= $base_url ?>/suite/plugins/index.php" target="_blank"><?= $lang["a_plugins"]; ?></a>
+        <?php if($ini["general"]["telemetryServer"] == true) : ?>
+        <a href="http://<?= $base_url ?>/suite/admin/users/serverTelemetry.php"><?= $lang["a_serverTelemetry"] ?></a>
         <?php endif; ?>
         <span class="nav-version">ADMIN | <?= htmlspecialchars($v); ?></span>
     <?php endif; ?>
