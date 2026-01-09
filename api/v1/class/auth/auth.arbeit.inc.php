@@ -104,7 +104,7 @@ namespace Arbeitszeit{
                     goto nfclogin;
                 }
                 if(password_verify($password, $data["password"])){
-                    if($option["nfclogin"]){
+                    if(isset($option["nfclogin"])){
                         nfclogin:
                         Exceptions::error_rep("Authenticated user via NFC login '" . $username . "'");
                     }

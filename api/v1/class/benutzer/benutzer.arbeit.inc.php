@@ -28,6 +28,10 @@ namespace Arbeitszeit {
             if ($this->nodes()->checkNode("benutzer.inc", "create_user") == false) {
                 return false;
             }
+            if($this->user_exists($username)){
+                Exceptions::error_rep("User '$username' already exists.");
+                return false;
+            }
             Exceptions::error_rep("Creating user '$username'...");
             $password = password_hash($password, PASSWORD_DEFAULT);
             $sql = "INSERT INTO `users` (`name`, `username`, `email`, `password`, `email_confirmed`, `isAdmin`) VALUES (?, ?, ?, ?, '1', ?);";
@@ -143,6 +147,13 @@ namespace Arbeitszeit {
                 Exceptions::error_rep("Could not find user '$username'.");
                 return false;
             }
+        }
+
+        public function user_exists($username){
+            if(!is_array($this->get_user($username))){
+                return false;
+            }
+            return true;
         }
 
         /**

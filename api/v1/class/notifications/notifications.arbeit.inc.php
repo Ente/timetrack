@@ -118,10 +118,10 @@ namespace Arbeitszeit{
             $html = null;
             if($res->rowCount() > 0){
                 while($row = $res->fetch(\PDO::FETCH_ASSOC)){
-                    $location = $row["ort"];
+                    $location = $this->i18n()->sanitizeOutput($row["ort"]);
                     $date = @strftime("%d.%m.%Y", strtotime($row["datum"]));
                     $time = $row["uhrzeit"];
-                    $note = $row["notiz"];
+                    $note = $this->i18n()->sanitizeOutput($row["notiz"]);
                     $id = $row["id"];
                     
                     $html = <<< DATA

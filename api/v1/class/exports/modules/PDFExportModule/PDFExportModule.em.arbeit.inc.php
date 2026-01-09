@@ -86,7 +86,7 @@ class PDFExportModule implements ExportModuleInterface
                 $raw = @strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                 $rew = $row["schicht_anfang"];
                 $rol = $row["schicht_ende"];
-                $ral = $row["ort"];
+                $ral = $arbeit->i18n()->sanitizeOutput($row["ort"]);
                 $rtn = $arbeit->type_from_int($row["Wtype"]) ?? "N/A";
                 $rps = @strftime("%H:%M", strtotime($row["pause_start"]));
                 $rpe = @strftime("%H:%M", strtotime($row["pause_end"]));
