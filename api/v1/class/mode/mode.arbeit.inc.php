@@ -28,7 +28,6 @@ namespace Arbeitszeit {
                 if((int)$type == Arbeitszeit::get_app_ini()["config"]["default_worktime_type"]) {
                     $selected = " selected";
                 }
-                print_r($type);
                 $data .= "<option value=\"{$type}\"{$selected}>{$value}</option>";
             }
             return $data;

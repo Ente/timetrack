@@ -629,7 +629,7 @@ namespace Arbeitszeit {
                     $raw = @strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                     $rew = $row["schicht_anfang"];
                     $rol = $row["schicht_ende"];
-                    $rum = $row["ort"];
+                    $rum = $this->i18n()->sanitizeOutput($row["ort"]);
                     $rqw = $row["id"];
                     $rbn = $row["username"];
                     $rtn = $this->type_from_int($row["Wtype"]) ?? "N/A";
@@ -697,7 +697,7 @@ namespace Arbeitszeit {
                     $raw = @strftime("%d.%m.%Y", strtotime($row["schicht_tag"]));
                     $rew = $row["schicht_anfang"];
                     $rol = $row["schicht_ende"];
-                    $rum = $row["ort"];
+                    $rum = $this->i18n()->sanitizeOutput($row["ort"]);
                     $rqw = $row["id"];
                     $rtn = $this->type_from_int($row["Wtype"]) ?? "N/A";
                     $rps = @strftime("%H:%M", strtotime($row["pause_start"]));

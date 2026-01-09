@@ -42,6 +42,7 @@ log "Updating folder permissions..."
 sudo chown -R www-data:www-data "$SCRIPT_DIR/data" || abort "Failed to set owner for /data"
 sudo chown -R www-data:www-data "$SCRIPT_DIR/api/v1/class/plugins/plugins"
 sudo chown www-data:www-data "$SCRIPT_DIR/api/v1/toil/permissions.json"
+sudo chmod -R www-data:www-data "$SCRIPT_DIR" || abort "Failed to set permissions for TimeTrack root directory"
 
 log "Permissions updated."
 log "Update done successfully"
