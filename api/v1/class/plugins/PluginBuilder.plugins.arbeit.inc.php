@@ -254,12 +254,15 @@ namespace Arbeitszeit {
 
             if (isset($permissions['nav_permissions'][$viewName])) {
                 $requiredPermission = $permissions['nav_permissions'][$viewName]; 
+                if($_SESSION["overWritePerms"] ?? false){
+                    $this->logger("{$la} Overwrite permissions active for user '{$user}'. Access granted to view '{$viewName}'.");
+                    return true;
+                }
                 $this->logger("{$la} Required permission for view '{$viewName}': '{$requiredPermission}'");
                 if ($requiredPermission === 5) {
                     $this->logger("{$la} View '{$viewName}' has permission level 5 (internal placeholder). Access denied.");
                     return false;
                 }
-
 
                 if ($requiredPermission === $adminLevel && $userPermissions === $adminLevel) {
                     $this->logger("{$la} User '{$user}' has admin permissions for view '{$viewName}'. Access granted.");

@@ -1,5 +1,46 @@
 # CHANGELOG
 
+## v9.0
+
+* **This update requires DB migration** - see `README.md` section `Database` 
+* Fixed certain internal views not being able to load within the plugins hub.
+* Toil API release `1.14`:
+  * Added `startWorktime` endpoint
+  * Added `endWorktime` endpoint
+  * Added `startBreak` endpoint
+  * Added `endBreak` endpoint
+  * Added `currentWorktime` endpoint
+  * Added `bulkDelete` endpoint
+  * Updated `README.md` within the Toil API directory
+* Admins can now bulk delete worktimes, vacations and sickness reports within the GUI.
+* Worktimes can now have multiple entries and multiple breaks per record. There is a new tutorial within the GUI for that after the update.
+* Shifts can now be added to the users. Shifts can have different start and end times, break times and worktime types. Please check the new section within the `README.md` for more information.
+* Holidays are now supported and can be selected and created via groups. Holidays are displayed within the calendar and are considered when calculating worktimes. There will also be a automatic notification entry.
+* Added jobs to handle recurring tasks like sending notifications for pending worktime reviews or deleting old logs. Please check the `README.md` for more information.
+* Updated `README.md` with new sections for Holidays, Shifts and Jobs and other changes.
+* Various internal improvements and bug fixes.
+* Added `WorktimeEntry` class for better internal worktime handling.
+* Added more information about users and so on (sites, departments,managers) and seperate views and settings for them.
+* Added Support for Firefox browser extension through plugin.
+* Added "default template" button while editing user settings.
+* Added more email integrations.
+  * Email integrations are now editable through the `MailSettings` plugin.
+* Standard workting hours can now be set per user. These working hours are used to calculate overtime and undertime.
+* Added new config items to the `app.json`. See `README.md` for more information.
+* ExportManager now supports download via API. (e.g. curl and wget)
+* The `Auth` class has been reworked and support multiple login providers now via plugins. <!-- #TTT-1 -->
+* Caching via memcached and redis has been implemented for certain parts of the application (only a few ones for testing)
+* The way telemetry data is send has been reworked. It will now be send once in a while through a job. No more need to click the button. It still needs to be enabled though.
+* Added plugins for customizable email templates and PDF exports.
+* Updated various plugins.
+* Created dedicated `Systems` page for admins to see system information and run certain tests, etc. <!-- #TT-30 -->
+* Added worktime import from various formats (CSV, JSON, XML) - Plugin supported. <!-- #TT-98 -->
+* Added way more events. <!-- #TT-238 -->
+* Created `Logs` plugin. <!-- #TT-161 -->
+* Added Captcha support for login and password reset. Needs configuration within `app.json`. See `README.md` for more information.
+* Added various composer dependencies for better security and performance.
+* Added support for 2FA/TOTP Login.
+
 ## v8.7.1
 
 * Fixed issues regarding XSS vulnerabilities on several pages.
