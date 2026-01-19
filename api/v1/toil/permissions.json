@@ -26,5 +26,6 @@
     "createToken": 0,
     "deleteToken": 0,
     "refreshToken": 0,
-    "editUser": 1
+    "editUser": 1,
+    "bulkDelete": 1
 }

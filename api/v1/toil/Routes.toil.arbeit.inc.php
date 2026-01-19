@@ -275,6 +275,11 @@ class Routes extends Toil
             Controller::createview("refreshToken");
         });
 
+        Router::post("/api/v1/toil/bulkDelete", function () {
+            Exceptions::error_rep("[API] User authenticated and accessing 'bulkDelete' endpoint");
+            Controller::createview("bulkDelete");
+        });
+
         // Loading all custom routes
         CustomRoutes::loadCustomRoutes();
 
