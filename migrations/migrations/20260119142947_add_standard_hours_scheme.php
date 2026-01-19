@@ -16,7 +16,7 @@ final class AddStandardHoursScheme extends AbstractMigration
             ->addColumn('description', 'text', ['null' => true])
             ->addColumn('workingHours', 'float', ['default' => 40.00])
             ->addColumn('breakPerShift', 'float', ['default' => 1.00, 'null' => true])
-            ->addColumn('holidaysGroup', 'int', ['null' => true])
+            ->addColumn('holidaysGroup', 'integer', ['null' => true])
             ->addColumn('active', 'boolean', ['default' => true])
             ->create();
     }
