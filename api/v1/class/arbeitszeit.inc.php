@@ -930,8 +930,8 @@ namespace Arbeitszeit {
 
             if ($this->checkForUpdate() != false) {
                 $latestChanges = $this->getChanges($latest) ?? "NULL";
-                $fullChangelogUrl = "https://github.com/ente/timetrack/compare/v{$current}...v{$latest}";
-                $latestVersionLink = "https://github.com/ente/timetrack/releases/tag/v{$latest}";
+                $fullChangelogUrl = "https://github.com/openducks/timetrack/compare/v{$current}...v{$latest}";
+                $latestVersionLink = "https://github.com/openducks/timetrack/releases/tag/v{$latest}";
                 $text .= "<div class='card v8-bordered log-box'>";
                 $text .= "<h2>Update available!</h2><br>";
                 $text .= "You are currently using TimeTrack version <strong>{$current}</strong>, the latest version is <strong><a href='{$latestVersionLink}' target='_blank'>{$latest}</a></strong>.<br>";
