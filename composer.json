@@ -1,5 +1,5 @@
 {
-  "name": "ente/timetrack",
+  "name": "openducks/timetrack",
   "description": "TimeTrack is a PHP-written time recording tool for small businesses",
   "type": "software",
   "license": "GNU GPL",
