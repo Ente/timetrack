@@ -878,7 +878,7 @@ namespace Arbeitszeit {
         public function checkForUpdate()
         {
             $currentVersion = $this->getTimeTrackVersion();
-            $latestVersion = file_get_contents("https://raw.githubusercontent.com/Ente/timetrack/refs/heads/develop/VERSION");
+            $latestVersion = file_get_contents("https://raw.githubusercontent.com/openducks/timetrack/refs/heads/develop/VERSION");
 
             $currentVersion = trim($currentVersion);
             $latestVersion = trim($latestVersion);
@@ -893,9 +893,9 @@ namespace Arbeitszeit {
         public function getChanges(string $version_tag = "latest")
         {
             if ($version_tag !== "latest") {
-                $url = "https://api.github.com/repos/ente/timetrack/releases/tags/v{$version_tag}";
+                $url = "https://api.github.com/repos/openducks/timetrack/releases/tags/v{$version_tag}";
             } else {
-                $url = "https://api.github.com/repos/ente/timetrack/releases/latest";
+                $url = "https://api.github.com/repos/openducks/timetrack/releases/latest";
             }
 
             $context = stream_context_create([
