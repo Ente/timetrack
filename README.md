@@ -30,7 +30,7 @@ A demo is available here: [https://tt-demo.openducks.org](https://tt-demo.opendu
 You can quickly get started with TimeTrack using Docker. Follow these steps:
 
 * Ensure you have Docker and Docker Compose installed on your system.
-* Clone the TimeTrack repository: `git clone https://github.com/Ente/timetrack.git` & `cd timetrack` - **The develop branch should not be used unless you know what you are doing. Download the latest release [https://github.com/ente/timetrack/releases/latest](here)**
+* Clone the TimeTrack repository: `git clone https://github.com/openducks/timetrack.git` & `cd timetrack` - **The develop branch should not be used unless you know what you are doing. Download the latest release [https://github.com/openducks/timetrack/releases/latest](here)**
 * Build the Docker image: `docker build -t openducks/timetrack .`
 * Create a `app.json` configuration file based on the provided sample below: `cp api/v1/inc/app.json.sample api/v1/inc/app.json` and edit it to fit your needs.
   * Adjust the database settings if needed (at least `db_password`)
@@ -58,7 +58,7 @@ This software has been tested on Debian 11/12, XAMPP, PHP internal server (e.g. 
 Simply install the software by following these steps:
 
 - Install php and requirements: `sudo apt update && sudo apt install php8.2 php8.2-curl php8.2-gd php8.2-gmp php8.2-intl php8.2-mbstring php8.2-mysqli php8.2-pgsql php8.2-xsl php8.2-gettext php8.2-dom php8.2-ldap composer git mariadb-server apache2 -y` and enable the apache rewrite mod `a2enmod rewrite && service apache2 restart`. If you do not want to use apache2 you can skip this step.
-- Git clone timetrack to e.g. `/var/www`: `cd /var/www && git clone https://github.com/Ente/timetrack.git && cd timetrack` - **The develop branch should not be used unless you know what you are doing. Download the latest release [https://github.com/ente/timetrack/releases/latest](here)**
+- Git clone timetrack to e.g. `/var/www`: `cd /var/www && git clone https://github.com/openducks/timetrack.git && cd timetrack` - **The develop branch should not be used unless you know what you are doing. Download the latest release [https://github.com/openducks/timetrack/releases/latest](here)**
 - Install requirements for composer `composer install`
 - Create a new database, e.g. with the name `ab` and create a dedicated user, login (`mysql -u root -p`) then e.g. `timetool`: `CREATE DATABASE ab;` and `CREATE USER 'timetool'@'localhost' IDENTIFIED BY 'yourpassword';` and `GRANT ALL PRIVILEGES ON ab.* TO 'timetool'@'localhost';` don't forget to `FLUSH PRIVILEGES;`!
 - Configure `app.json` (see below - required changes: `base_url`, `db_user`, `db_password`, `smtp` section and any other if your installation is different) then `mv api/v1/inc/app.json.sample app.json && cd /var/www/timetrack`
