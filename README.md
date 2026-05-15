@@ -1,6 +1,6 @@
 # TimeTrack - small enterprise time recording
 
-[![Deployable with Coolify](https://img.shields.io/badge/Deployable%20with-Coolify-16B8F3?logo=coolify&logoColor=white)](https://coolify.io/)
+[![Deploy with Coolify](https://img.shields.io/badge/Deploy%20with-Coolify-16B8F3?logo=coolify&logoColor=white)](#deploy-with-coolify)
 
 TimeTrack aims to be an easy-to-use time recording software for small enterprises.
 
