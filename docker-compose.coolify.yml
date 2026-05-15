@@ -1,0 +1,68 @@
+services:
+  timetrack:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      TIMETRACK_BASE_URL: ${TIMETRACK_BASE_URL:?}
+      APP_NAME: ${APP_NAME:-TimeTrack}
+      SUPPORT_EMAIL: ${SUPPORT_EMAIL:-support@example.com}
+      TZ: ${TIMEZONE:-Europe/Berlin}
+      TIMEZONE: ${TIMEZONE:-Europe/Berlin}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ab}
+      MYSQL_USER: ${MYSQL_USER:-timetool}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?}
+      SMTP_ENABLED: ${SMTP_ENABLED:-false}
+      SMTP_HOST: ${SMTP_HOST:-smtp.example.com}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USE_SSL: ${SMTP_USE_SSL:-false}
+    entrypoint:
+      - bash
+      - /var/www/html/docker/coolify-entrypoint.sh
+    volumes:
+      - timetrack_logs:/var/www/html/data/logs
+      - timetrack_exports:/var/www/html/data/exports
+      - timetrack_plugins:/var/www/html/api/v1/class/plugins/plugins
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - php -r '$$c=@file_get_contents("http://127.0.0.1/suite/login.php"); exit($$c===false?1:0);'
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ab}
+      MYSQL_USER: ${MYSQL_USER:-timetool}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?}
+      TZ: ${TIMEZONE:-Europe/Berlin}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mariadb-admin ping -h 127.0.0.1 -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} --silent
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  mariadb_data:
+  timetrack_logs:
+  timetrack_exports:
+  timetrack_plugins:

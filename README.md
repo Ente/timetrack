@@ -1,5 +1,7 @@
 # TimeTrack - small enterprise time recording
 
+[![Deploy with Coolify](https://img.shields.io/badge/Deploy%20with-Coolify-16B8F3?logo=coolify&logoColor=white)](#deploy-with-coolify)
+
 TimeTrack aims to be an easy-to-use time recording software for small enterprises.
 
 ## Features
@@ -44,6 +46,48 @@ Certain features, like the NFC login may require additional setup for parsing th
 
 If you want to use the demo, you can run the provided `demo_setup.sh` script within the project root. This will automatically setup the database with demo data (worktimes and users) and rebuilds the entire container.
 You may want to set the `demo` setting within the `app.json` to `true` to display the demo credentials on the login page.
+
+### Deploy with Coolify
+
+TimeTrack can be deployed on [Coolify](https://coolify.io/) using the included `docker-compose.coolify.yml` file. This deployment creates a PHP/Apache TimeTrack container and an internal MariaDB database. The application configuration file (`api/v1/inc/app.json`) is generated automatically from Coolify environment variables when the container starts.
+
+Recommended Coolify setup:
+
+- Create a new resource in Coolify and select your Git repository.
+- Select `Docker Compose` as the build pack.
+- Set the base directory to `/`.
+- Set the Docker Compose file to `docker-compose.coolify.yml`.
+- Assign your domain to the `timetrack` service.
+- Use container port `80` for the public service.
+- Do not expose the `db` service publicly.
+- Enable HTTPS / force HTTPS in Coolify if your domain has a certificate.
+
+Add the following environment variables in Coolify. You can also use `.env.coolify.example` as a template:
+
+```env
+TIMETRACK_BASE_URL=timetrack.example.com
+APP_NAME=TimeTrack
+SUPPORT_EMAIL=support@example.com
+TIMEZONE=Europe/Berlin
+
+MYSQL_DATABASE=ab
+MYSQL_USER=timetool
+MYSQL_PASSWORD=change-me-to-a-long-random-password
+MYSQL_ROOT_PASSWORD=change-me-to-another-long-random-password
+
+SMTP_ENABLED=false
+SMTP_HOST=smtp.example.com
+SMTP_USERNAME=
+SMTP_PASSWORD=
+SMTP_PORT=587
+SMTP_USE_SSL=false
+```
+
+`TIMETRACK_BASE_URL` must be set without protocol and without a trailing slash, for example `timetrack.example.com`, not `https://timetrack.example.com/`.
+
+If SMTP should be enabled, set `SMTP_ENABLED=true` and provide your SMTP host, username, password, port and SSL/TLS setting. The default database host in the generated app configuration is `db`, which matches the MariaDB service name in the Coolify compose file.
+
+After the first deployment, open your configured domain and log in with the default account `admin` / `admin`. Create a new administrator account and remove or change the default account before using the instance in production.
 
 ### Requirements
 
