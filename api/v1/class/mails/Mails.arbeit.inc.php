@@ -56,14 +56,18 @@ class Mails
     }
 
     $mailContent = $template->render($data);
+    $mailData = $mailContent->toArray();
 
     $ini = Arbeitszeit::get_app_ini()["smtp"];
     if(!$ini["smtp"]){
         Exceptions::error_rep("SMTP disabled, not sending mail.");
         return true;
     } else {
-        EventDispatcherService::get()->dispatch(new SentMailEvent($mailContent->toArray()["to"], $mailContent->toArray()["subject"], $mailContent->toArray()["body"]), SentMailEvent::NAME);
-        return self::$provider->send($mailContent->toArray());
+        $user = Benutzer::get_user($mailData["username"]);
+        $email = is_array($user) && isset($user["email"]) ? $user["email"] : ($data["email"] ?? "");
+
+        EventDispatcherService::get()->dispatch(new SentMailEvent($mailData["username"], $email, $templateName), SentMailEvent::NAME);
+        return self::$provider->send($mailData);
     }
 }
 

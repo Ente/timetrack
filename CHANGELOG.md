@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 8.7.2
+
+> This will be the last release for the 8.x branch. The next release will be 9.0 which will include a new feature called `Worktime Governance` which will allow to set rules for worktimes, e.g. maximum worktime per day, minimum break time, etc. The feature is still in development and will be released as soon as it is ready.
+
+* Fixed an issue with the password reset email that would not display correctly.
+* Fixed incorrect use of the `SentEmail` event for any sent emails.
+* Fixed an issue with the `PluginHub` which caused certain pages to be blocked. Now admins can access these again. This issue only affected the `userdetail` plugin.
+* Fixed an issue with the `nfcclock` plugin which caused it to not fire any events.
+* The items page for project items now displays the user's name instead of the ID.
+
 ## v8.7.1
 
 * Fixed issues regarding XSS vulnerabilities on several pages.

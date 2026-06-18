@@ -1,7 +1,7 @@
 {
     "subject": "Your request to reset your password",
     "greetings": "Hello",
-    "message": "We have received your request to reset your password.[BR]<p>Below you will find the link to reset your password.</p>",
+    "message": "We have received your request to reset your password.[BR]Below you will find the link to reset your password.",
     "note": "If you have not done so, inform your supervisor immediately.",
     "security_note": "Note: For security reasons, the link is only valid for 10 minutes. After this period, you must reset your password again.",
     "end": "Best regards",

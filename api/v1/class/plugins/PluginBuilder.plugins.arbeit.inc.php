@@ -256,7 +256,13 @@ namespace Arbeitszeit {
                 $requiredPermission = $permissions['nav_permissions'][$viewName]; 
                 $this->logger("{$la} Required permission for view '{$viewName}': '{$requiredPermission}'");
                 if ($requiredPermission === 5) {
-                    $this->logger("{$la} View '{$viewName}' has permission level 5 (internal placeholder). Access denied.");
+                    if ($userPermissions === $adminLevel) {
+                        $this->logger("{$la} View '{$viewName}' has permission level 5 (internal placeholder). Access allowed if admin.");
+                        return true;
+                    } else {
+                        $this->logger("{$la} View '{$viewName}' has permission level 5 (internal placeholder). Access denied for non-admin user '{$user}'.");
+                        return false;
+                    }
                     return false;
                 }
 

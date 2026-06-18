@@ -55,8 +55,8 @@ $worktimes = $arbeit->projects()->getUserProjectWorktimes($project["id"]);
                 </thead>
                 <tbody>
                     <?php foreach($worktimes as $w): ?>
-                        <tr>
-                            <td><?= $arbeit->i18n()->sanitizeOutput($w["user"] ?? "-"); ?></td>
+                        <tr> 
+                            <td><?= $arbeit->i18n()->sanitizeOutput($arbeit->benutzer()->get_user_from_id($w["user"])["name"] ?? "-"); ?></td>
                             <td><?= $arbeit->i18n()->sanitizeOutput($w["hours"] ?? "-"); ?></td>
                             <td><?= $arbeit->i18n()->sanitizeOutput($w["date"] ?? "-"); ?></td>
                         </tr>

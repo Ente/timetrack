@@ -11,6 +11,7 @@ use NFClogin\NFClogin;
 use NFCClock\NFCClock;
 $arbeit = new Arbeitszeit;
 $main = new NFCClock;
+$statusMessages = $arbeit->statusMessages();
 
 // initial NFC login / session handling
 if (!empty($_SESSION['nfcclock_user'])) {
