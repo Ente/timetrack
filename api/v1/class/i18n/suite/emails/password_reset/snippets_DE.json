@@ -1,7 +1,7 @@
 {
     "subject": "Deine Anfrage zum Zurücksetzen deines Passwortes",
     "greetings": "Hallo",
-    "message": "wir haben deine Anfrage, zum Zurücksetzen deines Passwortes erhalten.[BR]<p>Unten findest du den Link um dein Passwort zurückzusetzen.</p>",
+    "message": "wir haben deine Anfrage, zum Zurücksetzen deines Passwortes erhalten.[BR]Unten findest du den Link um dein Passwort zurückzusetzen.",
     "note": "Solltest du das nicht veranlasst haben, informiere deinen Vorgesetzeten sofort.",
     "security_note": "Hinweis: Aus sicherheitstechnischen Gründen ist der Link nur 10 Minuten gültig. Nach Ablauf musst du dein Passwort erneut zurücksetzen.",
     "end": "Mit freundlichen Grüßen",

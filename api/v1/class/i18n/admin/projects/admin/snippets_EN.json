@@ -1,6 +1,6 @@
 {
     "title": "Projects - Admin",
-    "existing_projects": "Below is a list for which projects you are a member in.",
+    "existing_projects": "Below is a list for all projects you are a member in.",
     "th_id": "ID",
     "th_name": "Name",
     "th_deadline": "Deadline",

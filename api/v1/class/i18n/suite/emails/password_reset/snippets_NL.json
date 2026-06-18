@@ -1,7 +1,7 @@
 {
     "subject": "Uw verzoek om uw wachtwoord opnieuw in te stellen",
     "greetings": "Hallo",
-    "message": "we hebben uw verzoek ontvangen om uw wachtwoord opnieuw in te stellen.[BR]<p>Hieronder vindt u de link om uw wachtwoord opnieuw in te stellen.</p>",
+    "message": "we hebben uw verzoek ontvangen om uw wachtwoord opnieuw in te stellen.[BR]Hieronder vindt u de link om uw wachtwoord opnieuw in te stellen.",
     "note": "Als u dit niet zelf heeft gedaan, informeer dan onmiddellijk uw leidinggevende.",
     "security_note": "Opmerking: om veiligheidsredenen is de link slechts 10 minuten geldig. Na het verlopen moet u uw wachtwoord opnieuw instellen.",
     "end": "Met vriendelijke groeten",
